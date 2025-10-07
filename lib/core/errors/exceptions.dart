@@ -89,6 +89,7 @@ handleDioException(DioException e) {
           throw ForbiddenException(ErrorModel.fromJson(e.response!.data));
 
         case 404: //not found
+        
           throw NotFoundException(ErrorModel.fromJson(e.response!.data));
 
         case 409: //cofficient
