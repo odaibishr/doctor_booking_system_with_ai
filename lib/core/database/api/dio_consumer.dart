@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/api_consumer.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
+import 'package:doctor_booking_system_with_ai/core/errors/exceptions.dart';
 
 class DioConsumer extends ApiConsumer {
   final Dio dio;
