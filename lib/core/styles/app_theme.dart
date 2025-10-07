@@ -21,6 +21,9 @@ class AppTheme {
       // Scaffold Background
       scaffoldBackgroundColor: AppColors.white,
 
+      // Font
+      fontFamily: 'JF-Flat',
+
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
