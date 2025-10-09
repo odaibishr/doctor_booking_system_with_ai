@@ -2,6 +2,7 @@ import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/custom_home_appbar.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_banner_slider.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/section_header.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/vertical_doctor_card.dart';
 import 'package:flutter/material.dart';
 
 class HomeViewBody extends StatelessWidget {
@@ -30,6 +31,14 @@ class HomeViewBody extends StatelessWidget {
               ),
               const SizedBox(height: 3),
               const CategoryListView(),
+              const SizedBox(height: 16),
+              SectionHeader(
+                title: 'افضل الأطباء',
+                moreText: 'إظهار المزيد',
+                onTap: () {},
+              ),
+              const SizedBox(height: 3),
+              const VerticalDoctorCard(),
             ],
           ),
         ),
