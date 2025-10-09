@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/custom_home_appbar.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_banner_slider.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_featured_banner.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class HomeViewBody extends StatelessWidget {
                 userImage: 'assets/images/my-photo.jpg',
               ),
               const SizedBox(height: 16),
-              const DoctorFeaturedBanner(),
+              const DoctorBannerSlider(),
             ],
           ),
         ),
