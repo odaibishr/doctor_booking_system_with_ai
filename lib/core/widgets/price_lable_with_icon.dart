@@ -3,25 +3,27 @@ import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 
-class LocationInfo extends StatelessWidget {
-  const LocationInfo({super.key, required this.location});
-  final String location;
+class PriceLableWithIcon extends StatelessWidget {
+  const PriceLableWithIcon({super.key, required this.price});
+  final int price;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SvgPicture.asset(
-          'assets/icons/location.svg',
+          'assets/icons/dollar-circle.svg',
           width: 10,
           height: 10,
           fit: BoxFit.scaleDown,
         ),
         const SizedBox(width: 2),
         Text(
-          location,
-          style: FontStyles.body4.copyWith(color: AppColors.gray100),
+          '$price ريال',
+          style: FontStyles.body4.copyWith(
+            color: AppColors.gray100,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

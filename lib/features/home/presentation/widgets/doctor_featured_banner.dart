@@ -1,5 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/location_info.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/price_lable_with_icon.dart';
 import 'package:flutter/material.dart';
 
 class DoctorFeaturedBanner extends StatelessWidget {
@@ -48,6 +50,12 @@ class DoctorFeaturedBanner extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                const SizedBox(height: 10),
+                const LocationInfo(
+                  location: 'مستشفئ وجامعة العلوم والتكنولوجيا',
+                ),
+                const SizedBox(height: 5),
+                const PriceLableWithIcon(price: 5000),
               ],
             ),
           ),
