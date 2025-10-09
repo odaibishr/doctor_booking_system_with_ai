@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/custom_home_appbar.dart';
 import 'package:flutter/material.dart';
 
 class HomeViewBody extends StatelessWidget {
@@ -8,14 +9,13 @@ class HomeViewBody extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
-              Row(
-                children: [
-                  
-                ],
-              )
+              const CustomHomeAppBar(
+                name: 'مرحبًا عدي',
+                userImage: 'assets/images/my-photo.jpg',
+              ),
             ],
           ),
         ),
