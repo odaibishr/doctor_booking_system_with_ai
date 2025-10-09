@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/category_card.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/custom_home_appbar.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_banner_slider.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/section_header.dart';
@@ -26,6 +27,11 @@ class HomeViewBody extends StatelessWidget {
                 title: 'التخصصات',
                 moreText: 'إظهار المزيد',
                 onTap: () {},
+              ),
+              const SizedBox(height: 16),
+              const CategoryCard(
+                title: 'مخ واعصاب',
+                icon: 'assets/icons/brain.svg',
               ),
             ],
           ),
