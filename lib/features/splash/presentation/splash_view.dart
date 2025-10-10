@@ -1,6 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
-import 'package:doctor_booking_system_with_ai/features/home/presentation/home_view.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -74,26 +75,7 @@ class _SplashViewState extends State<SplashView>
 
     // Navigate to HomeView
     if (mounted) {
-      Navigator.of(context).pushReplacement(
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const HomeView(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const begin = 0.0;
-            const end = 1.0;
-            const curve = Curves.easeInOut;
-
-            var tween = Tween(
-              begin: begin,
-              end: end,
-            ).chain(CurveTween(curve: curve));
-            var fadeAnimation = animation.drive(tween);
-
-            return FadeTransition(opacity: fadeAnimation, child: child);
-          },
-          transitionDuration: const Duration(milliseconds: 600),
-        ),
-      );
+        GoRouter.of(context).go(AppRouter.homeViewRoute);
     }
   }
 
@@ -114,7 +96,6 @@ class _SplashViewState extends State<SplashView>
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // الشعار مع انيميشنات أنيقة
                 SlideTransition(
                   position: _animationSlide,
                   child: Opacity(

@@ -1,5 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_theme.dart';
-import 'package:doctor_booking_system_with_ai/features/splash/presentation/splash_view.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Doctor Booking System',
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('ar', ''),
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const SplashView(),
+      routerConfig: AppRouter.router,
     );
   }
 }
