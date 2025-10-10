@@ -1,9 +1,10 @@
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/category_list_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/custom_home_appbar.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_banner_slider.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/section_header.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_card_list_view.dart';
-import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/hospital_card.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/hopitals_list_view.dart';
 import 'package:flutter/material.dart';
 
 class HomeViewBody extends StatelessWidget {
@@ -15,16 +16,20 @@ class HomeViewBody extends StatelessWidget {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
+            SliverAppBar(
+              title: const CustomHomeAppBar(
+                name: 'مرحبًا عدي',
+                userImage: 'assets/images/my-photo.jpg',
+              ),
+              pinned: true,
+              backgroundColor: AppColors.white,
+              surfaceTintColor: AppColors.white,
+            ),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
-                    const SizedBox(height: 16),
-                    const CustomHomeAppBar(
-                      name: 'مرحبًا عدي',
-                      userImage: 'assets/images/my-photo.jpg',
-                    ),
                     const SizedBox(height: 16),
                     const DoctorBannerSlider(),
                     const SizedBox(height: 16),
@@ -50,7 +55,8 @@ class HomeViewBody extends StatelessWidget {
                       onTap: () {},
                     ),
                     const SizedBox(height: 3),
-                    const HospitalCard(),
+                    const HopitalsListView(),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),
