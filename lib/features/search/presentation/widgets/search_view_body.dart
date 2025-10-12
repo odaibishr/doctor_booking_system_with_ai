@@ -1,5 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
-import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/doctor_card_horizontail.dart';
+import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/search_doctor_list_view.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/search_section.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
@@ -35,7 +35,7 @@ class SearchViewBody extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              const DoctorCardHorizontail(),
+              Expanded(child: const SearchDoctorListView()),
             ],
           ),
         ),
