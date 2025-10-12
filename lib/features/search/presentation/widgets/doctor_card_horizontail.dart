@@ -15,16 +15,17 @@ class DoctorCardHorizontail extends StatelessWidget {
       width: double.infinity,
       height: 160,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: AppColors.gray100,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            offset: const Offset(0, 2),
-            blurRadius: 5,
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withValues(alpha: 0.1),
+        //     offset: const Offset(0, 2),
+        //     blurRadius: 5,
+        //   ),
+        // ],
       ),
       child: Column(
         children: [
@@ -49,8 +50,7 @@ class DoctorCardHorizontail extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween, // تم التعديل هنا
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const TopDoctor(),
                           SvgPicture.asset(
