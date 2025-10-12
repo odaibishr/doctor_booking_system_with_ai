@@ -1,6 +1,8 @@
-import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/search_section.dart';
 import 'package:flutter/material.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 
 class SearchViewBody extends StatelessWidget {
   const SearchViewBody({super.key});
@@ -12,20 +14,24 @@ class SearchViewBody extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 10),
               CustomAppBar(
                 userImage: 'assets/images/my-photo.jpg',
                 title: 'كل الأطباء',
-                isBackButtonVisible: true,
-                isUserImageVisible: true,
+                isBackButtonVisible: false,
+                isUserImageVisible: false,
               ),
               const SizedBox(height: 16),
-              const MainInputField(
-                hintText: 'بحث',
-                leftIconPath: 'assets/icons/search.svg',
-                rightIconPath: 'assets/icons/user.svg',
-                isShowRightIcon: true,
-                isShowLeftIcon: false,
+              const SearchSection(),
+              const SizedBox(height: 16),
+              Text(
+                'تم العثور على 500 طبيب',
+                style: FontStyles.body2.copyWith(
+                  color: AppColors.gray400,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
