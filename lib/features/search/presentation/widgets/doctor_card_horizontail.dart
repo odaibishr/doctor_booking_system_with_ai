@@ -1,5 +1,6 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/rating.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/top_doctor.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class DoctorCardHorizontail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 155,
+      height: 160,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         color: AppColors.gray100,
@@ -95,6 +96,8 @@ class DoctorCardHorizontail extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: 16),
+          MainButton(text: 'حجز موعد', onTap: () {}, height: 30),
         ],
       ),
     );
