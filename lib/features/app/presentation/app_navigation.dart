@@ -2,6 +2,7 @@ import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/
 import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/modern_nav_bar_painter.dart';
 import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/nav_item.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/home_view.dart';
+import 'package:doctor_booking_system_with_ai/features/search/presentation/search_view.dart';
 import 'package:flutter/material.dart';
 
 class AppNavigation extends StatefulWidget {
@@ -16,7 +17,7 @@ class _AppNavigationState extends State<AppNavigation> {
 
   final List<Widget> _pages = const [
     HomeView(),
-    Center(child: Text('Search Page', style: TextStyle(fontSize: 24))),
+    SearchView(),
     Center(child: Text('Booking Page', style: TextStyle(fontSize: 24))),
     Center(child: Text('Profile Page', style: TextStyle(fontSize: 24))),
   ];
