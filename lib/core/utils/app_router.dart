@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/features/app/presentation/app_navigation.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/booking_history_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/home_view.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/search_view.dart';
 import 'package:doctor_booking_system_with_ai/features/splash/presentation/splash_view.dart';
@@ -9,6 +10,7 @@ class AppRouter {
   static const String homeViewRoute = '/homeView';
   static const String appNavigationRoute = '/appNavigation';
   static const String searchViewRoute = '/searchView';
+  static const String bookingHistoryViewRoute = '/bookingHistoryView';
 
   static GoRouter router = GoRouter(
     routes: [
@@ -27,6 +29,10 @@ class AppRouter {
       GoRoute(
         path: searchViewRoute,
         builder: (context, state) => const SearchView(),
+      ),
+      GoRoute(
+        path: bookingHistoryViewRoute,
+        builder: (context, state) => const BookingHistoryView(),
       ),
     ],
     initialLocation: splashRoute,
