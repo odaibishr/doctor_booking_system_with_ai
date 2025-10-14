@@ -34,13 +34,18 @@ class CustomAppBar extends StatelessWidget {
                   child: Image.asset(userImage, scale: 1, fit: BoxFit.cover),
                 ),
               )
-            : const SizedBox.shrink(),
+            : const SizedBox(width: 38, height: 38),
 
         Text(
           title,
           style: FontStyles.headLine4.copyWith(fontWeight: FontWeight.bold),
         ),
-        isBackButtonVisible ? const BackButton() : const SizedBox.shrink(),
+        isBackButtonVisible
+            ? const BackButton()
+            : Opacity(
+                opacity: 0,
+                child: SizedBox.fromSize(size: const Size(38, 38)),
+              ),
       ],
     );
   }
