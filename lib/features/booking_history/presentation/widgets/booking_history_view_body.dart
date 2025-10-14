@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/appointment_card.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/tap_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -18,9 +19,9 @@ class BookingHistoryViewBody extends StatelessWidget {
             isUserImageVisible: true,
           ),
           const SizedBox(height: 16),
-           TapBar(
-            tabItems: ['القادمة', 'المنتهية', 'الملغاة'],
-          ),
+          TapBar(tabItems: ['القادمة', 'المنتهية', 'الملغاة']),
+          const SizedBox(height: 16),
+          const AppointmentCard(),
         ],
       ),
     );

@@ -47,21 +47,24 @@ class DoctorFeaturedBanner extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: Text(
                       'متخصص في علاج ومتابعة أمراض الصرع وعلاج أمراض المخ والأعصاب',
-                      style: FontStyles.body3.copyWith(color: AppColors.gray100),
+                      style: FontStyles.body3.copyWith(
+                        color: AppColors.gray100,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(height: 10),
                   const LocationInfo(
-                    location: 'مستشفئ وجامعة العلوم والتكنولوجيا',
+                    location: 'مستشفئ جامعة العلوم والتكنولوجيا',
+                    color: AppColors.gray300,
                   ),
                   const SizedBox(height: 5),
                   const PriceLableWithIcon(price: 5000),
                 ],
               ),
             ),
-      
+
             // Image
             Image.asset(
               'assets/images/doctor-image.png',

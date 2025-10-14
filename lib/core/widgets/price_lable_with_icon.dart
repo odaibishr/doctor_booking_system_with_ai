@@ -16,12 +16,13 @@ class PriceLableWithIcon extends StatelessWidget {
           width: 10,
           height: 10,
           fit: BoxFit.scaleDown,
+          colorFilter: ColorFilter.mode(AppColors.gray300, BlendMode.srcIn),
         ),
         const SizedBox(width: 2),
         Text(
           '$price ريال',
-          style: FontStyles.body4.copyWith(
-            color: AppColors.gray100,
+          style: FontStyles.body3.copyWith(
+            color: AppColors.gray300,
             fontWeight: FontWeight.bold,
           ),
         ),
