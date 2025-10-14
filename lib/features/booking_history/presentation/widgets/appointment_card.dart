@@ -98,16 +98,16 @@ class AppointmentCard extends StatelessWidget {
                 child: MainButton(
                   text: 'حجز موعد',
                   onTap: () {},
-                  height: 30,
+                  height: 28,
                   radius: 6,
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: MainButton(
-                  text: 'حجز موعد',
+                  text: 'إلغاء الحجز',
                   onTap: () {},
-                  height: 30,
+                  height: 28,
                   radius: 6,
                   color: AppColors.gray300,
                 ),

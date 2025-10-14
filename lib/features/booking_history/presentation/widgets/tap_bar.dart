@@ -4,9 +4,15 @@ import 'tab_item.dart';
 
 class TapBar extends StatefulWidget {
   final List<String> tabItems;
-  final int initialIndex;
+  final int selectedTab;
+  final Function(int) onTabChanged;
 
-  const TapBar({super.key, required this.tabItems, this.initialIndex = 0});
+  const TapBar({
+    super.key,
+    required this.tabItems,
+    this.selectedTab = 0,
+    required this.onTabChanged,
+  });
 
   @override
   State<TapBar> createState() => _TapBarState();
@@ -18,12 +24,13 @@ class _TapBarState extends State<TapBar> {
   @override
   void initState() {
     super.initState();
-    _selectedIndex = widget.initialIndex;
+    _selectedIndex = widget.selectedTab;
   }
 
   void _handleTabChange(int index) {
     setState(() {
       _selectedIndex = index;
+      widget.onTabChanged(index);
     });
   }
 
