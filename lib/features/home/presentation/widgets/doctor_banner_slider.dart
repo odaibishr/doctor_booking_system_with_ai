@@ -21,7 +21,7 @@ class _DoctorBannerSliderState extends State<DoctorBannerSlider> {
         CarouselSlider.builder(
           carouselController: _carouselController,
           options: CarouselOptions(
-            height: 170,
+            height: 180,
 
             viewportFraction: 1.0,
             autoPlay: true,

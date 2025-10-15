@@ -27,6 +27,7 @@ class DoctorFeaturedBanner extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'مخ واعصاب',
@@ -64,13 +65,12 @@ class DoctorFeaturedBanner extends StatelessWidget {
                 ],
               ),
             ),
-
             // Image
             Image.asset(
               'assets/images/doctor-image.png',
               width: 100,
               height: double.infinity,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
           ],
         ),
