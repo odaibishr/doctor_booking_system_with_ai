@@ -3,6 +3,7 @@ import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/
 import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/nav_item.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/booking_history_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/home_view.dart';
+import 'package:doctor_booking_system_with_ai/features/profile/presentation/profile_view.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/search_view.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class _AppNavigationState extends State<AppNavigation> {
     HomeView(),
     SearchView(),
     BookingHistoryView(),
-    Center(child: Text('Profile Page', style: TextStyle(fontSize: 24))),
+    ProfileView(),
   ];
 
   void _onItemTapped(int index) {
