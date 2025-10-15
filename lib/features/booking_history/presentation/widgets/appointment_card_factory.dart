@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/widgets/review_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
@@ -57,8 +58,15 @@ class AppointmentCardFactory {
             child: MainButton(
               text: textButton2,
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('تم فتح شاشة التقييم')),
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(25),
+                    ),
+                  ),
+                  builder: (context) => ReviewDialog(onSubmit: (reason) {}),
                 );
               },
               height: 28,
