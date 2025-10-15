@@ -14,13 +14,29 @@ class BookingCardsListView extends StatelessWidget {
         itemBuilder: (context, index) {
           switch (currentTabIndex) {
             case 0:
-              return const AppointmentCard();
+              return const AppointmentCard(
+                textButton1: 'حجز موعد',
+                textButton2: 'إلغاء الحجز',
+                status: AppointmentStatus.upcoming,
+              );
             case 1:
-              return const AppointmentCard();
+              return const AppointmentCard(
+                textButton1: 'حجز جديد',
+                textButton2: 'تقييم الدكتور',
+                status: AppointmentStatus.completed,
+              );
             case 2:
-              return const AppointmentCard();
+              return const AppointmentCard(
+                textButton1: 'تعديل الحجز',
+                textButton2: 'حجز جديد',
+                status: AppointmentStatus.cancelled,
+              );
             default:
-              return const AppointmentCard();
+              return const AppointmentCard(
+                textButton1: 'حجز موعد',
+                textButton2: 'إلغاء الحجز',
+                status: AppointmentStatus.upcoming,
+              );
           }
         },
       ),

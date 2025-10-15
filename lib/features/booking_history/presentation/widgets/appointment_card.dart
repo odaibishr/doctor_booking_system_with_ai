@@ -1,12 +1,23 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/location_info.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/appointment_card_factory.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 
+enum AppointmentStatus { upcoming, completed, cancelled }
+
 class AppointmentCard extends StatelessWidget {
-  const AppointmentCard({super.key});
+  const AppointmentCard({
+    super.key,
+    required this.textButton1,
+    required this.textButton2,
+    required this.status,
+  });
+
+  final String textButton1;
+  final String textButton2;
+  final AppointmentStatus status;
 
   @override
   Widget build(BuildContext context) {
@@ -93,26 +104,12 @@ class AppointmentCard extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: MainButton(
-                  text: 'حجز موعد',
-                  onTap: () {},
-                  height: 28,
-                  radius: 6,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: MainButton(
-                  text: 'إلغاء الحجز',
-                  onTap: () {},
-                  height: 28,
-                  radius: 6,
-                  color: AppColors.gray300,
-                ),
-              ),
-            ],
+            children: AppointmentCardFactory.getButtons(
+              context: context,
+              status: status,
+              textButton1: textButton1,
+              textButton2: textButton2,
+            ),
           ),
         ],
       ),

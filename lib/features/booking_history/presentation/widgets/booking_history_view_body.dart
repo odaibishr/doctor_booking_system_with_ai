@@ -13,7 +13,7 @@ class BookingHistoryViewBody extends StatefulWidget {
 class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
   int _selectedTab = 0;
 
-   void _onTabChanged(int index) {
+  void _onTabChanged(int index) {
     setState(() {
       _selectedTab = index;
     });
@@ -32,9 +32,13 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
             isUserImageVisible: true,
           ),
           const SizedBox(height: 16),
-          TapBar(tabItems: ['القادمة', 'المنتهية', 'الملغاة'], selectedTab: _selectedTab, onTabChanged: _onTabChanged),
+          TapBar(
+            tabItems: ['القادمة', 'المنتهية', 'الملغاة'],
+            selectedTab: _selectedTab,
+            onTabChanged: _onTabChanged,
+          ),
           const SizedBox(height: 16),
-          Expanded(child: const BookingCardsListView()),
+          Expanded(child: BookingCardsListView(currentTabIndex: _selectedTab)),
         ],
       ),
     );
