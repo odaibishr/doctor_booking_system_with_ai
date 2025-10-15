@@ -80,6 +80,20 @@ class AppointmentCardFactory {
               },
               height: 28,
               radius: 6,
+              color: AppColors.primary,
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: MainButton(
+              text: textButton2,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('تم فتح شاشة إعادة الجدولة')),
+                );
+              },
+              height: 28,
+              radius: 6,
               color: AppColors.gray300,
             ),
           ),
