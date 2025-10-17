@@ -1,5 +1,6 @@
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_header_section.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_stats_section.dart';
 import 'package:flutter/material.dart';
 
 class DetailsViewBody extends StatelessWidget {
@@ -25,6 +26,8 @@ class DetailsViewBody extends StatelessWidget {
             doctorLocation: 'مستشفئ جامعة العلوم والتكنولوجيا',
             doctorImage: 'assets/images/doctor-image.png',
           ),
+          const SizedBox(height: 16),
+          DoctorStatsSection(),
         ],
       ),
     );
