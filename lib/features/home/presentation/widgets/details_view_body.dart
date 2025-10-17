@@ -2,6 +2,7 @@ import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_header_section.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_services_section.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_stats_section.dart';
 import 'package:flutter/material.dart';
 
@@ -38,11 +39,14 @@ class DetailsViewBody extends StatelessWidget {
             'نبذة عن الدكتور',
             style: FontStyles.subTitle2.copyWith(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 7),
+          const SizedBox(height: 5),
           Text(
             'دكتور متخصص حاصل على الدكتوراه والبورد الأردني في تخصصه، بعد تدريب مكثف في العراق والأردن. تخرج في الطب العام من روسيا، وتمتع بخبرة عملية في مستشفى الثورة بتعز، والمستشفى الألماني بتعز، بالإضافة إلى عمله في المملكة العربية السعودية.',
             style: FontStyles.body2.copyWith(color: AppColors.gray500),
           ),
+          // End Doctor Description
+          const SizedBox(height: 16),
+          DoctorServicesSection(),
         ],
       ),
     );
