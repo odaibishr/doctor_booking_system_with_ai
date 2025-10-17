@@ -10,11 +10,13 @@ class CustomAppBar extends StatelessWidget {
     required this.title,
     required this.isBackButtonVisible,
     required this.isUserImageVisible,
+    this.isHeartIconVisible = false,
   });
   final String userImage;
   final String title;
   final bool isBackButtonVisible;
   final bool isUserImageVisible;
+  final bool isHeartIconVisible;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class CustomAppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        isUserImageVisible
+        isUserImageVisible && isHeartIconVisible == false
             ? Container(
                 width: 38,
                 height: 38,
@@ -34,7 +36,23 @@ class CustomAppBar extends StatelessWidget {
                   child: Image.asset(userImage, scale: 1, fit: BoxFit.cover),
                 ),
               )
-            : const SizedBox(width: 38, height: 38),
+            : isHeartIconVisible && isUserImageVisible == false
+            ? Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.primary),
+                ),
+                child: ClipOval(
+                  child: Icon(
+                    Icons.favorite_border_outlined,
+                    color: AppColors.primary,
+                  ),
+                ),
+              )
+            : const SizedBox.shrink(),
 
         Text(
           title,

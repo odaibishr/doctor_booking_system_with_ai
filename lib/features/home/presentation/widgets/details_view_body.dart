@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class DetailsViewBody extends StatelessWidget {
@@ -9,7 +10,13 @@ class DetailsViewBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Column(
         children: [
-          
+          CustomAppBar(
+            userImage: 'assets/images/user.png',
+            title: 'معلومات الطبيب',
+            isBackButtonVisible: true,
+            isUserImageVisible: false,
+            isHeartIconVisible: true,
+          ),
         ],
       ),
     );

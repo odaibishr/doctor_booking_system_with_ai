@@ -1,8 +1,10 @@
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:flutter/material.dart';
 
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/appointment_card_factory.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/appointment_doctor_info.dart';
+import 'package:go_router/go_router.dart';
 
 enum AppointmentStatus { upcoming, completed, cancelled }
 
@@ -20,37 +22,42 @@ class AppointmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 160,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-        color: AppColors.gray100,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          Expanded(
-            child: AppointmentDoctorInfo(
-              doctorName: 'د. صادق محمد بشر',
-              location: 'القاهرة',
-              date: '31 يوليو 2025 - 10 صباحاً',
-              bookingNumber: 'رقم الحجز: 1DE524248M',
-              doctorImage: 'assets/images/doctor-image.png',
+    return GestureDetector(
+      onTap: () {
+        GoRouter.of(context).push(AppRouter.detailsViewRoute);
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 160,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          color: AppColors.gray100,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: AppointmentDoctorInfo(
+                doctorName: 'د. صادق محمد بشر',
+                location: 'القاهرة',
+                date: '31 يوليو 2025 - 10 صباحاً',
+                bookingNumber: 'رقم الحجز: 1DE524248M',
+                doctorImage: 'assets/images/doctor-image.png',
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: AppointmentCardFactory.getButtons(
-              context: context,
-              status: status,
-              textButton1: textButton1,
-              textButton2: textButton2,
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: AppointmentCardFactory.getButtons(
+                context: context,
+                status: status,
+                textButton1: textButton1,
+                textButton2: textButton2,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

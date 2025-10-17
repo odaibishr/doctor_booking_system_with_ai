@@ -1,8 +1,10 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/location_info.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/price_lable_with_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DoctorFeaturedBanner extends StatelessWidget {
   const DoctorFeaturedBanner({super.key});
@@ -10,7 +12,9 @@ class DoctorFeaturedBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        GoRouter.of(context).push(AppRouter.detailsViewRoute);
+      },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
         height: 162,
