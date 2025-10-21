@@ -35,10 +35,12 @@ class StatesItem extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 5),
-        Text(
-          number!,
-          style: FontStyles.body3.copyWith(fontWeight: FontWeight.bold),
-        ),
+        number != null
+            ? Text(
+                number!,
+                style: FontStyles.body3.copyWith(fontWeight: FontWeight.bold),
+              )
+            : const SizedBox(),
         const SizedBox(height: 2),
         Text(
           text,
