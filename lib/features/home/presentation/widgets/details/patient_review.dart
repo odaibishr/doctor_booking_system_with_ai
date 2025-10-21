@@ -3,13 +3,20 @@ import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
 
 class PatientReview extends StatelessWidget {
-  const PatientReview({super.key});
+  const PatientReview({
+    super.key,
+    required this.name,
+    required this.rating,
+    this.review,
+  });
+  final String name;
+  final String rating;
+  final String? review;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 78,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       decoration: BoxDecoration(
         color: AppColors.gray100,
@@ -31,7 +38,7 @@ class PatientReview extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        'عدي جلال بشر',
+                        name,
                         style: FontStyles.body2.copyWith(
                           fontWeight: FontWeight.bold,
                           color: AppColors.black,
@@ -44,7 +51,7 @@ class PatientReview extends StatelessWidget {
                         Center(
                           child: Icon(
                             Icons.star,
-                            color: Color(0xFFFEB052),
+                            color: AppColors.yellow,
                             size: 15,
                           ),
                         ),
@@ -52,7 +59,7 @@ class PatientReview extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 2),
                           child: Text(
-                            '4.5',
+                            rating,
                             style: FontStyles.body2.copyWith(
                               fontWeight: FontWeight.bold,
                               color: AppColors.black,
@@ -63,6 +70,13 @@ class PatientReview extends StatelessWidget {
                       ],
                     ),
                   ],
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  review ?? '',
+                  style: FontStyles.body3.copyWith(color: AppColors.gray600),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
