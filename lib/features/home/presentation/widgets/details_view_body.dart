@@ -5,7 +5,7 @@ import 'package:doctor_booking_system_with_ai/core/widgets/section_header.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_header_section.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_services_section.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_stats_section.dart';
-import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/patient_review.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/patient_review_slider.dart';
 import 'package:flutter/material.dart';
 
 class DetailsViewBody extends StatelessWidget {
@@ -63,9 +63,9 @@ class DetailsViewBody extends StatelessWidget {
                 DoctorServicesSection(),
                 const SizedBox(height: 3),
                 SectionHeader(title: 'المراجعات', onTap: () {}),
+                const SizedBox(height: 2),
+                const PatientReviewSlider(),
                 const SizedBox(height: 16),
-                PatientReview(),
-                const SizedBox(height: 16), 
               ],
             ),
           ),

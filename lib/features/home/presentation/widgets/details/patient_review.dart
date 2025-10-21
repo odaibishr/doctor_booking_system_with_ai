@@ -24,9 +24,10 @@ class PatientReview extends StatelessWidget {
         border: Border.all(color: AppColors.gray300),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            radius: 31,
+            radius: 25,
             backgroundImage: AssetImage('assets/images/my-photo.jpg'),
           ),
           const SizedBox(width: 10),
