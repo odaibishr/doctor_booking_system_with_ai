@@ -22,5 +22,8 @@ class AppColors {
   static const Color gray500 = Color(0xFF6B7280);
   static const Color gray600 = Color(0xFF4B5563);
 
+  // Yellow Color
+  static const Color yellow = Color(0xFFFEB052);
+
   static Color? get primaryColor => null;
 }

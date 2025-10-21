@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
 
 class PatientReview extends StatelessWidget {
@@ -25,7 +26,45 @@ class PatientReview extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [],
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'عدي جلال بشر',
+                        style: FontStyles.body2.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Icon(
+                            Icons.star,
+                            color: Color(0xFFFEB052),
+                            size: 15,
+                          ),
+                        ),
+                        const SizedBox(width: 2),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Text(
+                            '4.5',
+                            style: FontStyles.body2.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.black,
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
