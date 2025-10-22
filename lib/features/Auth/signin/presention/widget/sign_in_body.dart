@@ -44,7 +44,9 @@ class SignInBody extends StatelessWidget {
                   isShowRightIcon: true,
                   isShowLeftIcon: false,
                 ),
-                PasswordField(hintText: 'كلمة المرور',)
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                PasswordField(hintText: 'كلمة المرور',),
+                Text('نسيت كلمة المرور؟')
 
                 
               ],
