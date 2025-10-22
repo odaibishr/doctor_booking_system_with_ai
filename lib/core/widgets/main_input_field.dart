@@ -23,7 +23,7 @@ class MainInputField extends StatelessWidget {
     return Container(
       
       width: double.infinity,
-      height: 45,
+      height: 48,
       padding: const EdgeInsets.symmetric(horizontal: 15,),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.gray400),

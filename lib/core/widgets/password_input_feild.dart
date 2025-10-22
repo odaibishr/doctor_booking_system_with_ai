@@ -53,20 +53,23 @@ class _PasswordFieldState extends State<PasswordField> {
           },
           tooltip: _obscure ? 'إظهار كلمة المرور' : 'إخفاء كلمة المرور',
         ),
-          prefixIcon:Icon(Icons.lock_outline_rounded,color: AppColors.primary),
+          prefixIcon:Padding(
+            padding: const EdgeInsets.only(right: 4),
+            child: Icon(Icons.lock_outline_rounded,color: AppColors.primary,size: 22,),
+          ),
       
           
         
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
         ),
-        enabledBorder: OutlineInputBorder(borderRadius:  BorderRadius.circular(11),
+        enabledBorder: OutlineInputBorder(borderRadius:  BorderRadius.circular(10),
         borderSide: BorderSide(color: AppColors.gray400)),
         focusedBorder:  OutlineInputBorder(
           borderRadius: BorderRadius.circular(11),
           borderSide: BorderSide(color:  AppColors.primary,width: 2)
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 1410, vertical: 8),
       ),
     );
   }
