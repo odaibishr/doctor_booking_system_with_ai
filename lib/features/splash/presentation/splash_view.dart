@@ -75,7 +75,7 @@ class _SplashViewState extends State<SplashView>
 
     // Navigate to HomeView
     if (mounted) {
-      GoRouter.of(context).go(AppRouter.appNavigationRoute);
+      GoRouter.of(context).go(AppRouter.onboardingViewRoute);
     }
   }
 
