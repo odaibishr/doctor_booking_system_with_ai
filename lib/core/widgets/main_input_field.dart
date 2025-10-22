@@ -21,6 +21,7 @@ class MainInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      
       width: double.infinity,
       height: 45,
       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -67,6 +68,7 @@ class MainInputField extends StatelessWidget {
 
           isShowLeftIcon
               ? SvgPicture.asset(
+                
                   rightIconPath,
                   width: 20,
                   height: 20,
