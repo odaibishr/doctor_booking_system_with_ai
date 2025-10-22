@@ -1,6 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/password_input_feild.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -43,6 +44,9 @@ class SignInBody extends StatelessWidget {
                   isShowRightIcon: true,
                   isShowLeftIcon: false,
                 ),
+                PasswordField(hintText: 'كلمة المرور',)
+
+                
               ],
             ),
           ),
