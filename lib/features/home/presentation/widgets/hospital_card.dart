@@ -1,6 +1,8 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HospitalCard extends StatelessWidget {
   const HospitalCard({super.key});
@@ -8,7 +10,9 @@ class HospitalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        GoRouter.of(context).push(AppRouter.hospitalDetailsViewRoute);
+      },
       child: Container(
         width: 221,
         height: 180,
