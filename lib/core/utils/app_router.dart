@@ -51,11 +51,11 @@ class AppRouter {
         builder: (context, state) => const DetailsView(),
       ),
       GoRoute(
-        path: splashRoute,
+        path: onboardingViewRoute,
         builder: (context, state) => const OnBoardingView(),
       ),
        GoRoute(
-        path: splashRoute,
+        path: hospitalDetailsViewRoute,
         builder: (context, state) => const HospitalDetailsView(),
       ),
     ],
