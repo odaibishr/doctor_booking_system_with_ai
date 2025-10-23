@@ -1,5 +1,9 @@
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/review_dialog.dart';
+import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_details_review_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/patient_review.dart';
+import 'package:svg_flutter/svg.dart';
 
 class HospitalDetailsReviewsTab extends StatelessWidget {
   final List<Map<String, dynamic>> reviews;
@@ -8,17 +12,33 @@ class HospitalDetailsReviewsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: reviews.length,
-      separatorBuilder: (context, index) => const SizedBox(height: 16),
-      itemBuilder: (context, index) {
-        final review = reviews[index];
-        return PatientReview(
-          name: review['name'],
-          rating: review['rating'],
-          review: review['review'],
-        );
-      },
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+              ),
+              builder: (context) => ReviewDialog(onSubmit: (reason) {}),
+            );
+          },
+          child: Row(
+            children: [
+              Text(
+                'إضافة مراجعة',
+                style: FontStyles.body1.copyWith(color: AppColors.primary),
+              ),
+              const SizedBox(width: 5),
+              SvgPicture.asset('assets/icons/edit-2.svg'),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        HospitalDetailsReviewSlider(reviews: reviews),
+      ],  
     );
   }
 }
