@@ -39,7 +39,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: AppColors.primary),
+          borderSide: BorderSide(color: AppColors.gray400),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

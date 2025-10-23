@@ -21,12 +21,11 @@ class MainInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       width: double.infinity,
       height: 48,
-      padding: const EdgeInsets.symmetric(horizontal: 15,),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.primary),
+        border: Border.all(color: AppColors.gray400),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
@@ -39,7 +38,7 @@ class MainInputField extends StatelessWidget {
                   height: 20,
                   fit: BoxFit.scaleDown,
                   colorFilter: ColorFilter.mode(
-                    AppColors.primary,
+                    AppColors.gray400,
                     BlendMode.srcIn,
                   ),
                 )
@@ -68,7 +67,6 @@ class MainInputField extends StatelessWidget {
 
           isShowLeftIcon
               ? SvgPicture.asset(
-                
                   rightIconPath,
                   width: 20,
                   height: 20,

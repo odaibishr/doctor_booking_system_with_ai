@@ -43,15 +43,16 @@ class SignInBody extends StatelessWidget {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 PasswordField(hintText: 'كلمة المرور'),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                const SizedBox(height: 17),
                 //forget password button
                 ForgetPasswordButton(text: 'نسيت كلمة المرور؟', ontap: () {}),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                const SizedBox(height: 23.5),
                 MainButton(text: 'تسجيل الدخول', onTap: () {}), //main button
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                const SizedBox(height: 23.5),
                 DividerCustom(), //divider line
+                const SizedBox(height: 18.5),
                 GoogleButton(onPressed: () {}),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                const SizedBox(height: 23.5),
                 Row(
                   //Text for create account
                   mainAxisAlignment: MainAxisAlignment.center,

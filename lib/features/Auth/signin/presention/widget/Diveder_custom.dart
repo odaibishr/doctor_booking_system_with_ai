@@ -2,9 +2,7 @@ import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class DividerCustom extends StatelessWidget {
-  const DividerCustom({
-    super.key,
-  });
+  const DividerCustom({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class DividerCustom extends StatelessWidget {
           'أو',
           style: TextStyle(
             color: AppColors.primaryColor,
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -36,4 +34,3 @@ class DividerCustom extends StatelessWidget {
     );
   }
 }
-
