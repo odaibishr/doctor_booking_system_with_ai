@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/doctor_card_horizontail.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/doctor_card_horizontail.dart';
 
 class SearchDoctorListView extends StatelessWidget {
   const SearchDoctorListView({super.key});

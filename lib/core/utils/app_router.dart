@@ -20,7 +20,7 @@ class AppRouter {
   static const String detailsViewRoute = '/detailsView';
   static const String onboardingViewRoute = '/onboardingView';
   static const String hospitalDetailsViewRoute = '/hospitalDetailsView';
-  static const String SignInViewRoute='/signInView';
+  static const String signInViewRoute = '/signInView';
 
   static GoRouter router = GoRouter(
     routes: [
@@ -56,15 +56,15 @@ class AppRouter {
         path: onboardingViewRoute,
         builder: (context, state) => const OnBoardingView(),
       ),
-       GoRoute(
+      GoRoute(
         path: hospitalDetailsViewRoute,
         builder: (context, state) => const HospitalDetailsView(),
       ),
       GoRoute(
-        path: SignInViewRoute,
+        path: signInViewRoute,
         builder: (context, state) => const SignInView(),
       ),
     ],
-    initialLocation:splashRoute ,
+    initialLocation: splashRoute,
   );
 }
