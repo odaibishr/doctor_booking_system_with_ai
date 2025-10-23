@@ -1,7 +1,7 @@
-import 'package:doctor_booking_system_with_ai/features/onboarding/models/onboarding_data_model.dart';
-import 'package:doctor_booking_system_with_ai/features/onboarding/presention/widgets/onboardingpages.dart';
+import 'dart:ui';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/animated_indecator.dart';
 import 'package:flutter/material.dart';
-
 
 class OnBoardingBody extends StatefulWidget {
   const OnBoardingBody({super.key});
@@ -11,54 +11,130 @@ class OnBoardingBody extends StatefulWidget {
 }
 
 class _OnBoardingBodyState extends State<OnBoardingBody> {
-  int _currentIndex = 0;
-  late PageController pageController;
-  
-  @override
-  void initState() {
-    super.initState();
-    pageController = PageController(initialPage: 0);
-  }
-//i create from class and this object to use it!
-  List<OnboardingDataModel> onboardingData = [
-     OnboardingDataModel(
-      image: 'assets/images/onboarding1.png',
-      title: "احجز موعدا مع طبيب عبر الأنترنت ",
-      description:"سجل واحجز استشارة طبية اونلاين مع أفضل الأطباء المتخصصين في أي وقت ومن أي مكان",
-    ),
-    OnboardingDataModel(
-      image: 'assets/images/onboarding2.png',
-      title: "طبيبك الذكي",
-      description: "يحلل الذكاء الاصطناعي فحوصاتك، ويختار الطبيب المختص ويحجز موعدك آلياً - راحة وسرعة ودقة!",
-    ),
-     OnboardingDataModel(
-      image: 'assets/images/onboarding3.png',
-      title: "تذكيرك بموعدك",
-      description:"يتابع تطبيقنا مواعيدك ويذكرك بها مسبقاً عبر التنبيهات، مع تفاصيل العيادة ومتى دخولك عند الطبيب.",
-    ),
-    
+  int currentIndex = 0;
+
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
+
+  final List<String> images = [
+    'assets/images/onbording1.jpg',
+    'assets/images/onbording2.jpg',
+    'assets/images/onbording3.jpg',
   ];
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      reverse: true,
-      itemCount: onboardingData.length,
-      controller: pageController,
-      onPageChanged: (index) {
-        setState(() {
-          _currentIndex = index;
-        });
-      },
-      itemBuilder: (contex, index) {
-        return Onboardingpages(
-          index: _currentIndex,
-          image: onboardingData[index].image!,
-          title: onboardingData[index].title,
-          description: onboardingData[index].description,
-          pagecontroller: pageController,
-        );
-      },
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        CarouselSlider.builder(
+          carouselController: _carouselController,
+          itemCount: images.length,
+          itemBuilder: (context, index, realIndex) {
+            final bool isActive = index == currentIndex;
+
+            return AnimatedScale(
+              scale: isActive ? 1.0 : 0.88,
+              duration: const Duration(milliseconds: 350),
+              curve: Curves.easeOut,
+              child: AnimatedContainer(
+                height: isActive ? 240 : 190,
+                width: isActive ? 230 : 165,
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeOut,
+                margin: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Image.asset(
+                        images[index],
+                        fit: BoxFit.fill,
+                        filterQuality: FilterQuality.high,
+                      ),
+                      if (!isActive)
+                        ImageFiltered(
+                          imageFilter: ImageFilter.blur(sigmaX: 2, sigmaY: 1),
+                          child: Container(
+                            height: double.infinity,
+                            width: double.infinity,
+                            color: Colors.transparent,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+          options: CarouselOptions(
+            height: 260,
+            viewportFraction: 0.45,
+            enlargeCenterPage: true,
+            enlargeFactor: 0,
+            autoPlay: false,
+            enableInfiniteScroll: true,
+            scrollPhysics: const BouncingScrollPhysics(),
+            onPageChanged: (index, reason) {
+              setState(() => currentIndex = index);
+            },
+          ),
+        ),
+        const SizedBox(height: 20),
+        CarouselSlider.builder(
+          carouselController: _carouselController,
+          itemCount: 3,
+          itemBuilder: (context, index, realIndex) {
+            final bool isActive = index == currentIndex;
+
+            return AnimatedScale(
+              scale: isActive ? 1.0 : 0.88,
+              duration: const Duration(milliseconds: 350),
+              curve: Curves.easeOut,
+              child: AnimatedContainer(
+                height: isActive ? 80 : 65,
+                width: isActive ? 260 : 200,
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeOut,
+                margin: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    index == currentIndex ? 'Active text' : '',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: isActive ? 18 : 16,
+                      fontWeight: FontWeight.bold,
+                      color: isActive ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+          options: CarouselOptions(
+            height: 80,
+            viewportFraction: 0.45,
+            enlargeCenterPage: true,
+            enlargeFactor: 0,
+            autoPlay: false,
+            enableInfiniteScroll: true,
+            scrollPhysics: const BouncingScrollPhysics(),
+            onPageChanged: (index, reason) {
+              setState(() => currentIndex = index);
+            },
+          ),
+        ),
+        const SizedBox(height: 20),
+        AnimatedIndecator(currentIndex: currentIndex, dotsCount: 3),
+      ],
     );
   }
 }
