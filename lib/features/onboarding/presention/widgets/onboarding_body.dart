@@ -85,7 +85,7 @@ class _OnBoardingBodyState extends State<OnBoardingBody> {
               } else {
                 GoRouter.of(
                   context,
-                ).pushReplacement(AppRouter.appNavigationRoute);
+                ).pushReplacement(AppRouter.signInViewRoute);
               }
             },
           ),
