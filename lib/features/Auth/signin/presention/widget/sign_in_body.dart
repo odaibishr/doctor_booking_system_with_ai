@@ -72,7 +72,9 @@ class SignInBody extends StatelessWidget {
                         color: AppColors.gray400,
                       ),
                     ),
-                    ForgetPasswordButton(text: 'إنشاء حساب', ontap: () {}),
+                    ForgetPasswordButton(text: 'إنشاء حساب', ontap: () {
+                      GoRouter.of(context).push(AppRouter.SignupViewRoute);
+                    }),
                   ],
                 ),
               ],
