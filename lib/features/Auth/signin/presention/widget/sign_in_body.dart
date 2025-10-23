@@ -73,7 +73,7 @@ class SignInBody extends StatelessWidget {
                       ),
                     ),
                     ForgetPasswordButton(text: 'إنشاء حساب', ontap: () {
-                      GoRouter.of(context).push(AppRouter.SignupViewRoute);
+                      GoRouter.of(context).push(AppRouter.signupViewRoute);
                     }),
                   ],
                 ),
