@@ -20,10 +20,10 @@ class PasswordField extends StatefulWidget {
 }
 
 class _PasswordFieldState extends State<PasswordField> {
-  // يتحكم فيما إذا كانت كلمة المرور مخفية أم لا
+  // controls whether the password is hidden or not
   bool _obscure = true;
 
-  // أيقونة حسب الحالة
+  // icon based on the state
   IconData get _visibilityIcon =>
       _obscure ? Icons.visibility_off : Icons.visibility;
 
@@ -31,7 +31,8 @@ class _PasswordFieldState extends State<PasswordField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      obscureText: _obscure, // يخفي/يظهر النص
+      cursorColor: AppColors.gray400,
+      obscureText: _obscure, // controls whether the password is hidden or not
       enableSuggestions: false,
       autocorrect: false,
       keyboardType: TextInputType.visiblePassword,
@@ -39,9 +40,9 @@ class _PasswordFieldState extends State<PasswordField> {
       validator: widget.validator,
       decoration: InputDecoration(
         hintText: widget.hintText,
-        // أيقونة على الجانب الأيمن قابلة للضغط لتغيير الحالة
+        // icon on the right side that can be pressed to change the state
         suffixIcon: IconButton(
-          icon: Icon(_visibilityIcon, color: AppColors.primary),
+          icon: Icon(_visibilityIcon, color: AppColors.gray400),
           onPressed: () {
             setState(() {
               _obscure = !_obscure;
@@ -53,7 +54,7 @@ class _PasswordFieldState extends State<PasswordField> {
           padding: const EdgeInsets.only(right: 4),
           child: Icon(
             Icons.lock_outline_rounded,
-            color: AppColors.primary,
+            color: AppColors.gray400,
             size: 22,
           ),
         ),
@@ -61,11 +62,11 @@ class _PasswordFieldState extends State<PasswordField> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: AppColors.primary),
+          borderSide: BorderSide(color: AppColors.gray400),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(11),
-          borderSide: BorderSide(color: AppColors.primary, width: 1),
+          borderSide: BorderSide(color: AppColors.gray400, width: 1),
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 1410,
