@@ -43,7 +43,7 @@ class _OnBoardingBodyState extends State<OnBoardingBody> {
                 width: isActive ? 230 : 165,
                 duration: const Duration(milliseconds: 350),
                 curve: Curves.easeOut,
-                margin: EdgeInsets.zero, // إزالة أي مسافات
+                margin: EdgeInsets.zero,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -54,14 +54,16 @@ class _OnBoardingBodyState extends State<OnBoardingBody> {
                     children: [
                       Image.asset(
                         images[index],
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                         filterQuality: FilterQuality.high,
                       ),
                       if (!isActive)
                         ImageFiltered(
-                          imageFilter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                          imageFilter: ImageFilter.blur(sigmaX: 2, sigmaY: 1),
                           child: Container(
-                            color: Colors.black.withValues(alpha: 0.15),
+                            height: double.infinity,
+                            width: double.infinity,
+                            color: Colors.transparent,
                           ),
                         ),
                     ],
@@ -99,7 +101,7 @@ class _OnBoardingBodyState extends State<OnBoardingBody> {
                 width: isActive ? 260 : 200,
                 duration: const Duration(milliseconds: 350),
                 curve: Curves.easeOut,
-                margin: EdgeInsets.zero, // Remove any margins
+                margin: EdgeInsets.zero,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                 ),
