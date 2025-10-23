@@ -25,9 +25,14 @@ class SignInBody extends StatelessWidget {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.08),
                 Logo(),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Text('تسجيل الدخول', style: FontStyles.headLine4),
+                Text(
+                  'تسجيل الدخول',
+                  style: FontStyles.headLine4.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                SubTitle(),//subtitle text
+                SubTitle(), //subtitle text
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 MainInputField(
                   hintText: 'الحساب الالكتروني',
@@ -42,17 +47,21 @@ class SignInBody extends StatelessWidget {
                 //forget password button
                 ForgetPasswordButton(text: 'نسيت كلمة المرور؟', ontap: () {}),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                MainButton(text: 'تسجيل الدخول', onTap: () {}),//main button
+                MainButton(text: 'تسجيل الدخول', onTap: () {}), //main button
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 DividerCustom(), //divider line
                 GoogleButton(onPressed: () {}),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                Row(//Text for create account
+                Row(
+                  //Text for create account
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'ليس لديك حساب؟',
-                      style: FontStyles.body1.copyWith(color: AppColors.gray400,), ),
+                      style: FontStyles.body1.copyWith(
+                        color: AppColors.gray400,
+                      ),
+                    ),
                     ForgetPasswordButton(text: 'إنشاء حساب', ontap: () {}),
                   ],
                 ),
