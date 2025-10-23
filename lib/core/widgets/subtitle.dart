@@ -3,8 +3,9 @@ import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
 
 class SubTitle extends StatelessWidget {
+  final String text;
   const SubTitle({
-    super.key,
+    super.key, required this.text,
   });
 
   @override
@@ -12,7 +13,7 @@ class SubTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Text(
-        'سجّل دخولك الآن للوصول إلى مواعيدك الطبية وإدارة حجوزاتك بكل سهولة وأمان.',
+        text,
         style: FontStyles.subTitle3.copyWith(
           color: AppColors.gray400,
         ),

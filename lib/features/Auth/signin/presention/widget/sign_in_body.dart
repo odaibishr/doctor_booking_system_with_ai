@@ -7,7 +7,7 @@ import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/wi
 import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/forget_password_button.dart';
 import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/google_auth_button.dart';
 import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/logo.dart';
-import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/subtitle.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
 import 'package:flutter/material.dart';
 
 class SignInBody extends StatelessWidget {
@@ -32,7 +32,7 @@ class SignInBody extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                SubTitle(), //subtitle text
+                SubTitle(text: 'سجّل دخولك الآن للوصول إلى مواعيدك الطبية وإدارة حجوزاتك بكل سهولة وأمان.',), //subtitle text
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 MainInputField(
                   hintText: 'الحساب الالكتروني',

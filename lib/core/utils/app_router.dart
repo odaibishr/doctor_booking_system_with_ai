@@ -71,6 +71,6 @@ class AppRouter {
         builder: (context, state) => const SignUpView(),
       ),
     ],
-    initialLocation: signInViewRoute,
+    initialLocation: splashRoute,
   );
 }
