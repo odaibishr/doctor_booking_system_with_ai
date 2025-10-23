@@ -362,6 +362,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  social_auth_buttons:
+    dependency: "direct main"
+    description:
+      name: social_auth_buttons
+      sha256: ce44903ec2e14148b82560c16ad6462a574540fbc95f1586dc51a55316d37b5d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   source_span:
     dependency: transitive
     description:

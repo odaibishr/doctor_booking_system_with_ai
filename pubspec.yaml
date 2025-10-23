@@ -45,6 +45,8 @@ dependencies:
   go_router: ^16.2.4
   floating_bottom_bar: ^0.0.3
   passwordfield: ^0.2.0
+  social_auth_buttons: ^2.0.2
+  
  
 
 dev_dependencies:

@@ -1,9 +1,14 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/password_input_feild.dart';
+import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/Diveder_custom.dart';
+import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/forget_password_button.dart';
+import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/google_auth_button.dart';
+import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/logo.dart';
+import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/subtitle.dart';
 import 'package:flutter/material.dart';
-import 'package:svg_flutter/svg.dart';
 
 class SignInBody extends StatelessWidget {
   const SignInBody({super.key});
@@ -18,24 +23,11 @@ class SignInBody extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-                Image.asset(
-                  'assets/icons/logo-transparent.png',
-                  width: 180,
-                  height: 180,
-                ),
+                Logo(),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Text('تسجيل الدخول', style: FontStyles.headLine4),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  child: Text(
-                    'سجّل دخولك الآن للوصول إلى مواعيدك الطبية وإدارة حجوزاتك بكل سهولة وأمان.',
-                    style: FontStyles.subTitle3.copyWith(
-                      color: AppColors.gray400,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+                SubTitle(),//subtitle text
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 MainInputField(
                   hintText: 'الحساب الالكتروني',
@@ -45,10 +37,25 @@ class SignInBody extends StatelessWidget {
                   isShowLeftIcon: false,
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                PasswordField(hintText: 'كلمة المرور',),
-                Text('نسيت كلمة المرور؟')
-
-                
+                PasswordField(hintText: 'كلمة المرور'),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                //forget password button
+                ForgetPasswordButton(text: 'نسيت كلمة المرور؟', ontap: () {}),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                MainButton(text: 'تسجيل الدخول', onTap: () {}),//main button
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                DividerCustom(), //divider line
+                GoogleButton(onPressed: () {}),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                Row(//Text for create account
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'ليس لديك حساب؟',
+                      style: FontStyles.body1.copyWith(color: AppColors.gray400,), ),
+                    ForgetPasswordButton(text: 'إنشاء حساب', ontap: () {}),
+                  ],
+                ),
               ],
             ),
           ),
