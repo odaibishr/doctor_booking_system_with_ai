@@ -30,6 +30,7 @@ class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      
       controller: widget.controller,
       cursorColor: AppColors.gray400,
       obscureText: _obscure, // controls whether the password is hidden or not
@@ -42,7 +43,7 @@ class _PasswordFieldState extends State<PasswordField> {
         hintText: widget.hintText,
         // icon on the right side that can be pressed to change the state
         suffixIcon: IconButton(
-          icon: Icon(_visibilityIcon, color: AppColors.gray400),
+          icon: Icon(_visibilityIcon, color: AppColors.primary),
           onPressed: () {
             setState(() {
               _obscure = !_obscure;
@@ -62,11 +63,11 @@ class _PasswordFieldState extends State<PasswordField> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: AppColors.gray400),
+          borderSide: BorderSide(color: AppColors.primary),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(11),
-          borderSide: BorderSide(color: AppColors.gray400, width: 1),
+          borderSide: BorderSide(color: AppColors.primary, width: 1),
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 1410,

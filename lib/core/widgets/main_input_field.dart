@@ -5,13 +5,17 @@ import 'package:svg_flutter/svg.dart';
 
 class MainInputField extends StatelessWidget {
   const MainInputField({
+
     super.key,
     required this.hintText,
     required this.leftIconPath,
     required this.rightIconPath,
     required this.isShowRightIcon,
-    required this.isShowLeftIcon,
+    required this.isShowLeftIcon, 
+    this.validator,
   });
+
+  final FormFieldValidator<String>? validator;
   final String hintText;
   final String leftIconPath;
   final String rightIconPath;
@@ -21,11 +25,12 @@ class MainInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      
       width: double.infinity,
       height: 48,
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15,),
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.gray400),
+        border: Border.all(color: AppColors.primary),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
@@ -38,7 +43,7 @@ class MainInputField extends StatelessWidget {
                   height: 20,
                   fit: BoxFit.scaleDown,
                   colorFilter: ColorFilter.mode(
-                    AppColors.gray400,
+                    AppColors.primary,
                     BlendMode.srcIn,
                   ),
                 )
@@ -46,7 +51,8 @@ class MainInputField extends StatelessWidget {
 
           const SizedBox(width: 5),
           Expanded(
-            child: TextField(
+            child: TextFormField(
+              validator: validator,
               textAlignVertical: TextAlignVertical.center,
               cursorColor: AppColors.gray400,
               decoration: InputDecoration(
@@ -67,6 +73,7 @@ class MainInputField extends StatelessWidget {
 
           isShowLeftIcon
               ? SvgPicture.asset(
+                
                   rightIconPath,
                   width: 20,
                   height: 20,
