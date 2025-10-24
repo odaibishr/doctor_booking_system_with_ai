@@ -1,6 +1,6 @@
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/booking_cards_list_view.dart';
-import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/tap_bar.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/tap_bar.dart';
 import 'package:flutter/material.dart';
 
 class BookingHistoryViewBody extends StatefulWidget {

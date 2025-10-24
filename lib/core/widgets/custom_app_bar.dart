@@ -6,13 +6,13 @@ import 'package:doctor_booking_system_with_ai/core/widgets/back_button.dart';
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({
     super.key,
-    required this.userImage,
+    this.userImage,
     required this.title,
     required this.isBackButtonVisible,
     required this.isUserImageVisible,
     this.isHeartIconVisible = false,
   });
-  final String userImage;
+  final String? userImage;
   final String title;
   final bool isBackButtonVisible;
   final bool isUserImageVisible;
@@ -33,7 +33,7 @@ class CustomAppBar extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: ClipOval(
-                  child: Image.asset(userImage, scale: 1, fit: BoxFit.cover),
+                  child: Image.asset(userImage!, scale: 1, fit: BoxFit.cover),
                 ),
               )
             : isHeartIconVisible && isUserImageVisible == false
