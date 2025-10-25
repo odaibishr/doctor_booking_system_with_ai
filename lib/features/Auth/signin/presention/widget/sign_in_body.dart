@@ -53,7 +53,9 @@ class SignInBody extends StatelessWidget {
                   ),
                   const SizedBox(height: 17),
                   //forget password button
-                  ForgetPasswordButton(text: 'نسيت كلمة المرور؟', ontap: () {}),
+                  ForgetPasswordButton(text: 'نسيت كلمة المرور؟', ontap: () {
+                    GoRouter.of(context).pushReplacement(AppRouter.createprofileViewRout);
+                  }),
                   const SizedBox(height: 23.5),
                   MainButton(
                     text: 'تسجيل الدخول',

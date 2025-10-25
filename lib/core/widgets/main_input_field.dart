@@ -13,6 +13,8 @@ class MainInputField extends StatelessWidget {
     required this.isShowRightIcon,
     required this.isShowLeftIcon, 
     this.validator,
+    this.is_number,
+
   });
 
   final FormFieldValidator<String>? validator;
@@ -21,6 +23,7 @@ class MainInputField extends StatelessWidget {
   final String rightIconPath;
   final bool isShowRightIcon;
   final bool isShowLeftIcon;
+  final bool ?is_number;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +55,7 @@ class MainInputField extends StatelessWidget {
           const SizedBox(width: 5),
           Expanded(
             child: TextFormField(
+              keyboardType:(is_number==true)?TextInputType.numberWithOptions():TextInputType.text,
               validator: validator,
               textAlignVertical: TextAlignVertical.center,
               cursorColor: AppColors.gray400,

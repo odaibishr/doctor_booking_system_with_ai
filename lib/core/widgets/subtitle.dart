@@ -14,8 +14,9 @@ class SubTitle extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Text(
         text,
-        style: FontStyles.subTitle3.copyWith(
+        style: FontStyles.subTitle2.copyWith(
           color: AppColors.gray400,
+          
         ),
         textAlign: TextAlign.center,
       ),
