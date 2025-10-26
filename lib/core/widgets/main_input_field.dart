@@ -27,68 +27,54 @@ class MainInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return TextFormField(
       
-      width: double.infinity,
-      height: 48,
-      padding: const EdgeInsets.symmetric(horizontal: 15,),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.primary),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          isShowRightIcon
-              ? SvgPicture.asset(
-                  leftIconPath,
-                  width: 20,
-                  height: 20,
-                  fit: BoxFit.scaleDown,
-                  colorFilter: ColorFilter.mode(
-                    AppColors.primary,
-                    BlendMode.srcIn,
-                  ),
-                )
-              : const SizedBox.shrink(),
-
-          const SizedBox(width: 5),
-          Expanded(
-            child: TextFormField(
-              keyboardType:(is_number==true)?TextInputType.numberWithOptions():TextInputType.text,
-              validator: validator,
-              textAlignVertical: TextAlignVertical.center,
-              cursorColor: AppColors.gray400,
-              decoration: InputDecoration(
-                isCollapsed: true,
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-                contentPadding: EdgeInsets.zero,
-                hintText: hintText,
-                hintStyle: FontStyles.subTitle2.copyWith(
-                  color: AppColors.gray400,
-                ),
-              ),
+      keyboardType:(is_number==true)?TextInputType.numberWithOptions():TextInputType.text,
+      validator: validator,
+      textAlignVertical: TextAlignVertical.center,
+      cursorColor: AppColors.gray400,
+      decoration: InputDecoration(
+        isCollapsed: true,
+        contentPadding: EdgeInsets.zero,
+        hintText: hintText,
+        hintStyle: FontStyles.subTitle2.copyWith(
+          color: AppColors.gray400,
+        ),
+        prefixIcon: isShowRightIcon
+        ? SvgPicture.asset(
+            leftIconPath,
+            width: 20,
+            height: 20,
+            fit: BoxFit.scaleDown,
+            colorFilter: ColorFilter.mode(
+              AppColors.primary,
+              BlendMode.srcIn,
             ),
-          ),
-
-          isShowLeftIcon
-              ? SvgPicture.asset(
-                
-                  rightIconPath,
-                  width: 20,
-                  height: 20,
-                  fit: BoxFit.scaleDown,
-                  colorFilter: ColorFilter.mode(
-                    AppColors.gray400,
-                    BlendMode.srcIn,
-                  ),
-                )
-              : const SizedBox.shrink(),
-        ],
+          )
+        : const SizedBox.shrink(),
+        suffixIcon: isShowLeftIcon
+        ? SvgPicture.asset(
+          
+            rightIconPath,
+            width: 20,
+            height: 20,
+            fit: BoxFit.scaleDown,
+            colorFilter: ColorFilter.mode(
+              AppColors.gray400,
+              BlendMode.srcIn,
+            ),
+          )
+        : const SizedBox.shrink(),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: AppColors.primary),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(11),
+          borderSide: BorderSide(color: AppColors.primary, width: 1),
+        ),
+        
       ),
     );
   }

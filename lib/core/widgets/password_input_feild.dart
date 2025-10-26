@@ -55,7 +55,7 @@ class _PasswordFieldState extends State<PasswordField> {
           padding: const EdgeInsets.only(right: 4),
           child: Icon(
             Icons.lock_outline_rounded,
-            color: AppColors.gray400,
+            color: AppColors.primary,
             size: 22,
           ),
         ),
@@ -70,7 +70,7 @@ class _PasswordFieldState extends State<PasswordField> {
           borderSide: BorderSide(color: AppColors.primary, width: 1),
         ),
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 1410,
+          horizontal: 14,
           vertical: 12,
         ),
       ),
