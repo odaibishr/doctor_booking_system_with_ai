@@ -50,7 +50,7 @@ class EmailInputBody extends StatelessWidget {
                       onTap: () {
                         if(_formKey.currentState!.validate())
                         {   //TODO:here the main Button !
-                            GoRouter.of(context,).pushReplacement(AppRouter.verfiycodeViewRout);
+                            GoRouter.of(context,).push(AppRouter.verfiycodeViewRout);
                         }
                       
                       },

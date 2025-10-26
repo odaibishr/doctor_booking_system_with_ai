@@ -67,7 +67,7 @@ class SignUpBody extends StatelessWidget {
                   MainButton( text: 'انشاء حساب',
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
-                        GoRouter.of(context).pushReplacement(AppRouter.createprofileViewRoute);
+                        GoRouter.of(context).push(AppRouter.createprofileViewRoute);
                         //TODO:here the main Button !
                   }
                     },),
