@@ -5,10 +5,11 @@ import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/password_input_feild.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/Diveder_custom.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/title.dart';
 import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/forget_password_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/google_auth_button.dart';
-import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/logo.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
+import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,12 +31,7 @@ class SignInBody extends StatelessWidget {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.08),
                   Logo(),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                  Text(
-                    'تسجيل الدخول',
-                    style: FontStyles.headLine4.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  MainTitle(title:  'تسجيل الدخول'),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   SubTitle(text: 'سجّل دخولك الآن للوصول إلى مواعيدك الطبية وإدارة حجوزاتك بكل سهولة وأمان.',), //subtitle text
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
@@ -54,7 +50,7 @@ class SignInBody extends StatelessWidget {
                   const SizedBox(height: 17),
                   //forget password button
                   ForgetPasswordButton(text: 'نسيت كلمة المرور؟', ontap: () {
-                    GoRouter.of(context).pushReplacement(AppRouter.createprofileViewRout);
+                    GoRouter.of(context).pushReplacement(AppRouter.emailinputViewRoute);
                   }),
                   const SizedBox(height: 23.5),
                   MainButton(

@@ -49,6 +49,10 @@ dependencies:
   date_field: ^6.0.3+1
   dropdown_button2: ^2.3.9
   image_picker: ^1.2.0
+  animated_otp_input: ^1.0.6
+
+  
+ 
   
  
 

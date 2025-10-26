@@ -5,17 +5,16 @@ class MainTitle extends StatelessWidget {
   final String title;
   const MainTitle({
     super.key,
-    required this.title
+    required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
     return Text(
-     title,
+      title,
       style: FontStyles.headLine4.copyWith(
         fontWeight: FontWeight.bold,
       ),
     );
   }
 }
-
