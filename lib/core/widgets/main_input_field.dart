@@ -32,7 +32,7 @@ class MainInputField extends StatelessWidget {
       keyboardType:(is_number==true)?TextInputType.numberWithOptions():TextInputType.text,
       validator: validator,
       textAlignVertical: TextAlignVertical.center,
-      cursorColor: AppColors.gray400,
+      cursorColor: AppColors.primary,
       decoration: InputDecoration(
         isCollapsed: true,
         contentPadding: EdgeInsets.zero,
