@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
@@ -7,6 +8,7 @@ import 'package:doctor_booking_system_with_ai/features/create_profile/presention
 import 'package:doctor_booking_system_with_ai/features/create_profile/presention/widget/gender_textfield.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presention/widget/profile_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateProfileBody extends StatefulWidget {
   const CreateProfileBody({super.key});
@@ -81,6 +83,7 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
                 MainButton(text: 'تكملة  المعلومات', onTap: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('تم اكمال معلوماتك بنجاح')));
+                GoRouter.of(context).pushReplacement(AppRouter.signInViewRoute);
                 }),
               ],
             ),
