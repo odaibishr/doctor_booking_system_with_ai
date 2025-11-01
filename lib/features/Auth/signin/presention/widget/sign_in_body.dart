@@ -4,7 +4,7 @@ import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/password_input_feild.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/Diveder_custom.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/diveder_custom.dart';
 import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/forget_password_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/google_auth_button.dart';
 import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/logo.dart';
@@ -24,7 +24,7 @@ class SignInBody extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Form(
-              key:_formKey,
+              key: _formKey,
               child: Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.08),
@@ -37,7 +37,10 @@ class SignInBody extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                  SubTitle(text: 'سجّل دخولك الآن للوصول إلى مواعيدك الطبية وإدارة حجوزاتك بكل سهولة وأمان.',), //subtitle text
+                  SubTitle(
+                    text:
+                        'سجّل دخولك الآن للوصول إلى مواعيدك الطبية وإدارة حجوزاتك بكل سهولة وأمان.',
+                  ), //subtitle text
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   MainInputField(
                     hintText: 'الحساب الالكتروني',
@@ -48,23 +51,30 @@ class SignInBody extends StatelessWidget {
                     validator: EmailValidator,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                  PasswordField(hintText: 'كلمة المرور',
+                  PasswordField(
+                    hintText: 'كلمة المرور',
                     validator: PasswordValidator,
                   ),
                   const SizedBox(height: 17),
                   //forget password button
-                  ForgetPasswordButton(text: 'نسيت كلمة المرور؟', ontap: () {
-                    GoRouter.of(context).pushReplacement(AppRouter.createprofileViewRout);
-                  }),
+                  ForgetPasswordButton(
+                    text: 'نسيت كلمة المرور؟',
+                    ontap: () {
+                      GoRouter.of(
+                        context,
+                      ).pushReplacement(AppRouter.createprofileViewRout);
+                    },
+                  ),
                   const SizedBox(height: 23.5),
                   MainButton(
                     text: 'تسجيل الدخول',
                     onTap: () {
-                      if(_formKey.currentState!.validate())
-                      {   //TODO:here the main Button !
-                          GoRouter.of(context,).pushReplacement(AppRouter.appNavigationRoute);
+                      if (_formKey.currentState!.validate()) {
+                        //TODO:here the main Button !
+                        GoRouter.of(
+                          context,
+                        ).pushReplacement(AppRouter.appNavigationRoute);
                       }
-                    
                     },
                   ), //main button
                   const SizedBox(height: 23.5),
@@ -82,9 +92,12 @@ class SignInBody extends StatelessWidget {
                           color: AppColors.gray400,
                         ),
                       ),
-                      ForgetPasswordButton(text: 'إنشاء حساب', ontap: () {
-                        GoRouter.of(context).push(AppRouter.signupViewRoute);
-                      }),
+                      ForgetPasswordButton(
+                        text: 'إنشاء حساب',
+                        ontap: () {
+                          GoRouter.of(context).push(AppRouter.signupViewRoute);
+                        },
+                      ),
                     ],
                   ),
                 ],
@@ -96,20 +109,19 @@ class SignInBody extends StatelessWidget {
     );
   }
 
-  String? PasswordValidator(value){
-                    if(value == null || value.isEmpty){
-                      return 'الرجاء ادخال كلمة المرور ';
-                    }
-                    return null;
-                  }
+  String? PasswordValidator(value) {
+    if (value == null || value.isEmpty) {
+      return 'الرجاء ادخال كلمة المرور ';
+    }
+    return null;
+  }
 
-  String? EmailValidator(value){
-                    if(value == null || value.isEmpty){
-                      return 'الرجاء ادخال البريد الالكتروني ';
-                    }
-                    else if(!value.contains('@')){
-                      return 'الرجاء ادخال بريد الكتروني صحيح ';
-                    }
-                    return null;
-                  }
+  String? EmailValidator(value) {
+    if (value == null || value.isEmpty) {
+      return 'الرجاء ادخال البريد الالكتروني ';
+    } else if (!value.contains('@')) {
+      return 'الرجاء ادخال بريد الكتروني صحيح ';
+    }
+    return null;
+  }
 }
