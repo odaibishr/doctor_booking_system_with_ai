@@ -61,7 +61,7 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
                   rightIconPath: 'assets/icons/country.svg',
                   isShowRightIcon: true,
                   isShowLeftIcon: false,
-                  is_number: true,
+                  isNumber: true,
                 ),
                 SizedBox(height: 15),
                 DateTextField(//date textfield

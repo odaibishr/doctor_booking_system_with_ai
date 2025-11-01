@@ -5,16 +5,14 @@ import 'package:svg_flutter/svg.dart';
 
 class MainInputField extends StatelessWidget {
   const MainInputField({
-
     super.key,
     required this.hintText,
     required this.leftIconPath,
     required this.rightIconPath,
     required this.isShowRightIcon,
-    required this.isShowLeftIcon, 
+    required this.isShowLeftIcon,
     this.validator,
-    this.is_number,
-
+    this.isNumber,
   });
 
   final FormFieldValidator<String>? validator;
@@ -23,72 +21,75 @@ class MainInputField extends StatelessWidget {
   final String rightIconPath;
   final bool isShowRightIcon;
   final bool isShowLeftIcon;
-  final bool ?is_number;
+  final bool? isNumber;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
-      width: double.infinity,
-      height: 48,
-      padding: const EdgeInsets.symmetric(horizontal: 15,),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.primary),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          isShowRightIcon
-              ? SvgPicture.asset(
+    return TextFormField(
+      keyboardType: (isNumber == true)
+          ? TextInputType.numberWithOptions()
+          : TextInputType.text,
+      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      cursorColor: AppColors.gray400,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: FontStyles.subTitle2.copyWith(color: AppColors.gray400),
+        isCollapsed: true,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 12,
+        ),
+        prefixIcon: isShowRightIcon
+            ? Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SvgPicture.asset(
                   leftIconPath,
                   width: 20,
                   height: 20,
                   fit: BoxFit.scaleDown,
-                  colorFilter: ColorFilter.mode(
+                  colorFilter: const ColorFilter.mode(
                     AppColors.primary,
                     BlendMode.srcIn,
                   ),
-                )
-              : const SizedBox.shrink(),
-
-          const SizedBox(width: 5),
-          Expanded(
-            child: TextFormField(
-              keyboardType:(is_number==true)?TextInputType.numberWithOptions():TextInputType.text,
-              validator: validator,
-              textAlignVertical: TextAlignVertical.center,
-              cursorColor: AppColors.gray400,
-              decoration: InputDecoration(
-                isCollapsed: true,
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-                contentPadding: EdgeInsets.zero,
-                hintText: hintText,
-                hintStyle: FontStyles.subTitle2.copyWith(
-                  color: AppColors.gray400,
                 ),
-              ),
-            ),
-          ),
-
-          isShowLeftIcon
-              ? SvgPicture.asset(
-                
+              )
+            : null,
+        suffixIcon: isShowLeftIcon
+            ? Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SvgPicture.asset(
                   rightIconPath,
                   width: 20,
                   height: 20,
                   fit: BoxFit.scaleDown,
-                  colorFilter: ColorFilter.mode(
+                  colorFilter: const ColorFilter.mode(
                     AppColors.gray400,
                     BlendMode.srcIn,
                   ),
-                )
-              : const SizedBox.shrink(),
-        ],
+                ),
+              )
+            : null,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.primary),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.primary),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.error, width: 2),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.error, width: 2),
+        ),
       ),
     );
   }

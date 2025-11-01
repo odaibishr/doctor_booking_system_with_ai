@@ -5,12 +5,12 @@ import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/password_input_feild.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/Diveder_custom.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/title.dart';
 
 import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/logo.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
 import 'package:doctor_booking_system_with_ai/features/Auth/signup/presention/widget/custom_appbar.dart';
 import 'package:doctor_booking_system_with_ai/features/Auth/signup/presention/widget/end_section.dart';
-import 'package:doctor_booking_system_with_ai/features/Auth/signup/presention/widget/main_title.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -32,7 +32,7 @@ class SignUpBody extends StatelessWidget {
               child: Column(
                 children: [
                   Logo(),//LOgo
-                  MainTitle(),//main title
+                  MainTitle(title: 'سجّل حسابك الآن'),//main title
                   SizedBox(height: 12),
                   SubTitle(text: 'سجّل حسابك الآن واحجز مواعيدك الطبية بسهولة وفي أي وقت.', ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
