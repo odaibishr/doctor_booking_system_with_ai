@@ -1,6 +1,8 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/features/profile/presentation/widgets/user_account_menu_item.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class UserAccountMenu extends StatefulWidget {
   const UserAccountMenu({super.key});
@@ -94,7 +96,9 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
             UserAccountMenuItem(
               title: 'تسجيل الخروج',
               icon: 'assets/icons/login.svg',
-              onTap: () {},
+              onTap: () {
+                GoRouter.of(context).push(AppRouter.aichatViewRoute);
+              },
             ),
           ],
         ),
