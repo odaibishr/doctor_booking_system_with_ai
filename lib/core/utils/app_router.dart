@@ -1,6 +1,7 @@
 import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/sign_in_view.dart';
 import 'package:doctor_booking_system_with_ai/features/Auth/signup/presention/sign_up_view.dart';
 import 'package:doctor_booking_system_with_ai/features/app/presentation/app_navigation.dart';
+import 'package:doctor_booking_system_with_ai/features/appointment/presentation/appointment_view.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/booking_history_view.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presention/create_profile_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/verfiy_code/presention/verfiy_code_view.dart';
@@ -27,6 +28,7 @@ class AppRouter {
   static const String signupViewRoute = '/signupView';
   static const String createprofileViewRout = '/createprofileView';
   static const String verfiycodeViewRout = '/verfiycodeView';
+  static const String appointmentViewRoute = '/appointmentView';
 
   static GoRouter router = GoRouter(
     routes: [
@@ -81,6 +83,10 @@ class AppRouter {
       GoRoute(
         path: verfiycodeViewRout,
         builder: (context, state) => const VerfiyCodeView(),
+      ),
+      GoRoute(
+        path: appointmentViewRoute,
+        builder: (context, state) => const AppointmentView(),
       ),
     ],
     initialLocation: splashRoute,
