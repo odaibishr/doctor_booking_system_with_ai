@@ -60,7 +60,13 @@ class _FloatingMiddleButtonState extends State<FloatingMiddleButton>
                 opacity: _fadeAnimation,
                 child: SlideTransition(
                   position: _slideAnimation,
-                  child: ModelNavBar(),
+                  child: ModelNavBar(
+                    onClose: () {
+                      _controller.reverse().then(
+                        (value) => overlayEntry.remove(),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
