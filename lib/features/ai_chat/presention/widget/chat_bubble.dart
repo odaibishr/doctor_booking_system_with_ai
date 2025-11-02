@@ -17,13 +17,13 @@ class ChatBubble extends StatelessWidget {
       alignment: isUser ? Alignment.centerLeft : Alignment.centerRight,
       child: ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.7,
+        maxWidth: MediaQuery.of(context).size.width * 0.9,
       ),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
           decoration: BoxDecoration(
-            color: isUser ? AppColors.gray400 : AppColors.primary,
+            color: isUser ? AppColors.gray200 : AppColors.primary,
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(12),
               topRight: const Radius.circular(12),
@@ -35,7 +35,7 @@ class ChatBubble extends StatelessWidget {
             content,
             style: TextStyle(
               color: isUser ? Colors.black:Colors.white,
-              fontSize: 14
+              fontSize: 16
             ),
           ),
         ),
