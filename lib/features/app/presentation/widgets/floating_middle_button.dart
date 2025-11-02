@@ -24,9 +24,8 @@ class _FloatingMiddleButtonState extends State<FloatingMiddleButton>
       duration: const Duration(milliseconds: 300),
     );
 
-    // يبدأ من أعلى (-0.5) وينزل إلى موضعه الطبيعي (0)
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, -0.5),
+      begin: const Offset(0, 0.5),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
@@ -44,19 +43,17 @@ class _FloatingMiddleButtonState extends State<FloatingMiddleButton>
     overlayEntry = OverlayEntry(
       builder: (context) => Stack(
         children: [
-          // الخلفية السوداء الشفافة
           Positioned.fill(
             child: GestureDetector(
               onTap: () {
                 _controller.reverse().then((value) => overlayEntry.remove());
               },
-              child: Container(color: Colors.black.withOpacity(0.25)),
+              child: Container(color: Colors.black.withValues(alpha: 0.25)),
             ),
           ),
-          // الـ ModelNavBar مع أنميشين
           Positioned(
-            left: position.dx - 140, // تعديل حسب العرض
-            top: position.dy - 90, // موقع الاستقرار فوق الزر
+            left: position.dx - 140,
+            top: position.dy - 90,
             child: Material(
               color: Colors.transparent,
               child: FadeTransition(

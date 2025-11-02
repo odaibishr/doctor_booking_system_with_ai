@@ -8,7 +8,7 @@ class ModelNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 342,
+      width: MediaQuery.of(context).size.width * 0.9,
       height: 81,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: ShapeDecoration(
