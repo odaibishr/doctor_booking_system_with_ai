@@ -48,12 +48,12 @@ class SignInBody extends StatelessWidget {
                     rightIconPath: 'assets/icons/email.svg',
                     isShowRightIcon: true,
                     isShowLeftIcon: false,
-                    validator: EmailValidator,
+                    validator: emailValidator,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   PasswordField(
                     hintText: 'كلمة المرور',
-                    validator: PasswordValidator,
+                    validator: passwordValidator,
                   ),
                   const SizedBox(height: 17),
                   //forget password button
@@ -109,14 +109,14 @@ class SignInBody extends StatelessWidget {
     );
   }
 
-  String? PasswordValidator(value) {
+  String? passwordValidator(value) {
     if (value == null || value.isEmpty) {
       return 'الرجاء ادخال كلمة المرور ';
     }
     return null;
   }
 
-  String? EmailValidator(value) {
+  String? emailValidator(value) {
     if (value == null || value.isEmpty) {
       return 'الرجاء ادخال البريد الالكتروني ';
     } else if (!value.contains('@')) {
