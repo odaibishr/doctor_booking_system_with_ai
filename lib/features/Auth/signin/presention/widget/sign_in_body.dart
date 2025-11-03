@@ -60,7 +60,7 @@ class SignInBody extends StatelessWidget {
                   ForgetPasswordButton(
                     text: 'نسيت كلمة المرور؟',
                     ontap: () {
-                      GoRouter.of(
+                     GoRouter.of(
                         context,
                       ).push(AppRouter.createprofileViewRout);
                     },
