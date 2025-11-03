@@ -62,7 +62,7 @@ class SignInBody extends StatelessWidget {
                     ontap: () {
                      GoRouter.of(
                         context,
-                      ).push(AppRouter.createprofileViewRout);
+                      ).push(AppRouter.emailinputViewRoute);
                     },
                   ),
                   const SizedBox(height: 23.5),

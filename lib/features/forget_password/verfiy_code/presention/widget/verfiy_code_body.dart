@@ -63,7 +63,7 @@ class _VerfiyCodeBodyState extends State<VerfiyCodeBody> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('تم إدخال الرمز')),
                       );
-                    GoRouter.of(context).push(AppRouter.createprofileViewRout);
+                    GoRouter.of(context).push(AppRouter.createnewpasswordViewRoute);
                     }
                   },
                 ),
