@@ -42,7 +42,7 @@ class SignUpBody extends StatelessWidget {
                     rightIconPath: 'assets/icons/user.svg',
                     isShowRightIcon: true,
                     isShowLeftIcon: false,
-                    validator: NameValidate,
+                    validator: nameValidator,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   MainInputField(//Email textfield
@@ -51,18 +51,18 @@ class SignUpBody extends StatelessWidget {
                     rightIconPath: 'assets/icons/user.svg',
                     isShowRightIcon: true,
                     isShowLeftIcon: false,
-                    validator: EmailValidate,
+                    validator:  emailValidator,
                   ),
 
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   PasswordField(//Password textfield
                     hintText: 'كلمة المرور',
-                    validator: PasswordValidate,
+                    validator: passwordValidator,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   PasswordField(//Confirm Password textfield
                     hintText: 'تأكيد كلمة المرور',
-                    validator: ConPasswordValidate,
+                    validator: confirmPasswordValidator,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                   MainButton( text: 'انشاء حساب',
@@ -86,21 +86,21 @@ class SignUpBody extends StatelessWidget {
     );
   }
 //here the Valdiation Messages of TextFeilds !
-  String? ConPasswordValidate(value) {
+  String? confirmPasswordValidator(value) {
                     if (value == null || value.isEmpty) {
                       return 'الرجاء تأكيد كلمة المرور ';
                     }
                     return null;
                   }
 
-  String? PasswordValidate(value) {
+  String? passwordValidator(value) {
                     if (value == null || value.isEmpty) {
                       return 'الرجاء إدخال كلمة المرور ';
                     }
                     return null;
                   }
 
-  String? EmailValidate(value) {
+  String?   emailValidator(value) {
                     if (value == null || value.isEmpty) {
                       return 'الرجاء إدخال البريد الالكتروني ';
                     } else if (!value.contains('@')) {
@@ -109,7 +109,7 @@ class SignUpBody extends StatelessWidget {
                     return null;
                   }
 
-  String? NameValidate(value) {
+  String? nameValidator(value) {
                     if (value == null || value.isEmpty) {
                       return 'الرجاء إدخال اسم المستخدم';
                     }

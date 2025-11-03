@@ -19,9 +19,10 @@ class _AiChatBodyState extends State<AiChatBody> {
     _messages.clear();
     super.dispose();
   }
-    final List<Map<String, dynamic>> _messages = [];
-//add the message text or image to the list
-   void _addtoMessageList({String? text, File? image}) {
+
+  final List<Map<String, dynamic>> _messages = [];
+  //add the message text or image to the list
+  void _addtoMessageList({String? text, File? image}) {
     setState(() {
       if (text != null && text.isNotEmpty) {
         _messages.add({'type': 'text', 'isUser': true, 'content': text});
@@ -37,15 +38,18 @@ class _AiChatBodyState extends State<AiChatBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 5,top: 20,left: 7,right: 10),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Column(
         children: [
-          CustomAppBar(title: 'الطبيب الذكي',isBackButtonVisible: true, isUserImageVisible: false,),
-          Expanded(child: ChatMessageBuilder(messages:_messages,)),
-          Container(child: ChatTextField(onSend:_addtoMessageList,)),
+          CustomAppBar(
+            title: 'الطبيب الذكي',
+            isBackButtonVisible: true,
+            isUserImageVisible: false,
+          ),
+          Expanded(child: ChatMessageBuilder(messages: _messages)),
+          Container(child: ChatTextField(onSend: _addtoMessageList)),
         ],
       ),
     );
   }
 }
-
