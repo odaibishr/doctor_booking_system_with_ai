@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/category_list_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/custom_home_appbar.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_banner_slider.dart';
@@ -6,6 +7,7 @@ import 'package:doctor_booking_system_with_ai/core/widgets/section_header.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_card_list_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/hopitals_list_view.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key});
@@ -36,7 +38,11 @@ class HomeViewBody extends StatelessWidget {
                     SectionHeader(
                       title: 'التخصصات',
                       moreText: 'إظهار المزيد',
-                      onTap: () {},
+                      onTap: () {
+                        GoRouter.of(
+                        context,
+                      ).push(AppRouter.categoryViewRoute);
+                      },
                     ),
                     const SizedBox(height: 3),
                     const CategoryListView(),

@@ -4,6 +4,7 @@ import 'package:doctor_booking_system_with_ai/features/ai_chat/presention/ai_cha
 import 'package:doctor_booking_system_with_ai/features/app/presentation/app_navigation.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/presentation/appointment_view.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/booking_history_view.dart';
+import 'package:doctor_booking_system_with_ai/features/categorys/presention/category_view.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presention/create_profile_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/create_new_password.dart/presention/create_new_passwod_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/email_input/presention/email_input_view.dart';
@@ -34,7 +35,8 @@ class AppRouter {
   static const String verfiycodeViewRout = '/verfiycodeView';
   static const String createnewpasswordViewRoute = '/createnewpasswordView';
   static const String appointmentViewRoute = '/appointmentView';
-  static const String aichatViewRoute='/aichatView';
+  static const String aichatViewRoute = '/aichatView';
+  static const String categoryViewRoute='/categoryView';
 
   static GoRouter router = GoRouter(
     routes: [
@@ -86,7 +88,7 @@ class AppRouter {
         path: createprofileViewRout,
         builder: (context, state) => const CreateProfileView(),
       ),
-       GoRoute(
+      GoRoute(
         path: emailinputViewRoute,
         builder: (context, state) => const EmailInputView(),
       ),
@@ -105,6 +107,10 @@ class AppRouter {
       GoRoute(
         path: aichatViewRoute,
         builder: (context, state) => const AiChatView(),
+      ),
+      GoRoute(
+        path: categoryViewRoute,
+        builder: (context, state) =>const CategoryView(),
       ),
     ],
     initialLocation: splashRoute,
