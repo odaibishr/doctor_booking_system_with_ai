@@ -14,12 +14,12 @@ class CategoryGride extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 20),
       child: GridView.builder(
-        shrinkWrap: true, // ✅ مهم جدًا
+        shrinkWrap: true, 
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           mainAxisSpacing: 15,
-          crossAxisSpacing: 15
+         crossAxisSpacing: 15
         ),
         itemCount: categories.length,
         itemBuilder: (context, index) {
@@ -28,8 +28,9 @@ class CategoryGride extends StatelessWidget {
               
             },
             child: CategoryCard(
-              title: categories[index]['title'].toString(),
-              icon: categories[index]['icon'].toString(),
+              color: true,
+              title: categories[index]['title']!,
+              icon: categories[index]['icon']!,
             ),
           );
         },

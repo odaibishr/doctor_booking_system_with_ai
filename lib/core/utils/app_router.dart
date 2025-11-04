@@ -106,7 +106,7 @@ class AppRouter {
       ),
       GoRoute(
         path: aichatViewRoute,
-        builder: (context, state) => const AiChatView(),
+        builder: (context, state) => AiChatView(),
       ),
       GoRoute(
         path: categoryViewRoute,

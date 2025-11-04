@@ -8,11 +8,21 @@ class CategoryBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map<String, String>> categories = [
+      {'title': 'طب الأطفال', 'icon': 'assets/icons/child.svg'},
+      {'title': 'الطب الباطني', 'icon': 'assets/icons/brain.svg'},//This is
       {'title': 'مخ واعصاب', 'icon': 'assets/icons/brain.svg'},
-      {'title': 'القلب', 'icon': 'assets/icons/Cardiolo.svg'},
-      {'title': 'الباطنة', 'icon': 'assets/icons/Gastroen.svg'},
-      {'title': 'الاسنان', 'icon': 'assets/icons/dentist.svg'},
-      {'title': 'اللقاح', 'icon': 'assets/icons/Vaccinat.svg'},
+       {'title': 'أمراض الصدر', 'icon': 'assets/icons/kidney.svg'},//This is
+      {'title': 'أمراض الكلى', 'icon': 'assets/icons/kidney.svg'},//This is
+      {'title': 'أمراض القلب', 'icon': 'assets/icons/heart.svg'},
+      {'title': 'الأورام', 'icon': 'assets/icons/neurology.svg'},
+      {'title': 'أمراض الأعصاب', 'icon': 'assets/icons/neurology.svg'},
+      {'title': 'أمراض الدم', 'icon': 'assets/icons/blood.svg'},
+      {'title': 'جراحة الأنف والأذن والحنجرة', 'icon': 'assets/icons/Eartreatment.svg'},
+      {'title': 'جراحة التجميل', 'icon': 'assets/icons/FemaleSurgeon.svg'},
+      {'title': 'جراحة العظام', 'icon': 'assets/icons/orthopedicclinic.svg'},
+      {'title': 'المختبرات الطبية', 'icon': 'assets/icons/Group.svg'},
+      {'title': 'الطب النفسي', 'icon': 'assets/icons/Therapy.svg'},
+      {'title': 'جراحة العيون', 'icon': 'assets/icons/Eye.svg'},
     ];
     return Padding(
       padding: const EdgeInsets.only(top: 20),
