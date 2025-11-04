@@ -19,40 +19,54 @@ class BottomSheet_model extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      padding: EdgeInsets.only(left: 20,right: 20,bottom: 20,top: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          BottomSheetItems(
-            icons: 'assets/icons/camera.svg',
-            title: 'الكاميرا',
-            ontap: () async {
-              Navigator.pop(context);
-              final XFile? photo = await _picker.pickImage(
-                source: ImageSource.camera,
-              );
-              if (photo != null) {
-                widget.onSend(image: File(photo.path));
-              }
-            },
-          ),
-          BottomSheetItems(
-            icons: 'assets/icons/gallery.svg',
-            title: 'معرض الصور',
-            ontap: () async {
-               Navigator.pop(context);
-              final XFile? image = await _picker.pickImage(
-                source: ImageSource.gallery,
-              );
-              if (image != null) {
-                widget.onSend(image: File(image.path));
-              }
-            },
-          ),
-          BottomSheetItems(
-            icons: 'assets/icons/folder.svg',
-            title: 'الملفات',
-            ontap: () {},
+           Container(
+              width: 60,
+              height: 6,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              BottomSheetItems(
+                icons: 'assets/icons/camera.svg',
+                title: 'الكاميرا',
+                ontap: () async {
+                  Navigator.pop(context);
+                  final XFile? photo = await _picker.pickImage(
+                    source: ImageSource.camera,
+                  );
+                  if (photo != null) {
+                    widget.onSend(image: File(photo.path));
+                  }
+                },
+              ),
+              BottomSheetItems(
+                icons: 'assets/icons/gallery.svg',
+                title: 'معرض الصور',
+                ontap: () async {
+                   Navigator.pop(context);
+                  final XFile? image = await _picker.pickImage(
+                    source: ImageSource.gallery,
+                  );
+                  if (image != null) {
+                    widget.onSend(image: File(image.path));
+                  }
+                },
+              ),
+              BottomSheetItems(
+                icons: 'assets/icons/folder.svg',
+                title: 'الملفات',
+                ontap: () {},
+              ),
+            ],
           ),
         ],
       ),
