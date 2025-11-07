@@ -14,6 +14,20 @@ class AiChatBody extends StatefulWidget {
 }
 
 class _AiChatBodyState extends State<AiChatBody> {
+  final ScrollController _scrollController = ScrollController();
+    void _scrollToBottom() {
+    // ننتظر قليلاً حتى يتم بناء الرسالة الجديدة في الشاشة
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
   @override
   void dispose() {
     _messages.clear();
@@ -26,11 +40,16 @@ class _AiChatBodyState extends State<AiChatBody> {
     setState(() {
       if (text != null && text.isNotEmpty) {
         _messages.add({'type': 'text', 'isUser': true, 'content': text});
+        _scrollToBottom();
       } else if (image != null) {
         _messages.add({'type': 'image', 'isUser': true, 'content': image});
+        _scrollToBottom();
       }
-    });
+       _messages.add({'type': 'text', 'isUser': false, 'content': 'هلا انا مساعدك الذكي'});
+        _scrollToBottom();
 
+    });
+     
     // هنا سترسل إلى API الخاص بك مثلاً:
     // sendToApi(text: text, image: image);
   }
@@ -46,7 +65,7 @@ class _AiChatBodyState extends State<AiChatBody> {
             isBackButtonVisible: true,
             isUserImageVisible: false,
           ),
-          Expanded(child: ChatMessageBuilder(messages: _messages)),
+          Expanded(child: ChatMessageBuilder(messages: _messages,controller: _scrollController)),
           Container(child: ChatTextField(onSend: _addtoMessageList)),
         ],
       ),
