@@ -24,6 +24,7 @@ class HomeViewBody extends StatelessWidget {
                 userImage: 'assets/images/my-photo.jpg',
               ),
               pinned: true,
+              automaticallyImplyLeading: false,
               backgroundColor: AppColors.white,
               surfaceTintColor: AppColors.white,
             ),
@@ -39,9 +40,7 @@ class HomeViewBody extends StatelessWidget {
                       title: 'التخصصات',
                       moreText: 'إظهار المزيد',
                       onTap: () {
-                        GoRouter.of(
-                        context,
-                      ).push(AppRouter.categoryViewRoute);
+                        GoRouter.of(context).push(AppRouter.categoryViewRoute);
                       },
                     ),
                     const SizedBox(height: 3),
@@ -73,5 +72,3 @@ class HomeViewBody extends StatelessWidget {
     );
   }
 }
-
-
