@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
 import 'appointment_detail_row.dart';
@@ -24,7 +25,7 @@ class AppointmentDetailsContainer extends StatelessWidget {
       width: 342,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF9CA3AF), width: 1),
+        border: Border.all(color: AppColors.gray500, width: 1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
