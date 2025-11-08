@@ -18,14 +18,14 @@ class ChatMessageBuilder extends StatefulWidget {
 }
 
 class _ChatMessageBuilderState extends State<ChatMessageBuilder> {
-   bool _isTyping = false;
+ 
   @override
   Widget build(BuildContext context) {
     return (widget.messages.isNotEmpty)
         ? Padding(
             padding: const EdgeInsets.only(top: 20),
             child: ListView.builder(
-              physics: BouncingScrollPhysics(),
+             // physics: BouncingScrollPhysics(),
               controller: widget.controller,
               itemCount: widget.messages.length,
               itemBuilder: (context, index) {
@@ -36,12 +36,7 @@ class _ChatMessageBuilderState extends State<ChatMessageBuilder> {
                   return ChatBubble(
                     isUser: isUser,
                     content: content,
-                    onTypingStart: () {
-                      setState(() => _isTyping = true);
-                    },
-                     onTypingEnd: () {
-                    setState(() => _isTyping = false);
-                  },
+                  
                   );
                 } else {
                   final isUser = msg['isUser'] == true;

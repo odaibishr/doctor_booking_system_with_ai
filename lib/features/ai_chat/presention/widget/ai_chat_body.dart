@@ -45,8 +45,10 @@ class _AiChatBodyState extends State<AiChatBody> {
         _messages.add({'type': 'image', 'isUser': true, 'content': image});
         _scrollToBottom();
       }
-        _messages.add({'type': 'text', 'isUser': false, 'content':' هلا انا مساعدك الذكي استخدمني في اي وقت تحتاج والان كيف يمكنني خدمتك'});
+         _messages.add({'type': 'text', 'isUser': false, 'content':' هلا انا مساعدك الذكي استخدمني في اي وقت تحتاج والان كيف يمكنني خدمتك'});
+         
        _scrollToBottom();
+      
 
     });
      

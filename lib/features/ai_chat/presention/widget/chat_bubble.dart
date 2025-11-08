@@ -8,16 +8,13 @@ class ChatBubble extends StatefulWidget {
     super.key,
     required this.isUser,
     required this.content,
-    this.onTypingStart, // ← استدعاء عند بدء الكتابة
-    this.onTypingEnd,   // ← استدعاء عند انتهاء الكتابة
+
   });
 
   final bool isUser;
   final String content;
   
-  final dynamic onTypingStart;
-  
-  final dynamic onTypingEnd;
+
 
   @override
   State<ChatBubble> createState() => _ChatBubbleState();
@@ -28,8 +25,8 @@ class _ChatBubbleState extends State<ChatBubble> {
   int _currentIndex = 0;
   Timer? _timer;
 void _startTypingEffect() {
-   widget.onTypingStart?.call();
-  const duration = Duration(milliseconds: 30);
+
+  const duration = Duration(milliseconds: 40);
   _timer = Timer.periodic(duration, (timer) {
     if (_currentIndex < widget.content.length) {
       if (!mounted) { 
@@ -42,7 +39,7 @@ void _startTypingEffect() {
         _currentIndex++;
       });
     } else {
-      widget.onTypingEnd?.call();
+
       timer.cancel();
     }
   });
