@@ -45,8 +45,8 @@ class _AiChatBodyState extends State<AiChatBody> {
         _messages.add({'type': 'image', 'isUser': true, 'content': image});
         _scrollToBottom();
       }
-       _messages.add({'type': 'text', 'isUser': false, 'content': 'هلا انا مساعدك الذكي'});
-        _scrollToBottom();
+        _messages.add({'type': 'text', 'isUser': false, 'content':' هلا انا مساعدك الذكي استخدمني في اي وقت تحتاج والان كيف يمكنني خدمتك'});
+       _scrollToBottom();
 
     });
      
@@ -54,10 +54,11 @@ class _AiChatBodyState extends State<AiChatBody> {
     // sendToApi(text: text, image: image);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 7),
       child: Column(
         children: [
           CustomAppBar(
