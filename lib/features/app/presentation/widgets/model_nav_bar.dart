@@ -36,7 +36,7 @@ class ModelNavBar extends StatelessWidget {
                 label: 'المفضلة',
                 onTap: () {
                   onClose?.call();
-                  GoRouter.of(context).push(AppRouter.aichatViewRoute);
+                  GoRouter.of(context).push(AppRouter.favoritedoctorViewRoute);
                 },
               ),
             ],

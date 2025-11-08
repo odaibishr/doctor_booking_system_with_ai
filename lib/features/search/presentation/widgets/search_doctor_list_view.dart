@@ -7,7 +7,7 @@ class SearchDoctorListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 160,
+      height: 165,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
         itemCount: 10,

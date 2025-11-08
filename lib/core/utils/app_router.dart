@@ -6,6 +6,7 @@ import 'package:doctor_booking_system_with_ai/features/appointment/presentation/
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/booking_history_view.dart';
 import 'package:doctor_booking_system_with_ai/features/categorys/presention/category_view.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presention/create_profile_view.dart';
+import 'package:doctor_booking_system_with_ai/features/favoratie_doctor/presention/favorite_doctor_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/create_new_password.dart/presention/create_new_passwod_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/email_input/presention/email_input_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/verfiy_code/presention/verfiy_code_view.dart';
@@ -39,6 +40,7 @@ class AppRouter {
   static const String aichatViewRoute = '/aichatView';
   static const String categoryViewRoute = '/categoryView';
   static const String paymentViewRoute = '/paymentView';
+  static const String favoritedoctorViewRoute='/favoritedoctorView';
 
   static GoRouter router = GoRouter(
     routes: [
@@ -115,6 +117,8 @@ class AppRouter {
         path: paymentViewRoute,
         builder: (context, state) => const PaymentView(),
       ),
+      GoRoute(path: favoritedoctorViewRoute,
+      builder: (context, state) => const FavoratieDoctorView())
     ],
     initialLocation: splashRoute,
   );
