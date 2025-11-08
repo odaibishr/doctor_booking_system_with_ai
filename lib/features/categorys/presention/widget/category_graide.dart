@@ -1,7 +1,10 @@
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/category_card.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryGride extends StatelessWidget {
+  
   const CategoryGride({
     super.key,
     required this.categories,
@@ -25,7 +28,7 @@ class CategoryGride extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              
+              GoRouter.of(context).push(AppRouter.searchViewRoute);
             },
             child: CategoryCard(
               color: true,
