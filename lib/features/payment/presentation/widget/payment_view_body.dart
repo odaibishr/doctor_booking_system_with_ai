@@ -1,6 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/doctor_info.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/payment_method_item.dart';
 import 'package:flutter/material.dart';
@@ -84,6 +85,14 @@ class _PaymentViewBodyState extends State<PaymentViewBody> {
                       },
                     ),
                   ],
+                ),
+                const SizedBox(height: 16),
+                MainInputField(
+                  hintText: 'رقم البطاقة',
+                  leftIconPath: 'assets/icons/pay-card.svg',
+                  rightIconPath: 'assets/icons/edit-2.svg',
+                  isShowRightIcon: true,
+                  isShowLeftIcon: true,
                 ),
               ],
             ),
