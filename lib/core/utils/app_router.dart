@@ -14,6 +14,7 @@ import 'package:doctor_booking_system_with_ai/features/home/presentation/details
 import 'package:doctor_booking_system_with_ai/features/home/presentation/home_view.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/hospital_details_view.dart';
 import 'package:doctor_booking_system_with_ai/features/onboarding/presention/onboarding_view.dart';
+import 'package:doctor_booking_system_with_ai/features/payment/presentation/add_card_view.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/payment_view.dart';
 import 'package:doctor_booking_system_with_ai/features/profile/presentation/profile_view.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/search_view.dart';
@@ -41,6 +42,7 @@ class AppRouter {
   static const String categoryViewRoute = '/categoryView';
   static const String paymentViewRoute = '/paymentView';
   static const String favoritedoctorViewRoute='/favoritedoctorView';
+  static const String addcardViewRoute='/addcardView';
 
   static GoRouter router = GoRouter(
     routes: [
@@ -118,7 +120,11 @@ class AppRouter {
         builder: (context, state) => const PaymentView(),
       ),
       GoRoute(path: favoritedoctorViewRoute,
-      builder: (context, state) => const FavoratieDoctorView())
+      builder: (context, state) => const FavoratieDoctorView()
+      ),
+      GoRoute(path: addcardViewRoute,
+      builder: (context, state) => const AddCardView()
+      ),
     ],
     initialLocation: splashRoute,
   );
