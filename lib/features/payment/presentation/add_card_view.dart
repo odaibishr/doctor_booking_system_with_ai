@@ -8,14 +8,9 @@ class AddCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(resizeToAvoidBottomInset: true,
       body: SafeArea(child: SafeArea(child: AddCardBody())),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: MainButton(text: 'إضافة بطاقة', onTap: () {
-          
-        }),
-      ),
+      
     );
   }
 }
