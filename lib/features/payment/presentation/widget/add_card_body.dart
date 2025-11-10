@@ -7,10 +7,50 @@ import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class AddCardBody extends StatelessWidget {
+class AddCardBody extends StatefulWidget {
   const AddCardBody({super.key});
 
+  @override
+  State<AddCardBody> createState() => _AddCardBodyState();
+}
+
+class _AddCardBodyState extends State<AddCardBody>  with SingleTickerProviderStateMixin{
+   late AnimationController _controller;
+  late Animation<Offset> _slideAnimation;
+  late Animation<double> _fadeAnimation;
+    @override
+  void initState() {
+    super.initState();
+
+    // 1️⃣ إنشاء المتحكم بالأنيميشن
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700), // مدة الحركة
+    );
+
+    // 2️⃣ تحديد مسار الحركة (من أسفل إلى منتصف الصفحة)
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 1), // يبدأ من خارج الشاشة (أسفل)
+      end: Offset.zero,          // ينتهي في مكانه الطبيعي (المنتصف)
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutBack, // حركة ناعمة للخارج
+    ));
+
+    // 3️⃣ أنيميشن التلاشي التدريجي (شفافية)
+    _fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeIn,
+    ));
+
+    // 4️⃣ بدء الأنيميشن فور الدخول للصفحة
+    _controller.forward();
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -79,12 +119,18 @@ class AddCardBody extends StatelessWidget {
               
             ],),
             SizedBox(height: 12,),
-            Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: MainButton(text: 'إضافة بطاقة', onTap: () {
-            
-          }),
-        ),
+            FadeTransition(
+              opacity: _fadeAnimation,
+              child: SlideTransition(
+                position: _slideAnimation,
+                child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          child: MainButton(text: 'إضافة بطاقة', onTap: () {
+                  GoRouter.of(context).pop();
+                          }),
+                        ),
+              ),
+            ),
           ],
         ),
       ),

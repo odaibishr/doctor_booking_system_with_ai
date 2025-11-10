@@ -1,6 +1,8 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:svg_flutter/svg.dart';
 
 class MainInputField extends StatelessWidget {
@@ -13,6 +15,8 @@ class MainInputField extends StatelessWidget {
     required this.isShowLeftIcon,
     this.validator,
     this.isNumber,
+    this.readonly,
+    this.icon_onTap,
   });
 
   final FormFieldValidator<String>? validator;
@@ -22,10 +26,13 @@ class MainInputField extends StatelessWidget {
   final bool isShowRightIcon;
   final bool isShowLeftIcon;
   final bool? isNumber;
+  final bool? readonly;
+  final VoidCallback? icon_onTap;
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return  TextFormField(
+      readOnly: readonly??false,
       keyboardType: (isNumber == true)
           ? TextInputType.numberWithOptions()
           : TextInputType.text,
@@ -56,19 +63,23 @@ class MainInputField extends StatelessWidget {
               )
             : null,
         suffixIcon: isShowLeftIcon
-            ? Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: SvgPicture.asset(
-                  rightIconPath,
-                  width: 20,
-                  height: 20,
-                  fit: BoxFit.scaleDown,
-                  colorFilter: const ColorFilter.mode(
-                    AppColors.gray400,
-                    BlendMode.srcIn,
+            ? GestureDetector(
+              onTap: icon_onTap,
+              
+              child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SvgPicture.asset(
+                    rightIconPath,
+                    width: 20,
+                    height: 20,
+                    fit: BoxFit.scaleDown,
+                    colorFilter: const ColorFilter.mode(
+                      AppColors.gray400,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
-              )
+            )
             : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
