@@ -3,8 +3,8 @@ import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/password_input_feild.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/title.dart';
-import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/logo.dart';
-import 'package:doctor_booking_system_with_ai/features/Auth/signup/presention/widget/custom_appbar.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/logo.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,7 +25,7 @@ class CreateNewPasswordBody extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-                   Logo(),
+                  Logo(),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   MainTitle(title: 'إنشاء كلمة مرور جديدة'),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),

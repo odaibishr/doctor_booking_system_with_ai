@@ -4,7 +4,7 @@ import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/title.dart';
-import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/logo.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

@@ -1,5 +1,5 @@
-import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/sign_in_view.dart';
-import 'package:doctor_booking_system_with_ai/features/Auth/signup/presention/sign_up_view.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/sign_in_view.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/sign_up_view.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presention/ai_chat_view.dart';
 import 'package:doctor_booking_system_with_ai/features/app/presentation/app_navigation.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/presentation/appointment_view.dart';

@@ -5,11 +5,10 @@ import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/title.dart';
-import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/forget_password_button.dart';
-import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/logo.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/forget_password_button.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/logo.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/verfiy_code/presention/widget/verfiy_code_digits.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 class VerfiyCodeBody extends StatefulWidget {

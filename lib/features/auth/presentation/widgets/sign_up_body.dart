@@ -7,12 +7,12 @@ import 'package:doctor_booking_system_with_ai/core/widgets/password_input_feild.
 import 'package:doctor_booking_system_with_ai/core/widgets/Diveder_custom.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/title.dart';
 
-import 'package:doctor_booking_system_with_ai/features/Auth/signin/presention/widget/logo.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
-import 'package:doctor_booking_system_with_ai/features/Auth/signup/presention/widget/custom_appbar.dart';
-import 'package:doctor_booking_system_with_ai/features/Auth/signup/presention/widget/end_section.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/custom_appbar.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/end_section.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/logo.dart';
 
 
 class SignUpBody extends StatelessWidget {
