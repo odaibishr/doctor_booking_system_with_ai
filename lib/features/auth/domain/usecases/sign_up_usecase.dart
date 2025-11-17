@@ -10,8 +10,9 @@ class SignUpUsecase extends Usecase<User, SignUpParams> {
   SignUpUsecase(this.authRepo);
 
   @override
-  Future<Either<Failure, User>> call(SignUpParams params) =>
-      authRepo.signUp(params.name, params.email, params.password);
+  Future<Either<Failure, User>> call([SignUpParams? params]) async {
+    return await authRepo.signUp(params!.name, params.email, params.password);
+  }
 }
 
 class SignUpParams {

@@ -10,7 +10,7 @@ class LogoutUsecase extends Usecase<User, NoParams> {
   LogoutUsecase(this.authRepo);
 
   @override
-  Future<Either<Failure, User>> call(NoParams params) {
+  Future<Either<Failure, User>> call([NoParams? params]) {
     return authRepo.logout();
   }
 }
