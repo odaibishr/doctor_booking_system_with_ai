@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:io' show Platform;
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:doctor_booking_system_with_ai/core/database/api/api_consumer.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
@@ -37,7 +39,7 @@ class DioConsumer extends ApiConsumer {
       log("Starting to get token");
       final authData = await authLocalDataSource.getCachedAuthData();
       log("Token: ${authData?.token}");
-      return authData?.token ?? '';
+      return authData?.token as String?;
     } catch (e) {
       log('Error getting token: $e');
       return null;
@@ -52,6 +54,10 @@ class DioConsumer extends ApiConsumer {
     }
 
     String cleanedBase = base.replaceAll(RegExp(r'/$'), '');
+
+    if (!kIsWeb && Platform.isAndroid) {
+      cleanedBase = cleanedBase.replaceFirst(RegExp(r'http:'), 'http:');
+    }
 
     log('🔄 Final Base URL: $cleanedBase');
     return cleanedBase;

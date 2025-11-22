@@ -1,3 +1,7 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class EndPoints {
-  static const String baseUrl = "http://127.0.0.1:8000/api/v1/";
+  static String ip = dotenv.env['APP_IP'] ?? '127.0.0.1';
+  static String port = dotenv.env['APP_PORT'] ?? '8000';
+  static String baseUrl = "http://$ip:$port/api/v1/";
 }

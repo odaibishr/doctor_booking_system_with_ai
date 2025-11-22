@@ -59,6 +59,8 @@ dependencies:
   get_it: ^9.1.0
   hive_flutter: ^1.1.0
   path_provider: ^2.1.5
+  dotenv: ^4.2.0
+  flutter_dotenv: ^6.0.0
  
   
  
@@ -92,6 +94,7 @@ flutter:
     - assets/
     - assets/icons/
     - assets/images/
+    - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

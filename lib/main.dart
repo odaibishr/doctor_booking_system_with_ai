@@ -8,15 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter(); 
+  await dotenv.load(fileName: ".env");
+  await Hive.initFlutter();
   await HiveService.init();
   await init();
 
   final authCubit = serviceLocator<AuthCubit>();
   await authCubit.checkAuthStatus();
+
   runApp(MyApp());
 }
 
