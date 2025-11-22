@@ -1,37 +1,23 @@
-import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
+import '../../domain/entities/user.dart';
 
 class UserModel extends User {
-  const UserModel({
+  UserModel({
     required super.id,
     required super.name,
     required super.email,
-    required super.password,
+    required super.token,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'] as String,
+      id: json['id'] as int,
       name: json['name'] as String,
       email: json['email'] as String,
-      password: json['password'] as String,
+      token: json['token'] as String,
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'name': name, 'email': email, 'password': password};
-  }
-
-  UserModel copyWith({
-    String? id,
-    String? name,
-    String? email,
-    String? password,
-  }) {
-    return UserModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      email: email ?? this.email,
-      password: password ?? this.password,
-    );
+    return {'id': id, 'name': name, 'email': email, 'token': token};
   }
 }

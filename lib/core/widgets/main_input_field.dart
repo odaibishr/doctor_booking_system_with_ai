@@ -11,6 +11,7 @@ class MainInputField extends StatelessWidget {
     required this.rightIconPath,
     required this.isShowRightIcon,
     required this.isShowLeftIcon,
+    this.controller,
     this.validator,
     this.isNumber,
     this.readonly,
@@ -26,7 +27,8 @@ class MainInputField extends StatelessWidget {
   final bool? isNumber;
   final bool? readonly;
   final VoidCallback? icon_onTap;
-
+  final TextEditingController? controller;
+  
   @override
   Widget build(BuildContext context) {
     return  TextFormField(
@@ -37,6 +39,7 @@ class MainInputField extends StatelessWidget {
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       cursorColor: AppColors.gray400,
+      controller: controller,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: FontStyles.subTitle2.copyWith(color: AppColors.gray400),

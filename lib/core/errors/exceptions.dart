@@ -62,55 +62,56 @@ class UnknownException extends ServerException {
 }
 
 handleDioException(DioException e) {
+  ErrorModel buildErrorModel({int? overrideStatus}) {
+    final status = overrideStatus ?? e.response?.statusCode ?? 500;
+    final data = e.response?.data;
+    if (data is Map) {
+      try {
+        return ErrorModel.fromJson(data);
+      } catch (_) {
+        // fall through to default
+      }
+    }
+    final message = e.message ?? e.error?.toString() ?? 'Unexpected error';
+    return ErrorModel(status: status, errorMessage: message);
+  }
+
   switch (e.type) {
     case DioExceptionType.connectionError:
-      throw ConnectionErrorException(ErrorModel.fromJson(e.response!.data));
+      throw ConnectionErrorException(buildErrorModel());
     case DioExceptionType.badCertificate:
-      throw BadCertificateException(ErrorModel.fromJson(e.response!.data));
+      throw BadCertificateException(buildErrorModel());
     case DioExceptionType.connectionTimeout:
-      throw ConnectionTimeoutException(ErrorModel.fromJson(e.response!.data));
-
+      throw ConnectionTimeoutException(buildErrorModel());
     case DioExceptionType.receiveTimeout:
-      throw ReceiveTimeoutException(ErrorModel.fromJson(e.response!.data));
-
+      throw ReceiveTimeoutException(buildErrorModel());
     case DioExceptionType.sendTimeout:
-      throw SendTimeoutException(ErrorModel.fromJson(e.response!.data));
-
+      throw SendTimeoutException(buildErrorModel());
     case DioExceptionType.badResponse:
-      switch (e.response?.statusCode) {
-        case 400: // Bad request
-
-          throw BadResponseException(ErrorModel.fromJson(e.response!.data));
-
-        case 401: //unauthorized
-          throw UnauthorizedException(ErrorModel.fromJson(e.response!.data));
-
-        case 403: //forbidden
-          throw ForbiddenException(ErrorModel.fromJson(e.response!.data));
-
-        case 404: //not found
-        
-          throw NotFoundException(ErrorModel.fromJson(e.response!.data));
-
-        case 409: //cofficient
-
-          throw CofficientException(ErrorModel.fromJson(e.response!.data));
-
-        case 504: // Bad request
-
+      final code = e.response?.statusCode;
+      switch (code) {
+        case 400:
+          throw BadResponseException(buildErrorModel(overrideStatus: 400));
+        case 401:
+          throw UnauthorizedException(buildErrorModel(overrideStatus: 401));
+        case 403:
+          throw ForbiddenException(buildErrorModel(overrideStatus: 403));
+        case 404:
+          throw NotFoundException(buildErrorModel(overrideStatus: 404));
+        case 409:
+          throw CofficientException(buildErrorModel(overrideStatus: 409));
+        case 504:
           throw BadResponseException(
-            ErrorModel(status: 504, errorMessage: e.response!.data),
+            ErrorModel(status: 504, errorMessage: 'Gateway Timeout'),
           );
+        default:
+          throw BadResponseException(buildErrorModel());
       }
-
     case DioExceptionType.cancel:
       throw CancelException(
-        ErrorModel(errorMessage: e.toString(), status: 500),
+        ErrorModel(errorMessage: e.toString(), status: 499),
       );
-
     case DioExceptionType.unknown:
-      throw UnknownException(
-        ErrorModel(errorMessage: e.toString(), status: 500),
-      );
+      throw UnknownException(buildErrorModel());
   }
 }
