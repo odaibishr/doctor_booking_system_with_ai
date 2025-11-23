@@ -5,7 +5,12 @@ import '../models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> signIn(String email, String password);
-  Future<UserModel> signUp(String name, String email, String password);
+  Future<UserModel> signUp(
+    String name,
+    String email,
+    String password,
+    String passwordConfirmation,
+  );
   Future<void> logout(String token);
 }
 
@@ -36,10 +41,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> signUp(String name, String email, String password) async {
+  Future<UserModel> signUp(
+    String name,
+    String email,
+    String password,
+    String passwordConfirmation,
+  ) async {
     final response = await dioConsumer.post(
       'register',
-      data: {'name': name, 'email': email, 'password': password},
+      data: {
+        'name': name,
+        'email': email,
+        'password': password,
+        'password_confirmation': passwordConfirmation,
+      },
     );
 
     log("Full response: $response");

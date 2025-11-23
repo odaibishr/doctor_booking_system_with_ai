@@ -11,7 +11,12 @@ class SignUpUsecase extends Usecase<User, SignUpParams> {
 
   @override
   Future<Either<Failure, User>> call([SignUpParams? params]) async {
-    return await authRepo.signUp(params!.name, params.email, params.password);
+    return await authRepo.signUp(
+      params!.name,
+      params.email,
+      params.password,
+      params.passwordConfirmation,
+    );
   }
 }
 
@@ -19,10 +24,12 @@ class SignUpParams {
   final String name;
   final String email;
   final String password;
+  final String passwordConfirmation;
 
   SignUpParams({
     required this.name,
     required this.email,
     required this.password,
+    required this.passwordConfirmation,
   });
 }

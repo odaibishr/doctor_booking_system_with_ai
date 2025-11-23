@@ -29,7 +29,6 @@ class AuthCubit extends Cubit<AuthState> {
         user,
       ) async {
         if (user.token.isNotEmpty) {
-          
           await HiveService.cacheAuthData(user);
           emit(AuthSuccess(user: user));
         }
@@ -53,11 +52,21 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> signUp(String name, String email, String password) async {
+  Future<void> signUp({
+    required String name,
+    required String email,
+    required String password,
+    required String passwordConfirmation,
+  }) async {
     emit(AuthLoading());
     try {
       final result = await signUpUsecase(
-        SignUpParams(name: name, email: email, password: password),
+        SignUpParams(
+          name: name,
+          email: email,
+          password: password,
+          passwordConfirmation: passwordConfirmation,
+        ),
       );
 
       result.fold((failure) => emit(AuthError(message: failure.errorMessage)), (

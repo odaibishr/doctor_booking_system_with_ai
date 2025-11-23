@@ -45,9 +45,17 @@ class AuthRepoImpl implements AuthRepo {
     String name,
     String email,
     String password,
+    String passwordConfirmation,
   ) async {
     try {
-      final result = await authRemoteDataSource.signUp(name, email, password);
+      log("Attempting to sign up with email: $email");
+      final result = await authRemoteDataSource.signUp(
+        name,
+        email,
+        password,
+        passwordConfirmation,
+      );
+      log("Sign up result: ${result.email}");
       await authLocalDataSource.cacheAuthData(result);
       return Right(result);
     } catch (e) {
