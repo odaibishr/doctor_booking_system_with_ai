@@ -15,7 +15,7 @@ class CreateProfileUseCase extends Usecase<Profile, CreateProfileParams> {
       birthDate: params.birthDate,
       gender: params.gender,
       locationId: params.locationId,
-    );
+    );  
   }
 }
 
