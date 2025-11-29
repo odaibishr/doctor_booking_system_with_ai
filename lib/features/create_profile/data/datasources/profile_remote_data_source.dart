@@ -15,13 +15,15 @@ abstract class ProfileRemoteDataSource {
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   final DioConsumer dioConsumer;
+
+  ProfileRemoteDataSourceImpl(this.dioConsumer);
   @override
   Future<Profile> createProfile({
     required String phone,
     required String birthDate,
     required String gender,
     required int locationId,
-  }) async{
+  }) async {
     final response = await dioConsumer.post(
       'profile',
       data: {
@@ -29,11 +31,11 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
         'birth_date': birthDate,
         'gender': gender,
         'location_id': locationId,
-      }
+      },
     );
 
     log("Create Profile response: $response");
 
-    return ProfileModel.fromJson(response);    
+    return ProfileModel.fromJson(response);
   }
 }
