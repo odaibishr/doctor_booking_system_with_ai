@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
@@ -25,6 +27,7 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
   String? selectedGender;
+  File? selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +81,9 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
                             'لاتقلق انت الوحيد الذي يمكنة رؤية معلوماتك الشخصية',
                       ),
                       SizedBox(height: 35),
-                      ProfileImage(), //Profile image
+                      ProfileImage(
+                        onImageSelected: (image) => selectedImage = image,
+                      ), //Profile image
                       // MainInputField(
                       //   //User Name textfield
                       //   hintText: 'اسم المستخدم ',
@@ -131,6 +136,7 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
                               birthDate: birthDateController.text,
                               gender: selectedGender!,
                               locationId: 1,
+                              imageFile: selectedImage,
                             );
                           }
                         },

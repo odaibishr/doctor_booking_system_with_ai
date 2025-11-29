@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/domain/usecases/create_profile_use_case.dart';
 import 'package:meta/meta.dart';
@@ -14,6 +16,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     required String birthDate,
     required String gender,
     required int locationId,
+    File? imageFile,
   }) async {
     emit(ProfileLoading());
     try {
@@ -23,6 +26,7 @@ class ProfileCubit extends Cubit<ProfileState> {
           birthDate: birthDate,
           gender: gender,
           locationId: locationId,
+          imageFile: imageFile,
         ),
       );
 

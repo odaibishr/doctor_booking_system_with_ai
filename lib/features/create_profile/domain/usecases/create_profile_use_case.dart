@@ -1,4 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/core/usecases/usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/domain/entities/profile.dart';
@@ -15,7 +19,8 @@ class CreateProfileUseCase extends Usecase<Profile, CreateProfileParams> {
       birthDate: params.birthDate,
       gender: params.gender,
       locationId: params.locationId,
-    );  
+      imageFile: params.imageFile,
+    );
   }
 }
 
@@ -24,11 +29,13 @@ class CreateProfileParams {
   final String birthDate;
   final String gender;
   final int locationId;
+  final File? imageFile;
 
   CreateProfileParams({
     required this.phone,
     required this.birthDate,
     required this.gender,
     required this.locationId,
+    this.imageFile,
   });
 }
