@@ -46,7 +46,6 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: BlocConsumer<ProfileCubit, ProfileState>(
               listener: (context, state) {
-                // TODO: implement listener
                 if (state is ProfileFailure) {
                   ScaffoldMessenger.of(
                     context,
@@ -84,14 +83,6 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
                       ProfileImage(
                         onImageSelected: (image) => selectedImage = image,
                       ), //Profile image
-                      // MainInputField(
-                      //   //User Name textfield
-                      //   hintText: 'اسم المستخدم ',
-                      //   leftIconPath: 'assets/icons/user.svg',
-                      //   rightIconPath: 'assets/icons/user.svg',
-                      //   isShowRightIcon: true,
-                      //   isShowLeftIcon: false,
-                      // ),
                       SizedBox(height: 15),
                       MainInputField(
                         hintText: 'رقم المستخدم',
@@ -106,7 +97,6 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
                       DateTextField(
                         //date textfield
                         onchanged: (DateTime? date) {
-                          //TODO here the date returnd value
                           birthDateController.text = date.toString();
                         },
                       ),
@@ -115,7 +105,6 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
                         //Gender textfield
                         onchanged: (value) {
                           //Gender textfield
-                          //TODO here the Gender return value
                           if (value == 'ذكر') {
                             selectedGender = 'male';
                           } else {
