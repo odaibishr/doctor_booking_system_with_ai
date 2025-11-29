@@ -1,5 +1,10 @@
 // core/service_locator.dart
 import 'package:dio/dio.dart';
+import 'package:doctor_booking_system_with_ai/features/create_profile/data/datasources/profile_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/features/create_profile/data/repos/profile_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/create_profile/domain/repos/profile_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/create_profile/domain/usecases/create_profile_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/create_profile/presention/manager/profile_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
 import 'package:doctor_booking_system_with_ai/core/storage/hive_service.dart';
@@ -32,12 +37,20 @@ Future<void> init() async {
     () => AuthRemoteDataSourceImpl(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<ProfileRemoteDataSource>(
+    () => ProfileRemoteDataSourceImpl(serviceLocator()),
+  );
+
   // Repository
   serviceLocator.registerLazySingleton<AuthRepo>(
     () => AuthRepoImpl(
       authRemoteDataSource: serviceLocator(),
       authLocalDataSource: serviceLocator(),
     ),
+  );
+
+  serviceLocator.registerLazySingleton<ProfileRepo>(
+    () => ProfileRepoImpl(serviceLocator<ProfileRemoteDataSource>()),
   );
 
   // Use Cases
@@ -51,6 +64,10 @@ Future<void> init() async {
     () => CheckAuthSatusUsecase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<CreateProfileUseCase>(
+    () => CreateProfileUseCase(serviceLocator()),
+  );
+
   // Cubit
   serviceLocator.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
@@ -58,5 +75,9 @@ Future<void> init() async {
       signUpUsecase: serviceLocator(),
       checkAuthSatusUsecase: serviceLocator(),
     ),
+  );
+
+  serviceLocator.registerLazySingleton<ProfileCubit>(
+    () => ProfileCubit(serviceLocator()),
   );
 }

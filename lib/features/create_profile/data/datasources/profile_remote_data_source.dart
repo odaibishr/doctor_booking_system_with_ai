@@ -25,7 +25,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     required int locationId,
   }) async {
     final response = await dioConsumer.post(
-      'profile',
+      'patients',
       data: {
         'phone': phone,
         'birth_date': birthDate,
