@@ -42,7 +42,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                 if (state is AuthSuccess) {
                   GoRouter.of(
                     context,
-                  ).pushReplacement(AppRouter.appNavigationRoute);
+                  ).pushReplacement(AppRouter.createprofileViewRout);
                 } else if (state is AuthError) {
                   ScaffoldMessenger.of(
                     context,
