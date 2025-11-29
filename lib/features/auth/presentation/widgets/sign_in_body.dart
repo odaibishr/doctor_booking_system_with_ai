@@ -1,6 +1,8 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/password_input_feild.dart';
@@ -49,13 +51,7 @@ class _SignInBodyState extends State<SignInBody> {
               },
               builder: (context, state) {
                 if (state is AuthLoading) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Center(child: CircularProgressIndicator()),
-                    ],
-                  );
+                  return const CustomLoader(loaderSize: kLoaderSize);
                 }
                 return Form(
                   key: _formKey,
@@ -80,7 +76,7 @@ class _SignInBodyState extends State<SignInBody> {
                       SubTitle(
                         text:
                             'سجّل دخولك الآن للوصول إلى مواعيدك الطبية وإدارة حجوزاتك بكل سهولة وأمان.',
-                      ), 
+                      ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.03,
                       ),
@@ -102,7 +98,7 @@ class _SignInBodyState extends State<SignInBody> {
                         controller: passwordController,
                       ),
                       const SizedBox(height: 17),
-                      
+
                       ForgetPasswordButton(
                         text: 'نسيت كلمة المرور؟',
                         ontap: () {
@@ -122,14 +118,13 @@ class _SignInBodyState extends State<SignInBody> {
                             );
                           }
                         },
-                      ), 
+                      ),
                       const SizedBox(height: 23.5),
-                      DividerCustom(), 
+                      DividerCustom(),
                       const SizedBox(height: 18.5),
                       GoogleButton(onPressed: () {}),
                       const SizedBox(height: 23.5),
                       Row(
-                        
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const double kLoaderSize = 50;
+
 void drawNotchDetails(Canvas canvas, double width, double height) {
   final centerX = width / 2;
 

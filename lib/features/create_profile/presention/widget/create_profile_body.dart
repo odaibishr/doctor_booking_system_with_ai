@@ -1,8 +1,9 @@
 import 'dart:io';
-
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
@@ -63,6 +64,9 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
                 }
               },
               builder: (context, state) {
+                if (state is ProfileLoading) {
+                  return const CustomLoader(loaderSize: kLoaderSize);
+                }
                 return Form(
                   key: _formKey,
                   child: Column(

@@ -1,4 +1,6 @@
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/google_auth_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
@@ -51,13 +53,7 @@ class _SignUpBodyState extends State<SignUpBody> {
               },
               builder: (context, state) {
                 if (state is AuthLoading) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Center(child: CircularProgressIndicator()),
-                    ],
-                  );
+                  return const CustomLoader(loaderSize: kLoaderSize);
                 }
                 return Form(
                   key: _formKey,
