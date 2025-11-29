@@ -9,10 +9,13 @@ class CustomLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: LoadingAnimationWidget.staggeredDotsWave(
-        color: AppColors.primary,
-        size: loaderSize,
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: Center(
+        child: LoadingAnimationWidget.staggeredDotsWave(
+          color: AppColors.primary,
+          size: loaderSize,
+        ),
       ),
     );
   }
