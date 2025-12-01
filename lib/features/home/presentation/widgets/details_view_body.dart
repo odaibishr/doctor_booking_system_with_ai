@@ -58,12 +58,14 @@ class DetailsViewBody extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  'دكتور متخصص حاصل على الدكتوراه والبورد الأردني في تخصصه، بعد تدريب مكثف في العراق والأردن. تخرج في الطب العام من روسيا، وتمتع بخبرة عملية في مستشفى الثورة بتعز، والمستشفى الألماني بتعز، بالإضافة إلى عمله في المملكة العربية السعودية.',
+                  doctor.aboutus,
                   style: FontStyles.body2.copyWith(color: AppColors.gray500),
                 ),
                 // End Doctor Description
                 const SizedBox(height: 16),
-                DoctorServicesSection(),
+                DoctorServicesSection(
+                  doctorServices: doctor.services.split('.'),
+                ),
                 const SizedBox(height: 3),
                 SectionHeader(title: 'المراجعات', onTap: () {}),
                 const SizedBox(height: 2),
