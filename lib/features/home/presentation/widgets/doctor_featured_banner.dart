@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -75,11 +76,13 @@ class DoctorFeaturedBanner extends StatelessWidget {
               ),
             ),
             // Image
-            Image.network(
-              '${EndPoints.photoUrl}${doctor.profileImage}',
+            CachedNetworkImage(
+              imageUrl: '${EndPoints.photoUrl}/${doctor.profileImage}',
               width: 100,
               height: double.infinity,
               fit: BoxFit.fill,
+              errorWidget: (context, url, error) =>
+                  const Icon(Icons.error, color: Colors.red),
             ),
           ],
         ),

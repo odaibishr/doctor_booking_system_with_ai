@@ -64,7 +64,9 @@ class DetailsViewBody extends StatelessWidget {
                 // End Doctor Description
                 const SizedBox(height: 16),
                 DoctorServicesSection(
-                  doctorServices: doctor.services.split('.'),
+                  doctorServices: doctor.services
+                      .replaceAll('\n', "")
+                      .split('.'),
                 ),
                 const SizedBox(height: 3),
                 SectionHeader(title: 'المراجعات', onTap: () {}),

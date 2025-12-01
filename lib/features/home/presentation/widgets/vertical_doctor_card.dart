@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
@@ -14,7 +15,7 @@ class VerticalDoctorCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).push(AppRouter.detailsViewRoute);
+        GoRouter.of(context).push(AppRouter.detailsViewRoute, extra: topDoctor);
       },
       child: Container(
         width: 205,
@@ -34,9 +35,10 @@ class VerticalDoctorCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(6),
                 color: AppColors.gray400,
               ),
-              child: Image.network(
-                '${EndPoints.photoUrl}/${topDoctor.profileImage}',
+              child: CachedNetworkImage(
+                imageUrl: '${EndPoints.photoUrl}/${topDoctor.profileImage}',
                 fit: BoxFit.contain,
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
 
