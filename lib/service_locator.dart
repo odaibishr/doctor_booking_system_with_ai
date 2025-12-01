@@ -5,6 +5,11 @@ import 'package:doctor_booking_system_with_ai/features/create_profile/data/repos
 import 'package:doctor_booking_system_with_ai/features/create_profile/domain/repos/profile_repo.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/domain/usecases/create_profile_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presention/manager/profile_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/home/data/datasources/doctor_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/features/home/data/repos/doctor_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/home/domain/repos/doctor_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/home/domain/usecases/get_doctors_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
 import 'package:doctor_booking_system_with_ai/core/storage/hive_service.dart';
@@ -41,6 +46,10 @@ Future<void> init() async {
     () => ProfileRemoteDataSourceImpl(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<DoctorRemoteDataSource>(
+    () => DoctorRemoteDataSourceImpl(serviceLocator()),
+  );
+
   // Repository
   serviceLocator.registerLazySingleton<AuthRepo>(
     () => AuthRepoImpl(
@@ -51,6 +60,10 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<ProfileRepo>(
     () => ProfileRepoImpl(serviceLocator<ProfileRemoteDataSource>()),
+  );
+
+  serviceLocator.registerLazySingleton<DoctorRepo>(
+    () => DoctorRepoImpl(serviceLocator<DoctorRemoteDataSource>()),
   );
 
   // Use Cases
@@ -68,6 +81,10 @@ Future<void> init() async {
     () => CreateProfileUseCase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<GetDoctorsUseCase>(
+    () => GetDoctorsUseCase(serviceLocator()),
+  );
+
   // Cubit
   serviceLocator.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
@@ -79,5 +96,9 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<ProfileCubit>(
     () => ProfileCubit(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<DoctorCubit>(
+    () => DoctorCubit(serviceLocator<GetDoctorsUseCase>()),
   );
 }
