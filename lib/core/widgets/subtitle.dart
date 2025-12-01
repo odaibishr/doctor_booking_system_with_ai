@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 
 class SubTitle extends StatelessWidget {
   final String text;
-  const SubTitle({
-    super.key, required this.text,
-  });
+  const SubTitle({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +12,7 @@ class SubTitle extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Text(
         text,
-        style: FontStyles.subTitle2.copyWith(
-          color: AppColors.gray400,
-          
-        ),
+        style: FontStyles.subTitle2.copyWith(color: AppColors.gray400),
         textAlign: TextAlign.center,
       ),
     );

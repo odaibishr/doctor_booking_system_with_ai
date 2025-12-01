@@ -1,14 +1,11 @@
-
 import 'package:date_field/date_field.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 
 class DateTextField extends StatefulWidget {
-  final  Function(DateTime? date)onchanged;
-  const DateTextField({
-    super.key, required this.onchanged,
-  });
+  final Function(DateTime? date) onchanged;
+  const DateTextField({super.key, required this.onchanged});
 
   @override
   State<DateTextField> createState() => _DateTextFieldState();
@@ -36,17 +33,13 @@ class _DateTextFieldState extends State<DateTextField> {
             width: 18,
             height: 18,
             fit: BoxFit.scaleDown,
-            colorFilter: ColorFilter.mode(
-              AppColors.primary,
-              BlendMode.srcIn,
-            ),
+            colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),
           ),
         ),
-        
       ),
       mode: DateTimeFieldPickerMode.date, // لاختيار تاريخ فقط
       autovalidateMode: AutovalidateMode.always,
-       onChanged: widget.onchanged,//TODO this the onChanged Function
+      onChanged: widget.onchanged, //TODO this the onChanged Function
     );
   }
 }

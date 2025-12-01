@@ -19,19 +19,19 @@ class BottomSheet_model extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.only(left: 20,right: 20,bottom: 20,top: 10),
+      padding: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 10),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-           Container(
-              width: 60,
-              height: 6,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(2),
-              ),
+          Container(
+            width: 60,
+            height: 6,
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(2),
             ),
-            SizedBox(height: 10),
+          ),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -52,7 +52,7 @@ class BottomSheet_model extends StatelessWidget {
                 icons: 'assets/icons/gallery.svg',
                 title: 'معرض الصور',
                 ontap: () async {
-                   Navigator.pop(context);
+                  Navigator.pop(context);
                   final XFile? image = await _picker.pickImage(
                     source: ImageSource.gallery,
                   );

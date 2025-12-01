@@ -23,7 +23,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
         Expanded(
           child: ChatInputField(
             controller: _controller,
-            scrollController: _scrollController, 
+            scrollController: _scrollController,
             onSend: widget.onSend,
           ),
         ),

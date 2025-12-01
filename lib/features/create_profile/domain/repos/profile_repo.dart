@@ -12,4 +12,6 @@ abstract class ProfileRepo {
     required int locationId,
     required File? imageFile,
   });
+
+  // Future<Either<Failure, Profile>> getPatientProfile();
 }

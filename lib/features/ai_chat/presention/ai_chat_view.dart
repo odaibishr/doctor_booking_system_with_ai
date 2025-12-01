@@ -6,6 +6,6 @@ class AiChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(child:AiChatBody() ),);
+    return Scaffold(body: SafeArea(child: AiChatBody()));
   }
-} 
+}

@@ -13,7 +13,7 @@ class ChatInputField extends StatefulWidget {
   const ChatInputField({
     super.key,
     required this.controller,
-    required this.scrollController, 
+    required this.scrollController,
     required this.onSend,
   });
 
@@ -34,7 +34,12 @@ class _ChatInputFieldState extends State<ChatInputField> {
       ),
       child: Stack(
         children: [
-          Positioned(left: 15, top: 0, bottom: 0, child: UploadButton(onSend: widget.onSend)),
+          Positioned(
+            left: 15,
+            top: 0,
+            bottom: 0,
+            child: UploadButton(onSend: widget.onSend),
+          ),
           Positioned(
             left: 60,
             right: 10,

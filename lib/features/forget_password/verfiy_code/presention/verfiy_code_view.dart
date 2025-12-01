@@ -6,6 +6,6 @@ class VerfiyCodeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(child: VerfiyCodeBody()),);
+    return Scaffold(body: SafeArea(child: VerfiyCodeBody()));
   }
 }

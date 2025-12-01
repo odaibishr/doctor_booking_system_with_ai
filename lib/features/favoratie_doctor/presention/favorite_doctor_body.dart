@@ -10,14 +10,13 @@ class FavoriteDoctorBody extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
-       
         children: [
           CustomAppBar(
             title: 'المفضلة',
             isBackButtonVisible: true,
             isUserImageVisible: false,
           ),
-          SizedBox(height: 30,),
+          SizedBox(height: 30),
           Expanded(child: SearchDoctorListView()),
         ],
       ),

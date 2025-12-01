@@ -28,11 +28,11 @@ class MainInputField extends StatelessWidget {
   final bool? readonly;
   final VoidCallback? icon_onTap;
   final TextEditingController? controller;
-  
+
   @override
   Widget build(BuildContext context) {
-    return  TextFormField(
-      readOnly: readonly??false,
+    return TextFormField(
+      readOnly: readonly ?? false,
       keyboardType: (isNumber == true)
           ? TextInputType.numberWithOptions()
           : TextInputType.text,
@@ -65,9 +65,9 @@ class MainInputField extends StatelessWidget {
             : null,
         suffixIcon: isShowLeftIcon
             ? GestureDetector(
-              onTap: icon_onTap,
-              
-              child: Padding(
+                onTap: icon_onTap,
+
+                child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: SvgPicture.asset(
                     rightIconPath,
@@ -80,7 +80,7 @@ class MainInputField extends StatelessWidget {
                     ),
                   ),
                 ),
-            )
+              )
             : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

@@ -41,10 +41,7 @@ class HospitalHeaderSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6),
-        LocationInfo(
-          location: hospitalLocation,
-          color: AppColors.gray500,
-        ),
+        LocationInfo(location: hospitalLocation, color: AppColors.gray500),
       ],
     );
   }

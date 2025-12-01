@@ -35,20 +35,21 @@ class _PaymentViewState extends State<PaymentView> {
             ),
             if (complete_payment == true)
               Positioned.fill(
-                top: MediaQuery.of(context).size.height*0.49,
+                top: MediaQuery.of(context).size.height * 0.49,
                 left: 8.0,
                 right: 8.0,
                 bottom: 10.0,
-               child:  BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                child: PaymentBottomSheet(),
-              )),
-              if (complete_payment == true)
-            Positioned(
-              right: 145,
-              bottom: 370,
-              child: SvgPicture.asset('assets/images/sucess.svg',),
-            ),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                  child: PaymentBottomSheet(),
+                ),
+              ),
+            if (complete_payment == true)
+              Positioned(
+                right: 145,
+                bottom: 370,
+                child: SvgPicture.asset('assets/images/sucess.svg'),
+              ),
           ],
         ),
       ),

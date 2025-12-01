@@ -15,7 +15,7 @@ class AiChatBody extends StatefulWidget {
 
 class _AiChatBodyState extends State<AiChatBody> {
   final ScrollController _scrollController = ScrollController();
-    void _scrollToBottom() {
+  void _scrollToBottom() {
     // ننتظر قليلاً حتى يتم بناء الرسالة الجديدة في الشاشة
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
@@ -45,17 +45,19 @@ class _AiChatBodyState extends State<AiChatBody> {
         _messages.add({'type': 'image', 'isUser': true, 'content': image});
         _scrollToBottom();
       }
-         _messages.add({'type': 'text', 'isUser': false, 'content':' هلا انا مساعدك الذكي استخدمني في اي وقت تحتاج والان كيف يمكنني خدمتك'});
-         
-       _scrollToBottom();
-      
+      _messages.add({
+        'type': 'text',
+        'isUser': false,
+        'content':
+            ' هلا انا مساعدك الذكي استخدمني في اي وقت تحتاج والان كيف يمكنني خدمتك',
+      });
 
+      _scrollToBottom();
     });
-     
+
     // هنا سترسل إلى API الخاص بك مثلاً:
     // sendToApi(text: text, image: image);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +70,12 @@ class _AiChatBodyState extends State<AiChatBody> {
             isBackButtonVisible: true,
             isUserImageVisible: false,
           ),
-          Expanded(child: ChatMessageBuilder(messages: _messages,controller: _scrollController)),
+          Expanded(
+            child: ChatMessageBuilder(
+              messages: _messages,
+              controller: _scrollController,
+            ),
+          ),
           Container(child: ChatTextField(onSend: _addtoMessageList)),
         ],
       ),

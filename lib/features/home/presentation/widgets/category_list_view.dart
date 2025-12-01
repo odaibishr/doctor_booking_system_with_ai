@@ -9,27 +9,12 @@ class CategoryListView extends StatefulWidget {
 }
 
 class _CategoryListViewState extends State<CategoryListView> {
-   List<Map<String, String>> categories = [
-    {
-      'title': 'مخ واعصاب',
-      'icon': 'assets/icons/brain.svg',
-    },
-    {
-      'title': 'القلب',
-      'icon': 'assets/icons/Cardiolo.svg',
-    },
-    {
-      'title': 'الباطنة',
-      'icon': 'assets/icons/Gastroen.svg',
-    },
-    {
-      'title': 'الاسنان',
-      'icon': 'assets/icons/dentist.svg',
-    },
-    {
-      'title': 'اللقاح',
-      'icon': 'assets/icons/Vaccinat.svg',
-    },
+  List<Map<String, String>> categories = [
+    {'title': 'مخ واعصاب', 'icon': 'assets/icons/brain.svg'},
+    {'title': 'القلب', 'icon': 'assets/icons/Cardiolo.svg'},
+    {'title': 'الباطنة', 'icon': 'assets/icons/Gastroen.svg'},
+    {'title': 'الاسنان', 'icon': 'assets/icons/dentist.svg'},
+    {'title': 'اللقاح', 'icon': 'assets/icons/Vaccinat.svg'},
   ];
 
   @override

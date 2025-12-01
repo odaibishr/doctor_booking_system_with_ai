@@ -40,7 +40,7 @@ class _GenderTextFieldState extends State<GenderTextField> {
           )
           .toList(),
       value: selectedGender,
-      onChanged: widget.onchanged,//TODO this the onChanged Function
+      onChanged: widget.onchanged, //TODO this the onChanged Function
       iconStyleData: const IconStyleData(
         icon: Icon(Icons.arrow_drop_down, color: AppColors.primary),
       ),

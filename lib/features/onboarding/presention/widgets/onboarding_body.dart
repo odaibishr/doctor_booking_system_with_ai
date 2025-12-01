@@ -83,9 +83,7 @@ class _OnBoardingBodyState extends State<OnBoardingBody> {
               if (currentIndex < texts.length - 1) {
                 _carouselController.nextPage();
               } else {
-                GoRouter.of(
-                  context,
-                ).pushReplacement(AppRouter.signInViewRoute);
+                GoRouter.of(context).pushReplacement(AppRouter.signInViewRoute);
               }
             },
           ),

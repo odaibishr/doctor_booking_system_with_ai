@@ -48,5 +48,3 @@ class _UploadButtonState extends State<UploadButton> {
     );
   }
 }
-
-

@@ -8,28 +8,33 @@ class BottomSheetItems extends StatelessWidget {
   final String icons;
   final String title;
   const BottomSheetItems({
-    super.key, required this.icons, required this.title, required this.ontap,
+    super.key,
+    required this.icons,
+    required this.title,
+    required this.ontap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap:ontap ,
+      onTap: ontap,
       child: Container(
         height: 100,
         width: 110,
         decoration: BoxDecoration(
           color: AppColors.primary,
-          borderRadius: BorderRadius.all(Radius.circular(20))
+          borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 2,vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 20),
           child: Column(
             children: [
               SvgPicture.asset(icons),
-              SizedBox(height: 15,),
-              Text(title,style: FontStyles.subTitle3.copyWith(color: AppColors.gray100))
-                            
+              SizedBox(height: 15),
+              Text(
+                title,
+                style: FontStyles.subTitle3.copyWith(color: AppColors.gray100),
+              ),
             ],
           ),
         ),

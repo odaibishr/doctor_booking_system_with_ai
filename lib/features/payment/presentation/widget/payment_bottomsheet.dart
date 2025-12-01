@@ -11,7 +11,7 @@ class PaymentBottomSheet extends StatelessWidget {
       curve: Curves.easeInOutBack,
       height: 400,
       width: double.infinity,
-      padding: EdgeInsets.only(top: 45,left: 20,right: 20),
+      padding: EdgeInsets.only(top: 45, left: 20, right: 20),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 255, 255, 255),
         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -23,8 +23,8 @@ class PaymentBottomSheet extends StatelessWidget {
             offset: const Offset(0, 8),
           ),
         ],
-      ),child: BottomSheetDeteals(),
+      ),
+      child: BottomSheetDeteals(),
     );
   }
 }
-

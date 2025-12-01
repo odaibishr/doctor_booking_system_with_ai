@@ -91,7 +91,6 @@ class _AnimatedOtpInputState extends State<AnimatedOtpInput> {
           ),
           alignment: Alignment.center,
           child: TextField(
-            
             controller: _controllers[i],
             focusNode: _focusNodes[i],
             keyboardType: TextInputType.number,

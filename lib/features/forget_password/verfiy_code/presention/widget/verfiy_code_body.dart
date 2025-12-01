@@ -19,10 +19,9 @@ class VerfiyCodeBody extends StatefulWidget {
 }
 
 class _VerfiyCodeBodyState extends State<VerfiyCodeBody> {
-   String otpCode = ''; //TODO this var have the value od digits
+  String otpCode = ''; //TODO this var have the value od digits
   @override
   Widget build(BuildContext context) {
-   
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -37,53 +36,62 @@ class _VerfiyCodeBodyState extends State<VerfiyCodeBody> {
             padding: const EdgeInsets.symmetric(horizontal: 17),
             child: Column(
               children: [
-                SizedBox(height:MediaQuery.of(context).size.height*0.09),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.09),
                 Logo(),
-                MainTitle(title:'التأكد من رمز التحقق'),
-                SizedBox(height:MediaQuery.of(context).size.height*0.04),
-                SubTitle(text:'أدخل الرمز الذي أرسلناه لك للتو على بريدك الإلكتروني المسجل'),
-                SizedBox(height:MediaQuery.of(context).size.height*0.02),
+                MainTitle(title: 'التأكد من رمز التحقق'),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                SubTitle(
+                  text:
+                      'أدخل الرمز الذي أرسلناه لك للتو على بريدك الإلكتروني المسجل',
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Directionality(
                   textDirection: TextDirection.ltr,
                   child: AnimatedOtpInput(
                     length: 5, // عدد الخانات
                     onCompleted: (value) {
                       setState(() {
-                        otpCode = value;//TODO this var have the value od digits
+                        otpCode =
+                            value; //TODO this var have the value od digits
                       });
                     },
                   ),
                 ),
-                SizedBox(height:MediaQuery.of(context).size.height*0.03),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 MainButton(
                   text: 'تأكيد',
                   onTap: () {
                     if (otpCode.length == 5) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('تم إدخال الرمز')),
-                      );
-                    GoRouter.of(context).push(AppRouter.createnewpasswordViewRoute);
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text('تم إدخال الرمز')));
+                      GoRouter.of(
+                        context,
+                      ).push(AppRouter.createnewpasswordViewRoute);
                     }
                   },
                 ),
-                SizedBox(height:MediaQuery.of(context).size.height*0.05),
-                 Row(
-                    //Text for create account
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'لم تحصل على الرمز ؟  ',
-                        style: FontStyles.body1.copyWith(
-                          color: AppColors.gray500,
-                        ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                Row(
+                  //Text for create account
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'لم تحصل على الرمز ؟  ',
+                      style: FontStyles.body1.copyWith(
+                        color: AppColors.gray500,
                       ),
-                      ForgetPasswordButton(text: 'إعادة الإرسال ', ontap: () {
-                         ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('اعادة ارسال الرمز')));
-                      }),
-                    ],
-                  ),
-
+                    ),
+                    ForgetPasswordButton(
+                      text: 'إعادة الإرسال ',
+                      ontap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('اعادة ارسال الرمز')),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

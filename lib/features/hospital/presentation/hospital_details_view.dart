@@ -6,10 +6,6 @@ class HospitalDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-        child: HospitalDetailsViewBody(),
-      ),
-    );
+    return const Scaffold(body: SafeArea(child: HospitalDetailsViewBody()));
   }
 }

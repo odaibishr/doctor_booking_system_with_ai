@@ -6,7 +6,12 @@ import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 
 class CategoryCard extends StatelessWidget {
-  const CategoryCard({super.key, required this.title, required this.icon, required this.color});
+  const CategoryCard({
+    super.key,
+    required this.title,
+    required this.icon,
+    required this.color,
+  });
   final bool color;
   final String title;
   final String icon;
@@ -17,24 +22,24 @@ class CategoryCard extends StatelessWidget {
       width: 85,
       height: 85,
       decoration: BoxDecoration(
-        
         boxShadow: [
-          color?
-            BoxShadow(
-              color: const Color.fromARGB(69, 1, 1, 1),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: const Offset(3, 3),
-            ):BoxShadow(),
-          ],
-        color: color?AppColors.white:AppColors.gray200,
+          color
+              ? BoxShadow(
+                  color: const Color.fromARGB(69, 1, 1, 1),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: const Offset(3, 3),
+                )
+              : BoxShadow(),
+        ],
+        color: color ? AppColors.white : AppColors.gray200,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-         SvgPicture.asset(icon),
+          SvgPicture.asset(icon),
           const SizedBox(height: 8),
           Text(
             title,

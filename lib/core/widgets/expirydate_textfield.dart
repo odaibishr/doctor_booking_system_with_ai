@@ -25,7 +25,7 @@ class _ExpiryDateFieldState extends State<ExpiryDateField> {
         counterText: '',
 
         hintText: 'MM/YY',
-       border: OutlineInputBorder(
+        border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: AppColors.primary),
         ),

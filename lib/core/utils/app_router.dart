@@ -41,8 +41,8 @@ class AppRouter {
   static const String aichatViewRoute = '/aichatView';
   static const String categoryViewRoute = '/categoryView';
   static const String paymentViewRoute = '/paymentView';
-  static const String favoritedoctorViewRoute='/favoritedoctorView';
-  static const String addcardViewRoute='/addcardView';
+  static const String favoritedoctorViewRoute = '/favoritedoctorView';
+  static const String addcardViewRoute = '/addcardView';
 
   static GoRouter router = GoRouter(
     routes: [
@@ -119,11 +119,13 @@ class AppRouter {
         path: paymentViewRoute,
         builder: (context, state) => const PaymentView(),
       ),
-      GoRoute(path: favoritedoctorViewRoute,
-      builder: (context, state) => const FavoratieDoctorView()
+      GoRoute(
+        path: favoritedoctorViewRoute,
+        builder: (context, state) => const FavoratieDoctorView(),
       ),
-      GoRoute(path: addcardViewRoute,
-      builder: (context, state) => const AddCardView()
+      GoRoute(
+        path: addcardViewRoute,
+        builder: (context, state) => const AddCardView(),
       ),
     ],
     initialLocation: splashRoute,

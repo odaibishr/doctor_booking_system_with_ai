@@ -29,7 +29,10 @@ class CreateNewPasswordBody extends StatelessWidget {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   MainTitle(title: 'إنشاء كلمة مرور جديدة'),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                  SubTitle(text: 'يجب أن تكون كلمة المرور الجديدة مختلفة كلمة المرور المستخدمة مسبقًا.',),
+                  SubTitle(
+                    text:
+                        'يجب أن تكون كلمة المرور الجديدة مختلفة كلمة المرور المستخدمة مسبقًا.',
+                  ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   PasswordField(
                     hintText: 'كلمة المرور',

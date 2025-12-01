@@ -9,7 +9,6 @@ class DoctorStatsSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-
         StatesItem(
           icon: 'assets/icons/people.svg',
           text: 'مريض',

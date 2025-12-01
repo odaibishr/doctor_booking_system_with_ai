@@ -16,11 +16,12 @@ class AddCardBody extends StatefulWidget {
   State<AddCardBody> createState() => _AddCardBodyState();
 }
 
-class _AddCardBodyState extends State<AddCardBody>  with SingleTickerProviderStateMixin{
-   late AnimationController _controller;
+class _AddCardBodyState extends State<AddCardBody>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _fadeAnimation;
-    @override
+  @override
   void initState() {
     super.initState();
 
@@ -31,26 +32,27 @@ class _AddCardBodyState extends State<AddCardBody>  with SingleTickerProviderSta
     );
 
     // 2️⃣ تحديد مسار الحركة (من أسفل إلى منتصف الصفحة)
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 1), // يبدأ من خارج الشاشة (أسفل)
-      end: Offset.zero,          // ينتهي في مكانه الطبيعي (المنتصف)
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutBack, // حركة ناعمة للخارج
-    ));
+    _slideAnimation =
+        Tween<Offset>(
+          begin: const Offset(0, 1), // يبدأ من خارج الشاشة (أسفل)
+          end: Offset.zero, // ينتهي في مكانه الطبيعي (المنتصف)
+        ).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: Curves.easeOutBack, // حركة ناعمة للخارج
+          ),
+        );
 
     // 3️⃣ أنيميشن التلاشي التدريجي (شفافية)
     _fadeAnimation = Tween<double>(
       begin: 0,
       end: 1,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeIn,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
     // 4️⃣ بدء الأنيميشن فور الدخول للصفحة
     _controller.forward();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -64,7 +66,7 @@ class _AddCardBodyState extends State<AddCardBody>  with SingleTickerProviderSta
               isBackButtonVisible: true,
               isUserImageVisible: false,
             ),
-            SizedBox(height:MediaQuery.of(context).size.height*0.06),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.06),
             Text(
               'اسم حامل البطاقة',
               style: FontStyles.subTitle3.copyWith(fontWeight: FontWeight.bold),
@@ -76,8 +78,8 @@ class _AddCardBodyState extends State<AddCardBody>  with SingleTickerProviderSta
               isShowRightIcon: false,
               isShowLeftIcon: false,
             ),
-            SizedBox(height: 20,),
-             Text(
+            SizedBox(height: 20),
+            Text(
               'رقم البطاقة',
               style: FontStyles.subTitle3.copyWith(fontWeight: FontWeight.bold),
             ),
@@ -88,47 +90,80 @@ class _AddCardBodyState extends State<AddCardBody>  with SingleTickerProviderSta
               isShowRightIcon: false,
               isShowLeftIcon: false,
             ),
-            SizedBox(height: 20,),
-            Row(children: [
-              Column(crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('تاريخ الإنتهاء',style: FontStyles.subTitle3.copyWith(fontWeight: FontWeight.bold),),
-                  Container(width: 150,
-                    child: ExpiryDateField(onChanged:(String month, String year){
-                      //TODO
-                    }))
-                ],
-              ),
-              SizedBox(width: 40,),
-              Column(crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('رمز الامان',style: FontStyles.subTitle3.copyWith(fontWeight: FontWeight.bold),),
-                  Container(width: 145,
-                    child: CvvField(onChanged:(val){
-                      //TODO
-                    },))
-                ],
-              ),
-              
-            ],),
-             SizedBox(height: 10),
-            Row(children: [
-              Icon(Icons.check_box_rounded,color:AppColors.primary),
-              SizedBox(width: 5,),
-              Text('حفظ البطاقة',style: FontStyles.subTitle3.copyWith(fontWeight: FontWeight.bold),),
-              
-            ],),
-            SizedBox(height: 12,),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'تاريخ الإنتهاء',
+                      style: FontStyles.subTitle3.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      width: 150,
+                      child: ExpiryDateField(
+                        onChanged: (String month, String year) {
+                          //TODO
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 40),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'رمز الامان',
+                      style: FontStyles.subTitle3.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      width: 145,
+                      child: CvvField(
+                        onChanged: (val) {
+                          //TODO
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                Icon(Icons.check_box_rounded, color: AppColors.primary),
+                SizedBox(width: 5),
+                Text(
+                  'حفظ البطاقة',
+                  style: FontStyles.subTitle3.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 12),
             FadeTransition(
               opacity: _fadeAnimation,
               child: SlideTransition(
                 position: _slideAnimation,
                 child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          child: MainButton(text: 'إضافة بطاقة', onTap: () {
-                  GoRouter.of(context).pop();
-                          }),
-                        ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  child: MainButton(
+                    text: 'إضافة بطاقة',
+                    onTap: () {
+                      GoRouter.of(context).pop();
+                    },
+                  ),
+                ),
               ),
             ),
           ],

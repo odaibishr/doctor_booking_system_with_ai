@@ -12,14 +12,17 @@ import 'package:go_router/go_router.dart';
 class PaymentViewBody extends StatefulWidget {
   final bool? complete_payment;
   final VoidCallback onpres;
-  const PaymentViewBody({super.key,  this.complete_payment, required this.onpres});
+  const PaymentViewBody({
+    super.key,
+    this.complete_payment,
+    required this.onpres,
+  });
 
   @override
   State<PaymentViewBody> createState() => _PaymentViewBodyState();
 }
 
 class _PaymentViewBodyState extends State<PaymentViewBody> {
-
   // local mutable copy of the completion flag
   late bool completePayment;
 
@@ -106,11 +109,11 @@ class _PaymentViewBodyState extends State<PaymentViewBody> {
             ),
             const SizedBox(height: 28),
             const AppointmentDetails(),
-            SizedBox(height:MediaQuery.of(context).size.height*0.24),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.24),
             Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: MainButton(text: 'الدفع الان', onTap:widget.onpres),
-                  ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: MainButton(text: 'الدفع الان', onTap: widget.onpres),
+            ),
           ],
         ),
       ],

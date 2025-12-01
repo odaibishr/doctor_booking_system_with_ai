@@ -38,7 +38,7 @@ class HospitalDetailsReviewsTab extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         HospitalDetailsReviewSlider(reviews: reviews),
-      ],  
+      ],
     );
   }
 }

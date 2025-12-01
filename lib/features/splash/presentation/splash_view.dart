@@ -77,7 +77,6 @@ class _SplashViewState extends State<SplashView>
 
     if (!mounted) return;
 
-    
     final authCubit = context.read<AuthCubit>();
     await authCubit.checkAuthStatus();
 

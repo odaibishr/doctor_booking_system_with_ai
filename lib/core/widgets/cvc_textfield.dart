@@ -19,14 +19,13 @@ class _CvvFieldState extends State<CvvField> {
     return TextField(
       controller: _controller,
       keyboardType: TextInputType.number,
-      maxLength: 3, 
+      maxLength: 3,
       obscureText: _obscure,
       decoration: InputDecoration(
         counterText: '',
         hintText: 'CVV',
-        
-       
-      border: OutlineInputBorder(
+
+        border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: AppColors.primary),
         ),
@@ -45,7 +44,8 @@ class _CvvFieldState extends State<CvvField> {
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: AppColors.error, width: 2),
-        ),),
+        ),
+      ),
       onChanged: (value) => widget.onChanged?.call(value),
     );
   }

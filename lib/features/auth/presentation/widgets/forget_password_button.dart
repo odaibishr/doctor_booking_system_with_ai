@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 
 class ForgetPasswordButton extends StatelessWidget {
   final String text;
-  const ForgetPasswordButton({super.key, required this.ontap, required this.text});
-  final Function()ontap;
+  const ForgetPasswordButton({
+    super.key,
+    required this.ontap,
+    required this.text,
+  });
+  final Function() ontap;
 
   @override
   Widget build(BuildContext context) {

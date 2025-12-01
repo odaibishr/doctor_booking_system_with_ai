@@ -18,14 +18,13 @@ class ChatMessageBuilder extends StatefulWidget {
 }
 
 class _ChatMessageBuilderState extends State<ChatMessageBuilder> {
- 
   @override
   Widget build(BuildContext context) {
     return (widget.messages.isNotEmpty)
         ? Padding(
             padding: const EdgeInsets.only(top: 20),
             child: ListView.builder(
-             // physics: BouncingScrollPhysics(),
+              // physics: BouncingScrollPhysics(),
               controller: widget.controller,
               itemCount: widget.messages.length,
               itemBuilder: (context, index) {
@@ -33,11 +32,7 @@ class _ChatMessageBuilderState extends State<ChatMessageBuilder> {
                 if (msg['type'] == 'text') {
                   final isUser = msg['isUser'] == true;
                   final content = msg['content']?.toString() ?? '';
-                  return ChatBubble(
-                    isUser: isUser,
-                    content: content,
-                  
-                  );
+                  return ChatBubble(isUser: isUser, content: content);
                 } else {
                   final isUser = msg['isUser'] == true;
                   if (msg['type'] == 'image' && msg['content'] is File) {

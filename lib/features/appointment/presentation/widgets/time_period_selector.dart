@@ -12,7 +12,7 @@ class TimePeriodSelector extends StatefulWidget {
 }
 
 class _TimePeriodSelectorState extends State<TimePeriodSelector> {
-  String _selectedPeriod = ''; 
+  String _selectedPeriod = '';
 
   void _selectPeriod(String period) {
     setState(() {
