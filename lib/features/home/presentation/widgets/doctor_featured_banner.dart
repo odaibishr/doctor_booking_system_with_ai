@@ -76,7 +76,7 @@ class DoctorFeaturedBanner extends StatelessWidget {
             ),
             // Image
             Image.network(
-              'http://${EndPoints.ip}:${EndPoints.port}/storage/${doctor.profileImage}',
+              '${EndPoints.photoUrl}${doctor.profileImage}',
               width: 100,
               height: double.infinity,
               fit: BoxFit.fill,

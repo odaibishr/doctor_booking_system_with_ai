@@ -66,7 +66,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   builder: (context, state) {
                     List<Doctor> doctors = [];
                     if (state is DoctorsLoaded) {
-                      doctors.addAll(state.doctors);
+                      doctors.addAll(state.doctors.reversed);
                       log(
                         'Number of doctors in HomeViewBody: ${doctors[0].toString()}',
                       );
@@ -98,7 +98,11 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                             onTap: () {},
                           ),
                           const SizedBox(height: 3),
-                          const DoctorCardListView(),
+                          DoctorCardListView(
+                            topOfDoctors: doctors
+                                .where((doctor) => doctor.isTopDoctor == 1)
+                                .toList(),
+                          ),
                           const SizedBox(height: 16),
                           SectionHeader(
                             title: 'المستشفيات',

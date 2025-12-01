@@ -1,11 +1,14 @@
+import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
+import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class VerticalDoctorCard extends StatelessWidget {
-  const VerticalDoctorCard({super.key});
+  const VerticalDoctorCard({super.key, required this.topDoctor});
+  final Doctor topDoctor;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +34,8 @@ class VerticalDoctorCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(6),
                 color: AppColors.gray400,
               ),
-              child: Image.asset(
-                'assets/images/doctor-image.png',
+              child: Image.network(
+                '${EndPoints.photoUrl}/${topDoctor.profileImage}',
                 fit: BoxFit.contain,
               ),
             ),
@@ -43,7 +46,7 @@ class VerticalDoctorCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'د. صادق محمد بشر',
+                  'د. ${topDoctor.name}',
                   style: FontStyles.subTitle3.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -51,12 +54,12 @@ class VerticalDoctorCard extends StatelessWidget {
                 Icon(Icons.favorite, color: AppColors.error),
               ],
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 3),
             Text(
-              "مخ واعصاب",
+              topDoctor.specialty.name,
               style: FontStyles.body2.copyWith(color: AppColors.gray500),
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 9),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
