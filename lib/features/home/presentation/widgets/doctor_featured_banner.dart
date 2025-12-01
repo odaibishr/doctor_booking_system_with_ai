@@ -18,7 +18,7 @@ class DoctorFeaturedBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).push(AppRouter.detailsViewRoute);
+        GoRouter.of(context).push(AppRouter.detailsViewRoute, extra: doctor);
       },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,

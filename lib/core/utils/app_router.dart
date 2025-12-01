@@ -10,6 +10,7 @@ import 'package:doctor_booking_system_with_ai/features/favoratie_doctor/presenti
 import 'package:doctor_booking_system_with_ai/features/forget_password/create_new_password.dart/presention/create_new_passwod_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/email_input/presention/email_input_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/verfiy_code/presention/verfiy_code_view.dart';
+import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/details_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/home_view.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/hospital_details_view.dart';
@@ -72,7 +73,7 @@ class AppRouter {
       ),
       GoRoute(
         path: detailsViewRoute,
-        builder: (context, state) => const DetailsView(),
+        builder: (context, state) => DetailsView(doctor: state.extra as Doctor),
       ),
       GoRoute(
         path: onboardingViewRoute,

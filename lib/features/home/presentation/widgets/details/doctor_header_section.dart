@@ -33,7 +33,7 @@ class DoctorHeaderSection extends StatelessWidget {
             color: AppColors.primary,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Image.asset(doctorImage, fit: BoxFit.contain),
+          child: Image.network(doctorImage, fit: BoxFit.contain),
         ),
         const SizedBox(height: 16),
         Column(
