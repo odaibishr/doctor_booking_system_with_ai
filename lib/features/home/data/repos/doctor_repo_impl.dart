@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/features/home/data/datasources/doctor_remote_data_source.dart';
@@ -18,7 +20,7 @@ class DoctorRepoImpl implements DoctorRepo {
         for (var doctor in result) {
           doctors.add(doctor);
         }
-
+        log("Number of doctors fetched in RepoImpl: ${doctors.length}");
         return Right(doctors);
       }
 

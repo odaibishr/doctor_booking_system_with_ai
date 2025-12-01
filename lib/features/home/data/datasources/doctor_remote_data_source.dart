@@ -18,9 +18,11 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
     log("Fetching doctors from remote data source");
     final response = await dioConsumer.get('doctor/AllDoctors');
 
-    final doctors = (response['data'] as List)
-        .map((doctorData) => DoctorModel.fromMap(doctorData))
-        .toList();
+    final doctors = <Doctor>[];
+    for (var doctorJson in response['data']) {
+      log(doctorJson.toString());
+      doctors.add(DoctorModel.fromMap(doctorJson));
+    }
     log("Fetched ${doctors.length} doctors from remote data source");
     return doctors;
   }
