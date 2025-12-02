@@ -13,7 +13,7 @@ class SpecilatyRemoteDataSourceImpl implements SpecilatyRemoteDataSource {
 
   @override
   Future<List<Specialty>> getSpecialties() async {
-    final response = await _dioConsumer.get('specilaty/index');
+    final response = await _dioConsumer.get('specialty/index');
 
     final specialties = <Specialty>[];
 

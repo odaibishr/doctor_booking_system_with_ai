@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:flutter/material.dart';
-import 'package:svg_flutter/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
@@ -39,7 +40,10 @@ class CategoryCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SvgPicture.asset(icon),
+          SvgPicture.network(
+            '${EndPoints.photoUrl}/$icon',
+            fit: BoxFit.scaleDown,
+          ),
           const SizedBox(height: 8),
           Text(
             title,
