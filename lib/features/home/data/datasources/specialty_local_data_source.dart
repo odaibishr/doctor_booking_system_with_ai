@@ -20,8 +20,7 @@ class SpecialtyLocalDataSourceImpl implements SpecialtyLocalDataSource {
   }
 
   @override
-  Future<List<Specialty>> getSpecialties() {
-    // TODO: implement getSpecialties
-    throw UnimplementedError();
+  Future<List<Specialty>> getSpecialties() async {
+    return specialtyBox.values.toList();
   }
 }
