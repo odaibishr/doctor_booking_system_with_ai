@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/features/home/domain/entities/hospital.dart';
 import 'package:doctor_booking_system_with_ai/features/home/domain/entities/location.dart';
@@ -8,30 +9,30 @@ import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user
 class HiveService {
   static const String userBoxName = 'user_box';
   static Box<User>? _userBox;
-  static const String doctorBoxName = 'doctors_box';
   static Box<Doctor>? _doctorBox;
 
   static Future<void> init() async {
     await Hive.initFlutter();
 
     // check if adapters are registered
-    checkIsAdapterRegistered(adapterNumber: 0, adapter: UserAdapter());
-    checkIsAdapterRegistered(adapterNumber: 2, adapter: DoctorAdapter());
-    checkIsAdapterRegistered(adapterNumber: 3, adapter: HospitalAdapter());
-    checkIsAdapterRegistered(adapterNumber: 4, adapter: LocationAdapter());
-    checkIsAdapterRegistered(adapterNumber: 5, adapter: SpecialtyAdapter());
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.registerAdapter(UserAdapter());
+    }
+    if (!Hive.isAdapterRegistered(2)) {
+      Hive.registerAdapter(DoctorAdapter());
+    }
+    if (!Hive.isAdapterRegistered(3)) {
+      Hive.registerAdapter(HospitalAdapter());
+    }
+    if (!Hive.isAdapterRegistered(4)) {
+      Hive.registerAdapter(LocationAdapter());
+    }
+    if (!Hive.isAdapterRegistered(5)) {
+      Hive.registerAdapter(SpecialtyAdapter());
+    }
 
     _userBox = await Hive.openBox<User>(userBoxName);
-    _doctorBox = await Hive.openBox<Doctor>(doctorBoxName);
-  }
-
-  static void checkIsAdapterRegistered({
-    required int adapterNumber,
-    required TypeAdapter adapter,
-  }) {
-    if (!Hive.isAdapterRegistered(adapterNumber)) {
-      Hive.registerAdapter(adapter);
-    }
+    _doctorBox = await Hive.openBox<Doctor>(kDoctorBox);
   }
 
   static Future<void> cacheAuthData(User user) async {
