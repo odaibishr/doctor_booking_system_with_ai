@@ -51,9 +51,6 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: BlocConsumer<DoctorCubit, DoctorState>(
                   listener: (context, state) {
-                    if (state is DoctorsLoading) {
-                      const CustomLoader(loaderSize: kLoaderSize);
-                    }
                     if (state is DoctorsError) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -64,6 +61,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                     }
                   },
                   builder: (context, state) {
+                    if (state is DoctorsLoading) {
+                      return const CustomLoader(loaderSize: kLoaderSize);
+                    }
                     List<Doctor> doctors = [];
                     if (state is DoctorsLoaded) {
                       doctors.addAll(state.doctors.reversed);

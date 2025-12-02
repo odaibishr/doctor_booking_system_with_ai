@@ -1,12 +1,17 @@
 // core/service_locator.dart
+import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:dio/dio.dart';
+import 'package:doctor_booking_system_with_ai/core/network/network_info.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/data/datasources/profile_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/data/repos/profile_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/domain/repos/profile_repo.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/domain/usecases/create_profile_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presention/manager/profile_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/home/data/datasources/doctor_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/home/data/datasources/doctor_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/home/data/repos/doctor_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/features/home/domain/repos/doctor_repo.dart';
 import 'package:doctor_booking_system_with_ai/features/home/domain/usecases/get_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
@@ -21,13 +26,24 @@ import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/chec
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
 Future<void> init() async {
   // Hive Initialization
   await HiveService.init();
+
   serviceLocator.registerLazySingleton<HiveService>(() => HiveService());
+
+  // Network
+  serviceLocator.registerLazySingleton<DataConnectionChecker>(
+    () => DataConnectionChecker(),
+  );
+
+  serviceLocator.registerLazySingleton<NetworkInfo>(
+    () => NetworkInfoImpl(serviceLocator<DataConnectionChecker>()),
+  );
 
   // Data Sources
   serviceLocator.registerLazySingleton<AuthLocalDataSource>(
@@ -50,6 +66,11 @@ Future<void> init() async {
     () => DoctorRemoteDataSourceImpl(serviceLocator()),
   );
 
+  final doctorsBox = Hive.box<Doctor>(kDoctorBox);
+  serviceLocator.registerLazySingleton<DoctorLocalDataSource>(
+    () => DoctorLocalDataSourceImpl(doctorsBox),
+  );
+
   // Repository
   serviceLocator.registerLazySingleton<AuthRepo>(
     () => AuthRepoImpl(
@@ -63,7 +84,11 @@ Future<void> init() async {
   );
 
   serviceLocator.registerLazySingleton<DoctorRepo>(
-    () => DoctorRepoImpl(serviceLocator<DoctorRemoteDataSource>()),
+    () => DoctorRepoImpl(
+      remoteDataSource: serviceLocator(),
+      localDataSource: serviceLocator(),
+      networkInfo: serviceLocator(),
+    ),
   );
 
   // Use Cases
