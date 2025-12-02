@@ -16,29 +16,28 @@ class DetailsViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            title: CustomAppBar(
-              userImage: 'assets/images/user.png',
-              title: 'معلومات الطبيب',
-              isBackButtonVisible: true,
-              isUserImageVisible: false,
-              isHeartIconVisible: true,
-            ),
-            pinned: true,
-            automaticallyImplyLeading: false,
-            backgroundColor: AppColors.white,
-            surfaceTintColor: AppColors.white,
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: CustomAppBar(
+            userImage: 'assets/images/user.png',
+            title: 'معلومات الطبيب',
+            isBackButtonVisible: true,
+            isUserImageVisible: false,
+            isHeartIconVisible: true,
           ),
+          pinned: true,
+          automaticallyImplyLeading: false,
+          backgroundColor: AppColors.white,
+          surfaceTintColor: AppColors.white,
+        ),
 
-          SliverToBoxAdapter(
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          sliver: SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 30),
                 DoctorHeaderSection(
                   doctorName: 'د. ${doctor.name}',
                   doctorSpecializatioin: doctor.specialty.name,
@@ -49,7 +48,6 @@ class DetailsViewBody extends StatelessWidget {
                 DoctorStatsSection(),
                 const SizedBox(height: 22),
 
-                // Doctor Description
                 Text(
                   'نبذة عن الدكتور',
                   style: FontStyles.subTitle2.copyWith(
@@ -61,23 +59,25 @@ class DetailsViewBody extends StatelessWidget {
                   doctor.aboutus,
                   style: FontStyles.body2.copyWith(color: AppColors.gray500),
                 ),
-                // End Doctor Description
                 const SizedBox(height: 16),
+
                 DoctorServicesSection(
                   doctorServices: doctor.services
                       .replaceAll('\n', "")
                       .split('.'),
                 ),
                 const SizedBox(height: 3),
+
                 SectionHeader(title: 'المراجعات', onTap: () {}),
                 const SizedBox(height: 2),
+
                 const PatientReviewSlider(),
                 const SizedBox(height: 16),
               ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
