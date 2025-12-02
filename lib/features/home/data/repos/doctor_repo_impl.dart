@@ -23,7 +23,11 @@ class DoctorRepoImpl implements DoctorRepo {
   Future<Either<Failure, List<Doctor>>> getDoctors() async {
     try {
       if (!await networkInfo.isConnected!) {
+        log('No internet connection');
         final cachedDoctors = await localDataSource.getCachedDoctors();
+        if (cachedDoctors.isEmpty) {
+          return Left(Failure('No doctors found'));
+        }
         return Right(cachedDoctors);
       }
 

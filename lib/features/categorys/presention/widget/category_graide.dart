@@ -1,12 +1,13 @@
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
+import 'package:doctor_booking_system_with_ai/features/home/domain/entities/specialty.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/category_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class CategoryGride extends StatelessWidget {
-  const CategoryGride({super.key, required this.categories});
+  const CategoryGride({super.key, required this.specialties});
 
-  final List<Map<String, String>> categories;
+  final List<Specialty> specialties;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class CategoryGride extends StatelessWidget {
           mainAxisSpacing: 15,
           crossAxisSpacing: 15,
         ),
-        itemCount: categories.length,
+        itemCount: specialties.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
@@ -28,8 +29,8 @@ class CategoryGride extends StatelessWidget {
             },
             child: CategoryCard(
               color: true,
-              title: categories[index]['title']!,
-              icon: categories[index]['icon']!,
+              title: specialties[index].name,
+              icon: specialties[index].icon,
             ),
           );
         },

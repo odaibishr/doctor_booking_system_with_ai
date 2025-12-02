@@ -57,7 +57,7 @@ class HomeViewBody extends StatelessWidget {
                     if (state is DoctorsLoaded) {
                       doctors.addAll(state.doctors.reversed);
                       log(
-                        'Number of doctors in HomeViewBody: ${doctors[0].toString()}',
+                        'Number of doctors in HomeViewBody: ${doctors.toString()}',
                       );
 
                       return Column(
