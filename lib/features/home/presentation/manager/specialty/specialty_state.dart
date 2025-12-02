@@ -1,6 +1,5 @@
 part of 'specialty_cubit.dart';
 
-@immutable
 sealed class SpecialtyState {}
 
 final class SpecialtyInitial extends SpecialtyState {}
