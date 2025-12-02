@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const double kLoaderSize = 50;
 const String kDoctorBox = 'doctors_box';
+const String kSpecialtyBox = 'specialties_box';
 
 void drawNotchDetails(Canvas canvas, double width, double height) {
   final centerX = width / 2;
