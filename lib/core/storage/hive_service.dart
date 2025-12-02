@@ -14,27 +14,24 @@ class HiveService {
   static Future<void> init() async {
     await Hive.initFlutter();
 
-    if (!Hive.isAdapterRegistered(0)) {
-      Hive.registerAdapter(UserAdapter());
-    }
-
-    if (!Hive.isAdapterRegistered(2)) {
-      Hive.registerAdapter(DoctorAdapter());
-    }
-
-    if (!Hive.isAdapterRegistered(3)) {
-      Hive.registerAdapter(HospitalAdapter());
-    }
-
-    if (!Hive.isAdapterRegistered(4)) {
-      Hive.registerAdapter(LocationAdapter());
-    }
-    if (!Hive.isAdapterRegistered(5)) {
-      Hive.registerAdapter(SpecialtyAdapter());
-    }
+    // check if adapters are registered
+    checkIsAdapterRegistered(adapterNumber: 0, adapter: UserAdapter());
+    checkIsAdapterRegistered(adapterNumber: 2, adapter: DoctorAdapter());
+    checkIsAdapterRegistered(adapterNumber: 3, adapter: HospitalAdapter());
+    checkIsAdapterRegistered(adapterNumber: 4, adapter: LocationAdapter());
+    checkIsAdapterRegistered(adapterNumber: 5, adapter: SpecialtyAdapter());
 
     _userBox = await Hive.openBox<User>(userBoxName);
     _doctorBox = await Hive.openBox<Doctor>(doctorBoxName);
+  }
+
+  static void checkIsAdapterRegistered({
+    required int adapterNumber,
+    required TypeAdapter adapter,
+  }) {
+    if (!Hive.isAdapterRegistered(adapterNumber)) {
+      Hive.registerAdapter(adapter);
+    }
   }
 
   static Future<void> cacheAuthData(User user) async {
