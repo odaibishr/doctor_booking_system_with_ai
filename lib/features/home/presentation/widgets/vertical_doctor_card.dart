@@ -15,7 +15,9 @@ class VerticalDoctorCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).push(AppRouter.detailsViewRoute, extra: topDoctor);
+        GoRouter.of(
+          context,
+        ).push(AppRouter.detailsViewRoute, extra: topDoctor.id);
       },
       child: Container(
         width: 205,

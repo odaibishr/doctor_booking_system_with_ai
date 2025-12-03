@@ -30,7 +30,7 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
 
   @override
   Future<Doctor> getDoctorDetails(int id) async {
-    final response = await dioConsumer.get('doctor/$id');
+    final response = await dioConsumer.get('doctor/getDoctor/$id');
 
     return DoctorModel.fromMap(response['data']);
   }
