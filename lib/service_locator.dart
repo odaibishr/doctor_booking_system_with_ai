@@ -18,6 +18,7 @@ import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doct
 import 'package:doctor_booking_system_with_ai/features/home/domain/entities/specialty.dart';
 import 'package:doctor_booking_system_with_ai/features/home/domain/repos/doctor_repo.dart';
 import 'package:doctor_booking_system_with_ai/features/home/domain/repos/specialty_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/home/domain/usecases/get_doctor_details_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/home/domain/usecases/get_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/home/domain/usecases/get_specilaties_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
@@ -135,6 +136,10 @@ Future<void> init() async {
     () => GetSpecilatiesUseCase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<GetDoctorDetailsUseCase>(
+    () => GetDoctorDetailsUseCase(serviceLocator()),
+  );
+
   // Cubit
   serviceLocator.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
@@ -149,7 +154,10 @@ Future<void> init() async {
   );
 
   serviceLocator.registerLazySingleton<DoctorCubit>(
-    () => DoctorCubit(serviceLocator<GetDoctorsUseCase>()),
+    () => DoctorCubit(
+      serviceLocator<GetDoctorsUseCase>(),
+      serviceLocator<GetDoctorDetailsUseCase>(),
+    ),
   );
 
   serviceLocator.registerLazySingleton<SpecialtyCubit>(

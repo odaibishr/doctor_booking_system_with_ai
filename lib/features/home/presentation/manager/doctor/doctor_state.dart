@@ -16,7 +16,14 @@ final class DoctorsError extends DoctorState {
   DoctorsError({required this.message});
 }
 
-final class DoctorSelected extends DoctorState {
+final class DoctorDetailsLoading extends DoctorState {}
+
+final class DoctorDetailsLoaded extends DoctorState {
   final Doctor doctor;
-  DoctorSelected({required this.doctor});
+  DoctorDetailsLoaded({required this.doctor});
+}
+
+final class DoctorDetailsError extends DoctorState {
+  final String message;
+  DoctorDetailsError({required this.message});
 }

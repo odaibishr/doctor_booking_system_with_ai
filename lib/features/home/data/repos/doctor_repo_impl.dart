@@ -50,4 +50,26 @@ class DoctorRepoImpl implements DoctorRepo {
       return Left(Failure(error.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Doctor>> getDoctorDetails(int id) async {
+    try {
+      // get cached doctors and return the doctor with the given id
+      if (!await networkInfo.isConnected!) {
+        final cachedDoctors = await localDataSource.getCachedDoctors();
+
+        if (cachedDoctors.isEmpty) {
+          return Left(Failure('No doctors found'));
+        }
+
+        return Right(cachedDoctors.firstWhere((element) => element.id == id));
+      }
+
+      final result = await remoteDataSource.getDoctorDetails(id);
+
+      return Right(result);
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
 }

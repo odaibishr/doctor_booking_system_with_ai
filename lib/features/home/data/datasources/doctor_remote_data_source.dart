@@ -6,6 +6,7 @@ import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doct
 
 abstract class DoctorRemoteDataSource {
   Future<List<Doctor>> getDoctors();
+  Future<Doctor> getDoctorDetails(int id);
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
@@ -25,5 +26,12 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
     }
     log("Fetched ${doctors.length} doctors from remote data source");
     return doctors;
+  }
+
+  @override
+  Future<Doctor> getDoctorDetails(int id) async {
+    final response = await dioConsumer.get('doctor/$id');
+
+    return DoctorModel.fromMap(response['data']);
   }
 }

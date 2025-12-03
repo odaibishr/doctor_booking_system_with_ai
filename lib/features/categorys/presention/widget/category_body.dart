@@ -25,7 +25,7 @@ class CategoryBody extends StatelessWidget {
       {'title': 'أمراض الدم', 'icon': 'assets/icons/blood.svg'},
       {
         'title': 'جراحة الأنف والأذن والحنجرة',
-        'icon': 'assets/icons/Eartreatment.svg',
+        'icon': 'assets/icons/ذ.svg',
       },
       {'title': 'جراحة التجميل', 'icon': 'assets/icons/FemaleSurgeon.svg'},
       {'title': 'جراحة العظام', 'icon': 'assets/icons/orthopedicclinic.svg'},

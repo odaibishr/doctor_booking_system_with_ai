@@ -34,47 +34,46 @@ class DetailsViewBody extends StatelessWidget {
 
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          sliver: SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DoctorHeaderSection(
-                  doctorName: 'د. ${doctor.name}',
-                  doctorSpecializatioin: doctor.specialty.name,
-                  doctorLocation: doctor.location.name,
-                  doctorImage: '${EndPoints.photoUrl}/${doctor.profileImage}',
-                ),
-                const SizedBox(height: 16),
-                DoctorStatsSection(),
-                const SizedBox(height: 22),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate([
+              // const SizedBox(height: 30),
+              DoctorHeaderSection(
+                doctorName: 'د. ${doctor.name}',
+                doctorSpecializatioin: doctor.specialty.name,
+                doctorLocation: doctor.location.name,
+                doctorImage: '${EndPoints.photoUrl}/${doctor.profileImage}',
+              ),
 
-                Text(
-                  'نبذة عن الدكتور',
-                  style: FontStyles.subTitle2.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  doctor.aboutus,
-                  style: FontStyles.body2.copyWith(color: AppColors.gray500),
-                ),
-                const SizedBox(height: 16),
+              const SizedBox(height: 16),
+              DoctorStatsSection(),
+              const SizedBox(height: 22),
 
-                DoctorServicesSection(
-                  doctorServices: doctor.services
-                      .replaceAll('\n', "")
-                      .split('.'),
+              Text(
+                'نبذة عن الدكتور',
+                style: FontStyles.subTitle2.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 3),
+              ),
+              const SizedBox(height: 5),
 
-                SectionHeader(title: 'المراجعات', onTap: () {}),
-                const SizedBox(height: 2),
+              Text(
+                doctor.aboutus,
+                style: FontStyles.body2.copyWith(color: AppColors.gray500),
+              ),
 
-                const PatientReviewSlider(),
-                const SizedBox(height: 16),
-              ],
-            ),
+              const SizedBox(height: 16),
+
+              DoctorServicesSection(
+                doctorServices: doctor.services.replaceAll('\n', "").split('.'),
+              ),
+
+              const SizedBox(height: 3),
+              SectionHeader(title: 'المراجعات', onTap: () {}),
+              const SizedBox(height: 2),
+
+              const PatientReviewSlider(),
+              const SizedBox(height: 16),
+            ]),
           ),
         ),
       ],
