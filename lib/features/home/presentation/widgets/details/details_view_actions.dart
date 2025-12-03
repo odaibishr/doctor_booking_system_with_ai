@@ -1,7 +1,9 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/review_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:svg_flutter/svg.dart';
 
 class DetailsViewActions extends StatelessWidget {
@@ -14,7 +16,12 @@ class DetailsViewActions extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: MainButton(text: 'حجز موعد', onTap: () {}),
+            child: MainButton(
+              text: 'حجز موعد',
+              onTap: () {
+                GoRouter.of(context).push(AppRouter.appointmentViewRoute);
+              },
+            ),
           ),
           const SizedBox(width: 8),
           GestureDetector(

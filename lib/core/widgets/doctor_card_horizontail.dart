@@ -19,7 +19,7 @@ class DoctorCardHorizontail extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        height: 160,
+        height: 165,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
@@ -32,7 +32,7 @@ class DoctorCardHorizontail extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    width: 78,
+                    width: 70,
                     height: double.infinity,
                     decoration: BoxDecoration(
                       color: AppColors.gray400,

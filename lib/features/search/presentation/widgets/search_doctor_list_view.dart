@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/doctor_card_horizontail.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/doctor_card_horizontail.dart';
 
 class SearchDoctorListView extends StatelessWidget {
   const SearchDoctorListView({super.key});
@@ -7,7 +7,7 @@ class SearchDoctorListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 160,
+      height: 165,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
         itemCount: 10,

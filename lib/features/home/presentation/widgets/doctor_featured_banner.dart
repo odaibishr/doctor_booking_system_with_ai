@@ -1,19 +1,25 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/location_info.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/price_lable_with_icon.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
 
 class DoctorFeaturedBanner extends StatelessWidget {
-  const DoctorFeaturedBanner({super.key});
+  const DoctorFeaturedBanner({super.key, required this.doctor});
+  final Doctor doctor;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).push(AppRouter.detailsViewRoute);
+        GoRouter.of(context).push(AppRouter.detailsViewRoute, extra: doctor);
       },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
@@ -34,14 +40,14 @@ class DoctorFeaturedBanner extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'مخ واعصاب',
+                    doctor.specialty.name,
                     style: FontStyles.subTitle3.copyWith(
                       color: AppColors.gray100,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'د/ صادق محمد بشر',
+                    'د/ ${doctor.name}',
                     style: FontStyles.headLine4.copyWith(
                       color: AppColors.white,
                       fontWeight: FontWeight.bold,
@@ -51,7 +57,7 @@ class DoctorFeaturedBanner extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: Text(
-                      'متخصص في علاج ومتابعة أمراض الصرع وعلاج أمراض المخ والأعصاب',
+                      doctor.services.replaceAll('.', ' و'),
                       style: FontStyles.body3.copyWith(
                         color: AppColors.gray100,
                       ),
@@ -60,8 +66,8 @@ class DoctorFeaturedBanner extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const LocationInfo(
-                    location: 'مستشفئ جامعة العلوم والتكنولوجيا',
+                  LocationInfo(
+                    location: doctor.location.name,
                     color: AppColors.gray300,
                   ),
                   const SizedBox(height: 5),
@@ -70,11 +76,13 @@ class DoctorFeaturedBanner extends StatelessWidget {
               ),
             ),
             // Image
-            Image.asset(
-              'assets/images/doctor-image.png',
+            CachedNetworkImage(
+              imageUrl: '${EndPoints.photoUrl}/${doctor.profileImage}',
               width: 100,
               height: double.infinity,
               fit: BoxFit.fill,
+              errorWidget: (context, url, error) =>
+                  const Icon(Icons.error, color: Colors.red),
             ),
           ],
         ),

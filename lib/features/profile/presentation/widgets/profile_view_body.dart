@@ -21,6 +21,7 @@ class ProfileViewBody extends StatelessWidget {
           pinned: true,
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
+          automaticallyImplyLeading: false,
         ),
         SliverToBoxAdapter(
           child: Padding(

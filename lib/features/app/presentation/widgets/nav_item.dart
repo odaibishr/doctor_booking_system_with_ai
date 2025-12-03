@@ -40,7 +40,9 @@ class NavItem extends StatelessWidget {
                   key: ValueKey<bool>(isSelected),
                   colorFilter: isSelected
                       ? ColorFilter.mode(
-                          const Color(0xFF364989), BlendMode.srcIn)
+                          const Color(0xFF364989),
+                          BlendMode.srcIn,
+                        )
                       : null,
                   width: isSelected ? 26 : 24,
                   height: isSelected ? 26 : 24,

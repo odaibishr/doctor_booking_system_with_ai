@@ -11,73 +11,97 @@ class MainInputField extends StatelessWidget {
     required this.rightIconPath,
     required this.isShowRightIcon,
     required this.isShowLeftIcon,
+    this.controller,
+    this.validator,
+    this.isNumber,
+    this.readonly,
+    this.icon_onTap,
   });
+
+  final FormFieldValidator<String>? validator;
   final String hintText;
   final String leftIconPath;
   final String rightIconPath;
   final bool isShowRightIcon;
   final bool isShowLeftIcon;
+  final bool? isNumber;
+  final bool? readonly;
+  final VoidCallback? icon_onTap;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 45,
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.gray400),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          isShowRightIcon
-              ? SvgPicture.asset(
+    return TextFormField(
+      readOnly: readonly ?? false,
+      keyboardType: (isNumber == true)
+          ? TextInputType.numberWithOptions()
+          : TextInputType.text,
+      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      cursorColor: AppColors.gray400,
+      controller: controller,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: FontStyles.subTitle2.copyWith(color: AppColors.gray400),
+        isCollapsed: true,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 12,
+        ),
+        prefixIcon: isShowRightIcon
+            ? Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SvgPicture.asset(
                   leftIconPath,
                   width: 20,
                   height: 20,
                   fit: BoxFit.scaleDown,
-                  colorFilter: ColorFilter.mode(
-                    AppColors.gray400,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.primary,
                     BlendMode.srcIn,
                   ),
-                )
-              : const SizedBox.shrink(),
-
-          const SizedBox(width: 5),
-          Expanded(
-            child: TextField(
-              textAlignVertical: TextAlignVertical.center,
-              cursorColor: AppColors.gray400,
-              decoration: InputDecoration(
-                isCollapsed: true,
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-                contentPadding: EdgeInsets.zero,
-                hintText: hintText,
-                hintStyle: FontStyles.subTitle2.copyWith(
-                  color: AppColors.gray400,
                 ),
-              ),
-            ),
-          ),
+              )
+            : null,
+        suffixIcon: isShowLeftIcon
+            ? GestureDetector(
+                onTap: icon_onTap,
 
-          isShowLeftIcon
-              ? SvgPicture.asset(
-                  rightIconPath,
-                  width: 20,
-                  height: 20,
-                  fit: BoxFit.scaleDown,
-                  colorFilter: ColorFilter.mode(
-                    AppColors.gray400,
-                    BlendMode.srcIn,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SvgPicture.asset(
+                    rightIconPath,
+                    width: 20,
+                    height: 20,
+                    fit: BoxFit.scaleDown,
+                    colorFilter: const ColorFilter.mode(
+                      AppColors.gray400,
+                      BlendMode.srcIn,
+                    ),
                   ),
-                )
-              : const SizedBox.shrink(),
-        ],
+                ),
+              )
+            : null,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.primary),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.primary),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.error, width: 2),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: AppColors.error, width: 2),
+        ),
       ),
     );
   }

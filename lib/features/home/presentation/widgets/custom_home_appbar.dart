@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 
 class CustomHomeAppBar extends StatelessWidget {
-  const CustomHomeAppBar({super.key, required this.name, required this.userImage});
+  const CustomHomeAppBar({
+    super.key,
+    required this.name,
+    required this.userImage,
+  });
   final String name;
   final String userImage;
 
@@ -23,11 +27,7 @@ class CustomHomeAppBar extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: ClipOval(
-                child: Image.asset(
-                  userImage,
-                  scale: 1,
-                  fit: BoxFit.cover,
-                ),
+                child: Image.asset(userImage, scale: 1, fit: BoxFit.cover),
               ),
             ),
             const SizedBox(width: 5),

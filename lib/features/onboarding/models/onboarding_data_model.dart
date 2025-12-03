@@ -1,5 +1,5 @@
 class OnboardingDataModel {
-  final String ?image;
+  final String? image;
   final String title;
   final String description;
   OnboardingDataModel({
@@ -7,5 +7,4 @@ class OnboardingDataModel {
     required this.title,
     required this.description,
   });
-  
 }

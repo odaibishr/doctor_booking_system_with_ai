@@ -30,10 +30,7 @@ class AppointmentDoctorInfo extends StatelessWidget {
             color: AppColors.gray400,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Image.asset(
-            doctorImage,
-            fit: BoxFit.contain,
-          ),
+          child: Image.asset(doctorImage, fit: BoxFit.contain),
         ),
         const SizedBox(width: 16),
         Expanded(
@@ -66,10 +63,7 @@ class AppointmentDoctorInfo extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 7),
-              LocationInfo(
-                location: location,
-                color: AppColors.gray500,
-              ),
+              LocationInfo(location: location, color: AppColors.gray500),
               const SizedBox(height: 7),
               Row(
                 children: [

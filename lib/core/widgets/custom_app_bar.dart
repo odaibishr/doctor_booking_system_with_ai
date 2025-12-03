@@ -52,7 +52,10 @@ class CustomAppBar extends StatelessWidget {
                   ),
                 ),
               )
-            : const SizedBox.shrink(),
+            : Opacity(
+                opacity: 0,
+                child: SizedBox.fromSize(size: const Size(38, 38)),
+              ),
 
         Text(
           title,

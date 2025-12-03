@@ -1,30 +1,60 @@
+import 'package:doctor_booking_system_with_ai/core/storage/hive_service.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_theme.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/create_profile/presention/manager/profile_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/specialty/specialty_cubit.dart';
+import 'package:doctor_booking_system_with_ai/service_locator.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  await Hive.initFlutter();
+  await HiveService.init();
+  await init();
+
+  final authCubit = serviceLocator<AuthCubit>();
+  await authCubit.checkAuthStatus();
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Doctor Booking System',
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => serviceLocator<AuthCubit>()),
+        BlocProvider(create: (_) => serviceLocator<ProfileCubit>()),
+        BlocProvider(
+          create: (_) => serviceLocator<DoctorCubit>()..fetchDoctors(),
+        ),
+        BlocProvider(
+          create: (_) => serviceLocator<SpecialtyCubit>()..getSpecialties(),
+        ),
       ],
-      supportedLocales: [const Locale('en', ''), const Locale('ar', '')],
-      locale: const Locale('ar', ''),
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      routerConfig: AppRouter.router,
+      child: MaterialApp.router(
+        title: 'Doctor Booking System',
+        routerConfig: AppRouter.router,
+        theme: AppTheme.lightTheme,
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('ar')],
+        locale: const Locale('ar'),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

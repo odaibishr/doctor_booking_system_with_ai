@@ -1,6 +1,8 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashView extends StatefulWidget {
@@ -73,9 +75,15 @@ class _SplashViewState extends State<SplashView>
   void _startAnimation() async {
     await _animationController.forward();
 
-    // Navigate to HomeView
-    if (mounted) {
-      GoRouter.of(context).go(AppRouter.onBoardingViewRoute);
+    if (!mounted) return;
+
+    final authCubit = context.read<AuthCubit>();
+    await authCubit.checkAuthStatus();
+
+    if (authCubit.state is AuthSuccess) {
+      GoRouter.of(context).go(AppRouter.appNavigationRoute);
+    } else {
+      GoRouter.of(context).go(AppRouter.signInViewRoute);
     }
   }
 

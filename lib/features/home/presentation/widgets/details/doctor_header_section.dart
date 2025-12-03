@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,11 @@ class DoctorHeaderSection extends StatelessWidget {
             color: AppColors.primary,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Image.asset(doctorImage, fit: BoxFit.contain),
+          child: CachedNetworkImage(
+            imageUrl: doctorImage,
+            fit: BoxFit.contain,
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+          ),
         ),
         const SizedBox(height: 16),
         Column(

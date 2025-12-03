@@ -1,0 +1,115 @@
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+class DayItem extends StatelessWidget {
+  final DateTime date;
+  final DateTime selectedDate;
+  final Set<DateTime> unavailableDays;
+  final void Function(DateTime date) onTap;
+
+  const DayItem({
+    super.key,
+    required this.date,
+    required this.selectedDate,
+    required this.unavailableDays,
+    required this.onTap,
+  });
+
+  bool _isSameDay(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
+
+  @override
+  Widget build(BuildContext context) {
+    final today = DateTime.now();
+    final isToday = _isSameDay(date, today);
+    final isSelected = _isSameDay(date, selectedDate);
+    final isWeekendDisabled = date.weekday == 4 || date.weekday == 5;
+    final isUnavailable = unavailableDays.any((d) => _isSameDay(d, date));
+    final isDisabled = isWeekendDisabled || isUnavailable;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: isDisabled
+            ? () => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    isWeekendDisabled
+                        ? 'لا يمكن الحجز يوم الخميس أو الجمعة'
+                        : 'هذا اليوم غير متاح للحجز',
+                    textAlign: TextAlign.center,
+                  ),
+                  duration: const Duration(milliseconds: 900),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              )
+            : () => onTap(date),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          width: 80,
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          decoration: BoxDecoration(
+            color: isDisabled
+                ? AppColors.gray400
+                : isSelected
+                ? AppColors.primary
+                : isToday
+                ? AppColors.gray200
+                : AppColors.gray200,
+            borderRadius: BorderRadius.circular(14),
+            border: isToday && !isSelected
+                ? Border.all(color: AppColors.primary, width: 2)
+                : null,
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.25),
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
+                    ),
+                  ]
+                : [
+                    BoxShadow(
+                      color: AppColors.gray300.withValues(alpha: 0.15),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                DateFormat.E('ar').format(date),
+                style: FontStyles.subTitle3.copyWith(
+                  color: isDisabled
+                      ? AppColors.gray500
+                      : isSelected
+                      ? AppColors.white
+                      : AppColors.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                '${date.day}',
+                style: FontStyles.headLine4.copyWith(
+                  fontSize: 18,
+                  color: isDisabled
+                      ? AppColors.gray500
+                      : isSelected
+                      ? AppColors.white
+                      : AppColors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

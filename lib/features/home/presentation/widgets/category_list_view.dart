@@ -1,5 +1,11 @@
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/specialty/specialty_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/category_card.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoryListView extends StatefulWidget {
   const CategoryListView({super.key});
@@ -9,46 +15,43 @@ class CategoryListView extends StatefulWidget {
 }
 
 class _CategoryListViewState extends State<CategoryListView> {
-   List<Map<String, String>> categories = [
-    {
-      'title': 'مخ واعصاب',
-      'icon': 'assets/icons/brain.svg',
-    },
-    {
-      'title': 'القلب',
-      'icon': 'assets/icons/Cardiolo.svg',
-    },
-    {
-      'title': 'الباطنة',
-      'icon': 'assets/icons/Gastroen.svg',
-    },
-    {
-      'title': 'الاسنان',
-      'icon': 'assets/icons/dentist.svg',
-    },
-    {
-      'title': 'اللقاح',
-      'icon': 'assets/icons/Vaccinat.svg',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 90,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: CategoryCard(
-              title: categories[index]['title']!,
-              icon: categories[index]['icon']!,
+    return BlocBuilder<SpecialtyCubit, SpecialtyState>(
+      builder: (BuildContext context, state) {
+        if (state is SpecialtyLoaded) {
+          final activeSpecialties = state.specialties
+              .where((specialty) => specialty.isActive)
+              .toList();
+          return SizedBox(
+            height: 90,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: activeSpecialties.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: CategoryCard(
+                    color: false,
+                    title: activeSpecialties[index].name,
+                    icon: activeSpecialties[index].icon,
+                  ),
+                );
+              },
             ),
           );
-        },
-      ),
+        }
+        if (state is SpecialtyError) {
+          return Center(
+            child: Text(
+              state.message,
+              style: FontStyles.body3.copyWith(color: AppColors.gray500),
+            ),
+          );
+        } else {
+          return const CustomLoader(loaderSize: kLoaderSize);
+        }
+      },
     );
   }
 }

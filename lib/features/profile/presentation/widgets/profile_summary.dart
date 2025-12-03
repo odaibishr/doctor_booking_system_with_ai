@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +21,11 @@ class ProfileSummary extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 70,
-          backgroundImage: AssetImage(userImage),
+          backgroundImage: userImage.startsWith('/')
+              ? FileImage(File(userImage)) as ImageProvider
+              : AssetImage(userImage),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 5),
         Text(
           name,
           style: FontStyles.headLine4.copyWith(fontWeight: FontWeight.bold),

@@ -1,10 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/animated_indecator.dart';
-import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_featured_banner.dart';
 import 'package:flutter/material.dart';
 
+import 'package:doctor_booking_system_with_ai/core/widgets/animated_indecator.dart';
+import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_featured_banner.dart';
+
 class DoctorBannerSlider extends StatefulWidget {
-  const DoctorBannerSlider({super.key});
+  const DoctorBannerSlider({super.key, required this.featuredDoctor});
+  final List<Doctor> featuredDoctor;
 
   @override
   State<DoctorBannerSlider> createState() => _DoctorBannerSliderState();
@@ -38,12 +42,15 @@ class _DoctorBannerSliderState extends State<DoctorBannerSlider> {
             },
           ),
           itemBuilder: (context, index, realIndex) {
-            return const DoctorFeaturedBanner();
+            return DoctorFeaturedBanner(doctor: widget.featuredDoctor[index]);
           },
-          itemCount: 3,
+          itemCount: widget.featuredDoctor.length,
         ),
         const SizedBox(height: 10),
-        AnimatedIndecator(currentIndex: currentIndex, dotsCount: 3),
+        AnimatedIndecator(
+          currentIndex: currentIndex,
+          dotsCount: widget.featuredDoctor.length,
+        ),
       ],
     );
   }
