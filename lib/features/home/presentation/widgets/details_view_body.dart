@@ -6,13 +6,11 @@ import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/section_header.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor_details/doctor_details_cubit.dart';
-import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/toggle_favorite/toggle_favorite_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/details_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_header_section.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_services_section.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_stats_section.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/patient_review_slider.dart';
-import 'package:doctor_booking_system_with_ai/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -48,12 +46,9 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
           return CustomScrollView(
             slivers: [
               SliverAppBar(
-                title: BlocProvider(
-                  create: (_) => serviceLocator<ToggleFavoriteCubit>(),
-                  child: DetailsAppBar(
-                    title: 'معلومات الطبيب',
-                    doctorId: doctor!.id,
-                  ),
+                title: DetailsAppBar(
+                  title: 'معلومات الطبيب',
+                  doctorId: doctor!.id,
                 ),
                 pinned: true,
                 automaticallyImplyLeading: false,

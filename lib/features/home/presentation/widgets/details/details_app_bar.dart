@@ -1,5 +1,6 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/back_button.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/toggle_favorite/toggle_favorite_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,7 +48,7 @@ class DetailsAppBar extends StatelessWidget {
           style: FontStyles.headLine4.copyWith(fontWeight: FontWeight.bold),
         ),
 
-        const BackButton(),
+        BackButtons(),
       ],
     );
   }
