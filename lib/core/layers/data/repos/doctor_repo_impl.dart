@@ -80,7 +80,7 @@ class DoctorRepoImpl implements DoctorRepo {
         final cachedDoctors = await localDataSource.getCachedDoctors();
 
         if (cachedDoctors.isEmpty) {
-          return Left(Failure('No doctors found'));
+          return Left(Failure('لم يتم العثور على أطباء'));
         }
 
         final foundDoctors = cachedDoctors
@@ -95,7 +95,7 @@ class DoctorRepoImpl implements DoctorRepo {
 
       final result = await remoteDataSource.searchDoctors(query);
       if (result.isEmpty) {
-        return Left(Failure('No doctors found'));
+        return Left(Failure('لم يتم العثور على أطباء'));
       }
       return Right(result);
     } catch (error) {

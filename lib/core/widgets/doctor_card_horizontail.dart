@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
@@ -40,9 +42,9 @@ class DoctorCardHorizontail extends StatelessWidget {
                       color: AppColors.gray400,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Image.asset(
-                      'assets/images/doctor-image.png',
-                      fit: BoxFit.contain,
+                    child: CachedNetworkImage(
+                      imageUrl: '${EndPoints.photoUrl}/${doctor.profileImage}',
+                      fit: BoxFit.fill,
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -50,28 +52,49 @@ class DoctorCardHorizontail extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const TopDoctor(),
-                            SvgPicture.asset(
-                              'assets/icons/heart-filled.svg',
-                              width: 24,
-                              height: 24,
-                              fit: BoxFit.scaleDown,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 7),
-                        Text(
-                          'د. صادق محمد بشر',
-                          style: FontStyles.subTitle3.copyWith(
-                            fontWeight: FontWeight.bold,
+                        if (doctor.isTopDoctor == 1)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const TopDoctor(),
+                              SvgPicture.asset(
+                                'assets/icons/heart-filled.svg',
+                                width: 24,
+                                height: 24,
+                                fit: BoxFit.scaleDown,
+                              ),
+                            ],
                           ),
-                        ),
+                        if (doctor.isTopDoctor == 0) const SizedBox(height: 7),
+                        const SizedBox(height: 7),
+                        if (doctor.isTopDoctor == 0)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'د. ${doctor.name}',
+                                style: FontStyles.subTitle3.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SvgPicture.asset(
+                                'assets/icons/heart-filled.svg',
+                                width: 24,
+                                height: 24,
+                                fit: BoxFit.scaleDown,
+                              ),
+                            ],
+                          ),
+                        if (doctor.isTopDoctor == 1)
+                          Text(
+                            'د. ${doctor.name}',
+                            style: FontStyles.subTitle3.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         const SizedBox(height: 7),
                         Text(
-                          'مخ واعصاب',
+                          doctor.specialty.name,
                           style: FontStyles.body2.copyWith(
                             color: AppColors.gray500,
                           ),

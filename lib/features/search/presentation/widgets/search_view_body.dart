@@ -51,8 +51,8 @@ class _SearchViewBodyState extends State<SearchViewBody> {
                       return Center(
                         child: Text(
                           state.message,
-                          style: FontStyles.body3.copyWith(
-                            color: AppColors.error,
+                          style: FontStyles.body1.copyWith(
+                            color: AppColors.gray600,
                           ),
                         ),
                       );
