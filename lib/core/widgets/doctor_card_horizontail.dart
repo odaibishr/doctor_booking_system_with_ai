@@ -58,7 +58,9 @@ class DoctorCardHorizontail extends StatelessWidget {
                             children: [
                               const TopDoctor(),
                               SvgPicture.asset(
-                                doctor.isFavorite == 1 ? 'assets/icons/heart-filled.svg' : 'assets/icons/heart.svg',
+                                doctor.isFavorite == 1
+                                    ? 'assets/icons/heart-filled.svg'
+                                    : 'assets/icons/heart-unfilled.svg',
                                 width: 24,
                                 height: 24,
                                 fit: BoxFit.scaleDown,

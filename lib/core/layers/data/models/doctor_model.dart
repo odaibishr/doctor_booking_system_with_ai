@@ -50,6 +50,7 @@ class DoctorModel extends Doctor {
     isFavorite: data['is_favorite'] as int? ?? 0,
   );
 
+
   Map<String, dynamic> toMap() => {
     'id': id,
     'name': name,
