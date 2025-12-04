@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/location.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/location.dart';
 
 class LocationModel extends Location {
   LocationModel({

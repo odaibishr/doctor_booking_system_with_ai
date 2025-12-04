@@ -1,5 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/specialty.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specialty.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/category_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

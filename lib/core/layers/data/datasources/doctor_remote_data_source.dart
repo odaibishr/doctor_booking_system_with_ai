@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
-import 'package:doctor_booking_system_with_ai/features/home/data/models/doctor_model.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/doctor_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 
 abstract class DoctorRemoteDataSource {
   Future<List<Doctor>> getDoctors();

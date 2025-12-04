@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/specialty.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/usecases/get_specilaties_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specialty.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_specilaties_use_case.dart';
 
 part 'specialty_state.dart';
 

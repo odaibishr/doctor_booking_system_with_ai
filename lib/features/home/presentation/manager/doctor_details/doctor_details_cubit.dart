@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/usecases/get_doctor_details_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctor_details_use_case.dart';
 
 part 'doctor_details_state.dart';
 

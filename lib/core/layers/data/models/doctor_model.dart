@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:doctor_booking_system_with_ai/features/home/data/models/hospital_model.dart';
-import 'package:doctor_booking_system_with_ai/features/home/data/models/location_model.dart';
-import 'package:doctor_booking_system_with_ai/features/home/data/models/specialty_model.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/hospital_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/location_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/specialty_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 
 class DoctorModel extends Doctor {
   DoctorModel({

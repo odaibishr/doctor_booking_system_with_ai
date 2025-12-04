@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/hospital.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
 
 class HospitalModel extends Hospital {
   HospitalModel({
