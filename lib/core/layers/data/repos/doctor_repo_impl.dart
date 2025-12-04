@@ -72,4 +72,10 @@ class DoctorRepoImpl implements DoctorRepo {
       return Left(Failure(e.toString()));
     }
   }
+  
+  @override
+  Future<Either<Failure, List<Doctor>>> searchDoctors(String query) {
+    // TODO: implement searchDoctors
+    throw UnimplementedError();
+  }
 }
