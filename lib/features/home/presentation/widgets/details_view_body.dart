@@ -51,10 +51,12 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
         BlocBuilder<DoctorDetailsCubit, DoctorDetailsState>(
           builder: (context, state) {
             if (state is DoctorDetailsError) {
-              return Center(
-                child: Text(
-                  state.message,
-                  style: FontStyles.body3.copyWith(color: AppColors.error),
+              return SliverToBoxAdapter(
+                child: Center(
+                  child: Text(
+                    state.message,
+                    style: FontStyles.body3.copyWith(color: AppColors.error),
+                  ),
                 ),
               );
             } else if (state is DoctorDetailsLoaded) {

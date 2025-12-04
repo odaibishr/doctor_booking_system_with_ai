@@ -24,6 +24,7 @@ class DoctorModel extends Doctor {
     required super.location,
     required super.specialty,
     required super.hospital,
+    required super.isFavorite,
   });
 
   factory DoctorModel.fromMap(Map<String, dynamic> data) => DoctorModel(
@@ -46,6 +47,7 @@ class DoctorModel extends Doctor {
       data['specialty'] as Map<String, dynamic>,
     ),
     hospital: HospitalModel.fromMap(data['hospital'] as Map<String, dynamic>),
+    isFavorite: data['is_favorite'] as int? ?? 0,
   );
 
   Map<String, dynamic> toMap() => {
@@ -66,6 +68,7 @@ class DoctorModel extends Doctor {
     'location': location,
     'specialty': specialty,
     'hospital': hospital,
+    'is_favorite': isFavorite,
   };
 
   /// `dart:convert`
@@ -100,6 +103,7 @@ class DoctorModel extends Doctor {
     LocationModel? location,
     SpecialtyModel? specialty,
     HospitalModel? hospital,
+    int? isFavorite,
   }) {
     return DoctorModel(
       id: id ?? this.id,
@@ -119,6 +123,7 @@ class DoctorModel extends Doctor {
       location: location ?? this.location,
       specialty: specialty ?? this.specialty,
       hospital: hospital ?? this.hospital,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 }

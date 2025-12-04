@@ -19,7 +19,7 @@ class DoctorCardHorizontail extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).push(AppRouter.detailsViewRoute);
+        GoRouter.of(context).push(AppRouter.detailsViewRoute, extra: doctor.id);
       },
       child: Container(
         width: double.infinity,
@@ -58,7 +58,7 @@ class DoctorCardHorizontail extends StatelessWidget {
                             children: [
                               const TopDoctor(),
                               SvgPicture.asset(
-                                'assets/icons/heart-filled.svg',
+                                doctor.isFavorite == 1 ? 'assets/icons/heart-filled.svg' : 'assets/icons/heart.svg',
                                 width: 24,
                                 height: 24,
                                 fit: BoxFit.scaleDown,

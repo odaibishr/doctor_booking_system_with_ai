@@ -44,6 +44,8 @@ class Doctor {
   Specialty specialty;
   @HiveField(16)
   Hospital hospital;
+  @HiveField(17)
+  int isFavorite;
 
   Doctor({
     required this.id,
@@ -63,5 +65,6 @@ class Doctor {
     required this.location,
     required this.specialty,
     required this.hospital,
+    required this.isFavorite,
   });
 }
