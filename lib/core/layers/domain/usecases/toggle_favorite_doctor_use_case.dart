@@ -13,7 +13,7 @@ class ToggleFavoriteDoctorUseCase
   Future<Either<Failure, bool>> call([
     ToggleFavoriteDoctorUseCaseParams? params,
   ]) async {
-    await doctorRepo.toggleFavoriteDoctor(params!.doctorId);
+    return await doctorRepo.toggleFavoriteDoctor(params!.doctorId);
   }
 }
 

@@ -8,6 +8,7 @@ abstract class DoctorRemoteDataSource {
   Future<List<Doctor>> getDoctors();
   Future<Doctor> getDoctorDetails(int id);
   Future<List<Doctor>> searchDoctors(String query);
+  Future<bool> toggleFavoriteDoctor(int doctorId);
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
@@ -48,5 +49,14 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
     }
 
     return doctors;
+  }
+
+  @override
+  Future<bool> toggleFavoriteDoctor(int doctorId) async {
+    final response = await dioConsumer.post(
+      'favorite/toggle',
+      data: {'doctor_id': doctorId},
+    );
+    return response['data'];
   }
 }
