@@ -72,10 +72,34 @@ class DoctorRepoImpl implements DoctorRepo {
       return Left(Failure(e.toString()));
     }
   }
-  
+
   @override
-  Future<Either<Failure, List<Doctor>>> searchDoctors(String query) {
-    // TODO: implement searchDoctors
-    throw UnimplementedError();
+  Future<Either<Failure, List<Doctor>>> searchDoctors(String query) async {
+    try {
+      if (!await networkInfo.isConnected!) {
+        final cachedDoctors = await localDataSource.getCachedDoctors();
+
+        if (cachedDoctors.isEmpty) {
+          return Left(Failure('No doctors found'));
+        }
+
+        final foundDoctors = cachedDoctors
+            .where(
+              (element) =>
+                  element.name.toLowerCase().contains(query.toLowerCase()),
+            )
+            .toList();
+
+        return Right(foundDoctors);
+      }
+
+      final result = await remoteDataSource.searchDoctors(query);
+      if (result.isEmpty) {
+        return Left(Failure('No doctors found'));
+      }
+      return Right(result);
+    } catch (error) {
+      return Left(Failure(error.toString()));
+    }
   }
 }
