@@ -102,4 +102,14 @@ class DoctorRepoImpl implements DoctorRepo {
       return Left(Failure(error.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> toggleFavoriteDoctor(int doctorId) async {
+    try {
+      final result = await remoteDataSource.toggleFavoriteDoctor(doctorId);
+      return Right(result);
+    } catch (error) {
+      return Left(Failure(error.toString()));
+    }
+  }
 }
