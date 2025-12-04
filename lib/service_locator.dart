@@ -173,6 +173,9 @@ Future<void> init() async {
   );
 
   serviceLocator.registerLazySingleton<SearchDoctorsBloc>(
-    () => SearchDoctorsBloc(serviceLocator<SearchDoctorsUseCase>()),
+    () => SearchDoctorsBloc(
+      serviceLocator<SearchDoctorsUseCase>(),
+      serviceLocator<GetDoctorsUseCase>(),
+    ),
   );
 }

@@ -12,9 +12,9 @@ class SearchDoctorListView extends StatelessWidget {
       height: 165,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: 10,
+        itemCount: doctors.length,
         itemBuilder: (context, index) {
-          return const DoctorCardHorizontail();
+          return DoctorCardHorizontail(doctor: doctors[index]);
         },
       ),
     );
