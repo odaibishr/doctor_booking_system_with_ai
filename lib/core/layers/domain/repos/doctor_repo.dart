@@ -6,4 +6,5 @@ abstract class DoctorRepo {
   Future<Either<Failure, List<Doctor>>> getDoctors();
   Future<Either<Failure, Doctor>> getDoctorDetails(int id);
   Future<Either<Failure, List<Doctor>>> searchDoctors(String query);
+  Future<Either<Failure, bool>> toggleFavoriteDoctor(int doctorId);
 }
