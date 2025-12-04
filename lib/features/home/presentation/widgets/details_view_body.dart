@@ -2,15 +2,17 @@ import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart'
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/section_header.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor_details/doctor_details_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/toggle_favorite/toggle_favorite_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/details_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_header_section.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_services_section.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/doctor_stats_section.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/details/patient_review_slider.dart';
+import 'package:doctor_booking_system_with_ai/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,36 +34,33 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          title: CustomAppBar(
-            userImage: 'assets/images/user.png',
-            title: 'معلومات الطبيب',
-            isBackButtonVisible: true,
-            isUserImageVisible: false,
-            isHeartIconVisible: true,
-          ),
-          pinned: true,
-          automaticallyImplyLeading: false,
-          backgroundColor: AppColors.white,
-          surfaceTintColor: AppColors.white,
-        ),
-
-        BlocBuilder<DoctorDetailsCubit, DoctorDetailsState>(
-          builder: (context, state) {
-            if (state is DoctorDetailsError) {
-              return SliverToBoxAdapter(
-                child: Center(
-                  child: Text(
-                    state.message,
-                    style: FontStyles.body3.copyWith(color: AppColors.error),
+    return BlocBuilder<DoctorDetailsCubit, DoctorDetailsState>(
+      builder: (context, state) {
+        if (state is DoctorDetailsError) {
+          return Center(
+            child: Text(
+              state.message,
+              style: FontStyles.body3.copyWith(color: AppColors.error),
+            ),
+          );
+        } else if (state is DoctorDetailsLoaded) {
+          doctor = state.doctor;
+          return CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                title: BlocProvider(
+                  create: (_) => serviceLocator<ToggleFavoriteCubit>(),
+                  child: DetailsAppBar(
+                    title: 'معلومات الطبيب',
+                    doctorId: doctor!.id,
                   ),
                 ),
-              );
-            } else if (state is DoctorDetailsLoaded) {
-              doctor = state.doctor;
-              return SliverPadding(
+                pinned: true,
+                automaticallyImplyLeading: false,
+                backgroundColor: AppColors.white,
+                surfaceTintColor: AppColors.white,
+              ),
+              SliverPadding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   vertical: 10,
@@ -112,14 +111,12 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                     const SizedBox(height: 16),
                   ]),
                 ),
-              );
-            }
-            return SliverToBoxAdapter(
-              child: CustomLoader(loaderSize: kLoaderSize),
-            );
-          },
-        ),
-      ],
+              ),
+            ],
+          );
+        }
+        return const CustomLoader(loaderSize: kLoaderSize);
+      },
     );
   }
 }
