@@ -24,6 +24,8 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_sp
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor_details/doctor_details_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/specialty/specialty_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/search/domain/usecases/search_doctors_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/search/presentation/manager/search_doctors_bloc/search_doctors_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
 import 'package:doctor_booking_system_with_ai/core/storage/hive_service.dart';
@@ -141,6 +143,10 @@ Future<void> init() async {
     () => GetDoctorDetailsUseCase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<SearchDoctorsUseCase>(
+    () => SearchDoctorsUseCase(serviceLocator()),
+  );
+
   // Cubit
   serviceLocator.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
@@ -164,5 +170,9 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<SpecialtyCubit>(
     () => SpecialtyCubit(serviceLocator<GetSpecilatiesUseCase>()),
+  );
+
+  serviceLocator.registerLazySingleton<SearchDoctorsBloc>(
+    () => SearchDoctorsBloc(serviceLocator<SearchDoctorsUseCase>()),
   );
 }
