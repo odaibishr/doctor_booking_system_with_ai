@@ -17,7 +17,7 @@ class FavoriteDoctorBody extends StatelessWidget {
             isUserImageVisible: false,
           ),
           SizedBox(height: 30),
-          Expanded(child: SearchDoctorListView(doctors: [])),
+          Expanded(child: ),
         ],
       ),
     );
