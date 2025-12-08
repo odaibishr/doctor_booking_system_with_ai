@@ -3,6 +3,7 @@ import 'package:doctor_booking_system_with_ai/core/styles/app_theme.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presention/manager/profile_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/favoratie_doctor/presention/manager/favorite_doctor_cubit/favorite_doctor_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor_details/doctor_details_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/specialty/specialty_cubit.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(create: (_) => serviceLocator<SearchDoctorsBloc>()),
         BlocProvider(create: (_) => serviceLocator<ToggleFavoriteCubit>()),
+        BlocProvider(create: (_) => serviceLocator<FavoriteDoctorCubit>()),
       ],
       child: MaterialApp.router(
         title: 'Doctor Booking System',

@@ -1,6 +1,5 @@
 part of 'favorite_doctor_cubit.dart';
 
-@immutable
 sealed class FavoriteDoctorState {}
 
 final class FavoriteDoctorInitial extends FavoriteDoctorState {}
