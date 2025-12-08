@@ -66,11 +66,11 @@ class _PaymentViewBodyState extends State<PaymentViewBody> {
  
                 PaymentMethodItem(
                   label: 'Card',
-                  iconPath: 'assets/icons/pay-card.svg',
-                  isSelected: selectedMethodIndex == 2,
+                  iconPath: 'assets/images/jaib.svg',
+                  isSelected: selectedMethodIndex == 1,
                   onTap: () {
                     setState(() {
-                      selectedMethodIndex = 2;
+                      selectedMethodIndex = 1;
                     });
                   },
                 ),
