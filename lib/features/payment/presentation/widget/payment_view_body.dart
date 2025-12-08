@@ -63,33 +63,14 @@ class _PaymentViewBodyState extends State<PaymentViewBody> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+ 
                 PaymentMethodItem(
-                  label: 'Cash',
-                  iconPath: 'assets/icons/pay-card.svg',
-                  isSelected: selectedMethodIndex == 0,
-                  onTap: () {
-                    setState(() {
-                      selectedMethodIndex = 0;
-                    });
-                  },
-                ),
-                PaymentMethodItem(
-                  label: 'Cash',
-                  iconPath: 'assets/icons/cash.svg',
+                  label: 'Card',
+                  iconPath: 'assets/images/jaib.svg',
                   isSelected: selectedMethodIndex == 1,
                   onTap: () {
                     setState(() {
                       selectedMethodIndex = 1;
-                    });
-                  },
-                ),
-                PaymentMethodItem(
-                  label: 'Card',
-                  iconPath: 'assets/icons/pay-card.svg',
-                  isSelected: selectedMethodIndex == 2,
-                  onTap: () {
-                    setState(() {
-                      selectedMethodIndex = 2;
                     });
                   },
                 ),
