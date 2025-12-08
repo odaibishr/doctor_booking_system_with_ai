@@ -112,4 +112,10 @@ class DoctorRepoImpl implements DoctorRepo {
       return Left(Failure(error.toString()));
     }
   }
+  
+  @override
+  Future<Either<Failure, List<Doctor>>> getFavoriteDoctors() {
+    // TODO: implement getFavoriteDoctors
+    throw UnimplementedError();
+  }
 }
