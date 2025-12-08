@@ -59,4 +59,10 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
     );
     return response['data'];
   }
+
+  Future<List<Doctor>> getFavoriteDoctors() async {
+    final response = await getDoctors();
+
+    return response.where((doctor) => doctor.isFavorite == 1).toList();
+  }
 }
