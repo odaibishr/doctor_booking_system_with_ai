@@ -55,7 +55,12 @@ class VerticalDoctorCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Icon(Icons.favorite, color: AppColors.error),
+                topDoctor.isFavorite == 1
+                    ? Icon(Icons.favorite, color: AppColors.error)
+                    : Icon(
+                        Icons.favorite_border_outlined,
+                        color: AppColors.gray500,
+                      ),
               ],
             ),
             const SizedBox(height: 3),

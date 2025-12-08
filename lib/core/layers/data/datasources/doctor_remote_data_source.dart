@@ -61,6 +61,7 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
     return response['data'];
   }
 
+  @override
   Future<List<Doctor>> getFavoriteDoctors() async {
     final response = await getDoctors();
 

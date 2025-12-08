@@ -26,7 +26,7 @@ class DoctorRepoImpl implements DoctorRepo {
         log('No internet connection');
         final cachedDoctors = await localDataSource.getCachedDoctors();
         if (cachedDoctors.isEmpty) {
-          return Left(Failure('No doctors found'));
+          return Left(Failure('لم يتم العثور على الاطباء'));
         }
         return Right(cachedDoctors);
       }
