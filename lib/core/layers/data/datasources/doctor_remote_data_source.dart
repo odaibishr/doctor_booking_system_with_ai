@@ -9,6 +9,7 @@ abstract class DoctorRemoteDataSource {
   Future<Doctor> getDoctorDetails(int id);
   Future<List<Doctor>> searchDoctors(String query);
   Future<bool> toggleFavoriteDoctor(int doctorId);
+  Future<List<Doctor>> getFavoriteDoctors();
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {

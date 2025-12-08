@@ -112,10 +112,28 @@ class DoctorRepoImpl implements DoctorRepo {
       return Left(Failure(error.toString()));
     }
   }
-  
+
   @override
-  Future<Either<Failure, List<Doctor>>> getFavoriteDoctors() {
-    // TODO: implement getFavoriteDoctors
-    throw UnimplementedError();
+  Future<Either<Failure, List<Doctor>>> getFavoriteDoctors() async {
+    try {
+      if (!await networkInfo.isConnected!) {
+        final cachedDoctors = await localDataSource.getCachedDoctors();
+        final favoirteDoctors = cachedDoctors
+            .where((doctor) => doctor.isFavorite == 1)
+            .toList();
+
+        return Right(favoirteDoctors);
+      }
+
+      final result = await remoteDataSource.getFavoriteDoctors();
+
+      if (result.isEmpty) {
+        return Left(Failure('لم يتم العثور على أطباء'));
+      }
+
+      return Right(result);
+    } catch (error) {
+      return Left(Failure(error.toString()));
+    }
   }
 }
