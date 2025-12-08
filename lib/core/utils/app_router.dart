@@ -13,6 +13,7 @@ import 'package:doctor_booking_system_with_ai/features/forget_password/verfiy_co
 import 'package:doctor_booking_system_with_ai/features/home/presentation/details_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/home_view.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/hospital_details_view.dart';
+import 'package:doctor_booking_system_with_ai/features/notification/presentation/notification_view.dart';
 import 'package:doctor_booking_system_with_ai/features/onboarding/presention/onboarding_view.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/add_card_view.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/payment_view.dart';
@@ -43,6 +44,7 @@ class AppRouter {
   static const String paymentViewRoute = '/paymentView';
   static const String favoritedoctorViewRoute = '/favoritedoctorView';
   static const String addcardViewRoute = '/addcardView';
+  static const String notificationViewRoute = '/notificationView';
 
   static GoRouter router = GoRouter(
     routes: [
@@ -126,6 +128,10 @@ class AppRouter {
       GoRoute(
         path: addcardViewRoute,
         builder: (context, state) => const AddCardView(),
+      ),
+      GoRoute(
+        path: notificationViewRoute,
+        builder: (context, state) => NotificationView(),
       ),
     ],
     initialLocation: splashRoute,
