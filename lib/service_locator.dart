@@ -22,6 +22,8 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/specialty
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctor_details_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_specilaties_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/favoratie_doctor/domain/use_cases/get_favorite_doctors_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/favoratie_doctor/presention/manager/favorite_doctor_cubit/favorite_doctor_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor_details/doctor_details_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/specialty/specialty_cubit.dart';
@@ -153,6 +155,10 @@ Future<void> init() async {
     () => ToggleFavoriteDoctorUseCase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<GetFavoriteDoctorsUseCase>(
+    () => GetFavoriteDoctorsUseCase(serviceLocator()),
+  );
+
   // Cubit
   serviceLocator.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
@@ -187,5 +193,9 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<ToggleFavoriteCubit>(
     () => ToggleFavoriteCubit(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<FavoriteDoctorCubit>(
+    () => FavoriteDoctorCubit(serviceLocator<GetFavoriteDoctorsUseCase>()),
   );
 }
