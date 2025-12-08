@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
+import 'package:doctor_booking_system_with_ai/features/favoratie_doctor/presention/favorite_doctor_list_view.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/search_doctor_list_view.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class FavoriteDoctorBody extends StatelessWidget {
             isUserImageVisible: false,
           ),
           SizedBox(height: 30),
-          Expanded(child: ),
+          Expanded(child: FavoriteDoctorListView(doctors: doctors) ),
         ],
       ),
     );
