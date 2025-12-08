@@ -9,7 +9,7 @@ import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/location_info.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/price_lable_with_icon.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 
 class DoctorFeaturedBanner extends StatelessWidget {
   const DoctorFeaturedBanner({super.key, required this.doctor});
@@ -19,7 +19,7 @@ class DoctorFeaturedBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).push(AppRouter.detailsViewRoute, extra: doctor);
+        GoRouter.of(context).push(AppRouter.detailsViewRoute, extra: doctor.id);
       },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,

@@ -1,8 +1,8 @@
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/hospital.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/location.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/specialty.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/location.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specialty.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 

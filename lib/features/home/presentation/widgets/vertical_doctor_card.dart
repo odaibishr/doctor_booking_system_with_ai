@@ -3,7 +3,7 @@ import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart'
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,7 +15,9 @@ class VerticalDoctorCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).push(AppRouter.detailsViewRoute, extra: topDoctor);
+        GoRouter.of(
+          context,
+        ).push(AppRouter.detailsViewRoute, extra: topDoctor.id);
       },
       child: Container(
         width: 205,

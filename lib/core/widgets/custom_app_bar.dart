@@ -62,7 +62,7 @@ class CustomAppBar extends StatelessWidget {
           style: FontStyles.headLine4.copyWith(fontWeight: FontWeight.bold),
         ),
         isBackButtonVisible
-            ? const BackButton()
+            ? const BackButtons()
             : Opacity(
                 opacity: 0,
                 child: SizedBox.fromSize(size: const Size(38, 38)),

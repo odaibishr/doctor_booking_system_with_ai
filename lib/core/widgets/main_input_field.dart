@@ -16,6 +16,7 @@ class MainInputField extends StatelessWidget {
     this.isNumber,
     this.readonly,
     this.icon_onTap,
+    this.onChanged,
   });
 
   final FormFieldValidator<String>? validator;
@@ -28,11 +29,13 @@ class MainInputField extends StatelessWidget {
   final bool? readonly;
   final VoidCallback? icon_onTap;
   final TextEditingController? controller;
+  final Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       readOnly: readonly ?? false,
+      onChanged: onChanged,
       keyboardType: (isNumber == true)
           ? TextInputType.numberWithOptions()
           : TextInputType.text,

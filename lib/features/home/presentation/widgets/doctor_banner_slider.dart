@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:doctor_booking_system_with_ai/core/widgets/animated_indecator.dart';
-import 'package:doctor_booking_system_with_ai/features/home/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_featured_banner.dart';
 
 class DoctorBannerSlider extends StatefulWidget {

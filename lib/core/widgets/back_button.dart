@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:svg_flutter/svg.dart';
 
-class BackButton extends StatelessWidget {
-  const BackButton({super.key});
+class BackButtons extends StatelessWidget {
+  const BackButtons({super.key});
 
   @override
   Widget build(BuildContext context) {
