@@ -17,12 +17,12 @@ class FavoriteDoctorBody extends StatefulWidget {
 
 class _FavoriteDoctorBodyState extends State<FavoriteDoctorBody> {
   @override
-  @override
   void initState() {
     super.initState();
     context.read<FavoriteDoctorCubit>().getFavoriteDoctors();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

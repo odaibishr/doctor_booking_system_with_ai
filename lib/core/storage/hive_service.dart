@@ -34,6 +34,7 @@ class HiveService {
     _userBox = await Hive.openBox<User>(userBoxName);
     _doctorBox = await Hive.openBox<Doctor>(kDoctorBox);
     await Hive.openBox<Specialty>(kSpecialtyBox);
+    await Hive.openBox<Hospital>(kHospitalBox);
   }
 
   static Future<void> cacheAuthData(User user) async {
