@@ -1,8 +1,9 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/tab_item.dart';
 import 'package:flutter/material.dart';
-import 'tab_item.dart';
+import 'package:flutter/widgets.dart';
 
-class TapBar extends StatefulWidget {
+class TapBar extends StatelessWidget {
   final List<String> tabItems;
   final int selectedTab;
   final Function(int) onTabChanged;
@@ -10,29 +11,9 @@ class TapBar extends StatefulWidget {
   const TapBar({
     super.key,
     required this.tabItems,
-    this.selectedTab = 0,
+    required this.selectedTab,
     required this.onTabChanged,
   });
-
-  @override
-  State<TapBar> createState() => _TapBarState();
-}
-
-class _TapBarState extends State<TapBar> {
-  late int _selectedIndex;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedIndex = widget.selectedTab;
-  }
-
-  void _handleTabChange(int index) {
-    setState(() {
-      _selectedIndex = index;
-      widget.onTabChanged(index);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,20 +27,14 @@ class _TapBarState extends State<TapBar> {
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                for (int i = 0; i < widget.tabItems.length; i++)
-                  TabItem(
-                    text: widget.tabItems[i],
-                    isSelected: _selectedIndex == i,
-                    onTap: () => _handleTabChange(i),
-                  ),
-              ],
+          for (int i = 0; i < tabItems.length; i++)
+            TabItem(
+              text: tabItems[i],
+              isSelected: selectedTab == i,
+              onTap: () => onTabChanged(i),
             ),
-          ),
         ],
       ),
     );

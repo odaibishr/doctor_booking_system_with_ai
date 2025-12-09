@@ -17,8 +17,74 @@ class HospitalDetailsViewBody extends StatefulWidget {
 
 class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
   int _selectedTab = 0;
+  final PageController _pageController = PageController();
 
-  // بيانات وهمية للتوضيح - يمكن استبدالها ببيانات حقيقية
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomAppBar(
+              title: 'معلومات المستشفى',
+              isBackButtonVisible: true,
+              isUserImageVisible: false,
+              isHeartIconVisible: false,
+            ),
+            const SizedBox(height: 28),
+
+            HospitalHeaderSection(
+              hospitalName: 'مستشفى جامعة العلوم والتكنولوجيا',
+              hospitalLocation: 'صنعاء . شارع الستين . جسر مذبح',
+              hospitalImage: 'assets/images/hospital.jpg',
+            ),
+            const SizedBox(height: 20),
+
+            const HospitalStatsSection(),
+            const SizedBox(height: 30),
+
+            // 🔵 TapBar يعمل مع PageView
+            TapBar(
+              tabItems: ['عنا', 'المتخصصون', 'المراجعات'],
+              selectedTab: _selectedTab,
+              onTabChanged: (index) {
+                setState(() => _selectedTab = index);
+                _pageController.animateToPage(
+                  index,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              },
+            ),
+
+            const SizedBox(height: 20),
+
+            // 🔵 PageView
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() => _selectedTab = index);
+                },
+                children: [
+                  HospitalDetailsAboutTab(
+                    doctors: _doctors,
+                    reviews: _reviews,
+                  ),
+                  HospitalDetailsDoctorsTab(doctors: _doctors),
+                  HospitalDetailsReviewsTab(reviews: _reviews),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // بيانات المستشفى
   final List<Map<String, dynamic>> _doctors = [
     {
       'id': '1',
@@ -64,59 +130,4 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
       'review': 'تجربة جيدة بشكل عام، ولكن يمكن تحسين وقت الانتظار',
     },
   ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomAppBar(
-              title: 'معلومات المستشفى',
-              isBackButtonVisible: true,
-              isUserImageVisible: false,
-              isHeartIconVisible: false,
-            ),
-            const SizedBox(height: 28),
-            HospitalHeaderSection(
-              hospitalName: 'مستشفى جامعة العلوم والتكنولوجيا',
-              hospitalLocation: 'صنعاء . شارع الستين . جسر مذبح',
-              hospitalImage: 'assets/images/hospital.jpg',
-            ),
-            const SizedBox(height: 20),
-            const HospitalStatsSection(),
-            const SizedBox(height: 30),
-            TapBar(
-              tabItems: ['عنا', 'المتخصصون', 'المراجعات'],
-              selectedTab: _selectedTab,
-              onTabChanged: (index) {
-                setState(() {
-                  _selectedTab = index;
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-
-            // Content of the tabs
-            Expanded(child: _buildTabContent()),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTabContent() {
-    switch (_selectedTab) {
-      case 0:
-        return HospitalDetailsAboutTab(doctors: _doctors, reviews: _reviews);
-      case 1:
-        return HospitalDetailsDoctorsTab(doctors: _doctors);
-      case 2:
-        return HospitalDetailsReviewsTab(reviews: _reviews);
-      default:
-        return HospitalDetailsAboutTab(doctors: _doctors, reviews: _reviews);
-    }
-  }
 }

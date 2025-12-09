@@ -12,11 +12,23 @@ class BookingHistoryViewBody extends StatefulWidget {
 
 class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
   int _selectedTab = 0;
+  final PageController _pagecontroller=PageController();
 
   void _onTabChanged(int index) {
-    setState(() {
-      _selectedTab = index;
-    });
+    setState(() => _selectedTab = index);
+
+
+    _pagecontroller.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+
+  void _onPageSwiped(int index) {
+    setState(() => _selectedTab = index);
+
   }
 
   @override
@@ -38,7 +50,15 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
             onTabChanged: _onTabChanged,
           ),
           const SizedBox(height: 16),
-          Expanded(child: BookingCardsListView(currentTabIndex: _selectedTab)),
+          Expanded(child: PageView(
+            controller: _pagecontroller,
+            onPageChanged:_onPageSwiped,
+          children: [
+            BookingCardsListView(currentTabIndex: 0),
+            BookingCardsListView(currentTabIndex: 1),
+            BookingCardsListView(currentTabIndex: 2),
+          ],
+          )),
         ],
       ),
     );

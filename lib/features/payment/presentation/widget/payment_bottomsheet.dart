@@ -9,7 +9,7 @@ class PaymentBottomSheet extends StatelessWidget {
     return AnimatedContainer(
       duration: Duration(microseconds: 1300),
       curve: Curves.easeInOutBack,
-      height: 400,
+      height: MediaQuery.of(context).size.height * 0.55,
       width: double.infinity,
       padding: EdgeInsets.only(top: 45, left: 20, right: 20),
       decoration: BoxDecoration(
