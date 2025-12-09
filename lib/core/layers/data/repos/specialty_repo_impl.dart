@@ -23,7 +23,7 @@ class SpecialtyRepoImpl implements SpecialtyRepo {
   Future<Either<Failure, List<Specialty>>> getSpecialties() async {
     try {
       // check if network is connected
-      if (!await _networkInfo.isConnected!) {
+      if (!await _networkInfo.isConnected) {
         final cachedSpecialties = await localDataSource.getSpecialties();
         return Right(cachedSpecialties);
       }

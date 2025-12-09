@@ -14,11 +14,11 @@ class SearchDoctorsBloc extends Bloc<SearchDoctorsEvent, SearchDoctorsState> {
   SearchDoctorsBloc(this.searchDoctorsUseCase, this.getDoctorsUseCase)
     : super(SearchDoctorsInitial())  {
     on<SearchDoctorsQueryChanged>((event, emit) async {
-      await onSearchDcotrosQueryChanged(event, emit);
+      await onSearchDoctorsQueryChanged(event, emit);
     });
   }
 
-  Future<void> onSearchDcotrosQueryChanged(
+  Future<void> onSearchDoctorsQueryChanged(
     SearchDoctorsQueryChanged event,
     Emitter<SearchDoctorsState> emit,
   ) async {

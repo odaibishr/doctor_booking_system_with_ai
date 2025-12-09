@@ -20,7 +20,7 @@ class HospitalRepoImpl implements HospitalRepo {
   @override
   Future<Either<Failure, List<Hospital>>> getHospitals() async {
     try {
-      if (!await networkInfo.isConnected!) {
+      if (!await networkInfo.isConnected) {
         final cachedHospitals = await localDataSource.getCachedHospitals();
         if (cachedHospitals.isEmpty) {
           return Left(Failure('لم يتم العثور على المستشفيات'));

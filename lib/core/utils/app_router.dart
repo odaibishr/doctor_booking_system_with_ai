@@ -1,20 +1,20 @@
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/sign_in_view.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/sign_up_view.dart';
-import 'package:doctor_booking_system_with_ai/features/ai_chat/presention/ai_chat_view.dart';
+import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/ai_chat_view.dart';
 import 'package:doctor_booking_system_with_ai/features/app/presentation/app_navigation.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/presentation/appointment_view.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/booking_history_view.dart';
-import 'package:doctor_booking_system_with_ai/features/categorys/presention/category_view.dart';
-import 'package:doctor_booking_system_with_ai/features/create_profile/presention/create_profile_view.dart';
-import 'package:doctor_booking_system_with_ai/features/favoratie_doctor/presention/favorite_doctor_view.dart';
-import 'package:doctor_booking_system_with_ai/features/forget_password/create_new_password.dart/presention/create_new_passwod_view.dart';
-import 'package:doctor_booking_system_with_ai/features/forget_password/email_input/presention/email_input_view.dart';
-import 'package:doctor_booking_system_with_ai/features/forget_password/verfiy_code/presention/verfiy_code_view.dart';
+import 'package:doctor_booking_system_with_ai/features/categories/presentation/category_view.dart';
+import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/create_profile_view.dart';
+import 'package:doctor_booking_system_with_ai/features/favorite_doctor/presentation/favorite_doctor_view.dart';
+import 'package:doctor_booking_system_with_ai/features/forget_password/create_new_password/presentation/create_new_password_view.dart';
+import 'package:doctor_booking_system_with_ai/features/forget_password/email_input/presentation/email_input_view.dart';
+import 'package:doctor_booking_system_with_ai/features/forget_password/verify_code/presentation/verify_code_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/details_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/home_view.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/hospital_details_view.dart';
 import 'package:doctor_booking_system_with_ai/features/notification/presentation/notification_view.dart';
-import 'package:doctor_booking_system_with_ai/features/onboarding/presention/onboarding_view.dart';
+import 'package:doctor_booking_system_with_ai/features/onboarding/presentation/onboarding_view.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/add_card_view.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/payment_view.dart';
 import 'package:doctor_booking_system_with_ai/features/profile/presentation/profile_view.dart';
@@ -36,8 +36,8 @@ class AppRouter {
   static const String signupViewRoute = '/signupView';
   static const String createprofileViewRout = '/createprofileView';
   static const String emailinputViewRoute = '/emailinputView';
-  static const String verfiycodeViewRout = '/verfiycodeView';
-  static const String createnewpasswordViewRoute = '/createnewpasswordView';
+  static const String verifyCodeViewRoute = '/verifycodeView';
+  static const String createNewPasswordViewRoute = '/createnewpasswordView';
   static const String appointmentViewRoute = '/appointmentView';
   static const String aichatViewRoute = '/aichatView';
   static const String categoryViewRoute = '/categoryView';
@@ -101,12 +101,12 @@ class AppRouter {
         builder: (context, state) => const EmailInputView(),
       ),
       GoRoute(
-        path: verfiycodeViewRout,
-        builder: (context, state) => const VerfiyCodeView(),
+        path: verifyCodeViewRoute,
+        builder: (context, state) => const VerifyCodeView(),
       ),
       GoRoute(
-        path: createnewpasswordViewRoute,
-        builder: (context, state) => const CreateNewPasswodView(),
+        path: createNewPasswordViewRoute,
+        builder: (context, state) => const CreateNewPasswordView(),
       ),
       GoRoute(
         path: appointmentViewRoute,
