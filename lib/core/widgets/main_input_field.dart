@@ -17,6 +17,7 @@ class MainInputField extends StatelessWidget {
     this.readonly,
     this.icon_onTap,
     this.onChanged,
+    this.border= AppColors.primary,
   });
 
   final FormFieldValidator<String>? validator;
@@ -30,6 +31,7 @@ class MainInputField extends StatelessWidget {
   final VoidCallback? icon_onTap;
   final TextEditingController? controller;
   final Function(String)? onChanged;
+  final Color border;
 
   @override
   Widget build(BuildContext context) {
@@ -87,15 +89,15 @@ class MainInputField extends StatelessWidget {
             : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.primary),
+          borderSide:  BorderSide(color:border ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.primary),
+          borderSide:  BorderSide(color:border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.primary, width: 2),
+          borderSide:  BorderSide(color: border, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

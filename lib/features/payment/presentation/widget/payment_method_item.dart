@@ -6,14 +6,12 @@ import 'package:svg_flutter/svg.dart';
 class PaymentMethodItem extends StatelessWidget {
   final String label;
   final String iconPath;
-  final bool isSelected;
   final VoidCallback onTap;
 
   const PaymentMethodItem({
     super.key,
     required this.label,
     required this.iconPath,
-    required this.isSelected,
     required this.onTap,
   });
 
@@ -22,14 +20,14 @@ class PaymentMethodItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 109,
-        height: 50,
+        width: double.infinity,
+        height: 70,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : AppColors.white,
+          color: Color(0xffdb232d),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isSelected ? AppColors.primary : const Color(0xFF9CA3AF),
+            color:    Color(0xffdb232d),
             width: 1,
           ),
         ),
@@ -39,17 +37,17 @@ class PaymentMethodItem extends StatelessWidget {
             Text(
               label,
               style: FontStyles.subTitle3.copyWith(
-                color: isSelected ? AppColors.white : AppColors.black,
+                color:  const Color.fromARGB(255, 244, 241, 241),
                 fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(width: 6),
             SvgPicture.asset(
               iconPath,
-              width: 22,
-              height: 22,
+              width: 40,
+              height: 40,
               colorFilter: ColorFilter.mode(
-                isSelected ? AppColors.white : AppColors.gray500,
+                AppColors.white ,
                 BlendMode.srcIn,
               ),
             ),

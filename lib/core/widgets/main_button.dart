@@ -34,7 +34,7 @@ class MainButton extends StatelessWidget {
             style: FontStyles.subTitle2.copyWith(
               color: color == AppColors.primary
                   ? AppColors.white
-                  : AppColors.black,
+                  : const Color.fromARGB(255, 245, 243, 243),
             ),
           ),
         ),
