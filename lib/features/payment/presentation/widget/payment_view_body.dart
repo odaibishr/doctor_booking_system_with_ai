@@ -1,7 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
-import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/JaibShowDialog.dart';
+import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/jaib_show_dialog.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/appointment_details.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/doctor_info.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/payment_method_item.dart';

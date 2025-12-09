@@ -1,6 +1,5 @@
-import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/JaibDialogContent.dart';
+import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/jaib_dialog_content.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 
 class JaibShowDialog extends StatelessWidget {
