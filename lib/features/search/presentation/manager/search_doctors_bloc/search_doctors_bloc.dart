@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/search/domain/usecases/search_doctors_use_case.dart';
-import 'package:meta/meta.dart';
 
 part 'search_doctors_event.dart';
 part 'search_doctors_state.dart';

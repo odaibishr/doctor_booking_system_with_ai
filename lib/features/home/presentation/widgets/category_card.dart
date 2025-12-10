@@ -25,7 +25,7 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () =>
-          GoRouter.of(context).push(AppRouter.searchViewRoute, extra: id.toString()),
+          GoRouter.of(context).push("${AppRouter.searchViewRoute}?id=$id"),
       child: Container(
         width: 85,
         height: 85,

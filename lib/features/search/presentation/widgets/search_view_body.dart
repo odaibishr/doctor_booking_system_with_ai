@@ -30,6 +30,7 @@ class _SearchViewBodyState extends State<SearchViewBody> {
   }
 
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
