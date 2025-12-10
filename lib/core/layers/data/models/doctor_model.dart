@@ -28,27 +28,36 @@ class DoctorModel extends Doctor {
   });
 
   factory DoctorModel.fromMap(Map<String, dynamic> data) => DoctorModel(
-    id: data['id'] as int,
-    name: data['name'] as String,
-    email: data['email'] as String,
-    phone: data['phone'] as String,
-    aboutus: data['aboutus'] as String,
-    locationId: data['location_id'] as int,
-    specialtyId: data['specialty_id'] as int,
-    hospitalId: data['hospital_id'] as int,
-    gender: data['gender'] as String,
-    isFeatured: data['is_featured'] as int,
-    isTopDoctor: data['is_top_doctor'] as int,
-    profileImage: data['profile_image'] as String,
-    birthday: data['birthday'] as String,
-    services: data['services'] as String,
-    location: LocationModel.fromMap(data['location'] as Map<String, dynamic>),
-    specialty: SpecialtyModel.fromMap(
-      data['specialty'] as Map<String, dynamic>,
-    ),
-    hospital: HospitalModel.fromMap(data['hospital'] as Map<String, dynamic>),
-    isFavorite: data['is_favorite'] as int? ?? 0,
-  );
+  id: data['id'] ?? 0,
+  name: data['name'] ?? '',
+  email: data['email'] ?? '',
+  phone: data['phone'] ?? '',
+  aboutus: data['aboutus'] ?? '',
+  locationId: data['location_id'] ?? 0,
+  specialtyId: data['specialty_id'] ?? 0,
+  hospitalId: data['hospital_id'] ?? 0,
+  gender: data['gender'] ?? '',
+  isFeatured: data['is_featured'] ?? 0,
+  isTopDoctor: data['is_top_doctor'] ?? 0,
+  profileImage: data['profile_image'] ?? '',
+  birthday: data['birthday'] ?? '',
+  services: data['services'] ?? '',
+
+  location: data['location'] != null
+      ? LocationModel.fromMap(data['location'])
+      : LocationModel.empty(),
+
+  specialty: data['specialty'] != null
+      ? SpecialtyModel.fromMap(data['specialty'])
+      : SpecialtyModel.empty(),
+
+  hospital: data['hospital'] != null
+      ? HospitalModel.fromMap(data['hospital'])
+      : HospitalModel.empty(),
+
+  isFavorite: data['is_favorite'] ?? 0,
+);
+
 
 
   Map<String, dynamic> toMap() => {

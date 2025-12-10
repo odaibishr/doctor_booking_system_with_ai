@@ -38,4 +38,6 @@ class LocationModel extends Location {
   }
 
   String toJson() => json.encode(toMap());
+
+  factory LocationModel.empty() => LocationModel(id: 0, lat: 0.0, lng: 0.0, name: '');
 }

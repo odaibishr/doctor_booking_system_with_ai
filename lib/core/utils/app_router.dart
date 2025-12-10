@@ -62,7 +62,8 @@ class AppRouter {
       ),
       GoRoute(
         path: searchViewRoute,
-        builder: (context, state) => const SearchView(),
+        builder: (context, state) =>
+            SearchView(specialtyQuery: state.extra as String),
       ),
       GoRoute(
         path: bookingHistoryViewRoute,

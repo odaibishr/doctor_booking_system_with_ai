@@ -19,7 +19,7 @@ class _AppNavigationState extends State<AppNavigation> {
 
   final List<Widget> _pages = [
     HomeView(),
-    SearchView(),
+    SearchView(specialtyQuery: ''),
     BookingHistoryView(),
     ProfileView(),
   ];
@@ -76,7 +76,7 @@ class _AppNavigationState extends State<AppNavigation> {
                     selectedIndex: _selectedIndex,
                     onItemTapped: _onItemTapped,
                   ),
-                  const SizedBox(width: 50), // مساحة للـ FAB
+                  const SizedBox(width: 50),
                   NavItem(
                     icon: 'assets/icons/calendar.svg',
                     index: 2,

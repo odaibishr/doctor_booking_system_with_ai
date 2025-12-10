@@ -44,6 +44,8 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
       'doctor/getSearchDoctors/?query=$query',
     );
 
+    log("Response from server: ${response.toString()}");
+
     final doctors = <Doctor>[];
     for (var doctor in response['data']) {
       doctors.add(DoctorModel.fromMap(doctor));

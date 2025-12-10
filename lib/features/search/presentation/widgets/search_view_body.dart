@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
@@ -10,7 +12,8 @@ import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchViewBody extends StatefulWidget {
-  const SearchViewBody({super.key});
+  const SearchViewBody({super.key, required this.specialtyQuery});
+  final String specialtyQuery;
 
   @override
   State<SearchViewBody> createState() => _SearchViewBodyState();
@@ -20,7 +23,10 @@ class _SearchViewBodyState extends State<SearchViewBody> {
   @override
   void initState() {
     super.initState();
-    context.read<SearchDoctorsBloc>().add(SearchDoctorsQueryChanged(''));
+    log('widget.specialtyQuery: ${widget.specialtyQuery}');
+    context.read<SearchDoctorsBloc>().add(
+      SearchDoctorsQueryChanged(widget.specialtyQuery),
+    );
   }
 
   @override

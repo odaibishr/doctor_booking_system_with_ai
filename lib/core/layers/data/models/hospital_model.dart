@@ -71,4 +71,15 @@ class HospitalModel extends Hospital {
       locationId: locationId ?? this.locationId,
     );
   }
+
+  factory HospitalModel.empty() => HospitalModel(
+    id: 0,
+    name: '',
+    phone: '',
+    email: '',
+    website: '',
+    address: '',
+    image: '',
+    locationId: 0,
+  );
 }

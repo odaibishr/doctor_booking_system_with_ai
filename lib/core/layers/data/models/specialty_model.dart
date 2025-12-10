@@ -43,4 +43,7 @@ class SpecialtyModel extends Specialty {
   }
 
   String toJson() => json.encode(toMap());
+
+  factory SpecialtyModel.empty() =>
+      SpecialtyModel(id: 0, name: '', icon: '', isActive: false);
 }
