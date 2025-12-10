@@ -12,8 +12,8 @@ import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchViewBody extends StatefulWidget {
-  const SearchViewBody({super.key, required this.specialtyQuery});
-  final String specialtyQuery;
+  const SearchViewBody({super.key, this.specialtyQuery});
+  final int? specialtyQuery;
 
   @override
   State<SearchViewBody> createState() => _SearchViewBodyState();
@@ -25,7 +25,7 @@ class _SearchViewBodyState extends State<SearchViewBody> {
     super.initState();
     log('widget.specialtyQuery: ${widget.specialtyQuery}');
     context.read<SearchDoctorsBloc>().add(
-      SearchDoctorsQueryChanged(widget.specialtyQuery),
+      SearchDoctorsQueryChanged(query: "", specialtyId: widget.specialtyQuery),
     );
   }
 
@@ -46,7 +46,7 @@ class _SearchViewBodyState extends State<SearchViewBody> {
                 isUserImageVisible: false,
               ),
               const SizedBox(height: 16),
-              const SearchSection(),
+              SearchSection(specialtyId: widget.specialtyQuery),
               const SizedBox(height: 16),
               Expanded(
                 child: BlocBuilder<SearchDoctorsBloc, SearchDoctorsState>(

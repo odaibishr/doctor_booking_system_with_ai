@@ -11,10 +11,12 @@ import 'package:go_router/go_router.dart';
 class CategoryCard extends StatelessWidget {
   const CategoryCard({
     super.key,
+    required this.id,
     required this.title,
     required this.icon,
     required this.color,
   });
+  final int id;
   final bool color;
   final String title;
   final String icon;
@@ -23,7 +25,7 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () =>
-          GoRouter.of(context).push(AppRouter.searchViewRoute, extra: title),
+          GoRouter.of(context).push(AppRouter.searchViewRoute, extra: id.toString()),
       child: Container(
         width: 85,
         height: 85,

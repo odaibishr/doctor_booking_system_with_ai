@@ -19,7 +19,7 @@ class _AppNavigationState extends State<AppNavigation> {
 
   final List<Widget> _pages = [
     HomeView(),
-    SearchView(specialtyQuery: ''),
+    SearchView(),
     BookingHistoryView(),
     ProfileView(),
   ];

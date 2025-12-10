@@ -12,7 +12,7 @@ class SearchDoctorsBloc extends Bloc<SearchDoctorsEvent, SearchDoctorsState> {
   final GetDoctorsUseCase getDoctorsUseCase;
 
   SearchDoctorsBloc(this.searchDoctorsUseCase, this.getDoctorsUseCase)
-    : super(SearchDoctorsInitial())  {
+    : super(SearchDoctorsInitial()) {
     on<SearchDoctorsQueryChanged>((event, emit) async {
       await onSearchDoctorsQueryChanged(event, emit);
     });
@@ -23,7 +23,7 @@ class SearchDoctorsBloc extends Bloc<SearchDoctorsEvent, SearchDoctorsState> {
     Emitter<SearchDoctorsState> emit,
   ) async {
     emit(SearchDoctorsLoading());
-    if (event.query.trim().isEmpty) {
+    if (event.query.trim().isEmpty && event.specialtyId == null) {
       final result = await getDoctorsUseCase(NoParams());
 
       result.fold(
@@ -32,7 +32,10 @@ class SearchDoctorsBloc extends Bloc<SearchDoctorsEvent, SearchDoctorsState> {
       );
     } else {
       final result = await searchDoctorsUseCase(
-        SearchDoctorsUseCaseParams(event.query),
+        SearchDoctorsUseCaseParams(
+          query: event.query,
+          specialtyId: event.specialtyId,
+        ),
       );
 
       result.fold(

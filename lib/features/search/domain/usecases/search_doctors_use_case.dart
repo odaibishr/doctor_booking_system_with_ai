@@ -14,11 +14,12 @@ class SearchDoctorsUseCase
   Future<Either<Failure, List<Doctor>>> call([
     SearchDoctorsUseCaseParams? params,
   ]) async {
-    return await doctorRepo.searchDoctors(params!.query);
+    return await doctorRepo.searchDoctors(params!.query, params.specialtyId);
   }
 }
 
 class SearchDoctorsUseCaseParams {
   final String query;
-  SearchDoctorsUseCaseParams(this.query);
+  final int? specialtyId;
+  SearchDoctorsUseCaseParams({required this.query, this.specialtyId});
 }

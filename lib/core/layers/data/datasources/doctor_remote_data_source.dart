@@ -7,7 +7,7 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor
 abstract class DoctorRemoteDataSource {
   Future<List<Doctor>> getDoctors();
   Future<Doctor> getDoctorDetails(int id);
-  Future<List<Doctor>> searchDoctors(String query);
+  Future<List<Doctor>> searchDoctors(String query, int? specialtyId);
   Future<bool> toggleFavoriteDoctor(int doctorId);
   Future<List<Doctor>> getFavoriteDoctors();
 }
@@ -39,9 +39,11 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
   }
 
   @override
-  Future<List<Doctor>> searchDoctors(String query) async {
+  Future<List<Doctor>> searchDoctors(String query, int? specialtyId) async {
+    log("sending Query: $query $specialtyId");
     final response = await dioConsumer.get(
-      'doctor/getSearchDoctors/?query=$query',
+      'doctor/getSearchDoctors',
+      queryParameters: {'query': query, 'specialty_id': specialtyId},
     );
 
     log("Response from server: ${response.toString()}");
@@ -51,6 +53,7 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
       doctors.add(DoctorModel.fromMap(doctor));
     }
 
+    log("sending Query: $query $specialtyId");
     return doctors;
   }
 

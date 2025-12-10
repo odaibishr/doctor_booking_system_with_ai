@@ -73,7 +73,11 @@ class DoctorRepoImpl implements DoctorRepo {
   }
 
   @override
-  Future<Either<Failure, List<Doctor>>> searchDoctors(String query) async {
+  @override
+  Future<Either<Failure, List<Doctor>>> searchDoctors(
+    String query,
+    int? specialtyId,
+  ) async {
     try {
       if (!await networkInfo.isConnected) {
         final cachedDoctors = await localDataSource.getCachedDoctors();
@@ -85,17 +89,20 @@ class DoctorRepoImpl implements DoctorRepo {
         final foundDoctors = cachedDoctors
             .where(
               (element) =>
-                  element.name.toLowerCase().contains(query.toLowerCase()),
+                  element.name.toLowerCase().contains(query.toLowerCase()) &&
+                  (specialtyId == null || element.specialtyId == specialtyId),
             )
             .toList();
 
         return Right(foundDoctors);
       }
 
-      final result = await remoteDataSource.searchDoctors(query);
+      final result = await remoteDataSource.searchDoctors(query, specialtyId);
+
       if (result.isEmpty) {
         return Left(Failure('لم يتم العثور على أطباء'));
       }
+
       return Right(result);
     } catch (error) {
       return Left(Failure(error.toString()));
@@ -117,8 +124,9 @@ class DoctorRepoImpl implements DoctorRepo {
     try {
       if (!await networkInfo.isConnected) {
         final cachedDoctors = await localDataSource.getCachedDoctors();
-        final favoriteDoctors =
-            cachedDoctors.where((doctor) => doctor.isFavorite == 1).toList();
+        final favoriteDoctors = cachedDoctors
+            .where((doctor) => doctor.isFavorite == 1)
+            .toList();
 
         return Right(favoriteDoctors);
       }

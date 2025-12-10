@@ -5,7 +5,8 @@ import 'package:doctor_booking_system_with_ai/features/search/presentation/widge
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchSection extends StatefulWidget {
-  const SearchSection({super.key});
+  const SearchSection({super.key, this.specialtyId});
+  final int? specialtyId;
 
   @override
   State<SearchSection> createState() => _SearchSectionState();
@@ -25,7 +26,10 @@ class _SearchSectionState extends State<SearchSection> {
             isShowLeftIcon: false,
             onChanged: (value) {
               context.read<SearchDoctorsBloc>().add(
-                SearchDoctorsQueryChanged(value),
+                SearchDoctorsQueryChanged(
+                  query: value,
+                  specialtyId: widget.specialtyId,
+                ),
               );
             },
           ),

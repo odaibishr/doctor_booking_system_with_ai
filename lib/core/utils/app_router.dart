@@ -62,8 +62,12 @@ class AppRouter {
       ),
       GoRoute(
         path: searchViewRoute,
-        builder: (context, state) =>
-            SearchView(specialtyQuery: state.extra as String),
+        builder: (context, state) {
+          final idStr = state.uri.queryParameters["id"];
+          final specialtyId = int.tryParse(idStr ?? "");
+
+          return SearchView(specialtyQuery: specialtyId);
+        },
       ),
       GoRoute(
         path: bookingHistoryViewRoute,

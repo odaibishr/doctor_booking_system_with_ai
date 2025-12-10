@@ -5,5 +5,6 @@ sealed class SearchDoctorsEvent {}
 
 final class SearchDoctorsQueryChanged extends SearchDoctorsEvent {
   final String query;
-  SearchDoctorsQueryChanged(this.query);
+  final int? specialtyId;
+  SearchDoctorsQueryChanged({this.query = "", this.specialtyId});
 }

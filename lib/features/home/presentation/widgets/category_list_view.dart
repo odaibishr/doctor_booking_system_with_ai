@@ -33,6 +33,7 @@ class _CategoryListViewState extends State<CategoryListView> {
                   padding: const EdgeInsets.only(left: 10),
                   child: CategoryCard(
                     color: false,
+                    id: activeSpecialties[index].id,
                     title: activeSpecialties[index].name,
                     icon: activeSpecialties[index].icon,
                   ),

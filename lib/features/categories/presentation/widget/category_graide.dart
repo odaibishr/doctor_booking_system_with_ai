@@ -29,6 +29,7 @@ class CategoryGride extends StatelessWidget {
             },
             child: CategoryCard(
               color: true,
+              id: specialties[index].id,
               title: specialties[index].name,
               icon: specialties[index].icon,
             ),
