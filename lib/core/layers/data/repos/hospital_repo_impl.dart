@@ -41,10 +41,24 @@ class HospitalRepoImpl implements HospitalRepo {
       return Left(Failure(error.toString()));
     }
   }
-  
+
   @override
-  Future<Either<Failure, Hospital>> getHospitalDetailes(int id) {
-    // TODO: implement getHospitalDetailes
-    throw UnimplementedError();
+  Future<Either<Failure, Hospital>> getHospitalDetailes(int id) async {
+    try {
+      if (!await networkInfo.isConnected) {
+        final cachedHospitals = await localDataSource.getCachedHospitals();
+        if (cachedHospitals.isEmpty) {
+          return Left(Failure('لم يتم العثور على المستشفى'));
+        }
+
+        return Right(cachedHospitals.firstWhere((element) => element.id == id));
+      }
+
+      final result = await remoteDataSource.getHospitalDetails(id);
+
+      return Right(result);
+    } catch (error) {
+      return Left(Failure(error.toString()));
+    }
   }
 }
