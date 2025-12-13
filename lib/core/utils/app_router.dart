@@ -87,7 +87,8 @@ class AppRouter {
       ),
       GoRoute(
         path: hospitalDetailsViewRoute,
-        builder: (context, state) => const HospitalDetailsView(),
+        builder: (context, state) =>
+            HospitalDetailsView(hospitalId: state.extra as int),
       ),
       GoRoute(
         path: signInViewRoute,

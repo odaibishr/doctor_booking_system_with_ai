@@ -15,7 +15,9 @@ class HospitalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).push(AppRouter.hospitalDetailsViewRoute);
+        GoRouter.of(
+          context,
+        ).push(AppRouter.hospitalDetailsViewRoute, extra: hospital.id);
       },
       child: Container(
         width: 221,
