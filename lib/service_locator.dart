@@ -1,7 +1,14 @@
 // core/service_locator.dart
 import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:dio/dio.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/hospital_local_data_source.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/hospital_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/repos/hospital_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/hospital_repo.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_hospitals_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/toggle_favorite_doctor_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/network/network_info.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/data/datasources/profile_remote_data_source.dart';
@@ -95,6 +102,15 @@ Future<void> init() async {
     () => SpecialtyLocalDataSourceImpl(specialtyBox),
   );
 
+  serviceLocator.registerLazySingleton<HospitalRemoteDataSource>(
+    () => HospitalRemoteDataSourceImpl(serviceLocator()),
+  );
+
+  final hospitalsBox = Hive.box<Hospital>(kHospitalBox);
+  serviceLocator.registerLazySingleton<HospitalLocalDataSource>(
+    () => HospitalLocalDataSourceImpl(hospitalsBox),
+  );
+
   // Repository
   serviceLocator.registerLazySingleton<AuthRepo>(
     () => AuthRepoImpl(
@@ -118,6 +134,14 @@ Future<void> init() async {
   serviceLocator.registerLazySingleton<SpecialtyRepo>(
     () =>
         SpecialtyRepoImpl(serviceLocator(), serviceLocator(), serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<HospitalRepo>(
+    () => HospitalRepoImpl(
+      remoteDataSource: serviceLocator(),
+      localDataSource: serviceLocator(),
+      networkInfo: serviceLocator(),
+    ),
   );
 
   // Use Cases
@@ -159,6 +183,10 @@ Future<void> init() async {
     () => GetFavoriteDoctorsUseCase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<GetHospitalsUseCase>(
+    () => GetHospitalsUseCase(serviceLocator()),
+  );
+
   // Cubit
   serviceLocator.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
@@ -197,5 +225,9 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<FavoriteDoctorCubit>(
     () => FavoriteDoctorCubit(serviceLocator<GetFavoriteDoctorsUseCase>()),
+  );
+
+  serviceLocator.registerLazySingleton<HospitalCubit>(
+    () => HospitalCubit(serviceLocator()),
   );
 }
