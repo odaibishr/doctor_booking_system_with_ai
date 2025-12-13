@@ -11,10 +11,18 @@ class SpecialtyModel extends Specialty {
   });
 
   factory SpecialtyModel.fromMap(Map<String, dynamic> data) => SpecialtyModel(
-    id: data['id'] as int,
-    name: data['name'] as String,
-    icon: data['icon'] as String,
-    isActive: data['is_active'] as bool,
+    id:
+        data['id'] is int
+            ? data['id'] as int
+            : int.tryParse('${data['id']}') ?? 0,
+    name: (data['name'] ?? '').toString(),
+    icon: (data['icon'] ?? '').toString(),
+    isActive:
+        data['is_active'] is bool
+            ? data['is_active'] as bool
+            : (data['is_active'] == 1 ||
+                data['is_active'] == '1' ||
+                '${data['is_active']}'.trim().toLowerCase() == 'true'),
   );
 
   Map<String, dynamic> toMap() => {

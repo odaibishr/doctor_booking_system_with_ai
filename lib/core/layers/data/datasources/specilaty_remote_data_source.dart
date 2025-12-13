@@ -17,8 +17,19 @@ class SpecilatyRemoteDataSourceImpl implements SpecilatyRemoteDataSource {
 
     final specialties = <Specialty>[];
 
-    for (var specialty in response['data']) {
-      specialties.add(SpecialtyModel.fromMap(specialty));
+    final data = response['data'];
+    final list = data is List ? data : const <dynamic>[];
+
+    for (final item in list) {
+      if (item is Map<String, dynamic>) {
+        specialties.add(SpecialtyModel.fromMap(item));
+      } else if (item is Map) {
+        specialties.add(
+          SpecialtyModel.fromMap(
+            item.map((key, value) => MapEntry(key?.toString() ?? '', value)),
+          ),
+        );
+      }
     }
 
     return specialties;

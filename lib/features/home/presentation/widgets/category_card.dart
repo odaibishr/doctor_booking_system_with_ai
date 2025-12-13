@@ -23,6 +23,7 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final trimmedIcon = icon.trim();
     return GestureDetector(
       onTap: () =>
           GoRouter.of(context).push("${AppRouter.searchViewRoute}?id=$id"),
@@ -47,10 +48,26 @@ class CategoryCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgPicture.network(
-              '${EndPoints.photoUrl}/$icon',
-              fit: BoxFit.scaleDown,
-            ),
+            if (trimmedIcon.isEmpty)
+              const Icon(
+                Icons.medical_services_outlined,
+                color: AppColors.primary,
+                size: 28,
+              )
+            else
+              SvgPicture.network(
+                '${EndPoints.photoUrl}/$trimmedIcon',
+                fit: BoxFit.scaleDown,
+                width: 28,
+                height: 28,
+                placeholderBuilder: (context) => const SizedBox(
+                  width: 28,
+                  height: 28,
+                  child: Center(
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                ),
+              ),
             const SizedBox(height: 8),
             Text(
               title,
