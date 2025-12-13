@@ -10,7 +10,7 @@ class HospitalModel extends Hospital {
     required super.email,
     required super.website,
     required super.address,
-    required super.image,
+    required super.logo,
     required super.locationId,
   });
 
@@ -21,7 +21,7 @@ class HospitalModel extends Hospital {
     email: data['email'] as String,
     website: data['website'] as String,
     address: data['address'] as String,
-    image: data['image'] as String,
+    logo: data['logo'] as String,
     locationId: data['location_id'] as int,
   );
 
@@ -32,7 +32,7 @@ class HospitalModel extends Hospital {
     'email': email,
     'website': website,
     'address': address,
-    'image': image,
+    'logo': logo,
     'location_id': locationId,
   };
 
@@ -55,7 +55,7 @@ class HospitalModel extends Hospital {
     String? email,
     String? website,
     String? address,
-    String? image,
+    String? logo,
     int? locationId,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -67,7 +67,7 @@ class HospitalModel extends Hospital {
       email: email ?? this.email,
       website: website ?? this.website,
       address: address ?? this.address,
-      image: image ?? this.image,
+      logo: logo ?? this.logo,
       locationId: locationId ?? this.locationId,
     );
   }
@@ -79,7 +79,7 @@ class HospitalModel extends Hospital {
     email: '',
     website: '',
     address: '',
-    image: '',
+    logo: '',
     locationId: 0,
   );
 }

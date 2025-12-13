@@ -23,7 +23,7 @@ class HospitalAdapter extends TypeAdapter<Hospital> {
       email: fields[3] as String,
       website: fields[4] as String,
       address: fields[5] as String,
-      image: fields[6] as String,
+      logo: fields[6] as String,
       locationId: fields[7] as int,
     );
   }
@@ -45,7 +45,7 @@ class HospitalAdapter extends TypeAdapter<Hospital> {
       ..writeByte(5)
       ..write(obj.address)
       ..writeByte(6)
-      ..write(obj.image)
+      ..write(obj.logo)
       ..writeByte(7)
       ..write(obj.locationId);
   }

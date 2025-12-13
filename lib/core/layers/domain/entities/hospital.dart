@@ -23,7 +23,7 @@ class Hospital {
   String address;
 
   @HiveField(6)
-  String image;
+  String logo;
 
   @HiveField(7)
   int locationId;
@@ -35,7 +35,7 @@ class Hospital {
     required this.email,
     required this.website,
     required this.address,
-    required this.image,
+    required this.logo,
     required this.locationId,
   });
 }
