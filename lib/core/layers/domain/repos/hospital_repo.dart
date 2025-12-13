@@ -4,4 +4,5 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospit
 
 abstract class HospitalRepo {
   Future<Either<Failure, List<Hospital>>> getHospitals();
+  Future<Either<Failure, Hospital>> getHospitalDetailes(int id);
 }
