@@ -9,7 +9,7 @@ abstract class HospitalLocalDataSource {
 class HospitalLocalDataSourceImpl implements HospitalLocalDataSource {
   final Box<Hospital> _hospitalBox;
 
-  HospitalLocalDataSourceImpl(this._hospitalBox);
+    HospitalLocalDataSourceImpl(this._hospitalBox);
 
   @override
   Future<List<Hospital>> getCachedHospitals() async {

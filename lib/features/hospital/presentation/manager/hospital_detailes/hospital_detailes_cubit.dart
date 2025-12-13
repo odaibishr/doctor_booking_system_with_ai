@@ -13,7 +13,9 @@ class HospitalDetailesCubit extends Cubit<HospitalDetailesState> {
   Future<void> getHospitalDetailes(int id) async {
     emit(HospitalDetailesLoading());
     try {
-      final result = await getHospitalDetailsUseCase(id);
+      final result = await getHospitalDetailsUseCase(
+        GetHospitalDetailsParams(id),
+      );
 
       result.fold(
         (failure) => emit(HospitalDetailesError(failure.errorMessage)),

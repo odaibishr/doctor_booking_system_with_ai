@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/location_info.dart';
@@ -25,7 +27,9 @@ class HospitalHeaderSection extends StatelessWidget {
             color: AppColors.gray100,
             borderRadius: BorderRadius.circular(12),
             image: DecorationImage(
-              image: AssetImage(hospitalImage),
+              image: CachedNetworkImageProvider(
+                '${EndPoints.photoUrl}/$hospitalImage',
+              ),
               fit: BoxFit.cover,
             ),
           ),

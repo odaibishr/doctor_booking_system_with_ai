@@ -1,9 +1,10 @@
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'hospital_details_service_item.dart';
 
 class HospitalDetailsAboutTab extends StatelessWidget {
-  final List<Map<String, dynamic>> doctors;
+  final List<Doctor> doctors;
   final List<Map<String, dynamic>> reviews;
 
   const HospitalDetailsAboutTab({
