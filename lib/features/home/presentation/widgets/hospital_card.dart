@@ -1,3 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
@@ -5,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HospitalCard extends StatelessWidget {
-  const HospitalCard({super.key});
+  const HospitalCard({super.key, required this.hospital});
+  final Hospital hospital;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +36,9 @@ class HospitalCard extends StatelessWidget {
                 color: AppColors.gray400,
               ),
               clipBehavior: Clip.antiAlias,
-              child: Image.asset(
-                'assets/images/hospital.jpg',
-                fit: BoxFit.fill,
+              child: CachedNetworkImage(
+                imageUrl: '${EndPoints.photoUrl}/${hospital.image}',
+                fit: BoxFit.cover,
               ),
             ),
 
@@ -43,7 +47,7 @@ class HospitalCard extends StatelessWidget {
             SizedBox(
               width: 200,
               child: Text(
-                'مستشفى جامعة العلوم والتكنولوجيا',
+                hospital.name,
                 style: FontStyles.body3.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
@@ -54,7 +58,7 @@ class HospitalCard extends StatelessWidget {
                 Icon(Icons.location_on, color: AppColors.gray500, size: 10),
                 const SizedBox(width: 2),
                 Text(
-                  'صنعاء . شارع الستين . جسر مذبح',
+                  hospital.address,
                   style: FontStyles.body4.copyWith(color: AppColors.gray500),
                 ),
               ],
