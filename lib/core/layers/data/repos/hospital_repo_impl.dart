@@ -41,4 +41,10 @@ class HospitalRepoImpl implements HospitalRepo {
       return Left(Failure(error.toString()));
     }
   }
+  
+  @override
+  Future<Either<Failure, Hospital>> getHospitalDetailes(int id) {
+    // TODO: implement getHospitalDetailes
+    throw UnimplementedError();
+  }
 }
