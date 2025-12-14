@@ -1,26 +1,27 @@
-import 'package:doctor_booking_system_with_ai/core/widgets/review_dialog.dart';
-import 'package:flutter/material.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/review_dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../widgets/appointment_card.dart'; // المسار بحسب موقع البطاقة
+
+import 'appointment_card.dart';
 
 class AppointmentCardFactory {
   static List<Widget> getButtons({
     required BuildContext context,
     required AppointmentStatus status,
-    required String textButton1,
-    required String textButton2,
   }) {
     switch (status) {
       case AppointmentStatus.upcoming:
         return [
           Expanded(
             child: MainButton(
-              text: textButton1,
+              text: 'تغيير الموعد',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('تم فتح شاشة إعادة الجدولة')),
+                  const SnackBar(
+                    content: Text('سيتم دعم تعديل الموعد قريباً'),
+                  ),
                 );
               },
               height: 28,
@@ -30,7 +31,7 @@ class AppointmentCardFactory {
           const SizedBox(width: 10),
           Expanded(
             child: MainButton(
-              text: textButton2,
+              text: 'إلغاء الموعد',
               onTap: () => _showCancelBottomSheet(context),
               height: 28,
               radius: 6,
@@ -43,10 +44,10 @@ class AppointmentCardFactory {
         return [
           Expanded(
             child: MainButton(
-              text: textButton1,
+              text: 'حجز مرة أخرى',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('تم فتح تفاصيل الموعد')),
+                  const SnackBar(content: Text('تمت إضافة الحجز بنجاح')),
                 );
               },
               height: 28,
@@ -56,7 +57,7 @@ class AppointmentCardFactory {
           const SizedBox(width: 10),
           Expanded(
             child: MainButton(
-              text: textButton2,
+              text: 'أضف تقييماً',
               onTap: () {
                 showModalBottomSheet(
                   context: context,
@@ -80,10 +81,13 @@ class AppointmentCardFactory {
         return [
           Expanded(
             child: MainButton(
-              text: textButton1,
+              text: 'إعادة الحجز',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('تم عرض سبب الإلغاء')),
+                  const SnackBar(
+                    content:
+                        Text('هذا الموعد ملغى، يرجى إنشاء حجز جديد'),
+                  ),
                 );
               },
               height: 28,
@@ -94,10 +98,12 @@ class AppointmentCardFactory {
           const SizedBox(width: 10),
           Expanded(
             child: MainButton(
-              text: textButton2,
+              text: 'حجز جديد',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('تم فتح شاشة إعادة الجدولة')),
+                  const SnackBar(
+                    content: Text('سيتم دعم هذه العملية قريباً'),
+                  ),
                 );
               },
               height: 28,
@@ -144,7 +150,7 @@ class AppointmentCardFactory {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'إلغاء الحجز',
+                      'إلغاء الموعد',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     IconButton(
@@ -161,12 +167,12 @@ class AppointmentCardFactory {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'هل انت متأكد من ذلك',
+                        'من فضلك اكتب سبب الإلغاء',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'رجاء قم بإضافة سبب لذلك',
+                        'هذا يساعدنا على تحسين تجربتك في المرات القادمة',
                         style: TextStyle(color: AppColors.gray500),
                       ),
                     ],
@@ -178,11 +184,11 @@ class AppointmentCardFactory {
                   maxLines: 3,
                   cursorColor: AppColors.gray500,
                   decoration: InputDecoration(
-                    hintText: 'اكتب السبب ...',
+                    hintText: 'اكتب سبب الإلغاء...',
                     hintTextDirection: TextDirection.rtl,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: AppColors.gray200),
+                      borderSide: const BorderSide(color: AppColors.gray200),
                     ),
                     contentPadding: const EdgeInsets.all(12),
                   ),
@@ -203,13 +209,16 @@ class AppointmentCardFactory {
                       if (reason.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('يرجى كتابة السبب قبل الإرسال'),
+                            content: Text('من فضلك اكتب سبب الإلغاء أولاً'),
                           ),
                         );
                       } else {
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('تم إرسال السبب: $reason')),
+                          SnackBar(
+                            content:
+                                Text('تم استلام سبب الإلغاء: $reason'),
+                          ),
                         );
                       }
                     },

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/location_info.dart';
@@ -30,7 +31,8 @@ class AppointmentDoctorInfo extends StatelessWidget {
             color: AppColors.gray400,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Image.asset(doctorImage, fit: BoxFit.contain),
+          clipBehavior: Clip.antiAlias,
+          child: _buildDoctorImage(),
         ),
         const SizedBox(width: 16),
         Expanded(
@@ -80,5 +82,22 @@ class AppointmentDoctorInfo extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Widget _buildDoctorImage() {
+    if (doctorImage.isEmpty) {
+      return const Icon(Icons.person, color: AppColors.primary, size: 32);
+    }
+
+    if (doctorImage.startsWith('http')) {
+      return CachedNetworkImage(
+        imageUrl: doctorImage,
+        fit: BoxFit.cover,
+        errorWidget: (context, url, error) =>
+            const Icon(Icons.error, color: AppColors.error),
+      );
+    }
+
+    return Image.asset(doctorImage, fit: BoxFit.contain);
   }
 }
