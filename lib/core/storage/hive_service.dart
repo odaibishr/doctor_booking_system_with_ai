@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/profile.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
@@ -18,6 +19,9 @@ class HiveService {
     if (!Hive.isAdapterRegistered(0)) {
       Hive.registerAdapter(UserAdapter());
     }
+    if (!Hive.isAdapterRegistered(1)) {
+      Hive.registerAdapter(ProfileAdapter());
+    }
     if (!Hive.isAdapterRegistered(2)) {
       Hive.registerAdapter(DoctorAdapter());
     }
@@ -32,6 +36,7 @@ class HiveService {
     }
 
     _userBox = await Hive.openBox<User>(userBoxName);
+    await Hive.openBox(kProfileBox);
     _doctorBox = await Hive.openBox<Doctor>(kDoctorBox);
     await Hive.openBox<Specialty>(kSpecialtyBox);
     await Hive.openBox<Hospital>(kHospitalBox);

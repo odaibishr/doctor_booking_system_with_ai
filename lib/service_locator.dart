@@ -3,8 +3,10 @@ import 'package:data_connection_checker_tv/data_connection_checker.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/hospital_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/hospital_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/profile_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/repos/hospital_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/profile.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/hospital_repo.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_hospitals_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/toggle_favorite_doctor_use_case.dart';
@@ -90,6 +92,11 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<ProfileRemoteDataSource>(
     () => ProfileRemoteDataSourceImpl(serviceLocator()),
+  );
+
+  final profileBox = Hive.box<Profile>(kProfileBox);
+  serviceLocator.registerLazySingleton<ProfileLocalDataSource>(
+    () => ProfileLocalDataSourceImpl(profileBox),
   );
 
   serviceLocator.registerLazySingleton<DoctorRemoteDataSource>(
