@@ -35,7 +35,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => serviceLocator<AuthCubit>()),
-        BlocProvider(create: (_) => serviceLocator<ProfileCubit>()),
+        BlocProvider(
+          create: (_) => serviceLocator<ProfileCubit>()..getProfile(),
+        ),
         BlocProvider(
           create: (_) => serviceLocator<DoctorCubit>()..fetchDoctors(),
         ),
