@@ -40,7 +40,7 @@ class ProfileViewBody extends StatelessWidget {
                   builder: (BuildContext context, state) {
                     if (state is ProfileSuccess) {
                       return ProfileSummary(
-                        name: 'عدي بشر',
+                        name: state.profile.user.name,
                         userImage: state.profile.profileImage!,
                         phoneNumber: state.profile.phone,
                       );

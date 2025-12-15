@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 part 'profile.g.dart';
 
@@ -14,11 +15,15 @@ class Profile {
   @HiveField(4)
   final String? profileImage;
 
+  @HiveField(5)
+  final User user;
+
   Profile({
     required this.phone,
     required this.birthDate,
     required this.gender,
     required this.locationId,
     this.profileImage,
+    required this.user,
   });
 }

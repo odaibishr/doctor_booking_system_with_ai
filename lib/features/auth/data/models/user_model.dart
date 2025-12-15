@@ -8,12 +8,16 @@ class UserModel extends User {
     required super.token,
   });
 
+  factory UserModel.empty() {
+    return UserModel(id: 0, name: '', email: '', token: '');
+  }
+
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      email: json['email'] as String,
-      token: json['token'] as String,
+      id: json['id'] ?? 0,
+      name: json['name']?.toString() ?? '',
+      email: json['email']?.toString() ?? '',
+      token: json['token']?.toString() ?? '',
     );
   }
 

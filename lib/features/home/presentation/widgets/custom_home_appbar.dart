@@ -52,7 +52,7 @@ class CustomHomeAppBar extends StatelessWidget {
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    name,
+                    'مرحبا ${state.profile.user.name.split(' ')[0]}',
                     style: FontStyles.subTitle2.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
