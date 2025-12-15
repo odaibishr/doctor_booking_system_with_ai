@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
-import 'package:doctor_booking_system_with_ai/features/create_profile/data/models/porfile_model.dart';
-import 'package:doctor_booking_system_with_ai/features/create_profile/domain/entities/profile.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/porfile_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/profile.dart';
 
 abstract class ProfileRemoteDataSource {
   Future<Profile> createProfile({

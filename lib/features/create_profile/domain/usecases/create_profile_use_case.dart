@@ -5,8 +5,8 @@ import 'package:dartz/dartz.dart';
 
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/core/usecases/usecase.dart';
-import 'package:doctor_booking_system_with_ai/features/create_profile/domain/entities/profile.dart';
-import 'package:doctor_booking_system_with_ai/features/create_profile/domain/repos/profile_repo.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/profile.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/profile_repo.dart';
 
 class CreateProfileUseCase extends Usecase<Profile, CreateProfileParams> {
   final ProfileRepo _profileRepo;

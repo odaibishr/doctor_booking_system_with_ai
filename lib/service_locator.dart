@@ -11,9 +11,9 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/toggle
 import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/network/network_info.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
-import 'package:doctor_booking_system_with_ai/features/create_profile/data/datasources/profile_remote_data_source.dart';
-import 'package:doctor_booking_system_with_ai/features/create_profile/data/repos/profile_repo_impl.dart';
-import 'package:doctor_booking_system_with_ai/features/create_profile/domain/repos/profile_repo.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/profile_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/repos/profile_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/profile_repo.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/domain/usecases/create_profile_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/manager/profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/data/datasources/booking_history_remote_data_source.dart';
