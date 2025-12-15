@@ -36,7 +36,7 @@ class HiveService {
     }
 
     _userBox = await Hive.openBox<User>(userBoxName);
-    await Hive.openBox(kProfileBox);
+    await Hive.openBox<Profile>(kProfileBox);
     _doctorBox = await Hive.openBox<Doctor>(kDoctorBox);
     await Hive.openBox<Specialty>(kSpecialtyBox);
     await Hive.openBox<Hospital>(kHospitalBox);

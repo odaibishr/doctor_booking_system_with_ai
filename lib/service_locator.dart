@@ -139,7 +139,11 @@ Future<void> init() async {
   );
 
   serviceLocator.registerLazySingleton<ProfileRepo>(
-    () => ProfileRepoImpl(serviceLocator<ProfileRemoteDataSource>()),
+    () => ProfileRepoImpl(
+      serviceLocator<ProfileRemoteDataSource>(),
+      serviceLocator<ProfileLocalDataSource>(),
+      serviceLocator<NetworkInfo>(),
+    ),
   );
 
   serviceLocator.registerLazySingleton<DoctorRepo>(
