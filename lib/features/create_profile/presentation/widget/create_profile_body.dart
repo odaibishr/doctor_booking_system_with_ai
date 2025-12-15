@@ -7,7 +7,7 @@ import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
-import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/manager/profile_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/widget/date_textfield.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/widget/gender_textfield.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/widget/profile_image.dart';

@@ -15,7 +15,7 @@ import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/profi
 import 'package:doctor_booking_system_with_ai/core/layers/data/repos/profile_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/profile_repo.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/domain/usecases/create_profile_use_case.dart';
-import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/manager/profile_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/data/datasources/booking_history_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/data/repos/booking_history_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/repos/booking_history_repo.dart';
