@@ -42,7 +42,7 @@ import 'package:doctor_booking_system_with_ai/features/home/presentation/manager
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/toggle_favorite/toggle_favorite_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/domain/use_cases/get_hostpital_details_use_cae.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/manager/hospital_detailes/hospital_detailes_cubit.dart';
-import 'package:doctor_booking_system_with_ai/features/profile/domain/use_cases/get_profile_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_profile_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/search/domain/usecases/search_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/manager/search_doctors_bloc/search_doctors_bloc.dart';
 import 'package:get_it/get_it.dart';
