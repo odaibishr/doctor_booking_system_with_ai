@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
@@ -55,8 +56,9 @@ class CustomAppBar extends StatelessWidget {
                         'success profile image ${state.profile.profileImage}',
                       );
                       return ClipOval(
-                        child: Image.network(
-                          '${EndPoints.photoUrl}/${state.profile.profileImage}',
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              '${EndPoints.photoUrl}/${state.profile.profileImage}',
                           scale: 1,
                           fit: BoxFit.cover,
                         ),
