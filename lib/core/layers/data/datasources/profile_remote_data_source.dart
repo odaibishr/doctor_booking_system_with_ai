@@ -14,6 +14,7 @@ abstract class ProfileRemoteDataSource {
     required int locationId,
     required File? imageFile,
   });
+  Future<Profile> getProfile();
 }
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
@@ -47,6 +48,13 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     );
 
     log("Create Profile response remote: $response");
+
+    return ProfileModel.fromJson(response['data']);
+  }
+
+  @override
+  Future<Profile> getProfile() async {
+    final response = await dioConsumer.get('patients');
 
     return ProfileModel.fromJson(response['data']);
   }

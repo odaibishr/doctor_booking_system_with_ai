@@ -38,4 +38,14 @@ class ProfileRepoImpl implements ProfileRepo {
       return Left(Failure(error.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Profile>> getProfile() async {
+    try {
+      final result = await remoteDataSource.getProfile();
+      return Right(result);
+    } catch (error) {
+      return Left(Failure(error.toString()));
+    }
+  }
 }
