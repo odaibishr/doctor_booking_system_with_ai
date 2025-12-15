@@ -1,4 +1,4 @@
-import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
+﻿import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/google_auth_button.dart';
@@ -9,6 +9,7 @@ import 'package:doctor_booking_system_with_ai/core/widgets/Diveder_custom.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/title.dart';
 
 import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
+import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/custom_appbar.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/end_section.dart';
 import 'package:flutter/material.dart';
@@ -42,13 +43,12 @@ class _SignUpBodyState extends State<SignUpBody> {
             child: BlocConsumer<AuthCubit, AuthState>(
               listener: (context, state) {
                 if (state is AuthSuccess) {
+                  context.showSuccessToast('تم انشاء الحساب بنجاح');
                   GoRouter.of(
                     context,
                   ).pushReplacement(AppRouter.createprofileViewRout);
                 } else if (state is AuthError) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(state.message)));
+                  context.showErrorToast(state.message);
                 }
               },
               builder: (context, state) {
@@ -71,7 +71,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                       ),
                       MainInputField(
                         //User Name textfield
-                        hintText: 'اسم المستخدم ',
+                        hintText: 'اسم المستخدم',
                         leftIconPath: 'assets/icons/user.svg',
                         rightIconPath: 'assets/icons/user.svg',
                         isShowRightIcon: true,
@@ -115,7 +115,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                         height: MediaQuery.of(context).size.height * 0.04,
                       ),
                       MainButton(
-                        text: 'انشاء حساب',
+                        text: 'إنشاء حساب',
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
                             BlocProvider.of<AuthCubit>(context).signUp(

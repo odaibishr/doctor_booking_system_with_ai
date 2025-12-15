@@ -1,4 +1,4 @@
-import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
+﻿import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
@@ -49,6 +49,7 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                 title: DetailsAppBar(
                   title: 'معلومات الطبيب',
                   doctorId: doctor!.id,
+                  initialIsFavorite: doctor!.isFavorite == 1,
                 ),
                 pinned: true,
                 automaticallyImplyLeading: false,
@@ -62,7 +63,6 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                 ),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    // const SizedBox(height: 30),
                     DoctorHeaderSection(
                       doctorName: 'د. ${doctor!.name}',
                       doctorSpecializatioin: doctor!.specialty.name,
@@ -76,7 +76,7 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                     const SizedBox(height: 22),
 
                     Text(
-                      'نبذة عن الدكتور',
+                      'نبذة عن الطبيب',
                       style: FontStyles.subTitle2.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -94,12 +94,12 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
 
                     DoctorServicesSection(
                       doctorServices: doctor!.services
-                          .replaceAll('\n', "")
+                          .replaceAll('\n', '')
                           .split('.'),
                     ),
 
                     const SizedBox(height: 3),
-                    SectionHeader(title: 'المراجعات', onTap: () {}),
+                    SectionHeader(title: 'تقييمات المرضى', onTap: () {}),
                     const SizedBox(height: 2),
 
                     const PatientReviewSlider(),

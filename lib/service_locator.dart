@@ -11,6 +11,7 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/hospital_
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_hospitals_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/toggle_favorite_doctor_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/notifications/notification_service.dart';
 import 'package:doctor_booking_system_with_ai/core/network/network_info.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/profile_remote_data_source.dart';
@@ -50,6 +51,7 @@ import 'package:doctor_booking_system_with_ai/features/search/presentation/manag
 import 'package:get_it/get_it.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
 import 'package:doctor_booking_system_with_ai/core/storage/hive_service.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/repos/auth_repo_impl.dart';
@@ -67,6 +69,10 @@ Future<void> init() async {
   await HiveService.init();
 
   serviceLocator.registerLazySingleton<HiveService>(() => HiveService());
+
+  serviceLocator.registerLazySingleton<NotificationService>(
+    () => NotificationService(AppRouter.navigatorKey),
+  );
 
   // Network
   serviceLocator.registerLazySingleton<DataConnectionChecker>(

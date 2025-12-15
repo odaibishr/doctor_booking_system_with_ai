@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
@@ -7,6 +7,7 @@ import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
+import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/widget/date_textfield.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/widget/gender_textfield.dart';
@@ -48,16 +49,10 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
             child: BlocConsumer<ProfileCubit, ProfileState>(
               listener: (context, state) {
                 if (state is ProfileFailure) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+                  context.showErrorToast(state.errorMessage);
                 }
                 if (state is ProfileSuccess) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('تم انشاء الملف الشخصي بنجاح'),
-                    ),
-                  );
+                  context.showSuccessToast('تم إنشاء الملف الشخصي بنجاح');
                   GoRouter.of(
                     context,
                   ).pushReplacement(AppRouter.appNavigationRoute);
@@ -108,7 +103,6 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
                       GenderTextField(
                         //Gender textfield
                         onchanged: (value) {
-                          //Gender textfield
                           if (value == 'ذكر') {
                             selectedGender = 'male';
                           } else {
@@ -121,7 +115,6 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
                         text: 'حفظ المعلومات',
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
-                            //call create profile cubit function
                             BlocProvider.of<ProfileCubit>(
                               context,
                             ).createProfile(

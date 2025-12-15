@@ -63,7 +63,18 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
       'favorite/toggle',
       data: {'doctor_id': doctorId},
     );
-    return response['data'];
+    final data = response['data'];
+
+    if (data is bool) return data;
+    if (data is num) return data != 0;
+    if (data is String) {
+      final normalized = data.toLowerCase();
+      if (normalized == 'true' || normalized == '1') return true;
+      if (normalized == 'false' || normalized == '0') return false;
+    }
+
+    // في حال لم يحدد الخادم القيمة بشكل صريح نعتبر العملية ناجحة
+    return true;
   }
 
   @override

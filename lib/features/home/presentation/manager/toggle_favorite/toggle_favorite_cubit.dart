@@ -9,14 +9,25 @@ class ToggleFavoriteCubit extends Cubit<ToggleFavoriteState> {
   ToggleFavoriteCubit(this.toggleFavoriteDoctorUseCase)
     : super(ToggleFavoriteInitial());
 
-  Future<void> toggleFavoriteDoctor(int doctorId) async {
+  Future<void> toggleFavoriteDoctor(
+    int doctorId, {
+    required bool currentFavorite,
+  }) async {
     emit(ToggleFavoriteLoading());
-    final result = await toggleFavoriteDoctorUseCase.call(
-      ToggleFavoriteDoctorUseCaseParams(doctorId),
-    );
-    result.fold(
-      (l) => emit(ToggleFavoriteError()),
-      (r) => emit(ToggleFavoriteSuccess()),
-    );
+    try {
+      final result = await toggleFavoriteDoctorUseCase.call(
+        ToggleFavoriteDoctorUseCaseParams(doctorId),
+      );
+      result.fold(
+        (failure) => emit(
+          ToggleFavoriteError(message: failure.errorMessage),
+        ),
+        (_) => emit(
+          ToggleFavoriteSuccess(isFavorite: !currentFavorite),
+        ),
+      );
+    } catch (error) {
+      emit(ToggleFavoriteError(message: error.toString()));
+    }
   }
 }

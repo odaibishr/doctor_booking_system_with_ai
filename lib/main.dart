@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:toastification/toastification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,18 +53,20 @@ class MyApp extends StatelessWidget {
           create: (_) => serviceLocator<HospitalCubit>()..getHospitals(),
         ),
       ],
-      child: MaterialApp.router(
-        title: 'Doctor Booking System',
-        routerConfig: AppRouter.router,
-        theme: AppTheme.lightTheme,
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [Locale('en'), Locale('ar')],
-        locale: const Locale('ar'),
-        debugShowCheckedModeBanner: false,
+      child: ToastificationWrapper(
+        child: MaterialApp.router(
+          title: 'Doctor Booking System',
+          routerConfig: AppRouter.router,
+          theme: AppTheme.lightTheme,
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('ar')],
+          locale: const Locale('ar'),
+          debugShowCheckedModeBanner: false,
+        ),
       ),
     );
   }

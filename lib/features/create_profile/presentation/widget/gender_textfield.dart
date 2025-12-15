@@ -1,4 +1,4 @@
-import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+﻿import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +40,7 @@ class _GenderTextFieldState extends State<GenderTextField> {
           )
           .toList(),
       value: selectedGender,
-      onChanged: widget.onchanged, //TODO this the onChanged Function
+      onChanged: widget.onchanged,
       iconStyleData: const IconStyleData(
         icon: Icon(Icons.arrow_drop_down, color: AppColors.primary),
       ),

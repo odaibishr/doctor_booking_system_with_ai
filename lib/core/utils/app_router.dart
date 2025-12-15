@@ -20,9 +20,11 @@ import 'package:doctor_booking_system_with_ai/features/payment/presentation/paym
 import 'package:doctor_booking_system_with_ai/features/profile/presentation/profile_view.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/search_view.dart';
 import 'package:doctor_booking_system_with_ai/features/splash/presentation/splash_view.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   static const String splashRoute = '/';
   static const String homeViewRoute = '/homeView';
   static const String appNavigationRoute = '/appNavigation';
@@ -47,6 +49,7 @@ class AppRouter {
   static const String notificationViewRoute = '/notificationView';
 
   static GoRouter router = GoRouter(
+    navigatorKey: navigatorKey,
     routes: [
       GoRoute(
         path: splashRoute,

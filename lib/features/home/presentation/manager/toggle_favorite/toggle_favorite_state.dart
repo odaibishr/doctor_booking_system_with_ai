@@ -7,6 +7,14 @@ final class ToggleFavoriteInitial extends ToggleFavoriteState {}
 
 final class ToggleFavoriteLoading extends ToggleFavoriteState {}
 
-final class ToggleFavoriteSuccess extends ToggleFavoriteState {}
+final class ToggleFavoriteSuccess extends ToggleFavoriteState {
+  final bool isFavorite;
 
-final class ToggleFavoriteError extends ToggleFavoriteState {}
+  ToggleFavoriteSuccess({required this.isFavorite});
+}
+
+final class ToggleFavoriteError extends ToggleFavoriteState {
+  final String message;
+
+  ToggleFavoriteError({required this.message});
+}
