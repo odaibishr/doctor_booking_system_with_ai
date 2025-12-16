@@ -1,8 +1,9 @@
+import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
-import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/profile/presentation/widgets/user_account_menu_item.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserAccountMenu extends StatefulWidget {
   const UserAccountMenu({super.key});
@@ -10,7 +11,6 @@ class UserAccountMenu extends StatefulWidget {
   @override
   State<UserAccountMenu> createState() => _UserAccountMenuState();
 }
-
 
 class _UserAccountMenuState extends State<UserAccountMenu> {
   bool _isSupportExpanded = false;
@@ -22,10 +22,8 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.stretch, // لتوسيع العناصر بعرض الشاشة
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // الحساب الشخصي
             UserAccountMenuItem(
               title: 'الحساب الشخصي',
               icon: 'assets/icons/user.svg',
@@ -33,7 +31,6 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
             ),
             const SizedBox(height: 14),
 
-            // الإعدادات
             UserAccountMenuItem(
               title: 'الإعدادات',
               icon: 'assets/icons/setting-2.svg',
@@ -41,7 +38,6 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
             ),
             const SizedBox(height: 14),
 
-            // الدعم والمساعدة مع التوسع
             UserAccountMenuItem(
               title: 'الدعم والمساعدة',
               icon: 'assets/icons/warning-2.svg',
@@ -53,7 +49,6 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
             ),
             const SizedBox(height: 14),
 
-            // القائمة الموسعة للدعم
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
@@ -93,12 +88,12 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
             ),
             const SizedBox(height: 14),
 
-            // تسجيل الخروج
             UserAccountMenuItem(
               title: 'تسجيل الخروج',
               icon: 'assets/icons/login.svg',
-              onTap: () {
-                GoRouter.of(context).push(AppRouter.aichatViewRoute);
+              onTap: () => {
+                context.read<AuthCubit>().logout(),
+                context.showSuccessToast('تم تسجيل الخروج بنجاح'),
               },
             ),
           ],

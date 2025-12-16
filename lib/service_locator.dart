@@ -17,6 +17,7 @@ import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/profile_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/repos/profile_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/profile_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/data/repos/logout_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/domain/usecases/create_profile_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/data/datasources/booking_history_remote_data_source.dart';
@@ -46,6 +47,8 @@ import 'package:doctor_booking_system_with_ai/features/home/presentation/manager
 import 'package:doctor_booking_system_with_ai/features/hospital/domain/use_cases/get_hostpital_details_use_cae.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/manager/hospital_detailes/hospital_detailes_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_profile_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/profile/domain/repos/logout_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/profile/domain/use_cases/logout_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/search/domain/usecases/search_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/manager/search_doctors_bloc/search_doctors_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -180,6 +183,14 @@ Future<void> init() async {
     ),
   );
 
+  serviceLocator.registerLazySingleton<LogoutRepo>(
+    () => LogoutRepoImpl(
+      serviceLocator<AuthRemoteDataSource>(),
+      serviceLocator<AuthLocalDataSource>(),
+      serviceLocator<ProfileLocalDataSource>(),
+    ),
+  );
+
   // Use Cases
   serviceLocator.registerLazySingleton<SignInUseCase>(
     () => SignInUseCase(serviceLocator()),
@@ -235,12 +246,17 @@ Future<void> init() async {
     () => GetProfileUseCase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<LogoutUseCase>(
+    () => LogoutUseCase(serviceLocator()),
+  );
+
   // Cubit
   serviceLocator.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
       signInUseCase: serviceLocator(),
       signUpUsecase: serviceLocator(),
       checkAuthSatusUsecase: serviceLocator(),
+      logoutUseCase: serviceLocator(),
     ),
   );
 
@@ -248,6 +264,7 @@ Future<void> init() async {
     () => ProfileCubit(
       serviceLocator<CreateProfileUseCase>(),
       serviceLocator<GetProfileUseCase>(),
+      serviceLocator<LogoutUseCase>(),
     ),
   );
 

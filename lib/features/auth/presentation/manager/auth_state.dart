@@ -12,6 +12,8 @@ final class AuthSuccess extends AuthState {
   AuthSuccess({required this.user});
 }
 
+final class AuthLoggedOut extends AuthState {}
+
 final class AuthError extends AuthState {
   final String message;
 

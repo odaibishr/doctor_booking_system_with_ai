@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 abstract class ProfileLocalDataSource {
   Future<void> cachedProfile(Profile profile);
   Future<Profile> getCachedProfile();
+  Future<void> clearCachedProfile();
 }
 
 class ProfileLocalDataSourceImpl implements ProfileLocalDataSource {
@@ -18,5 +19,10 @@ class ProfileLocalDataSourceImpl implements ProfileLocalDataSource {
   @override
   Future<Profile> getCachedProfile() async {
     return profileBox.get(profileBox.keys.first)!;
+  }
+
+  @override
+  Future<void> clearCachedProfile() async {
+    await profileBox.clear();
   }
 }

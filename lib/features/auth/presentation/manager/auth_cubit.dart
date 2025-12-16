@@ -4,6 +4,8 @@ import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/check_auth_satus_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_up_usecase.dart';
+import 'package:doctor_booking_system_with_ai/features/profile/domain/use_cases/logout_use_case.dart'
+    as profile_logout;
 
 part 'auth_state.dart';
 
@@ -12,11 +14,13 @@ class AuthCubit extends Cubit<AuthState> {
     required this.signInUseCase,
     required this.signUpUsecase,
     required this.checkAuthSatusUsecase,
+    required this.logoutUseCase,
   }) : super(AuthInitial());
 
   final SignInUseCase signInUseCase;
   final SignUpUsecase signUpUsecase;
   final CheckAuthSatusUsecase checkAuthSatusUsecase;
+  final profile_logout.LogoutUseCase logoutUseCase;
 
   Future<void> signIn({required String email, required String password}) async {
     emit(AuthLoading());
@@ -78,6 +82,19 @@ class AuthCubit extends Cubit<AuthState> {
           emit(AuthSuccess(user: user));
         }
       });
+    } catch (e) {
+      emit(AuthError(message: e.toString()));
+    }
+  }
+
+  Future<void> logout() async {
+    emit(AuthLoading());
+    try {
+      final result = await logoutUseCase();
+      result.fold(
+        (failure) => emit(AuthError(message: failure.errorMessage)),
+        (_) => emit(AuthLoggedOut()),
+      );
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
