@@ -22,7 +22,7 @@ class HospitalDetailsReviewsTab extends StatelessWidget {
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
               ),
-              builder: (context) => ReviewDialog(onSubmit: (reason) {}),
+              builder: (context) => const ReviewDialog(doctorId: 0),
             );
           },
           child: Row(

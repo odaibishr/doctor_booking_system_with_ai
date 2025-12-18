@@ -1,164 +1,216 @@
+import 'package:doctor_booking_system_with_ai/core/manager/review/review_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
+import 'package:doctor_booking_system_with_ai/service_locator.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:svg_flutter/svg.dart';
 
-class ReviewDialog extends StatelessWidget {
-  const ReviewDialog({super.key, required this.onSubmit});
+class ReviewDialog extends StatefulWidget {
+  const ReviewDialog({super.key, required this.doctorId});
 
-  final Function(String) onSubmit;
+  final int doctorId;
+
+  @override
+  State<ReviewDialog> createState() => _ReviewDialogState();
+}
+
+class _ReviewDialogState extends State<ReviewDialog> {
+  final TextEditingController _commentController = TextEditingController();
+  int _rating = 0;
+
+  @override
+  void dispose() {
+    _commentController.dispose();
+    super.dispose();
+  }
+
+  void _setRating(int value) {
+    setState(() => _rating = value);
+  }
+
+  Future<void> _submit(BuildContext context) async {
+    final comment = _commentController.text.trim();
+
+    if (_rating <= 0) {
+      context.showErrorToast('يرجى اختيار التقييم');
+      return;
+    }
+    if (comment.isEmpty) {
+      context.showErrorToast('يرجى كتابة المراجعة');
+      return;
+    }
+    if (widget.doctorId <= 0) {
+      context.showErrorToast('تعذر إضافة المراجعة');
+      return;
+    }
+
+    await context.read<ReviewCubit>().createReview(
+      doctorId: widget.doctorId,
+      rating: _rating,
+      comment: comment,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController reasonController = TextEditingController();
-
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-          right: 20,
-          left: 20,
-          top: 16,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 60,
-              height: 6,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocProvider(
+      create: (_) => serviceLocator<ReviewCubit>(),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            right: 20,
+            left: 20,
+            top: 16,
+          ),
+          child: BlocListener<ReviewCubit, ReviewState>(
+            listener: (context, state) {
+              if (state is ReviewFailure) {
+                context.showErrorToast(state.message);
+              }
+              if (state is ReviewSuccess) {
+                Navigator.of(context).pop();
+                context.showSuccessToast('تم إرسال المراجعة بنجاح');
+              }
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'اترك تعليقك',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  onPressed: () => GoRouter.of(context).pop(),
-                  icon: const Icon(Icons.close),
-                ),
-              ],
-            ),
-            const Divider(color: AppColors.gray300),
-            const SizedBox(height: 10),
-            const Align(
-              alignment: Alignment.centerRight,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'كيف كان حجزك مع الدكتور',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                Container(
+                  width: 60,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(2),
                   ),
-                  SizedBox(height: 4),
-                  Text(
-                    'رجاء قم باضافة تقييمك وتعليقك',
-                    style: TextStyle(color: AppColors.gray500),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  'assets/icons/star_filled.svg',
-                  height: 30,
-                  width: 30,
                 ),
-                const SizedBox(width: 16),
-                SvgPicture.asset(
-                  'assets/icons/star_filled.svg',
-                  height: 30,
-                  width: 30,
-                ),
-                const SizedBox(width: 16),
-                SvgPicture.asset(
-                  'assets/icons/star_filled.svg',
-                  height: 30,
-                  width: 30,
-                ),
-                const SizedBox(width: 16),
-                SvgPicture.asset(
-                  'assets/icons/star_filled.svg',
-                  height: 30,
-                  width: 30,
-                ),
-                const SizedBox(width: 16),
-                SvgPicture.asset(
-                  'assets/icons/star_filled.svg',
-                  height: 30,
-                  width: 30,
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            TextField(
-              controller: reasonController,
-              maxLines: 3,
-              cursorColor: AppColors.gray500,
-              decoration: InputDecoration(
-                hintText: 'اكتب السبب ...',
-                hintTextDirection: TextDirection.rtl,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: AppColors.gray200),
-                ),
-                contentPadding: const EdgeInsets.all(12),
-              ),
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2E3A8C),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                ),
-                onPressed: () {
-                  final reason = reasonController.text.trim();
-                  if (reason.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('يرجى كتابة السبب قبل الإرسال'),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'إضافة مراجعة',
+                      style: FontStyles.subTitle1.copyWith(
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
-                  } else {
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('تم إرسال السبب: $reason')),
-                    );
-                  }
-                },
-                child: const Text(
-                  'إرسال',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
+                    ),
+                    IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(Icons.close),
+                    ),
+                  ],
+                ),
+                const Divider(color: AppColors.gray300),
+                const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'كيف كانت تجربتك؟',
+                        style: FontStyles.subTitle2.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'اضغط على النجوم لتحديد التقييم',
+                        style: FontStyles.body2.copyWith(
+                          color: AppColors.gray500,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
+                const SizedBox(height: 16),
+                _StarRating(rating: _rating, onChanged: _setRating),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _commentController,
+                  maxLines: 3,
+                  cursorColor: AppColors.gray500,
+                  decoration: InputDecoration(
+                    hintText: 'اكتب مراجعتك هنا...',
+                    hintTextDirection: TextDirection.rtl,
+                    filled: true,
+                    fillColor: AppColors.gray100,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: AppColors.gray200),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: AppColors.gray200),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: AppColors.primary),
+                    ),
+                    contentPadding: const EdgeInsets.all(12),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                BlocBuilder<ReviewCubit, ReviewState>(
+                  builder: (context, state) {
+                    final isSubmitting = state is ReviewSubmitting;
+                    return MainButton(
+                      text: isSubmitting ? 'جاري الإرسال...' : 'إرسال',
+                      onTap: isSubmitting ? () {} : () => _submit(context),
+                      color: isSubmitting
+                          ? AppColors.gray300
+                          : AppColors.primary,
+                    );
+                  },
+                ),
+                const SizedBox(height: 10),
+              ],
             ),
-            const SizedBox(height: 10),
-          ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class _StarRating extends StatelessWidget {
+  const _StarRating({required this.rating, required this.onChanged});
+
+  final int rating;
+  final ValueChanged<int> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(5, (i) {
+        final value = i + 1;
+        final isFilled = value <= rating;
+        final asset = isFilled
+            ? 'assets/icons/star_filled.svg'
+            : 'assets/icons/star.svg';
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: () => onChanged(value),
+            child: SvgPicture.asset(
+              asset,
+              height: 30,
+              width: 30,
+              colorFilter: ColorFilter.mode(
+                isFilled ? AppColors.yellow : AppColors.gray300,
+                BlendMode.srcIn,
+              ),
+            ),
+          ),
+        );
+      }),
     );
   }
 }

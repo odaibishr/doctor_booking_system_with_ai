@@ -11,8 +11,8 @@ class DetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: DetailsViewBody(doctorId: doctorId,)),
-      bottomNavigationBar: DetailsViewActions(),
+      body: SafeArea(child: DetailsViewBody(doctorId: doctorId)),
+      bottomNavigationBar: DetailsViewActions(doctorId: doctorId),
     );
   }
 }

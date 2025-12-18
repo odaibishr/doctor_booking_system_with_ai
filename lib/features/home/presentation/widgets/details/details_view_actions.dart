@@ -7,7 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:svg_flutter/svg.dart';
 
 class DetailsViewActions extends StatelessWidget {
-  const DetailsViewActions({super.key});
+  const DetailsViewActions({super.key, required this.doctorId});
+
+  final int doctorId;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class DetailsViewActions extends StatelessWidget {
                 barrierColor: Colors.black54,
                 useSafeArea: true,
                 builder: (context) {
-                  return ReviewDialog(onSubmit: (review) {});
+                  return ReviewDialog(doctorId: doctorId);
                 },
               );
             },

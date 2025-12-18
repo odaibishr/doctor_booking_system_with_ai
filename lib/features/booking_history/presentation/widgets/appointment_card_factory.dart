@@ -62,16 +62,16 @@ class AppointmentCardFactory {
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(25),
-                    ),
-                  ),
-                  builder: (context) => ReviewDialog(onSubmit: (reason) {}),
-                );
-              },
-              height: 28,
-              radius: 6,
+                   shape: const RoundedRectangleBorder(
+                     borderRadius: BorderRadius.vertical(
+                       top: Radius.circular(25),
+                     ),
+                   ),
+                   builder: (context) => const ReviewDialog(doctorId: 0),
+                 );
+               },
+               height: 28,
+               radius: 6,
               color: AppColors.gray300,
             ),
           ),
