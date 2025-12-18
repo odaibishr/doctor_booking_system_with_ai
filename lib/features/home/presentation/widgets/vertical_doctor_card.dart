@@ -88,7 +88,7 @@ class VerticalDoctorCard extends StatelessWidget {
                 ),
                 // PriceLableWithIcon(price: 5000),
                 Text(
-                  '5000 ريال',
+                  '${topDoctor.price} ريال',
                   style: FontStyles.body2.copyWith(color: AppColors.gray600),
                 ),
               ],

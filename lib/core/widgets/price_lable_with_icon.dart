@@ -5,7 +5,7 @@ import 'package:svg_flutter/svg.dart';
 
 class PriceLableWithIcon extends StatelessWidget {
   const PriceLableWithIcon({super.key, required this.price});
-  final int price;
+  final double price;
 
   @override
   Widget build(BuildContext context) {

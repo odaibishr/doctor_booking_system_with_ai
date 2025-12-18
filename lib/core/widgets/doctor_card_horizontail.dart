@@ -105,7 +105,7 @@ class DoctorCardHorizontail extends StatelessWidget {
                             children: [
                               const Rating(rating: 4.5),
                               Text(
-                                '5000 ريال',
+                                '${doctor.price} ريال',
                                 style: FontStyles.body2.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),

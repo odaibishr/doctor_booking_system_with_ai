@@ -73,7 +73,7 @@ class DoctorFeaturedBanner extends StatelessWidget {
                     color: AppColors.gray300,
                   ),
                   const SizedBox(height: 5),
-                  const PriceLableWithIcon(price: 5000),
+                  PriceLableWithIcon(price: doctor.price),
                 ],
               ),
             ),
