@@ -270,6 +270,10 @@ Future<void> init() async {
     () => LogoutUseCase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<GetDoctorReviewsUseCase>(
+    () => GetDoctorReviewsUseCase(serviceLocator()),
+  );
+
   // Cubit
   serviceLocator.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
@@ -328,6 +332,9 @@ Future<void> init() async {
   );
 
   serviceLocator.registerFactory<ReviewCubit>(
-    () => ReviewCubit(serviceLocator<CreateReviewUseCase>()),
+    () => ReviewCubit(
+      serviceLocator<CreateReviewUseCase>(),
+      serviceLocator<GetDoctorReviewsUseCase>(),
+    ),
   );
 }

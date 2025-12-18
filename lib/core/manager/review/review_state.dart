@@ -17,6 +17,8 @@ final class ReviewLoaded extends ReviewState {
   ReviewLoaded(this.reviews);
 }
 
+final class ReviewLoading extends ReviewState {}
+
 final class ReviewFailure extends ReviewState {
   final String message;
   ReviewFailure(this.message);
