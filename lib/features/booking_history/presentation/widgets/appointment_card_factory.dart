@@ -10,6 +10,7 @@ class AppointmentCardFactory {
   static List<Widget> getButtons({
     required BuildContext context,
     required AppointmentStatus status,
+    required int doctorId,
   }) {
     switch (status) {
       case AppointmentStatus.upcoming:
@@ -67,7 +68,7 @@ class AppointmentCardFactory {
                        top: Radius.circular(25),
                      ),
                    ),
-                   builder: (context) => const ReviewDialog(doctorId: 0),
+                   builder: (context) => ReviewDialog(doctorId: doctorId),
                  );
                },
                height: 28,

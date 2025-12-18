@@ -155,7 +155,7 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
                               HospitalDetailsDoctorsTab(
                                 doctors: hospital.doctors!,
                               ),
-                              HospitalDetailsReviewsTab(reviews: _reviews),
+                              // HospitalDetailsReviewsTab(reviews: _reviews),
                             ],
                           ),
                         ),

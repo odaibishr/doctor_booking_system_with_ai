@@ -38,12 +38,7 @@ class _HospitalDetailsReviewSliderState
         },
       ),
       itemBuilder: (context, index, realIndex) {
-        final review = widget.reviews[index];
-        return PatientReview(
-          name: review['name'],
-          rating: review['rating'],
-          review: review['review'],
-        );
+        return Container();
       },
       itemCount: 3,
     );

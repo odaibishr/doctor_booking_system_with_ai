@@ -102,7 +102,7 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                     SectionHeader(title: 'تقييمات المرضى', onTap: () {}),
                     const SizedBox(height: 2),
 
-                    const PatientReviewSlider(),
+                    PatientReviewSlider(doctorId: widget.doctorId),
                     const SizedBox(height: 16),
                   ]),
                 ),

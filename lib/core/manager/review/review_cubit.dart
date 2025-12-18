@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/review.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/create_review_use_case.dart';
@@ -43,6 +45,7 @@ class ReviewCubit extends Cubit<ReviewState> {
         (review) {
           if (isClosed || requestId != _requestId) return;
           emit(ReviewSuccess(review));
+          unawaited(getDoctorReviews(doctorId));
         },
       );
     } catch (error) {

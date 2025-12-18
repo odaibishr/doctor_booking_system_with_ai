@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
@@ -5,12 +6,14 @@ import 'package:flutter/material.dart';
 class PatientReview extends StatelessWidget {
   const PatientReview({
     super.key,
+    required this.imageUrl,
     required this.name,
     required this.rating,
     this.review,
   });
+  final String imageUrl;
   final String name;
-  final String rating;
+  final int rating;
   final String? review;
 
   @override
@@ -28,7 +31,7 @@ class PatientReview extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 25,
-            backgroundImage: AssetImage('assets/images/my-photo.jpg'),
+            backgroundImage: NetworkImage('${EndPoints.photoUrl}/$imageUrl'),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -60,7 +63,7 @@ class PatientReview extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 2),
                           child: Text(
-                            rating,
+                            rating.toString(),
                             style: FontStyles.body2.copyWith(
                               fontWeight: FontWeight.bold,
                               color: AppColors.black,

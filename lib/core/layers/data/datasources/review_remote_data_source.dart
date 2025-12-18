@@ -35,8 +35,13 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
       'review/getReviewByDoctor/$doctorId',
     );
 
-    final data =
-        (response is Map && response['data'] != null) ? response['data'] : response;
+    dynamic data = response;
+    if (response is Map) {
+      data = response['data'] ?? response;
+      if (data is Map) {
+        data = data['data'] ?? data['reviews'] ?? data['items'] ?? data;
+      }
+    }
 
     final list = _ensureList(data);
     return list
@@ -60,10 +65,10 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
       throw Exception('تعذر إنشاء المراجعة، حاول مرة أخرى.');
     }
 
-    final data =
-        (response is Map && response['data'] != null) ? response['data'] : response;
+    final data = (response is Map && response['data'] != null)
+        ? response['data']
+        : response;
 
     return ReviewModel.fromJson(_ensureMap(data));
   }
 }
-

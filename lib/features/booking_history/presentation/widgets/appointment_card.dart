@@ -57,6 +57,7 @@ class AppointmentCard extends StatelessWidget {
               children: AppointmentCardFactory.getButtons(
                 context: context,
                 status: status,
+                doctorId: booking.doctorId,
               ),
             ),
           ],
