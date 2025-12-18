@@ -15,13 +15,34 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   final DioConsumer dioConsumer;
 
   ReviewRemoteDataSourceImpl(this.dioConsumer);
+
+  static Map<String, dynamic> _ensureMap(dynamic value) {
+    if (value is Map<String, dynamic>) return value;
+    if (value is Map) {
+      return value.map((key, val) => MapEntry(key.toString(), val));
+    }
+    return <String, dynamic>{};
+  }
+
+  static List<dynamic> _ensureList(dynamic value) {
+    if (value is List) return value;
+    return <dynamic>[];
+  }
+
   @override
   Future<List<Review>> getDoctorReviews(int doctorId) async {
     final response = await dioConsumer.get(
       'review/getReviewByDoctor/$doctorId',
     );
 
-    return ReviewModel.fromJson(response) as List<Review>;
+    final data =
+        (response is Map && response['data'] != null) ? response['data'] : response;
+
+    final list = _ensureList(data);
+    return list
+        .whereType<Map>()
+        .map((e) => ReviewModel.fromJson(_ensureMap(e)))
+        .toList();
   }
 
   @override
@@ -36,9 +57,13 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
     );
 
     if (response == null) {
-      throw Exception("فشل في إنشاء المراجعة. الرجاء المحاولة مرة أخرى.");
+      throw Exception('تعذر إنشاء المراجعة، حاول مرة أخرى.');
     }
 
-    return ReviewModel.fromJson(response);
+    final data =
+        (response is Map && response['data'] != null) ? response['data'] : response;
+
+    return ReviewModel.fromJson(_ensureMap(data));
   }
 }
+

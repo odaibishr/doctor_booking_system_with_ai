@@ -12,13 +12,17 @@ class ReviewModel extends Review {
   });
 
   factory ReviewModel.fromJson(Map<String, dynamic> json) => ReviewModel(
-    id: json['id'] as int,
-    doctorId: json['doctor_id'] as int,
-    userId: json['user_id'] as int,
-    comment: json['comment'] as String,
-    rating: json['rating'] as int,
-    user: json['user'] != null ? UserModel.fromJson(json['user']) : null,
-  );
+        id: _toInt(json['id']),
+        doctorId: _toInt(json['doctor_id'] ?? json['doctorId']),
+        userId: _toInt(json['user_id'] ?? json['userId']),
+        comment: (json['comment'] ?? '').toString(),
+        rating: _toInt(json['rating']),
+        user: json['user'] is Map
+            ? UserModel.fromJson(
+                (json['user'] as Map).map((k, v) => MapEntry(k.toString(), v)),
+              )
+            : null,
+      );
 
   Map<String, dynamic> toJson() => {
     'id': id,
@@ -29,12 +33,12 @@ class ReviewModel extends Review {
   };
 
   factory ReviewModel.fromMap(Map<String, dynamic> map) => ReviewModel(
-    id: map['id'] as int,
-    doctorId: map['doctor_id'] as int,
-    userId: map['user_id'] as int,
-    comment: map['comment'] as String,
-    rating: map['rating'] as int,
-  );
+        id: _toInt(map['id']),
+        doctorId: _toInt(map['doctor_id'] ?? map['doctorId']),
+        userId: _toInt(map['user_id'] ?? map['userId']),
+        comment: (map['comment'] ?? '').toString(),
+        rating: _toInt(map['rating']),
+      );
 
   Map<String, dynamic> toMap() => {
     'id': id,
@@ -43,4 +47,10 @@ class ReviewModel extends Review {
     'comment': comment,
     'rating': rating,
   };
+
+  static int _toInt(dynamic value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse('${value ?? ''}') ?? 0;
+  }
 }
