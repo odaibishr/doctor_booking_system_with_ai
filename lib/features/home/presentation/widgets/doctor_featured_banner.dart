@@ -17,6 +17,8 @@ class DoctorFeaturedBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final image = doctor.profileImage.trim();
+    final hasValidImage = image.isNotEmpty && image.toLowerCase() != 'null';
     return GestureDetector(
       onTap: () {
         GoRouter.of(context).push(AppRouter.detailsViewRoute, extra: doctor.id);
@@ -76,14 +78,16 @@ class DoctorFeaturedBanner extends StatelessWidget {
               ),
             ),
             // Image
-            CachedNetworkImage(
-              imageUrl: '${EndPoints.photoUrl}/${doctor.profileImage}',
-              width: 100,
-              height: double.infinity,
-              fit: BoxFit.fill,
-              errorWidget: (context, url, error) =>
-                  const Icon(Icons.error, color: Colors.red),
-            ),
+            hasValidImage
+                ? CachedNetworkImage(
+                    imageUrl: '${EndPoints.photoUrl}/$image',
+                    width: 100,
+                    height: double.infinity,
+                    fit: BoxFit.fill,
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.person, color: Colors.white),
+                  )
+                : const Icon(Icons.person, color: Colors.white),
           ],
         ),
       ),

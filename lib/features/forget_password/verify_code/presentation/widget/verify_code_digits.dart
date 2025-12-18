@@ -11,16 +11,16 @@ class AnimatedOtpInput extends StatefulWidget {
   final double height;
 
   const AnimatedOtpInput({
-    Key? key,
+    super.key,
     required this.length,
     this.onCompleted,
     this.onChanged,
     this.width = 40,
     this.height = 56,
-  }) : super(key: key);
+  });
 
   @override
-  _AnimatedOtpInputState createState() => _AnimatedOtpInputState();
+  State<AnimatedOtpInput> createState() => _AnimatedOtpInputState();
 }
 
 class _AnimatedOtpInputState extends State<AnimatedOtpInput> {

@@ -25,9 +25,6 @@ class _DatePickerCardState extends State<DatePickerCard> {
     DateTime(2025, 7, 7),
   };
 
-  bool _isSameDay(DateTime a, DateTime b) =>
-      a.year == b.year && a.month == b.month && a.day == b.day;
-
   @override
   Widget build(BuildContext context) {
     Intl.defaultLocale = 'ar';
@@ -58,7 +55,7 @@ class _DatePickerCardState extends State<DatePickerCard> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            "اختر اليوم المناسب",
+            'اختر يوم الحجز المناسب',
             style: FontStyles.headLine4.copyWith(
               color: AppColors.black,
               fontWeight: FontWeight.bold,
@@ -94,3 +91,4 @@ class _DatePickerCardState extends State<DatePickerCard> {
     );
   }
 }
+

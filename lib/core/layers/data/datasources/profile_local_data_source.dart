@@ -1,5 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/profile.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:doctor_booking_system_with_ai/core/storage/hive_service.dart';
 
 abstract class ProfileLocalDataSource {
   Future<void> cachedProfile(Profile profile);
@@ -8,21 +8,51 @@ abstract class ProfileLocalDataSource {
 }
 
 class ProfileLocalDataSourceImpl implements ProfileLocalDataSource {
-  final Box<Profile> profileBox;
-  ProfileLocalDataSourceImpl(this.profileBox);
+  ProfileLocalDataSourceImpl();
 
   @override
   Future<void> cachedProfile(Profile profile) async {
-    await profileBox.put(profile.phone, profile);
+    final currentUser = HiveService.getCachedAuthData();
+    final profileUser = profile.user;
+    final mergedLocation =
+        (profileUser.location.id != 0) ? profileUser.location : currentUser?.location;
+
+    final mergedUser = profileUser.copyWith(
+      id: profileUser.id != 0 ? profileUser.id : (currentUser?.id ?? 0),
+      name: profileUser.name.isNotEmpty ? profileUser.name : (currentUser?.name ?? ''),
+      email: profileUser.email.isNotEmpty ? profileUser.email : (currentUser?.email ?? ''),
+      token: profileUser.token.isNotEmpty ? profileUser.token : (currentUser?.token ?? ''),
+      phone: profile.phone,
+      birthDate: profile.birthDate,
+      gender: profile.gender,
+      locationId: profile.locationId,
+      profileImage: profile.profileImage ?? profileUser.profileImage,
+      location: mergedLocation ?? profileUser.location,
+      address: profileUser.address ?? currentUser?.address,
+    );
+
+    await HiveService.cacheAuthData(mergedUser);
   }
 
   @override
   Future<Profile> getCachedProfile() async {
-    return profileBox.get(profileBox.keys.first)!;
+    final user = HiveService.getCachedAuthData();
+    if (user == null) {
+      throw Exception('No cached user data');
+    }
+
+    return Profile(
+      phone: user.phone ?? '',
+      birthDate: user.birthDate ?? '',
+      gender: user.gender ?? '',
+      locationId: user.locationId,
+      profileImage: user.profileImage,
+      user: user,
+    );
   }
 
   @override
   Future<void> clearCachedProfile() async {
-    await profileBox.clear();
+    // Profile data is stored inside cached user now; clearing user is handled by AuthLocalDataSource.
   }
 }

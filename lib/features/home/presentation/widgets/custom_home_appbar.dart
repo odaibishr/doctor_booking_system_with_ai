@@ -34,6 +34,9 @@ class CustomHomeAppBar extends StatelessWidget {
               );
             }
             if (state is ProfileSuccess) {
+              final profileImage = (state.profile.profileImage ?? '').trim();
+              final hasValidImage =
+                  profileImage.isNotEmpty && profileImage.toLowerCase() != 'null';
               return Row(
                 children: [
                   Container(
@@ -44,11 +47,15 @@ class CustomHomeAppBar extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: ClipOval(
-                      child: CachedNetworkImage(
-                        imageUrl:
-                            '${EndPoints.photoUrl}/${state.profile.profileImage}',
-                        fit: BoxFit.cover,
-                      ),
+                      child:
+                          hasValidImage
+                              ? CachedNetworkImage(
+                                  imageUrl: '${EndPoints.photoUrl}/$profileImage',
+                                  fit: BoxFit.cover,
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(userImage, fit: BoxFit.cover),
+                                )
+                              : Image.asset(userImage, fit: BoxFit.cover),
                     ),
                   ),
                   const SizedBox(width: 5),

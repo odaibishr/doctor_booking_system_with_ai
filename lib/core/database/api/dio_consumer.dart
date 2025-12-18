@@ -38,7 +38,7 @@ class DioConsumer extends ApiConsumer {
   Future<String?> _getToken() async {
     try {
       final authData = await authLocalDataSource.getCachedAuthData();
-      return authData?.token as String?;
+      return authData?.token;
     } catch (_) {
       return null;
     }
@@ -67,7 +67,7 @@ class DioConsumer extends ApiConsumer {
       }
       return jsonDecode(responseStr);
     } catch (e) {
-      log('⚠️ Failed to parse response as JSON: $e');
+      log('Failed to parse response as JSON: $e');
       return {'raw_response': data};
     }
   }

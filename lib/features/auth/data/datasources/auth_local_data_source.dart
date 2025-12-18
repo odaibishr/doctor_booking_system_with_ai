@@ -22,6 +22,13 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
             name: user.name,
             email: user.email,
             token: user.token,
+            phone: user.phone,
+            address: user.address,
+            profileImage: user.profileImage,
+            birthDate: user.birthDate,
+            gender: user.gender,
+            location: user.location,
+            locationId: user.locationId,
           );
 
     await HiveService.cacheAuthData(userModel);
@@ -39,6 +46,13 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       name: user.name,
       email: user.email,
       token: user.token,
+      phone: user.phone,
+      address: user.address,
+      profileImage: user.profileImage,
+      birthDate: user.birthDate,
+      gender: user.gender,
+      location: user.location,
+      locationId: user.locationId,
     );
   }
 

@@ -17,6 +17,7 @@ class _ChatBubbleState extends State<ChatBubble> {
   String _visibleText = '';
   int _currentIndex = 0;
   Timer? _timer;
+
   void _startTypingEffect() {
     const duration = Duration(milliseconds: 40);
     _timer = Timer.periodic(duration, (timer) {
@@ -38,13 +39,18 @@ class _ChatBubbleState extends State<ChatBubble> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (!widget.isUser) {
       _startTypingEffect();
     } else {
       _visibleText = widget.content;
     }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override

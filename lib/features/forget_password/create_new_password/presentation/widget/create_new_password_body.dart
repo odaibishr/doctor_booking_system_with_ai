@@ -13,13 +13,13 @@ class CreateNewPasswordBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return CustomScrollView(
       slivers: [
         AppBar2(),
         SliverToBoxAdapter(
           child: Form(
-            key: _formKey,
+            key: formKey,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
@@ -36,18 +36,18 @@ class CreateNewPasswordBody extends StatelessWidget {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   PasswordField(
                     hintText: 'كلمة المرور',
-                    validator: PasswordValidator,
+                    validator: passwordValidator,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   PasswordField(
                     hintText: 'كلمة المرور',
-                    validator: PasswordValidator,
+                    validator: passwordValidator,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   MainButton(
                     text: 'إعادة تعيين كلمة المرور',
                     onTap: () {
-                      if (_formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) {
                         //TODO:here the main Button !
                         GoRouter.of(
                           context,
@@ -64,7 +64,7 @@ class CreateNewPasswordBody extends StatelessWidget {
     );
   }
 
-  String? PasswordValidator(value) {
+  String? passwordValidator(value) {
     if (value == null || value.isEmpty) {
       return 'الرجاء ادخال كلمة المرور ';
     }

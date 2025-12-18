@@ -8,12 +8,12 @@ import 'package:doctor_booking_system_with_ai/features/payment/presentation/widg
 import 'package:flutter/material.dart';
 
 class PaymentViewBody extends StatefulWidget {
-  final bool? complete_payment;
+  final bool? completePayment;
   final VoidCallback onpres;
 
   const PaymentViewBody({
     super.key,
-    this.complete_payment,
+    this.completePayment,
     required this.onpres,
   });
 
@@ -27,7 +27,7 @@ class _PaymentViewBodyState extends State<PaymentViewBody> {
   @override
   void initState() {
     super.initState();
-    completePayment = widget.complete_payment ?? false;
+    completePayment = widget.completePayment ?? false;
   }
 
   @override

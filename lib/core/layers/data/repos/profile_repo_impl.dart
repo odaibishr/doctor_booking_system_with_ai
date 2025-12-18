@@ -58,6 +58,7 @@ class ProfileRepoImpl implements ProfileRepo {
         return Right(cachedProfile);
       }
       final result = await remoteDataSource.getProfile();
+      await localDataSource.cachedProfile(result);
       return Right(result);
     } catch (error) {
       return Left(Failure(error.toString()));

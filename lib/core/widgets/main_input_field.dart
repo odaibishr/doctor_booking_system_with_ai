@@ -15,7 +15,7 @@ class MainInputField extends StatelessWidget {
     this.validator,
     this.isNumber,
     this.readonly,
-    this.icon_onTap,
+    this.iconOnTap,
     this.onChanged,
     this.border= AppColors.primary,
   });
@@ -28,7 +28,7 @@ class MainInputField extends StatelessWidget {
   final bool isShowLeftIcon;
   final bool? isNumber;
   final bool? readonly;
-  final VoidCallback? icon_onTap;
+  final VoidCallback? iconOnTap;
   final TextEditingController? controller;
   final Function(String)? onChanged;
   final Color border;
@@ -70,7 +70,7 @@ class MainInputField extends StatelessWidget {
             : null,
         suffixIcon: isShowLeftIcon
             ? GestureDetector(
-                onTap: icon_onTap,
+                onTap: iconOnTap,
 
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),

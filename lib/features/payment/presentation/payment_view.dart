@@ -13,10 +13,10 @@ class PaymentView extends StatefulWidget {
 }
 
 class _PaymentViewState extends State<PaymentView> {
-  bool complete_payment = false;
+  bool completePayment = false;
   void showBottomSheetNow() {
     setState(() {
-      complete_payment = true;
+      completePayment = true;
     });
   }
 
@@ -29,11 +29,11 @@ class _PaymentViewState extends State<PaymentView> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: PaymentViewBody(
-                complete_payment: complete_payment,
+                completePayment: completePayment,
                 onpres: showBottomSheetNow,
               ),
             ),
-            if (complete_payment == true)
+            if (completePayment == true)
               Positioned.fill(
                 top: MediaQuery.of(context).size.height * 0.49,
                 left: MediaQuery.of(context).size.width * 0.03,
@@ -44,7 +44,7 @@ class _PaymentViewState extends State<PaymentView> {
                   child: PaymentBottomSheet(),
                 ),
               ),
-            if (complete_payment == true)
+            if (completePayment == true)
               Positioned(
                 right: MediaQuery.of(context).size.width * 0.37,
                 bottom: MediaQuery.of(context).size.height * 0.43,

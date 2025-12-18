@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/toggle_favorite_doctor_use_case.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 
 part 'toggle_favorite_state.dart';
 

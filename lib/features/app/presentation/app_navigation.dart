@@ -25,16 +25,18 @@ class _AppNavigationState extends State<AppNavigation> {
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (!mounted) return;
+    if (index < 0 || index >= _pages.length) return;
+    setState(() => _selectedIndex = index);
   }
 
   @override
   Widget build(BuildContext context) {
+    final safeIndex =
+        (_selectedIndex >= 0 && _selectedIndex < _pages.length) ? _selectedIndex : 0;
     return Scaffold(
       extendBody: true,
-      body: _pages[_selectedIndex],
+      body: _pages[safeIndex],
 
       floatingActionButton: FloatingMiddleButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

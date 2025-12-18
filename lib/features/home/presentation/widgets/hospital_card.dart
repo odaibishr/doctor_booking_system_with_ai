@@ -38,10 +38,7 @@ class HospitalCard extends StatelessWidget {
                 color: AppColors.gray400,
               ),
               clipBehavior: Clip.antiAlias,
-              child: CachedNetworkImage(
-                imageUrl: '${EndPoints.photoUrl}/${hospital.image}',
-                fit: BoxFit.cover,
-              ),
+              child: _buildHospitalImage(),
             ),
 
             const SizedBox(height: 12),
@@ -92,6 +89,20 @@ class HospitalCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildHospitalImage() {
+    final image = hospital.image.trim();
+    if (image.isEmpty || image.toLowerCase() == 'null') {
+      return const Icon(Icons.local_hospital, color: AppColors.primary);
+    }
+
+    return CachedNetworkImage(
+      imageUrl: '${EndPoints.photoUrl}/$image',
+      fit: BoxFit.cover,
+      errorWidget: (context, url, error) =>
+          const Icon(Icons.local_hospital, color: AppColors.primary),
     );
   }
 }

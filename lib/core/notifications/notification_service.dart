@@ -92,7 +92,6 @@ class NotificationService {
       case AppNotificationType.warning:
         return AppColors.yellow;
       case AppNotificationType.info:
-      default:
         return AppColors.primary;
     }
   }
@@ -106,7 +105,6 @@ class NotificationService {
       case AppNotificationType.warning:
         return ToastificationType.warning;
       case AppNotificationType.info:
-      default:
         return ToastificationType.info;
     }
   }

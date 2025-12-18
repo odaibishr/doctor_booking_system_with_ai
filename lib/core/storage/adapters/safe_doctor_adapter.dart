@@ -1,0 +1,177 @@
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/location.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specialty.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+class SafeDoctorAdapter extends TypeAdapter<Doctor> {
+  @override
+  final int typeId = 2;
+
+  @override
+  Doctor read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+
+    // Support both current layout (user at field 10) and old layout (name/email/...)
+    final hasUser = fields[10] is User;
+
+    final int id = _toInt(fields[0]);
+
+    final int specialtyId = _toInt(
+      _pick(fields, primary: 2, legacy: 6),
+    );
+    final int hospitalId = _toInt(
+      _pick(fields, primary: 3, legacy: 7),
+    );
+    final int isFeatured = _toInt(
+      _pick(fields, primary: 4, legacy: 9),
+    );
+    final int isTopDoctor = _toInt(
+      _pick(fields, primary: 5, legacy: 10),
+    );
+    final String services =
+        (_pick(fields, primary: 6, legacy: 13) ?? '').toString();
+
+    final specialtyValue =
+        _asSpecialty(_pick(fields, primary: 7, legacy: 15)) ??
+            Specialty(id: 0, name: '', icon: '', isActive: false);
+    final hospitalValue = _asHospital(_pick(fields, primary: 8, legacy: 16)) ??
+        Hospital(
+          id: 0,
+          name: '',
+          phone: '',
+          email: '',
+          website: '',
+          address: '',
+          image: '',
+          locationId: 0,
+          doctors: null,
+        );
+
+    final int isFavorite = _toInt(
+      _pick(fields, primary: 9, legacy: 17),
+    );
+
+    final double price = _toDouble(fields[11]);
+    final int experience = _toInt(fields[12]);
+
+    final User userValue =
+        hasUser ? fields[10] as User : _buildUserFromLegacy(fields);
+
+    // Old layouts stored "aboutus" at field 4; current layout at field 1.
+    final String aboutus = hasUser
+        ? (fields[1] ?? '').toString()
+        : (fields[4] ?? '').toString();
+
+    return Doctor(
+      id: id,
+      aboutus: aboutus,
+      specialtyId: specialtyId,
+      hospitalId: hospitalId,
+      isFeatured: isFeatured,
+      isTopDoctor: isTopDoctor,
+      services: services,
+      specialty: specialtyValue,
+      hospital: hospitalValue,
+      isFavorite: isFavorite,
+      user: userValue,
+      price: price,
+      experience: experience,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Doctor obj) {
+    writer
+      ..writeByte(13)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.aboutus)
+      ..writeByte(2)
+      ..write(obj.specialtyId)
+      ..writeByte(3)
+      ..write(obj.hospitalId)
+      ..writeByte(4)
+      ..write(obj.isFeatured)
+      ..writeByte(5)
+      ..write(obj.isTopDoctor)
+      ..writeByte(6)
+      ..write(obj.services)
+      ..writeByte(7)
+      ..write(obj.specialty)
+      ..writeByte(8)
+      ..write(obj.hospital)
+      ..writeByte(9)
+      ..write(obj.isFavorite)
+      ..writeByte(10)
+      ..write(obj.user)
+      ..writeByte(11)
+      ..write(obj.price)
+      ..writeByte(12)
+      ..write(obj.experience);
+  }
+
+  static dynamic _pick(
+    Map<int, dynamic> fields, {
+    required int primary,
+    required int legacy,
+  }) {
+    return fields.containsKey(primary) ? fields[primary] : fields[legacy];
+  }
+
+  static int _toInt(dynamic value, {int fallback = 0}) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse('${value ?? ''}') ?? fallback;
+  }
+
+  static double _toDouble(dynamic value, {double fallback = 0.0}) {
+    if (value is double) return value;
+    if (value is num) return value.toDouble();
+    return double.tryParse('${value ?? ''}') ?? fallback;
+  }
+
+  static Specialty? _asSpecialty(dynamic value) {
+    if (value is Specialty) return value;
+    return null;
+  }
+
+  static Hospital? _asHospital(dynamic value) {
+    if (value is Hospital) return value;
+    return null;
+  }
+
+  static Location _defaultLocation() =>
+      Location(id: 0, lat: 0.0, lng: 0.0, name: '');
+
+  static User _buildUserFromLegacy(Map<int, dynamic> fields) {
+    final name = (fields[1] ?? '').toString();
+    final email = (fields[2] ?? '').toString();
+    final phone = fields[3]?.toString();
+    final gender = fields[8]?.toString();
+    final profileImage = fields[11]?.toString();
+    final birthDate = fields[12]?.toString();
+
+    final locationValue = (fields[14] is Location) ? fields[14] as Location : _defaultLocation();
+    final locationId = _toInt(fields[5], fallback: locationValue.id);
+
+    return User(
+      id: _toInt(fields[0]),
+      name: name,
+      email: email,
+      token: '',
+      phone: phone,
+      address: null,
+      profileImage: profileImage,
+      birthDate: birthDate,
+      gender: gender,
+      location: locationValue,
+      locationId: locationId,
+    );
+  }
+}

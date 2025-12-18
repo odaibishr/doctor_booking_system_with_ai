@@ -16,18 +16,18 @@ class _UploadButtonState extends State<UploadButton> {
   final ImagePicker _picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
-    Future<void> _openSheet() async {
+    Future<void> openSheet() async {
       showModalBottomSheet(
         context: context,
         builder: (context) {
-          return BottomSheet_model(picker: _picker, widget: widget);
+          return BottomSheetModel(picker: _picker, widget: widget);
         },
       );
     }
 
     return GestureDetector(
       onTap: () {
-        _openSheet();
+        openSheet();
       },
       child: Container(
         width: 33,

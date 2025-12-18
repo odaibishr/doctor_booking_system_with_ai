@@ -37,11 +37,7 @@ class VerticalDoctorCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(6),
                 color: AppColors.gray400,
               ),
-              child: CachedNetworkImage(
-                imageUrl: '${EndPoints.photoUrl}/${topDoctor.profileImage}',
-                fit: BoxFit.contain,
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
+              child: _buildDoctorImage(),
             ),
 
             const SizedBox(height: 12),
@@ -100,6 +96,20 @@ class VerticalDoctorCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDoctorImage() {
+    final image = topDoctor.profileImage.trim();
+    if (image.isEmpty || image.toLowerCase() == 'null') {
+      return const Icon(Icons.person, color: AppColors.primary);
+    }
+
+    return CachedNetworkImage(
+      imageUrl: '${EndPoints.photoUrl}/$image',
+      fit: BoxFit.contain,
+      errorWidget: (context, url, error) =>
+          const Icon(Icons.person, color: AppColors.primary),
     );
   }
 }

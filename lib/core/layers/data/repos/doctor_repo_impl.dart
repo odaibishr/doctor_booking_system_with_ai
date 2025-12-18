@@ -19,33 +19,28 @@ class DoctorRepoImpl implements DoctorRepo {
     required this.networkInfo,
   });
 
+  static Failure _noDoctorsFailure() =>
+      Failure('عذراً، لا يوجد أطباء متاحون');
+
+  static Failure _noDoctorDetailsFailure() =>
+      Failure('عذراً، لا توجد بيانات لهذا الطبيب');
+
   @override
   Future<Either<Failure, List<Doctor>>> getDoctors() async {
     try {
       if (!await networkInfo.isConnected) {
         log('No internet connection');
         final cachedDoctors = await localDataSource.getCachedDoctors();
-        if (cachedDoctors.isEmpty) {
-          return Left(Failure('لم يتم العثور على أطباء'));
-        }
+        if (cachedDoctors.isEmpty) return Left(_noDoctorsFailure());
         return Right(cachedDoctors);
       }
 
       final result = await remoteDataSource.getDoctors();
-      final doctors = <Doctor>[];
+      if (result.isEmpty) return Left(_noDoctorsFailure());
 
-      if (result.isNotEmpty) {
-        for (var doctor in result) {
-          doctors.add(doctor);
-        }
-
-        await localDataSource.cachedDoctors(doctors);
-
-        log("Number of doctors fetched in RepoImpl: ${doctors.length}");
-        return Right(doctors);
-      }
-
-      return Left(Failure('لم يتم العثور على أطباء'));
+      await localDataSource.cachedDoctors(result);
+      log('Number of doctors fetched in RepoImpl: ${result.length}');
+      return Right(result);
     } catch (error) {
       return Left(Failure(error.toString()));
     }
@@ -56,23 +51,17 @@ class DoctorRepoImpl implements DoctorRepo {
     try {
       if (!await networkInfo.isConnected) {
         final cachedDoctors = await localDataSource.getCachedDoctors();
-
-        if (cachedDoctors.isEmpty) {
-          return Left(Failure('لم يتم العثور على الطبيب'));
-        }
-
+        if (cachedDoctors.isEmpty) return Left(_noDoctorDetailsFailure());
         return Right(cachedDoctors.firstWhere((element) => element.id == id));
       }
 
       final result = await remoteDataSource.getDoctorDetails(id);
-
       return Right(result);
-    } catch (e) {
-      return Left(Failure(e.toString()));
+    } catch (error) {
+      return Left(Failure(error.toString()));
     }
   }
 
-  @override
   @override
   Future<Either<Failure, List<Doctor>>> searchDoctors(
     String query,
@@ -81,10 +70,7 @@ class DoctorRepoImpl implements DoctorRepo {
     try {
       if (!await networkInfo.isConnected) {
         final cachedDoctors = await localDataSource.getCachedDoctors();
-
-        if (cachedDoctors.isEmpty) {
-          return Left(Failure('لم يتم العثور على أطباء'));
-        }
+        if (cachedDoctors.isEmpty) return Left(_noDoctorsFailure());
 
         final foundDoctors = cachedDoctors
             .where(
@@ -94,15 +80,12 @@ class DoctorRepoImpl implements DoctorRepo {
             )
             .toList();
 
+        if (foundDoctors.isEmpty) return Left(_noDoctorsFailure());
         return Right(foundDoctors);
       }
 
       final result = await remoteDataSource.searchDoctors(query, specialtyId);
-
-      if (result.isEmpty) {
-        return Left(Failure('لم يتم العثور على أطباء'));
-      }
-
+      if (result.isEmpty) return Left(_noDoctorsFailure());
       return Right(result);
     } catch (error) {
       return Left(Failure(error.toString()));
@@ -124,22 +107,18 @@ class DoctorRepoImpl implements DoctorRepo {
     try {
       if (!await networkInfo.isConnected) {
         final cachedDoctors = await localDataSource.getCachedDoctors();
-        final favoriteDoctors = cachedDoctors
-            .where((doctor) => doctor.isFavorite == 1)
-            .toList();
-
+        final favoriteDoctors =
+            cachedDoctors.where((doctor) => doctor.isFavorite == 1).toList();
+        if (favoriteDoctors.isEmpty) return Left(_noDoctorsFailure());
         return Right(favoriteDoctors);
       }
 
       final result = await remoteDataSource.getFavoriteDoctors();
-
-      if (result.isEmpty) {
-        return Left(Failure('لم يتم العثور على أطباء'));
-      }
-
+      if (result.isEmpty) return Left(_noDoctorsFailure());
       return Right(result);
     } catch (error) {
       return Left(Failure(error.toString()));
     }
   }
 }
+

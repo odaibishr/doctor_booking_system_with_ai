@@ -80,6 +80,8 @@ class _SplashViewState extends State<SplashView>
     final authCubit = context.read<AuthCubit>();
     await authCubit.checkAuthStatus();
 
+    if (!mounted) return;
+
     if (authCubit.state is AuthSuccess) {
       GoRouter.of(context).go(AppRouter.appNavigationRoute);
     } else {

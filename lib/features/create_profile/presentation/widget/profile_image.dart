@@ -25,6 +25,7 @@ class _ProfileImageState extends State<ProfileImage> {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+      if (!mounted) return;
       setState(() {
         _selectedImage = File(pickedFile.path);
         log("Selected image path: ${_selectedImage?.path}");

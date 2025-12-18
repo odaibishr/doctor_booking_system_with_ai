@@ -6,7 +6,7 @@ import 'package:doctor_booking_system_with_ai/features/create_profile/domain/use
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_profile_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/profile/domain/use_cases/logout_use_case.dart'
     hide NoParams;
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 
 part 'profile_state.dart';
 

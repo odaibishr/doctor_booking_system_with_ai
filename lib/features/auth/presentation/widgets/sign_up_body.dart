@@ -28,7 +28,7 @@ class SignUpBody extends StatefulWidget {
 class _SignUpBodyState extends State<SignUpBody> {
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     TextEditingController nameController = TextEditingController();
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
@@ -56,7 +56,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                   return const CustomLoader(loaderSize: kLoaderSize);
                 }
                 return Form(
-                  key: _formKey,
+                  key: formKey,
                   child: Column(
                     children: [
                       Logo(), //LOgo
@@ -117,7 +117,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                       MainButton(
                         text: 'إنشاء حساب',
                         onTap: () {
-                          if (_formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             BlocProvider.of<AuthCubit>(context).signUp(
                               name: nameController.text,
                               email: emailController.text,

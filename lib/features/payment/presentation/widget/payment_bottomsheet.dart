@@ -17,7 +17,7 @@ class PaymentBottomSheet extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(20)),
         boxShadow: [
           BoxShadow(
-            color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+            color: const Color.fromARGB(255, 0, 0, 0).withValues(alpha: 0.5),
             blurRadius: 20,
             spreadRadius: 2,
             offset: const Offset(0, 8),

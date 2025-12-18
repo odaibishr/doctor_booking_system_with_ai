@@ -11,7 +11,7 @@ class CvvField extends StatefulWidget {
 }
 
 class _CvvFieldState extends State<CvvField> {
-  bool _obscure = true;
+  final bool _obscure = true;
   final TextEditingController _controller = TextEditingController();
 
   @override

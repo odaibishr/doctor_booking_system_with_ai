@@ -89,7 +89,7 @@ class MedicalNotificationCard extends StatelessWidget {
                   height: 30,
                   colorFilter: ColorFilter.mode(
                     AppColors.primary,
-                    BlendMode.srcIn,     
+                    BlendMode.srcIn,
                   ),
 
                   fit: BoxFit.scaleDown,

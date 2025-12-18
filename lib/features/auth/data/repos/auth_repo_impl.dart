@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/data/models/user_model.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/repos/auth_repo.dart';
 
@@ -20,7 +21,7 @@ class AuthRepoImpl implements AuthRepo {
     try {
       await authLocalDataSource.clearAuthData();
       await authRemoteDataSource.logout('');
-      return Right(User(id: 0, name: '', email: '', token: ''));
+      return Right(UserModel.empty());
     } catch (e) {
       return Left(Failure(e.toString()));
     }

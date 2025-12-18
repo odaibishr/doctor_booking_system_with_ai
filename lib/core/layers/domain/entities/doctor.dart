@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:hive_flutter/hive_flutter.dart';
+
+import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 
 import 'hospital.dart';
 import 'location.dart';
@@ -12,59 +13,66 @@ part 'doctor.g.dart';
 class Doctor {
   @HiveField(0)
   int id;
+
   @HiveField(1)
-  String name;
-  @HiveField(2)
-  String email;
-  @HiveField(3)
-  String phone;
-  @HiveField(4)
   String aboutus;
-  @HiveField(5)
-  int locationId;
-  @HiveField(6)
+
+  @HiveField(2)
   int specialtyId;
-  @HiveField(7)
+
+  @HiveField(3)
   int hospitalId;
-  @HiveField(8)
-  String gender;
-  @HiveField(9)
+
+  @HiveField(4)
   int isFeatured;
-  @HiveField(10)
+
+  @HiveField(5)
   int isTopDoctor;
-  @HiveField(11)
-  String profileImage;
-  @HiveField(12)
-  String birthday;
-  @HiveField(13)
+
+  @HiveField(6)
   String services;
-  @HiveField(14)
-  Location location;
-  @HiveField(15)
+
+  @HiveField(7)
   Specialty specialty;
-  @HiveField(16)
+
+  @HiveField(8)
   Hospital hospital;
-  @HiveField(17)
+
+  @HiveField(9)
   int isFavorite;
+
+  @HiveField(10)
+  User user;
+
+  @HiveField(11)
+  double price;
+
+  @HiveField(12)
+  int experience;
 
   Doctor({
     required this.id,
-    required this.name,
-    required this.email,
-    required this.phone,
     required this.aboutus,
-    required this.locationId,
     required this.specialtyId,
     required this.hospitalId,
-    required this.gender,
     required this.isFeatured,
     required this.isTopDoctor,
-    required this.profileImage,
-    required this.birthday,
     required this.services,
-    required this.location,
     required this.specialty,
     required this.hospital,
     required this.isFavorite,
+    required this.user,
+    required this.price,
+    required this.experience,
   });
+
+  // Backward-compatible computed properties used by UI.
+  String get name => user.name;
+  String get email => user.email;
+  String get phone => user.phone ?? '';
+  String get profileImage => user.profileImage ?? '';
+  String get gender => user.gender ?? '';
+  String get birthday => user.birthDate ?? '';
+  int get locationId => user.locationId;
+  Location get location => user.location;
 }

@@ -31,7 +31,7 @@ class ProfileViewBody extends StatelessWidget {
           SliverAppBar(
             title: CustomAppBar(
               userImage: 'assets/images/my-photo.jpg',
-              title: 'الحساب الشخصي',
+              title: 'الملف الشخصي',
               isBackButtonVisible: false,
               isUserImageVisible: false,
             ),
@@ -54,7 +54,7 @@ class ProfileViewBody extends StatelessWidget {
                       if (state is ProfileSuccess) {
                         return ProfileSummary(
                           name: state.profile.user.name,
-                          userImage: state.profile.profileImage!,
+                          userImage: state.profile.profileImage ?? '',
                           phoneNumber: state.profile.phone,
                         );
                       }
@@ -76,3 +76,4 @@ class ProfileViewBody extends StatelessWidget {
     );
   }
 }
+

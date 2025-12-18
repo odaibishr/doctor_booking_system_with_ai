@@ -16,68 +16,98 @@ class DoctorAdapter extends TypeAdapter<Doctor> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
+
+    final specialtyValue = (fields[7] is Specialty)
+        ? fields[7] as Specialty
+        : Specialty(id: 0, name: '', icon: '', isActive: false);
+    final hospitalValue = (fields[8] is Hospital)
+        ? fields[8] as Hospital
+        : Hospital(
+            id: 0,
+            name: '',
+            phone: '',
+            email: '',
+            website: '',
+            address: '',
+            image: '',
+            locationId: 0,
+            doctors: null,
+          );
+    final userValue = (fields[10] is User)
+        ? fields[10] as User
+        : User(
+            id: 0,
+            name: '',
+            email: '',
+            token: '',
+            phone: null,
+            address: null,
+            profileImage: null,
+            birthDate: null,
+            gender: null,
+            location: Location(id: 0, lat: 0.0, lng: 0.0, name: ''),
+            locationId: 0,
+          );
+
     return Doctor(
-      id: fields[0] as int,
-      name: fields[1] as String,
-      email: fields[2] as String,
-      phone: fields[3] as String,
-      aboutus: fields[4] as String,
-      locationId: fields[5] as int,
-      specialtyId: fields[6] as int,
-      hospitalId: fields[7] as int,
-      gender: fields[8] as String,
-      isFeatured: fields[9] as int,
-      isTopDoctor: fields[10] as int,
-      profileImage: fields[11] as String,
-      birthday: fields[12] as String,
-      services: fields[13] as String,
-      location: fields[14] as Location,
-      specialty: fields[15] as Specialty,
-      hospital: fields[16] as Hospital,
-      isFavorite: fields[17] as int,
+      id: _toInt(fields[0]),
+      aboutus: (fields[1] ?? '').toString(),
+      specialtyId: _toInt(fields[2]),
+      hospitalId: _toInt(fields[3]),
+      isFeatured: _toInt(fields[4]),
+      isTopDoctor: _toInt(fields[5]),
+      services: (fields[6] ?? '').toString(),
+      specialty: specialtyValue,
+      hospital: hospitalValue,
+      isFavorite: _toInt(fields[9]),
+      user: userValue,
+      price: _toDouble(fields[11]),
+      experience: _toInt(fields[12]),
     );
+  }
+
+  static int _toInt(dynamic value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse('${value ?? ''}') ?? 0;
+  }
+
+  static double _toDouble(dynamic value) {
+    if (value is double) return value;
+    if (value is num) return value.toDouble();
+    return double.tryParse('${value ?? ''}') ?? 0.0;
   }
 
   @override
   void write(BinaryWriter writer, Doctor obj) {
     writer
-      ..writeByte(18)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name)
-      ..writeByte(2)
-      ..write(obj.email)
-      ..writeByte(3)
-      ..write(obj.phone)
-      ..writeByte(4)
       ..write(obj.aboutus)
-      ..writeByte(5)
-      ..write(obj.locationId)
-      ..writeByte(6)
+      ..writeByte(2)
       ..write(obj.specialtyId)
-      ..writeByte(7)
+      ..writeByte(3)
       ..write(obj.hospitalId)
-      ..writeByte(8)
-      ..write(obj.gender)
-      ..writeByte(9)
+      ..writeByte(4)
       ..write(obj.isFeatured)
-      ..writeByte(10)
+      ..writeByte(5)
       ..write(obj.isTopDoctor)
-      ..writeByte(11)
-      ..write(obj.profileImage)
-      ..writeByte(12)
-      ..write(obj.birthday)
-      ..writeByte(13)
+      ..writeByte(6)
       ..write(obj.services)
-      ..writeByte(14)
-      ..write(obj.location)
-      ..writeByte(15)
+      ..writeByte(7)
       ..write(obj.specialty)
-      ..writeByte(16)
+      ..writeByte(8)
       ..write(obj.hospital)
-      ..writeByte(17)
-      ..write(obj.isFavorite);
+      ..writeByte(9)
+      ..write(obj.isFavorite)
+      ..writeByte(10)
+      ..write(obj.user)
+      ..writeByte(11)
+      ..write(obj.price)
+      ..writeByte(12)
+      ..write(obj.experience);
   }
 
   @override

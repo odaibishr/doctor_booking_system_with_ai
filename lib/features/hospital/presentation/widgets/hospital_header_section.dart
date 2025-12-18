@@ -18,6 +18,8 @@ class HospitalHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final image = hospitalImage.trim();
+    final hasValidImage = image.isNotEmpty && image.toLowerCase() != 'null';
     return Column(
       children: [
         Container(
@@ -26,12 +28,15 @@ class HospitalHeaderSection extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.gray100,
             borderRadius: BorderRadius.circular(12),
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(
-                '${EndPoints.photoUrl}/$hospitalImage',
-              ),
-              fit: BoxFit.cover,
-            ),
+            image:
+                hasValidImage
+                    ? DecorationImage(
+                        image: CachedNetworkImageProvider(
+                          '${EndPoints.photoUrl}/$image',
+                        ),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
           ),
         ),
         const SizedBox(height: 16),

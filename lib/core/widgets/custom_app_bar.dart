@@ -55,10 +55,21 @@ class CustomAppBar extends StatelessWidget {
                       log(
                         'success profile image ${state.profile.profileImage}',
                       );
+                      final profileImage = state.profile.profileImage ?? '';
+                      if (profileImage.trim().isEmpty ||
+                          profileImage.trim().toLowerCase() == 'null') {
+                        return ClipOval(
+                          child: Image.asset(
+                            userImage!,
+                            scale: 1,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      }
                       return ClipOval(
                         child: CachedNetworkImage(
                           imageUrl:
-                              '${EndPoints.photoUrl}/${state.profile.profileImage}',
+                              '${EndPoints.photoUrl}/$profileImage',
                           scale: 1,
                           fit: BoxFit.cover,
                         ),

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/chat_textfield.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/chatmessageview.dart';
-
 import 'package:flutter/material.dart';
 
 class AiChatBody extends StatefulWidget {
@@ -15,8 +14,9 @@ class AiChatBody extends StatefulWidget {
 
 class _AiChatBodyState extends State<AiChatBody> {
   final ScrollController _scrollController = ScrollController();
+  final List<Map<String, dynamic>> _messages = [];
+
   void _scrollToBottom() {
-    // ننتظر قليلاً حتى يتم بناء الرسالة الجديدة في الشاشة
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
@@ -28,14 +28,6 @@ class _AiChatBodyState extends State<AiChatBody> {
     });
   }
 
-  @override
-  void dispose() {
-    _messages.clear();
-    super.dispose();
-  }
-
-  final List<Map<String, dynamic>> _messages = [];
-  //add the message text or image to the list
   void _addtoMessageList({String? text, File? image}) {
     setState(() {
       if (text != null && text.isNotEmpty) {
@@ -45,28 +37,32 @@ class _AiChatBodyState extends State<AiChatBody> {
         _messages.add({'type': 'image', 'isUser': true, 'content': image});
         _scrollToBottom();
       }
+
       _messages.add({
         'type': 'text',
         'isUser': false,
-        'content':
-            ' هلا انا مساعدك الذكي استخدمني في اي وقت تحتاج والان كيف يمكنني خدمتك',
+        'content': 'مرحباً بك، كيف يمكنني مساعدتك؟',
       });
 
       _scrollToBottom();
     });
+  }
 
-    // هنا سترسل إلى API الخاص بك مثلاً:
-    // sendToApi(text: text, image: image);
+  @override
+  void dispose() {
+    _messages.clear();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 7),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 7),
       child: Column(
         children: [
           CustomAppBar(
-            title: 'الطبيب الذكي',
+            title: 'الدردشة الذكية',
             isBackButtonVisible: true,
             isUserImageVisible: false,
           ),
@@ -76,9 +72,10 @@ class _AiChatBodyState extends State<AiChatBody> {
               controller: _scrollController,
             ),
           ),
-          Container(child: ChatTextField(onSend: _addtoMessageList)),
+          ChatTextField(onSend: _addtoMessageList),
         ],
       ),
     );
   }
 }
+

@@ -17,13 +17,19 @@ class ProfileSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final normalizedImage = userImage.trim().toLowerCase() == 'null'
+        ? ''
+        : userImage.trim();
+    final ImageProvider avatarProvider =
+        normalizedImage.isEmpty
+            ? const AssetImage('assets/images/profile_image.png')
+            : CachedNetworkImageProvider('${EndPoints.photoUrl}/$normalizedImage');
+
     return Column(
       children: [
         CircleAvatar(
           radius: 70,
-          backgroundImage: CachedNetworkImageProvider(
-            '${EndPoints.photoUrl}/$userImage',
-          ),
+          backgroundImage: avatarProvider,
         ),
         const SizedBox(height: 5),
         Text(

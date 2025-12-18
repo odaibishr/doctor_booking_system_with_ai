@@ -1,7 +1,6 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/tab_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class TapBar extends StatelessWidget {
   final List<String> tabItems;

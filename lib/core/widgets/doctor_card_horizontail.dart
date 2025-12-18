@@ -42,10 +42,7 @@ class DoctorCardHorizontail extends StatelessWidget {
                       color: AppColors.gray400,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: CachedNetworkImage(
-                      imageUrl: '${EndPoints.photoUrl}/${doctor.profileImage}',
-                      fit: BoxFit.fill,
-                    ),
+                    child: _buildDoctorImage(),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -127,6 +124,20 @@ class DoctorCardHorizontail extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDoctorImage() {
+    final image = doctor.profileImage.trim();
+    if (image.isEmpty || image.toLowerCase() == 'null') {
+      return const Icon(Icons.person, color: AppColors.primary);
+    }
+
+    return CachedNetworkImage(
+      imageUrl: '${EndPoints.photoUrl}/$image',
+      fit: BoxFit.fill,
+      errorWidget: (context, url, error) =>
+          const Icon(Icons.person, color: AppColors.primary),
     );
   }
 }

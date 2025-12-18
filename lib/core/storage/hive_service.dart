@@ -1,29 +1,26 @@
-import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/profile.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/location.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specialty.dart';
+import 'package:doctor_booking_system_with_ai/core/storage/adapters/safe_doctor_adapter.dart';
+import 'package:doctor_booking_system_with_ai/core/storage/adapters/safe_user_adapter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 
 class HiveService {
   static const String userBoxName = 'user_box';
   static Box<User>? _userBox;
-  static Box<Doctor>? _doctorBox;
 
   static Future<void> init() async {
     await Hive.initFlutter();
 
     // check if adapters are registered
     if (!Hive.isAdapterRegistered(0)) {
-      Hive.registerAdapter(UserAdapter());
-    }
-    if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(ProfileAdapter());
+      Hive.registerAdapter(SafeUserAdapter());
     }
     if (!Hive.isAdapterRegistered(2)) {
-      Hive.registerAdapter(DoctorAdapter());
+      Hive.registerAdapter(SafeDoctorAdapter());
     }
     if (!Hive.isAdapterRegistered(3)) {
       Hive.registerAdapter(HospitalAdapter());
@@ -36,8 +33,7 @@ class HiveService {
     }
 
     _userBox = await Hive.openBox<User>(userBoxName);
-    await Hive.openBox<Profile>(kProfileBox);
-    _doctorBox = await Hive.openBox<Doctor>(kDoctorBox);
+    await Hive.openBox<Doctor>(kDoctorBox);
     await Hive.openBox<Specialty>(kSpecialtyBox);
     await Hive.openBox<Hospital>(kHospitalBox);
   }

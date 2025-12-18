@@ -12,15 +12,20 @@ class ProfileModel extends Profile {
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
+    final dynamic userJsonRaw = json['user'] ?? json['data'];
+    final Map<String, dynamic> userJson = _ensureMap(
+      userJsonRaw is Map ? userJsonRaw : json,
+    );
+
+    final user = userJson.isNotEmpty ? UserModel.fromJson(userJson) : UserModel.empty();
+
     return ProfileModel(
-      phone: json['phone']?.toString() ?? '',
-      birthDate: json['birth_date']?.toString() ?? '',
-      gender: json['gender']?.toString() ?? '',
-      locationId: json['location_id'] ?? 0,
-      profileImage: json['profile_image']?.toString(),
-      user: json['user'] != null
-          ? UserModel.fromJson(json['user'])
-          : UserModel.empty(),
+      phone: (json['phone'] ?? user.phone ?? '').toString(),
+      birthDate: (json['birth_date'] ?? user.birthDate ?? '').toString(),
+      gender: (json['gender'] ?? user.gender ?? '').toString(),
+      locationId: json['location_id'] ?? user.locationId,
+      profileImage: _normalizeNullableString(json['profile_image']) ?? user.profileImage,
+      user: user,
     );
   }
 
@@ -33,5 +38,21 @@ class ProfileModel extends Profile {
       'profile_image': profileImage,
       'user': user,
     };
+  }
+
+  static Map<String, dynamic> _ensureMap(dynamic value) {
+    if (value is Map<String, dynamic>) return value;
+    if (value is Map) {
+      return value.map((key, val) => MapEntry(key.toString(), val));
+    }
+    return <String, dynamic>{};
+  }
+
+  static String? _normalizeNullableString(dynamic value) {
+    if (value == null) return null;
+    final s = value.toString().trim();
+    if (s.isEmpty) return null;
+    if (s.toLowerCase() == 'null') return null;
+    return s;
   }
 }

@@ -1,5 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
-import 'package:doctor_booking_system_with_ai/features/notification/presentation/widgets/notificationCard.dart';
+import 'package:doctor_booking_system_with_ai/features/notification/presentation/widgets/notification_card.dart';
 
 import 'package:flutter/material.dart';
 

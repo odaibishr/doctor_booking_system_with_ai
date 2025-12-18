@@ -13,7 +13,7 @@ class EmailInputBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> _formKey = GlobalKey();
+    final formKey = GlobalKey<FormState>();
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -27,7 +27,7 @@ class EmailInputBody extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.08),
@@ -44,13 +44,13 @@ class EmailInputBody extends StatelessWidget {
                     rightIconPath: 'assets/icons/email.svg',
                     isShowRightIcon: true,
                     isShowLeftIcon: false,
-                    validator: EmailValidator,
+                    validator: emailValidator,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   MainButton(
                     text: 'إرسال الرمز',
                     onTap: () {
-                      if (_formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) {
                         //TODO:here the main Button !
                         GoRouter.of(context).push(AppRouter.verifyCodeViewRoute);
                       }
@@ -65,7 +65,7 @@ class EmailInputBody extends StatelessWidget {
     );
   }
 
-  String? EmailValidator(value) {
+  String? emailValidator(value) {
     if (value == null || value.isEmpty) {
       return 'الرجاء ادخال البريد الالكتروني ';
     } else if (!value.contains('@')) {
