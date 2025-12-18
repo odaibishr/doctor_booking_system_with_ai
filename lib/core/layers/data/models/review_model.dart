@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/review.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/data/models/user_model.dart';
 
 class ReviewModel extends Review {
   ReviewModel({
@@ -7,6 +8,7 @@ class ReviewModel extends Review {
     required super.userId,
     required super.comment,
     required super.rating,
+    super.user,
   });
 
   factory ReviewModel.fromJson(Map<String, dynamic> json) => ReviewModel(
@@ -15,6 +17,7 @@ class ReviewModel extends Review {
     userId: json['user_id'] as int,
     comment: json['comment'] as String,
     rating: json['rating'] as int,
+    user: json['user'] != null ? UserModel.fromJson(json['user']) : null,
   );
 
   Map<String, dynamic> toJson() => {
