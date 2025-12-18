@@ -41,6 +41,9 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
             isBackButtonVisible: true,
             isUserImageVisible: false,
           ),
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          automaticallyImplyLeading: false,
           pinned: true,
         ),
         SliverToBoxAdapter(

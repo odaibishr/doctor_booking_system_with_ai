@@ -8,6 +8,8 @@ import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart' hide BackButton;
 import 'package:doctor_booking_system_with_ai/core/widgets/back_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:io' show File;
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({
@@ -65,6 +67,22 @@ class CustomAppBar extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                         );
+                      }
+                      if (!kIsWeb &&
+                          (profileImage.startsWith('/') ||
+                              profileImage.startsWith('file://'))) {
+                        final filePath =
+                            profileImage.startsWith('file://')
+                                ? Uri.tryParse(profileImage)?.toFilePath()
+                                : profileImage;
+                        if (filePath != null && filePath.isNotEmpty) {
+                          return ClipOval(
+                            child: Image.file(
+                              File(filePath),
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        }
                       }
                       return ClipOval(
                         child: CachedNetworkImage(

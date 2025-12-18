@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:svg_flutter/svg.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:io' show File;
 
 class CustomHomeAppBar extends StatelessWidget {
   const CustomHomeAppBar({
@@ -37,6 +39,10 @@ class CustomHomeAppBar extends StatelessWidget {
               final profileImage = (state.profile.profileImage ?? '').trim();
               final hasValidImage =
                   profileImage.isNotEmpty && profileImage.toLowerCase() != 'null';
+              final isLocalFile =
+                  !kIsWeb &&
+                  (profileImage.startsWith('/') ||
+                      profileImage.startsWith('file://'));
               return Row(
                 children: [
                   Container(
@@ -48,7 +54,20 @@ class CustomHomeAppBar extends StatelessWidget {
                     ),
                     child: ClipOval(
                       child:
-                          hasValidImage
+                          (!hasValidImage)
+                              ? Image.asset(userImage, fit: BoxFit.cover)
+                              : isLocalFile
+                              ? Image.file(
+                                  File(
+                                    profileImage.startsWith('file://')
+                                        ? (Uri.tryParse(profileImage)
+                                                ?.toFilePath() ??
+                                            profileImage)
+                                        : profileImage,
+                                  ),
+                                  fit: BoxFit.cover,
+                                )
+                              : hasValidImage
                               ? CachedNetworkImage(
                                   imageUrl: '${EndPoints.photoUrl}/$profileImage',
                                   fit: BoxFit.cover,
