@@ -12,6 +12,11 @@ final class ReviewSuccess extends ReviewState {
   ReviewSuccess(this.review);
 }
 
+final class ReviewLoaded extends ReviewState {
+  final List<Review> reviews;
+  ReviewLoaded(this.reviews);
+}
+
 final class ReviewFailure extends ReviewState {
   final String message;
   ReviewFailure(this.message);
