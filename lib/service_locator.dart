@@ -4,18 +4,24 @@ import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/hospital_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/hospital_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/profile_local_data_source.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/review_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/repos/hospital_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/hospital_repo.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/review_repo.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/create_review_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctor_reviews_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_hospitals_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/toggle_favorite_doctor_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_service.dart';
 import 'package:doctor_booking_system_with_ai/core/network/network_info.dart';
+import 'package:doctor_booking_system_with_ai/core/manager/review/review_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/profile_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/repos/profile_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/profile_repo.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/repos/review_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/repos/logout_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/domain/usecases/create_profile_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
@@ -132,6 +138,10 @@ Future<void> init() async {
     () => HospitalRemoteDataSourceImpl(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<ReviewRemoteDataSource>(
+    () => ReviewRemoteDataSourceImpl(serviceLocator()),
+  );
+
   final hospitalsBox = Hive.box<Hospital>(kHospitalBox);
   serviceLocator.registerLazySingleton<HospitalLocalDataSource>(
     () => HospitalLocalDataSourceImpl(hospitalsBox),
@@ -179,6 +189,10 @@ Future<void> init() async {
       localDataSource: serviceLocator(),
       networkInfo: serviceLocator(),
     ),
+  );
+
+  serviceLocator.registerLazySingleton<ReviewRepo>(
+    () => ReviewRepoImpl(serviceLocator<ReviewRemoteDataSource>()),
   );
 
   serviceLocator.registerLazySingleton<LogoutRepo>(
@@ -238,6 +252,14 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<GetHospitalDetailsUseCase>(
     () => GetHospitalDetailsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<CreateReviewUseCase>(
+    () => CreateReviewUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<GetDoctorReviewsUseCase>(
+    () => GetDoctorReviewsUseCase(serviceLocator()),
   );
 
   serviceLocator.registerLazySingleton<GetProfileUseCase>(
@@ -303,5 +325,9 @@ Future<void> init() async {
 
   serviceLocator.registerFactory<BookingHistoryCubit>(
     () => BookingHistoryCubit(serviceLocator()),
+  );
+
+  serviceLocator.registerFactory<ReviewCubit>(
+    () => ReviewCubit(serviceLocator<CreateReviewUseCase>()),
   );
 }
