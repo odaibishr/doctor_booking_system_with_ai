@@ -2,24 +2,15 @@ import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
 
-class TimePeriodSelector extends StatefulWidget {
-  final ValueChanged<String>? onPeriodSelected;
+class TimePeriodSelector extends StatelessWidget {
+  const TimePeriodSelector({
+    super.key,
+    required this.selectedPeriodKey,
+    required this.onPeriodSelected,
+  });
 
-  const TimePeriodSelector({super.key, this.onPeriodSelected});
-
-  @override
-  State<TimePeriodSelector> createState() => _TimePeriodSelectorState();
-}
-
-class _TimePeriodSelectorState extends State<TimePeriodSelector> {
-  String _selectedPeriod = '';
-
-  void _selectPeriod(String period) {
-    setState(() {
-      _selectedPeriod = period;
-    });
-    widget.onPeriodSelected?.call(period);
-  }
+  final String? selectedPeriodKey;
+  final ValueChanged<String> onPeriodSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +21,9 @@ class _TimePeriodSelectorState extends State<TimePeriodSelector> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.gray300.withValues(alpha: 255),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+            color: AppColors.gray300.withValues(alpha: 0.15),
+            blurRadius: 10,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
@@ -51,15 +42,15 @@ class _TimePeriodSelectorState extends State<TimePeriodSelector> {
           Row(
             children: [
               _periodCard(
-                title: 'صباحية',
+                title: 'صباحاً',
                 timeRange: '10:00 ص - 1:30 م',
-                periodKey: 'صباحية',
+                periodKey: 'morning',
               ),
               const SizedBox(width: 12),
               _periodCard(
-                title: 'مسائية',
+                title: 'مساءً',
                 timeRange: '4:00 م - 8:30 م',
-                periodKey: 'مسائية',
+                periodKey: 'evening',
               ),
             ],
           ),
@@ -73,29 +64,30 @@ class _TimePeriodSelectorState extends State<TimePeriodSelector> {
     required String timeRange,
     required String periodKey,
   }) {
-    final isSelected = _selectedPeriod == periodKey;
-    final bgColor = isSelected
-        ? AppColors.primary
-        : (periodKey == 'صباحية' ? AppColors.gray300 : AppColors.gray200);
-    final textColor = isSelected
-        ? AppColors.white
-        : (periodKey == 'صباحية' ? AppColors.primary : AppColors.black);
+    final isSelected = selectedPeriodKey == periodKey;
+    final bgColor = isSelected ? AppColors.primary : AppColors.white;
+    final textColor = isSelected ? AppColors.white : AppColors.black;
+    final borderColor = isSelected ? AppColors.primary : AppColors.gray200;
 
     return Expanded(
       child: GestureDetector(
-        onTap: () => _selectPeriod(periodKey),
-        child: Container(
-          height: 64,
+        onTap: () => onPeriodSelected(periodKey),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 220),
+          height: 72,
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: BorderRadius.circular(14),
-            boxShadow: [
-              BoxShadow(
-                color: bgColor.withValues(alpha: 0.25),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
+            border: Border.all(color: borderColor),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.24),
+                      blurRadius: 10,
+                      offset: const Offset(0, 6),
+                    ),
+                  ]
+                : null,
           ),
           child: Center(
             child: Column(
@@ -121,3 +113,4 @@ class _TimePeriodSelectorState extends State<TimePeriodSelector> {
     );
   }
 }
+

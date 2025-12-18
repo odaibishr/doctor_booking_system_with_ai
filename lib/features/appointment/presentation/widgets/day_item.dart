@@ -35,17 +35,17 @@ class DayItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         onTap: isDisabled
             ? () => ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    isWeekendDisabled
-                        ? 'لا يمكن الحجز يوم الخميس أو الجمعة'
-                        : 'هذا اليوم غير متاح للحجز',
-                    textAlign: TextAlign.center,
+                  SnackBar(
+                    content: Text(
+                      isWeekendDisabled
+                          ? 'عذراً، لا يمكن الحجز في عطلة نهاية الأسبوع'
+                          : 'عذراً، هذا اليوم غير متاح للحجز',
+                      textAlign: TextAlign.center,
+                    ),
+                    duration: const Duration(milliseconds: 900),
+                    behavior: SnackBarBehavior.floating,
                   ),
-                  duration: const Duration(milliseconds: 900),
-                  behavior: SnackBarBehavior.floating,
-                ),
-              )
+                )
             : () => onTap(date),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
@@ -55,10 +55,8 @@ class DayItem extends StatelessWidget {
             color: isDisabled
                 ? AppColors.gray400
                 : isSelected
-                ? AppColors.primary
-                : isToday
-                ? AppColors.gray200
-                : AppColors.gray200,
+                    ? AppColors.primary
+                    : AppColors.gray200,
             borderRadius: BorderRadius.circular(14),
             border: isToday && !isSelected
                 ? Border.all(color: AppColors.primary, width: 2)
@@ -88,8 +86,8 @@ class DayItem extends StatelessWidget {
                   color: isDisabled
                       ? AppColors.gray500
                       : isSelected
-                      ? AppColors.white
-                      : AppColors.primary,
+                          ? AppColors.white
+                          : AppColors.primary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -101,8 +99,8 @@ class DayItem extends StatelessWidget {
                   color: isDisabled
                       ? AppColors.gray500
                       : isSelected
-                      ? AppColors.white
-                      : AppColors.black,
+                          ? AppColors.white
+                          : AppColors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -113,3 +111,4 @@ class DayItem extends StatelessWidget {
     );
   }
 }
+

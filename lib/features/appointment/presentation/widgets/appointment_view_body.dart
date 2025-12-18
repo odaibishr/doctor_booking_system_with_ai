@@ -3,24 +3,43 @@ import 'package:doctor_booking_system_with_ai/features/appointment/presentation/
 import 'package:flutter/material.dart';
 
 class AppointmentViewBody extends StatelessWidget {
-  const AppointmentViewBody({super.key});
+  const AppointmentViewBody({
+    super.key,
+    required this.onDateSelected,
+    required this.onTimeSelected,
+  });
+
+  final ValueChanged<DateTime> onDateSelected;
+  final ValueChanged<String> onTimeSelected;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Column(
-        children: [
-          CustomAppBar(
-            title: 'حجز موعد',
-            isBackButtonVisible: true,
-            isUserImageVisible: false,
-            isHeartIconVisible: false,
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: CustomAppBar(
+              title: 'حجز موعد',
+              isBackButtonVisible: true,
+              isUserImageVisible: false,
+              isHeartIconVisible: false,
+            ),
           ),
-          const SizedBox(height: 20),
-          const DataBooking(),
-        ],
-      ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: DataBooking(
+              onDateSelected: onDateSelected,
+              onTimeSelected: onTimeSelected,
+            ),
+          ),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 20)),
+      ],
     );
   }
 }
+

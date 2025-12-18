@@ -45,7 +45,7 @@ class _DatePickerCardState extends State<DatePickerCard> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.gray300.withValues(alpha: 255),
+            color: AppColors.gray300.withValues(alpha: 0.25),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -91,4 +91,3 @@ class _DatePickerCardState extends State<DatePickerCard> {
     );
   }
 }
-
