@@ -1,6 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/nav_bar_model_item.dart';
 import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/row_model_nav_bar.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,9 +11,11 @@ class ModelNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = Responsive.isDesktop(context);
+    final width = isDesktop ? 400.0 : MediaQuery.of(context).size.width * 0.9;
     return Container(
-      width: MediaQuery.of(context).size.width * 0.9,
-      height: 81,
+      width: width,
+      height: 120,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: ShapeDecoration(
         color: const Color(0xFF364989),

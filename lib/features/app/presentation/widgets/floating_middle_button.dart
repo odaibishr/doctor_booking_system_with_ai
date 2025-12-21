@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/model_nav_bar.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -52,8 +53,13 @@ class _FloatingMiddleButtonState extends State<FloatingMiddleButton>
             ),
           ),
           Positioned(
-            left: position.dx - 140,
-            top: position.dy - 90,
+            left:
+                (MediaQuery.of(context).size.width -
+                    (Responsive.isDesktop(context)
+                        ? 400
+                        : MediaQuery.of(context).size.width * 0.9)) /
+                2,
+            top: position.dy - 130,
             child: Material(
               color: Colors.transparent,
               child: FadeTransition(
