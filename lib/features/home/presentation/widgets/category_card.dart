@@ -15,11 +15,15 @@ class CategoryCard extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.color,
+    this.width = 85,
+    this.height = 85,
   });
   final int id;
   final bool color;
   final String title;
   final String icon;
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +32,8 @@ class CategoryCard extends StatelessWidget {
       onTap: () =>
           GoRouter.of(context).push("${AppRouter.searchViewRoute}?id=$id"),
       child: Container(
-        width: 85,
-        height: 85,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           boxShadow: [
             color

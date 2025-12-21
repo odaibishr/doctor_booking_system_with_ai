@@ -32,7 +32,6 @@ class AppointmentCard extends StatelessWidget {
         ).push(AppRouter.detailsViewRoute, extra: booking.doctorId);
       },
       child: Container(
-        width: MediaQuery.of(context).size.width,
         height: 170,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         margin: const EdgeInsets.only(bottom: 16),

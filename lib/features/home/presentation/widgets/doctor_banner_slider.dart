@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
 import 'package:flutter/material.dart';
 
 import 'package:doctor_booking_system_with_ai/core/widgets/animated_indecator.dart';
@@ -25,7 +26,7 @@ class _DoctorBannerSliderState extends State<DoctorBannerSlider> {
         CarouselSlider.builder(
           carouselController: _carouselController,
           options: CarouselOptions(
-            height: 180,
+            height: Responsive.isDesktop(context) ? 250 : 180,
 
             viewportFraction: 1.0,
             autoPlay: true,

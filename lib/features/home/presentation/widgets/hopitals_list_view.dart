@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
@@ -21,15 +22,20 @@ class _HopitalsListViewState extends State<HopitalsListView> {
       builder: (context, state) {
         if (state is HospitalLoadded) {
           final hospitals = state.hospitals;
+          final isDesktop = Responsive.isDesktop(context);
           return SizedBox(
-            height: 180,
+            height: isDesktop ? 240 : 180,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: hospitals.length ,
+              itemCount: hospitals.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(left: 16),
-                  child: HospitalCard(hospital: hospitals[index]),
+                  child: HospitalCard(
+                    hospital: hospitals[index],
+                    width: isDesktop ? 280 : 221,
+                    height: isDesktop ? 230 : 180,
+                  ),
                 );
               },
             ),

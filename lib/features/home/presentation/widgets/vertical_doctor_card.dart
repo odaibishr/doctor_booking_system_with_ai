@@ -8,8 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class VerticalDoctorCard extends StatelessWidget {
-  const VerticalDoctorCard({super.key, required this.topDoctor});
+  const VerticalDoctorCard({
+    super.key,
+    required this.topDoctor,
+    this.width = 205,
+    this.height = 205,
+  });
   final Doctor topDoctor;
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +27,8 @@ class VerticalDoctorCard extends StatelessWidget {
         ).push(AppRouter.detailsViewRoute, extra: topDoctor.id);
       },
       child: Container(
-        width: 205,
-        height: 205,
+        width: width,
+        height: height,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
           color: AppColors.gray100,

@@ -8,8 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HospitalCard extends StatelessWidget {
-  const HospitalCard({super.key, required this.hospital});
+  const HospitalCard({
+    super.key,
+    required this.hospital,
+    this.width = 221,
+    this.height = 180,
+  });
   final Hospital hospital;
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +27,8 @@ class HospitalCard extends StatelessWidget {
         ).push(AppRouter.hospitalDetailsViewRoute, extra: hospital.id);
       },
       child: Container(
-        width: 221,
-        height: 180,
+        width: width,
+        height: height,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
           color: AppColors.gray100,
@@ -43,12 +50,9 @@ class HospitalCard extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            SizedBox(
-              width: 200,
-              child: Text(
-                hospital.name,
-                style: FontStyles.body3.copyWith(fontWeight: FontWeight.bold),
-              ),
+            Text(
+              hospital.name,
+              style: FontStyles.body3.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 6),
             Row(

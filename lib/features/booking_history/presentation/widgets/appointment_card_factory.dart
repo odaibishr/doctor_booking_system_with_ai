@@ -20,9 +20,7 @@ class AppointmentCardFactory {
               text: 'تغيير الموعد',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('سيتم دعم تعديل الموعد قريباً'),
-                  ),
+                  const SnackBar(content: Text('سيتم دعم تعديل الموعد قريباً')),
                 );
               },
               height: 28,
@@ -63,16 +61,16 @@ class AppointmentCardFactory {
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
-                   shape: const RoundedRectangleBorder(
-                     borderRadius: BorderRadius.vertical(
-                       top: Radius.circular(25),
-                     ),
-                   ),
-                   builder: (context) => ReviewDialog(doctorId: doctorId),
-                 );
-               },
-               height: 28,
-               radius: 6,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(25),
+                    ),
+                  ),
+                  builder: (context) => ReviewDialog(doctorId: doctorId),
+                );
+              },
+              height: 28,
+              radius: 6,
               color: AppColors.gray300,
             ),
           ),
@@ -86,8 +84,7 @@ class AppointmentCardFactory {
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content:
-                        Text('هذا الموعد ملغى، يرجى إنشاء حجز جديد'),
+                    content: Text('هذا الموعد ملغى، يرجى إنشاء حجز جديد'),
                   ),
                 );
               },
@@ -102,9 +99,7 @@ class AppointmentCardFactory {
               text: 'حجز جديد',
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('سيتم دعم هذه العملية قريباً'),
-                  ),
+                  const SnackBar(content: Text('سيتم دعم هذه العملية قريباً')),
                 );
               },
               height: 28,
@@ -217,8 +212,7 @@ class AppointmentCardFactory {
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content:
-                                Text('تم استلام سبب الإلغاء: $reason'),
+                            content: Text('تم استلام سبب الإلغاء: $reason'),
                           ),
                         );
                       }

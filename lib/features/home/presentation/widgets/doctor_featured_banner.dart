@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:flutter/material.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
@@ -24,8 +25,10 @@ class DoctorFeaturedBanner extends StatelessWidget {
         GoRouter.of(context).push(AppRouter.detailsViewRoute, extra: doctor.id);
       },
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: 162,
+        width: Responsive.isDesktop(context)
+            ? 800
+            : MediaQuery.of(context).size.width * 0.9,
+        height: Responsive.isDesktop(context) ? 250 : 162,
         padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
         decoration: BoxDecoration(
           color: AppColors.primary,
@@ -57,7 +60,9 @@ class DoctorFeaturedBanner extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: Responsive.isDesktop(context)
+                        ? 400
+                        : MediaQuery.of(context).size.width * 0.5,
                     child: Text(
                       doctor.services.replaceAll('.', ' و'),
                       style: FontStyles.body3.copyWith(
@@ -81,7 +86,7 @@ class DoctorFeaturedBanner extends StatelessWidget {
             hasValidImage
                 ? CachedNetworkImage(
                     imageUrl: '${EndPoints.photoUrl}/$image',
-                    width: 100,
+                    width: Responsive.isDesktop(context) ? 150 : 100,
                     height: double.infinity,
                     fit: BoxFit.fill,
                     errorWidget: (context, url, error) =>

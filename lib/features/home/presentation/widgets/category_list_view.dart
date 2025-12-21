@@ -6,6 +6,7 @@ import 'package:doctor_booking_system_with_ai/features/home/presentation/manager
 import 'package:flutter/material.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/category_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
 
 class CategoryListView extends StatefulWidget {
   const CategoryListView({super.key});
@@ -24,7 +25,7 @@ class _CategoryListViewState extends State<CategoryListView> {
               .where((specialty) => specialty.isActive)
               .toList();
           return SizedBox(
-            height: 90,
+            height: Responsive.isDesktop(context) ? 130 : 90,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: activeSpecialties.length,
@@ -36,6 +37,8 @@ class _CategoryListViewState extends State<CategoryListView> {
                     id: activeSpecialties[index].id,
                     title: activeSpecialties[index].name,
                     icon: activeSpecialties[index].icon,
+                    width: Responsive.isDesktop(context) ? 120 : 85,
+                    height: Responsive.isDesktop(context) ? 120 : 85,
                   ),
                 );
               },
