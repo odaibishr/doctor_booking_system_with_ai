@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/cached_network_svg.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
@@ -55,8 +55,8 @@ class CategoryCard extends StatelessWidget {
                 size: 28,
               )
             else
-              SvgPicture.network(
-                '${EndPoints.photoUrl}/$trimmedIcon',
+              CachedNetworkSvg(
+                url: '${EndPoints.photoUrl}/$trimmedIcon',
                 fit: BoxFit.scaleDown,
                 width: 28,
                 height: 28,

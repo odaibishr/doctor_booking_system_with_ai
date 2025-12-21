@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'hospital_details_about_tab.dart';
 import 'hospital_details_doctors_tab.dart';
-import 'hospital_details_reviews_tab.dart';
 
 class HospitalDetailsViewBody extends StatefulWidget {
   const HospitalDetailsViewBody({super.key, required this.hospitalId});

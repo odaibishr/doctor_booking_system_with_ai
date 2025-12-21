@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/patient_review.dart';
 import 'package:flutter/material.dart';
 
 class HospitalDetailsReviewSlider extends StatefulWidget {

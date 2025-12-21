@@ -58,7 +58,7 @@ class _PatientReviewSliderState extends State<PatientReviewSlider> {
             ),
           );
         }
-        if (state is ReviewLoaded && state.reviews.isEmpty) {
+        if (state.reviews.isEmpty) {
           log(state.reviews.length.toString());
           return Center(
             child: Text(
