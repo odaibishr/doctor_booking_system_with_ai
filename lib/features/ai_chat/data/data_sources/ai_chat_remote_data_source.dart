@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/error_model.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/exceptions.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class AiChatRemoteDataSource {
   Stream<String> sendMessage(String message);
@@ -9,8 +10,7 @@ abstract class AiChatRemoteDataSource {
 
 class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
   final Dio dio;
-  final String _apiKey =
-      "AIzaSyCsBdKbA6No93dMMdjnth-IfgBhVd5ZECY"; // TODO: Move to .env
+  final String _apiKey = dotenv.env['AI_API_KEY'] ?? '';
 
   AiChatRemoteDataSourceImpl({required this.dio});
 
