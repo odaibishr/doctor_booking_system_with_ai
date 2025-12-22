@@ -1,11 +1,10 @@
-import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/tap_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/manager/booking_history_cubit/booking_history_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/appointment_card.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/booking_cards_list_view.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/booking_history_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -65,7 +64,7 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
             child: BlocBuilder<BookingHistoryCubit, BookingHistoryState>(
               builder: (context, state) {
                 if (state is BookingHistoryLoading) {
-                  return const CustomLoader(loaderSize: kLoaderSize);
+                  return const BookingHistorySkeleton();
                 }
 
                 if (state is BookingHistoryError) {
@@ -73,8 +72,9 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
                 }
 
                 if (state is BookingHistoryLoaded) {
-                  final groupedBookings =
-                      _groupBookingsByStatus(state.bookings);
+                  final groupedBookings = _groupBookingsByStatus(
+                    state.bookings,
+                  );
 
                   return PageView(
                     controller: _pageController,
@@ -83,19 +83,19 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
                       BookingCardsListView(
                         bookings:
                             groupedBookings[AppointmentStatus.upcoming] ??
-                                const <Booking>[],
+                            const <Booking>[],
                         status: AppointmentStatus.upcoming,
                       ),
                       BookingCardsListView(
                         bookings:
                             groupedBookings[AppointmentStatus.completed] ??
-                                const <Booking>[],
+                            const <Booking>[],
                         status: AppointmentStatus.completed,
                       ),
                       BookingCardsListView(
                         bookings:
                             groupedBookings[AppointmentStatus.cancelled] ??
-                                const <Booking>[],
+                            const <Booking>[],
                         status: AppointmentStatus.cancelled,
                       ),
                     ],
