@@ -1,9 +1,8 @@
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
-import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/tap_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/manager/hospital_detailes/hospital_detailes_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_details_skeleton.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_header_section.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_stats_section.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +43,14 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
       builder: (context, state) {
         if (state is HospitalDetailesLoading ||
             state is HospitalDetailesInitial) {
-          return const Scaffold(body: CustomLoader(loaderSize: kLoaderSize));
+          return const Scaffold(
+            body: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                child: HospitalDetailsSkeleton(),
+              ),
+            ),
+          );
         }
 
         if (state is HospitalDetailesError) {
