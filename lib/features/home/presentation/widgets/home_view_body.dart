@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
-import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
@@ -13,6 +11,7 @@ import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets
 import 'package:doctor_booking_system_with_ai/core/widgets/section_header.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_card_list_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/hopitals_list_view.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/home_view_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -58,7 +57,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   },
                   builder: (context, state) {
                     if (state is DoctorsLoading) {
-                      return const CustomLoader(loaderSize: kLoaderSize);
+                      return const HomeViewSkeleton();
                     }
                     List<Doctor> doctors = [];
                     if (state is DoctorsLoaded) {
