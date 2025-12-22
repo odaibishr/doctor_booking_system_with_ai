@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
+import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/manager/ai_chat_cubit/ai_chat_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/manager/ai_chat_cubit/ai_chat_state.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/chat_textfield.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/chatmessageview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toastification/toastification.dart'; // Assuming toastification is used in project based on pubspec
 
 class AiChatBody extends StatefulWidget {
   const AiChatBody({super.key});
@@ -14,7 +18,8 @@ class AiChatBody extends StatefulWidget {
 
 class _AiChatBodyState extends State<AiChatBody> {
   final ScrollController _scrollController = ScrollController();
-  final List<Map<String, dynamic>> _messages = [];
+  List<Map<String, dynamic>> _messages =
+      []; // Keep it to map state to UI format if needed, or use state directly
 
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -28,24 +33,11 @@ class _AiChatBodyState extends State<AiChatBody> {
     });
   }
 
-  void _addtoMessageList({String? text, File? image}) {
-    setState(() {
-      if (text != null && text.isNotEmpty) {
-        _messages.add({'type': 'text', 'isUser': true, 'content': text});
-        _scrollToBottom();
-      } else if (image != null) {
-        _messages.add({'type': 'image', 'isUser': true, 'content': image});
-        _scrollToBottom();
-      }
-
-      _messages.add({
-        'type': 'text',
-        'isUser': false,
-        'content': 'مرحباً بك، كيف يمكنني مساعدتك؟',
-      });
-
-      _scrollToBottom();
-    });
+  void _sendMessage({String? text, File? image}) {
+    if (text != null && text.isNotEmpty) {
+      context.read<AiChatCubit>().sendMessage(text);
+      // Wait for state update to scroll
+    }
   }
 
   @override
@@ -67,15 +59,44 @@ class _AiChatBodyState extends State<AiChatBody> {
             isUserImageVisible: false,
           ),
           Expanded(
-            child: ChatMessageBuilder(
-              messages: _messages,
-              controller: _scrollController,
+            child: BlocConsumer<AiChatCubit, AiChatState>(
+              listener: (context, state) {
+                if (state is AiChatSuccess) {
+                  _messages = state.messages.map((m) {
+                    return {
+                      'type': 'text',
+                      'isUser': m['role'] == 'user',
+                      'content': m['text'],
+                    };
+                  }).toList();
+                  _scrollToBottom();
+                } else if (state is AiChatFailure) {
+                  toastification.show(
+                    context: context,
+                    title: Text("حدث خطأ"),
+                    description: Text(state.errMessage),
+                    autoCloseDuration: const Duration(seconds: 3),
+                    type: ToastificationType.error,
+                    style: ToastificationStyle.flat,
+                  );
+                }
+              },
+              builder: (context, state) {
+                // Initial message if empty
+                if (_messages.isEmpty && state is AiChatInitial) {
+                  return Center(child: Text("ابدأ المحادثة مع مساعدك الطبي"));
+                }
+
+                return ChatMessageBuilder(
+                  messages: _messages,
+                  controller: _scrollController,
+                );
+              },
             ),
           ),
-          ChatTextField(onSend: _addtoMessageList),
+          ChatTextField(onSend: _sendMessage),
         ],
       ),
     );
   }
 }
-
