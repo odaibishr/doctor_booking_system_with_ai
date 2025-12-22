@@ -1,10 +1,9 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
-import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/features/favorite_doctor/presentation/favorite_doctor_list_view.dart';
 import 'package:doctor_booking_system_with_ai/features/favorite_doctor/presentation/manager/favorite_doctor_cubit/favorite_doctor_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/favorite_doctor/presentation/widgets/favorite_doctors_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,7 +37,7 @@ class _FavoriteDoctorBodyState extends State<FavoriteDoctorBody> {
             child: BlocBuilder<FavoriteDoctorCubit, FavoriteDoctorState>(
               builder: (context, state) {
                 if (state is FavoirteDoctorsLoading) {
-                  return const CustomLoader(loaderSize: kLoaderSize);
+                  return const FavoriteDoctorsSkeleton();
                 } else if (state is FavoriteDoctorsError) {
                   return Center(
                     child: Text(

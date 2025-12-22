@@ -58,10 +58,7 @@ class DoctorDetailsSkeleton extends StatelessWidget {
 
           const SizedBox(height: 22),
 
-          const CustomShimmer.rectangular(
-            height: 20,
-            width: 100,
-          ),
+          const CustomShimmer.rectangular(height: 20, width: 100),
           const SizedBox(height: 12),
           Wrap(
             spacing: 8,
