@@ -1,11 +1,10 @@
 import 'dart:developer';
 
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
-import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/manager/search_doctors_bloc/search_doctors_bloc.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/search_doctor_list_view.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/search_section.dart';
+import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/search_view_skelton.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
@@ -30,7 +29,6 @@ class _SearchViewBodyState extends State<SearchViewBody> {
   }
 
   @override
-
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -53,7 +51,7 @@ class _SearchViewBodyState extends State<SearchViewBody> {
                 child: BlocBuilder<SearchDoctorsBloc, SearchDoctorsState>(
                   builder: (context, state) {
                     if (state is SearchDoctorsLoading) {
-                      return const CustomLoader(loaderSize: kLoaderSize);
+                      return const SearchViewSkeleton();
                     } else if (state is SearchDoctorsError) {
                       return Center(
                         child: Text(
