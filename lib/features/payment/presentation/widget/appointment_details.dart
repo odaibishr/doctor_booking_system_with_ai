@@ -2,19 +2,32 @@ import 'package:flutter/material.dart';
 import 'appointment_details_container.dart';
 
 class AppointmentDetails extends StatelessWidget {
-  const AppointmentDetails({super.key});
+  final String doctorName;
+  final String date;
+  final String time;
+  final double price;
+
+  const AppointmentDetails({
+    super.key,
+    required this.doctorName,
+    required this.date,
+    required this.time,
+    required this.price,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
+      children: [
         Center(
           child: AppointmentDetailsContainer(
-            doctorName: 'صادق محمد بشر',
-            operationNumber: '1017331120',
-            date: '30 يوليو 2025',
-            period: '10ص - 1م',
-            price: '5000 ريال',
+            doctorName: doctorName,
+            operationNumber: DateTime.now().millisecondsSinceEpoch
+                .toString()
+                .substring(0, 10),
+            date: date,
+            period: time,
+            price: '$price ريال',
           ),
         ),
       ],

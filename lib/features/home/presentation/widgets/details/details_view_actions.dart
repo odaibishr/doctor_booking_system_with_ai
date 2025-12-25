@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
@@ -7,9 +8,9 @@ import 'package:go_router/go_router.dart';
 import 'package:svg_flutter/svg.dart';
 
 class DetailsViewActions extends StatelessWidget {
-  const DetailsViewActions({super.key, required this.doctorId});
+  const DetailsViewActions({super.key, required this.doctor});
 
-  final int doctorId;
+  final Doctor doctor;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,9 @@ class DetailsViewActions extends StatelessWidget {
             child: MainButton(
               text: 'حجز موعد',
               onTap: () {
-                GoRouter.of(context).push(AppRouter.appointmentViewRoute);
+                GoRouter.of(
+                  context,
+                ).push(AppRouter.appointmentViewRoute, extra: doctor);
               },
             ),
           ),
@@ -34,7 +37,7 @@ class DetailsViewActions extends StatelessWidget {
                 barrierColor: Colors.black54,
                 useSafeArea: true,
                 builder: (context) {
-                  return ReviewDialog(doctorId: doctorId);
+                  return ReviewDialog(doctorId: doctor.id);
                 },
               );
             },

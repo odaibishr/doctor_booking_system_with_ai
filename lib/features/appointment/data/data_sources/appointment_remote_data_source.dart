@@ -5,11 +5,12 @@ import 'package:doctor_booking_system_with_ai/features/appointment/domain/entiti
 abstract class AppointmentRemoteDataSource {
   Future<Appointment> createAppointment({
     required int doctorId,
-    required int doctorScheduleId,
-    required int transitionId,
+    int? doctorScheduleId,
+    String? transactionId,
     required String date,
-    required String time,
-    required String statue,
+    required String paymentMode,
+    String? status,
+    bool? isCompleted,
   });
 }
 
@@ -21,21 +22,23 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
   @override
   Future<Appointment> createAppointment({
     required int doctorId,
-    required int doctorScheduleId,
-    required int transitionId,
+    int? doctorScheduleId,
+    String? transactionId,
     required String date,
-    required String time,
-    required String statue,
+    required String paymentMode,
+    String? status,
+    bool? isCompleted,
   }) async {
     final response = await dioConsumer.post(
       'appointment/createAppointment',
       data: {
         'doctor_id': doctorId,
         'doctor_schedule_id': doctorScheduleId,
-        'transition_id': transitionId,
+        'transaction_id': transactionId,
         'date': date,
-        'time': time,
-        'statue': statue,
+        'payment_mode': paymentMode,
+        'status': status ?? 'pending',
+        'is_completed': isCompleted ?? false,
       },
     );
     return AppointmentModel.fromMap(response['data']);

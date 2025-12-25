@@ -16,26 +16,18 @@ class UserAdapter extends TypeAdapter<User> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    final locationValue = (fields[9] is Location)
-        ? fields[9] as Location
-        : Location(id: 0, lat: 0.0, lng: 0.0, name: '');
-    final locationIdValue = (fields[10] is int)
-        ? fields[10] as int
-        : (fields[10] is num)
-            ? (fields[10] as num).toInt()
-            : locationValue.id;
     return User(
       phone: fields[4] as String?,
       address: fields[5] as String?,
       profileImage: fields[6] as String?,
       birthDate: fields[7] as String?,
       gender: fields[8] as String?,
-      location: locationValue,
+      location: fields[9] as Location,
       id: fields[0] as int,
       name: fields[1] as String,
       email: fields[2] as String,
       token: fields[3] as String,
-      locationId: locationIdValue,
+      locationId: fields[10] as int,
     );
   }
 

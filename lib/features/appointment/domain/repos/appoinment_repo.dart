@@ -5,10 +5,11 @@ import 'package:doctor_booking_system_with_ai/features/appointment/domain/entiti
 abstract class AppoinmentRepo {
   Future<Either<Failure, Appointment>> createAppointment({
     required int doctorId,
-    required int doctorScheduleId,
-    required int transitionId,
+    int? doctorScheduleId,
+    String? transactionId,
     required String date,
-    required String time,
-    required String statue,
+    required String paymentMode,
+    String? status,
+    bool? isCompleted,
   });
 }

@@ -17,28 +17,31 @@ class CreateAppointmentUseCase
     return await appoinmentRepo.createAppointment(
       doctorId: params!.doctorId,
       doctorScheduleId: params.doctorScheduleId,
-      transitionId: params.transitionId,
+      transactionId: params.transactionId,
       date: params.date,
-      time: params.time,
-      statue: params.statue,
+      paymentMode: params.paymentMode,
+      status: params.status,
+      isCompleted: params.isCompleted,
     );
   }
 }
 
 class CreateAppointmentUseCaseParams {
   final int doctorId;
-  final int doctorScheduleId;
-  final int transitionId;
+  final int? doctorScheduleId;
+  final String? transactionId;
   final String date;
-  final String time;
-  final String statue;
+  final String paymentMode;
+  final String? status;
+  final bool? isCompleted;
 
   CreateAppointmentUseCaseParams({
     required this.doctorId,
-    required this.doctorScheduleId,
-    required this.transitionId,
+    this.doctorScheduleId,
+    this.transactionId,
     required this.date,
-    required this.time,
-    required this.statue,
+    required this.paymentMode,
+    this.status,
+    this.isCompleted,
   });
 }

@@ -1,19 +1,32 @@
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
+import 'package:doctor_booking_system_with_ai/features/payment/presentation/manager/payment_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/jaib_show_dialog.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/appointment_details.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/doctor_info.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/payment_method_item.dart';
 import 'package:flutter/material.dart';
 
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
+
 class PaymentViewBody extends StatefulWidget {
   final bool? completePayment;
+  final Doctor doctor;
+  final DateTime date;
+  final String time;
+  final int? doctorScheduleId;
   final VoidCallback onpres;
 
   const PaymentViewBody({
     super.key,
     this.completePayment,
+    required this.doctor,
+    required this.date,
+    required this.time,
+    this.doctorScheduleId,
     required this.onpres,
   });
 
@@ -52,10 +65,10 @@ class _PaymentViewBodyState extends State<PaymentViewBody> {
               children: [
                 SizedBox(height: screen.height * 0.02),
 
-                const DoctorInfo(
-                  name: 'د. صادق محمد بشر',
-                  specialization: 'مخ واعصاب',
-                  location: 'مستشفئ جامعة العلوم والتكنولوجيا',
+                DoctorInfo(
+                  name: 'د. ${widget.doctor.name}',
+                  specialization: widget.doctor.specialty.name,
+                  location: widget.doctor.location.name,
                 ),
 
                 SizedBox(height: screen.height * 0.03),
@@ -83,7 +96,12 @@ class _PaymentViewBodyState extends State<PaymentViewBody> {
 
                 SizedBox(height: screen.height * 0.03),
 
-                const AppointmentDetails(),
+                AppointmentDetails(
+                  doctorName: widget.doctor.name,
+                  date: DateFormat.yMMMMd('ar').format(widget.date),
+                  time: widget.time,
+                  price: widget.doctor.price,
+                ),
 
                 SizedBox(height: screen.height * 0.03),
               ],
@@ -99,7 +117,15 @@ class _PaymentViewBodyState extends State<PaymentViewBody> {
             ),
             child: MainButton(
               text: "الدفع الان",
-              onTap: widget.onpres,
+              onTap: () {
+                context.read<PaymentCubit>().bookAppointment(
+                  doctorId: widget.doctor.id,
+                  doctorScheduleId: widget.doctorScheduleId,
+                  date: DateFormat('yyyy-MM-dd', 'en').format(widget.date),
+                  amount: widget.doctor.price,
+                );
+                widget.onpres();
+              },
               height: screen.height * 0.065,
             ),
           ),

@@ -72,6 +72,13 @@ import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/chec
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/appointment/data/data_sources/appointment_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/features/appointment/data/repos/appointment_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/appointment/domain/repos/appoinment_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/appointment/domain/use_cases/create_appointment_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/payment/data/repos/payment_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/payment/domain/repos/payment_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/payment/presentation/manager/payment_cubit.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -157,6 +164,10 @@ Future<void> init() async {
     ), // Using new Dio instance for chat or reuse if needed
   );
 
+  serviceLocator.registerLazySingleton<AppointmentRemoteDataSource>(
+    () => AppointmentRemoteDataSourceImpl(serviceLocator()),
+  );
+
   // Repository
   serviceLocator.registerLazySingleton<AuthRepo>(
     () => AuthRepoImpl(
@@ -216,6 +227,12 @@ Future<void> init() async {
       serviceLocator<ProfileLocalDataSource>(),
     ),
   );
+
+  serviceLocator.registerLazySingleton<AppoinmentRepo>(
+    () => AppointmentRepoImpl(remoteDataSource: serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<PaymentRepo>(() => PaymentRepoImpl());
 
   // Use Cases
   serviceLocator.registerLazySingleton<SignInUseCase>(
@@ -284,6 +301,10 @@ Future<void> init() async {
     () => LogoutUseCase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<CreateAppointmentUseCase>(
+    () => CreateAppointmentUseCase(appoinmentRepo: serviceLocator()),
+  );
+
   // Cubit
   serviceLocator.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
@@ -350,5 +371,12 @@ Future<void> init() async {
 
   serviceLocator.registerFactory<AiChatCubit>(
     () => AiChatCubit(aiChatRepository: serviceLocator()),
+  );
+
+  serviceLocator.registerFactory<PaymentCubit>(
+    () => PaymentCubit(
+      paymentRepo: serviceLocator(),
+      createAppointmentUseCase: serviceLocator(),
+    ),
   );
 }

@@ -4,11 +4,12 @@ class AppointmentModel extends Appointment {
   AppointmentModel({
     required super.id,
     required super.doctorId,
-    required super.doctorScheduleId,
-    required super.transitionId,
+    super.doctorScheduleId,
+    super.transactionId,
     required super.date,
-    required super.time,
-    required super.statue,
+    required super.paymentMode,
+    required super.status,
+    super.isCompleted,
   });
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) {
@@ -16,10 +17,11 @@ class AppointmentModel extends Appointment {
       id: json['id'],
       doctorId: json['doctor_id'],
       doctorScheduleId: json['doctor_schedule_id'],
-      transitionId: json['transition_id'],
+      transactionId: json['transaction_id']?.toString() ?? '1',
       date: json['date'],
-      time: json['time'],
-      statue: json['statue'],
+      paymentMode: json['payment_mode'] ?? 'cash',
+      status: json['status'] ?? 'pending',
+      isCompleted: json['is_completed'] == 1 || json['is_completed'] == true,
     );
   }
 
@@ -28,10 +30,11 @@ class AppointmentModel extends Appointment {
       'id': id,
       'doctor_id': doctorId,
       'doctor_schedule_id': doctorScheduleId,
-      'transition_id': transitionId,
+      'transaction_id': transactionId,
       'date': date,
-      'time': time,
-      'statue': statue,
+      'payment_mode': paymentMode,
+      'status': status,
+      'is_completed': isCompleted,
     };
   }
 
@@ -40,10 +43,11 @@ class AppointmentModel extends Appointment {
       id: map['id'],
       doctorId: map['doctor_id'],
       doctorScheduleId: map['doctor_schedule_id'],
-      transitionId: map['transition_id'],
+      transactionId: map['transaction_id']?.toString() ?? '1',
       date: map['date'],
-      time: map['time'],
-      statue: map['statue'],
+      paymentMode: map['payment_mode'] ?? 'cash',
+      status: map['status'] ?? 'pending',
+      isCompleted: map['is_completed'] == 1 || map['is_completed'] == true,
     );
   }
 
@@ -52,10 +56,11 @@ class AppointmentModel extends Appointment {
       'id': id,
       'doctor_id': doctorId,
       'doctor_schedule_id': doctorScheduleId,
-      'transition_id': transitionId,
+      'transaction_id': transactionId,
       'date': date,
-      'time': time,
-      'statue': statue,
+      'payment_mode': paymentMode,
+      'status': status,
+      'is_completed': isCompleted,
     };
   }
 }

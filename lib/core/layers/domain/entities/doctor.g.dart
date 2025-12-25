@@ -16,72 +16,28 @@ class DoctorAdapter extends TypeAdapter<Doctor> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-
-    final specialtyValue = (fields[7] is Specialty)
-        ? fields[7] as Specialty
-        : Specialty(id: 0, name: '', icon: '', isActive: false);
-    final hospitalValue = (fields[8] is Hospital)
-        ? fields[8] as Hospital
-        : Hospital(
-            id: 0,
-            name: '',
-            phone: '',
-            email: '',
-            website: '',
-            address: '',
-            image: '',
-            locationId: 0,
-            doctors: null,
-          );
-    final userValue = (fields[10] is User)
-        ? fields[10] as User
-        : User(
-            id: 0,
-            name: '',
-            email: '',
-            token: '',
-            phone: null,
-            address: null,
-            profileImage: null,
-            birthDate: null,
-            gender: null,
-            location: Location(id: 0, lat: 0.0, lng: 0.0, name: ''),
-            locationId: 0,
-          );
-
     return Doctor(
-      id: _toInt(fields[0]),
-      aboutus: (fields[1] ?? '').toString(),
-      specialtyId: _toInt(fields[2]),
-      hospitalId: _toInt(fields[3]),
-      isFeatured: _toInt(fields[4]),
-      isTopDoctor: _toInt(fields[5]),
-      services: (fields[6] ?? '').toString(),
-      specialty: specialtyValue,
-      hospital: hospitalValue,
-      isFavorite: _toInt(fields[9]),
-      user: userValue,
-      price: _toDouble(fields[11]),
-      experience: _toInt(fields[12]),
+      id: fields[0] as int,
+      aboutus: fields[1] as String,
+      specialtyId: fields[2] as int,
+      hospitalId: fields[3] as int,
+      isFeatured: fields[4] as int,
+      isTopDoctor: fields[5] as int,
+      services: fields[6] as String,
+      specialty: fields[7] as Specialty,
+      hospital: fields[8] as Hospital,
+      isFavorite: fields[9] as int,
+      user: fields[10] as User,
+      price: fields[11] as double,
+      experience: fields[12] as int,
+      schedules: (fields[13] as List?)?.cast<DoctorSchedule>(),
     );
-  }
-
-  static int _toInt(dynamic value) {
-    if (value is int) return value;
-    if (value is num) return value.toInt();
-    return int.tryParse('${value ?? ''}') ?? 0;
-  }
-
-  static double _toDouble(dynamic value) {
-    if (value is double) return value;
-    if (value is num) return value.toDouble();
-    return double.tryParse('${value ?? ''}') ?? 0.0;
   }
 
   @override
   void write(BinaryWriter writer, Doctor obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -107,7 +63,9 @@ class DoctorAdapter extends TypeAdapter<Doctor> {
       ..writeByte(11)
       ..write(obj.price)
       ..writeByte(12)
-      ..write(obj.experience);
+      ..write(obj.experience)
+      ..writeByte(13)
+      ..write(obj.schedules);
   }
 
   @override

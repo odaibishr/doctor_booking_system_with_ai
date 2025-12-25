@@ -20,11 +20,13 @@ import 'package:doctor_booking_system_with_ai/features/payment/presentation/paym
 import 'package:doctor_booking_system_with_ai/features/profile/presentation/profile_view.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/search_view.dart';
 import 'package:doctor_booking_system_with_ai/features/splash/presentation/splash_view.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
   static const String splashRoute = '/';
   static const String homeViewRoute = '/homeView';
   static const String appNavigationRoute = '/appNavigation';
@@ -119,7 +121,8 @@ class AppRouter {
       ),
       GoRoute(
         path: appointmentViewRoute,
-        builder: (context, state) => const AppointmentView(),
+        builder: (context, state) =>
+            AppointmentView(doctor: state.extra as Doctor),
       ),
       GoRoute(path: aichatViewRoute, builder: (context, state) => AiChatView()),
       GoRoute(
@@ -128,7 +131,15 @@ class AppRouter {
       ),
       GoRoute(
         path: paymentViewRoute,
-        builder: (context, state) => const PaymentView(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return PaymentView(
+            doctor: extra['doctor'] as Doctor,
+            date: extra['date'] as DateTime,
+            time: extra['time'] as String,
+            doctorScheduleId: extra['scheduleId'] as int?,
+          );
+        },
       ),
       GoRoute(
         path: favoritedoctorViewRoute,

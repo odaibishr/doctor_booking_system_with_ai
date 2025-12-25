@@ -6,6 +6,7 @@ import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user
 import 'hospital.dart';
 import 'location.dart';
 import 'specialty.dart';
+import 'doctor_schedule.dart';
 
 part 'doctor.g.dart';
 
@@ -50,6 +51,9 @@ class Doctor {
   @HiveField(12)
   int experience;
 
+  @HiveField(13)
+  List<DoctorSchedule>? schedules;
+
   Doctor({
     required this.id,
     required this.aboutus,
@@ -64,6 +68,7 @@ class Doctor {
     required this.user,
     required this.price,
     required this.experience,
+    this.schedules,
   });
 
   // Backward-compatible computed properties used by UI.

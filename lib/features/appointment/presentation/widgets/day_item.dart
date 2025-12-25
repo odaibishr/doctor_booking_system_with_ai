@@ -2,11 +2,13 @@ import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor_schedule.dart';
 
 class DayItem extends StatelessWidget {
   final DateTime date;
   final DateTime selectedDate;
   final Set<DateTime> unavailableDays;
+  final List<DoctorSchedule>? doctorSchedules;
   final void Function(DateTime date) onTap;
 
   const DayItem({
@@ -14,6 +16,7 @@ class DayItem extends StatelessWidget {
     required this.date,
     required this.selectedDate,
     required this.unavailableDays,
+    this.doctorSchedules,
     required this.onTap,
   });
 
@@ -25,9 +28,41 @@ class DayItem extends StatelessWidget {
     final today = DateTime.now();
     final isToday = _isSameDay(date, today);
     final isSelected = _isSameDay(date, selectedDate);
-    final isWeekendDisabled = date.weekday == 4 || date.weekday == 5;
+
+    // Check if day is in doctor's schedule
+    bool isScheduled = true;
+    if (doctorSchedules != null && doctorSchedules!.isNotEmpty) {
+      int targetDayNumber = 0;
+      switch (date.weekday) {
+        case DateTime.saturday:
+          targetDayNumber = 1;
+          break;
+        case DateTime.sunday:
+          targetDayNumber = 2;
+          break;
+        case DateTime.monday:
+          targetDayNumber = 3;
+          break;
+        case DateTime.tuesday:
+          targetDayNumber = 4;
+          break;
+        case DateTime.wednesday:
+          targetDayNumber = 5;
+          break;
+        case DateTime.thursday:
+          targetDayNumber = 6;
+          break;
+        case DateTime.friday:
+          targetDayNumber = 7;
+          break;
+      }
+      isScheduled = doctorSchedules!.any(
+        (s) => (s.day?.dayNumber ?? s.dayId) == targetDayNumber,
+      );
+    }
+
     final isUnavailable = unavailableDays.any((d) => _isSameDay(d, date));
-    final isDisabled = isWeekendDisabled || isUnavailable;
+    final isDisabled = !isScheduled || isUnavailable;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -35,17 +70,15 @@ class DayItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         onTap: isDisabled
             ? () => ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      isWeekendDisabled
-                          ? 'عذراً، لا يمكن الحجز في عطلة نهاية الأسبوع'
-                          : 'عذراً، هذا اليوم غير متاح للحجز',
-                      textAlign: TextAlign.center,
-                    ),
-                    duration: const Duration(milliseconds: 900),
-                    behavior: SnackBarBehavior.floating,
+                SnackBar(
+                  content: const Text(
+                    'عذراً، هذا اليوم غير متاح للحجز لدى الطبيب',
+                    textAlign: TextAlign.center,
                   ),
-                )
+                  duration: const Duration(milliseconds: 900),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              )
             : () => onTap(date),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
@@ -55,8 +88,8 @@ class DayItem extends StatelessWidget {
             color: isDisabled
                 ? AppColors.gray400
                 : isSelected
-                    ? AppColors.primary
-                    : AppColors.gray200,
+                ? AppColors.primary
+                : AppColors.gray200,
             borderRadius: BorderRadius.circular(14),
             border: isToday && !isSelected
                 ? Border.all(color: AppColors.primary, width: 2)
@@ -86,8 +119,8 @@ class DayItem extends StatelessWidget {
                   color: isDisabled
                       ? AppColors.gray500
                       : isSelected
-                          ? AppColors.white
-                          : AppColors.primary,
+                      ? AppColors.white
+                      : AppColors.primary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -99,8 +132,8 @@ class DayItem extends StatelessWidget {
                   color: isDisabled
                       ? AppColors.gray500
                       : isSelected
-                          ? AppColors.white
-                          : AppColors.black,
+                      ? AppColors.white
+                      : AppColors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -111,4 +144,3 @@ class DayItem extends StatelessWidget {
     );
   }
 }
-

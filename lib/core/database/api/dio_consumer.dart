@@ -156,7 +156,13 @@ class DioConsumer extends ApiConsumer {
 
       log('✅ Status: ${response.statusCode}');
       log('📥 Response data: ${response.data}');
-      return _parseResponse(response.data);
+
+      final parsedResponse = _parseResponse(response.data);
+      if (response.statusCode != null && response.statusCode! >= 400) {
+        throw ServerException(ErrorModel.fromJson(parsedResponse));
+      }
+
+      return parsedResponse;
     } on DioException catch (e) {
       log('❌ Dio Error: ${e.message}');
       if (e.response != null) {

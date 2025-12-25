@@ -43,11 +43,11 @@ class AiChatCubit extends Cubit<AiChatState> {
           emit(AiChatSuccess(messages: List.from(_messages)));
         },
         onError: (error) {
-          log('Error in stream: $error');
           String errorMessage = error.toString();
           if (error is ServerException) {
             errorMessage = error.errorModel.errorMessage;
           }
+          log('Error in stream: $errorMessage');
           // Remove the partial message or show error indicator?
           // Let's Keep partial message and show toast error
           emit(AiChatFailure(errMessage: errorMessage));

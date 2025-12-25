@@ -4,12 +4,14 @@ import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/presentation/widgets/appointment_view_body.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class AppointmentView extends StatefulWidget {
-  const AppointmentView({super.key});
+  final Doctor doctor;
+  const AppointmentView({super.key, required this.doctor});
 
   @override
   State<AppointmentView> createState() => _AppointmentViewState();
@@ -18,13 +20,17 @@ class AppointmentView extends StatefulWidget {
 class _AppointmentViewState extends State<AppointmentView> {
   DateTime _selectedDate = DateTime.now();
   String? _selectedTime;
+  int? _selectedScheduleId;
 
   void _onDateSelected(DateTime date) {
     setState(() => _selectedDate = date);
   }
 
-  void _onTimeSelected(String time) {
-    setState(() => _selectedTime = time);
+  void _onTimeSelected(String? time, int? scheduleId) {
+    setState(() {
+      _selectedTime = time;
+      _selectedScheduleId = scheduleId;
+    });
   }
 
   String _formatSelection() {
@@ -39,6 +45,7 @@ class _AppointmentViewState extends State<AppointmentView> {
     return Scaffold(
       body: SafeArea(
         child: AppointmentViewBody(
+          doctor: widget.doctor,
           onDateSelected: _onDateSelected,
           onTimeSelected: _onTimeSelected,
         ),
@@ -124,7 +131,15 @@ class _AppointmentViewState extends State<AppointmentView> {
                     context.showErrorToast('يرجى اختيار وقت مناسب أولاً');
                     return;
                   }
-                  GoRouter.of(context).push(AppRouter.paymentViewRoute);
+                  GoRouter.of(context).push(
+                    AppRouter.paymentViewRoute,
+                    extra: {
+                      'doctor': widget.doctor,
+                      'date': _selectedDate,
+                      'time': _selectedTime,
+                      'scheduleId': _selectedScheduleId,
+                    },
+                  );
                 },
               ),
             ],
@@ -134,4 +149,3 @@ class _AppointmentViewState extends State<AppointmentView> {
     );
   }
 }
-
