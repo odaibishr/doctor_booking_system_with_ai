@@ -26,40 +26,40 @@ class BookingModel extends Booking {
   });
 
   factory BookingModel.fromMap(Map<String, dynamic> data) => BookingModel(
-        id: data['id'] ?? 0,
-        doctorId: data['doctor_id'] ?? 0,
-        userId: data['user_id'] ?? 0,
-        doctorScheduleId: data['doctor_schedule_id'] ?? 0,
-        transactionId: data['transaction_id'] ?? 0,
-        date: data['date'] ?? '',
-        status: data['status'] ?? '',
-        isCompleted: _parseBool(data['is_completed']),
-        paymentMode: data['payment_mode'] ?? '',
-        createdAt: data['created_at'] ?? '',
-        updatedAt: data['updated_at'] ?? '',
-        doctor: DoctorModel.fromMap(_ensureMap(data['doctor'])),
-        schedule: DoctorScheduleModel.fromMap(_ensureMap(data['schedule'])),
-        transaction: BookingTransactionModel.fromMap(
-          _ensureMap(data['transaction']),
-        ),
-      );
+    id: data['id'] ?? 0,
+    doctorId: data['doctor_id'] ?? 0,
+    userId: data['user_id'] ?? 0,
+    doctorScheduleId: data['doctor_schedule_id'] ?? 0,
+    transactionId: data['transaction_id'] ?? 0,
+    date: data['date'] ?? '',
+    status: data['status'] ?? '',
+    isCompleted: _parseBool(data['is_completed']),
+    paymentMode: data['payment_mode'] ?? '',
+    createdAt: data['created_at'] ?? '',
+    updatedAt: data['updated_at'] ?? '',
+    doctor: DoctorModel.fromMap(_ensureMap(data['doctor'])),
+    schedule: DoctorScheduleModel.fromMap(_ensureMap(data['schedule'])),
+    transaction: BookingTransactionModel.fromMap(
+      _ensureMap(data['transaction']),
+    ),
+  );
 
   Map<String, dynamic> toMap() => {
-        'id': id,
-        'doctor_id': doctorId,
-        'user_id': userId,
-        'doctor_schedule_id': doctorScheduleId,
-        'transaction_id': transactionId,
-        'date': date,
-        'status': status,
-        'is_completed': isCompleted,
-        'payment_mode': paymentMode,
-        'created_at': createdAt,
-        'updated_at': updatedAt,
-        'doctor': doctor,
-        'schedule': schedule,
-        'transaction': transaction,
-      };
+    'id': id,
+    'doctor_id': doctorId,
+    'user_id': userId,
+    'doctor_schedule_id': doctorScheduleId,
+    'transaction_id': transactionId,
+    'date': date,
+    'status': status,
+    'is_completed': isCompleted,
+    'payment_mode': paymentMode,
+    'created_at': createdAt,
+    'updated_at': updatedAt,
+    'doctor': doctor,
+    'schedule': schedule,
+    'transaction': transaction,
+  };
 
   factory BookingModel.fromJson(String data) {
     return BookingModel.fromMap(json.decode(data) as Map<String, dynamic>);
@@ -80,7 +80,7 @@ class BookingModel extends Booking {
     String? createdAt,
     String? updatedAt,
     DoctorModel? doctor,
-    DoctorSchedule? schedule,
+    BookingHistorySchedule? schedule,
     BookingTransaction? transaction,
   }) {
     return BookingModel(
@@ -114,9 +114,7 @@ class BookingModel extends Booking {
   static Map<String, dynamic> _ensureMap(dynamic value) {
     if (value is Map<String, dynamic>) return value;
     if (value is Map) {
-      return value.map(
-        (key, val) => MapEntry(key.toString(), val),
-      );
+      return value.map((key, val) => MapEntry(key.toString(), val));
     }
     if (value is List && value.isNotEmpty && value.first is Map) {
       final first = value.first as Map;

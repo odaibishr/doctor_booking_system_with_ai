@@ -8,6 +8,8 @@ import 'package:doctor_booking_system_with_ai/core/storage/adapters/safe_user_ad
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/doctor_schedule.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking_transaction.dart';
 
 class HiveService {
   static const String userBoxName = 'user_box';
@@ -31,6 +33,15 @@ class HiveService {
     }
     if (!Hive.isAdapterRegistered(5)) {
       Hive.registerAdapter(SpecialtyAdapter());
+    }
+    if (!Hive.isAdapterRegistered(6)) {
+      Hive.registerAdapter(BookingAdapter());
+    }
+    if (!Hive.isAdapterRegistered(12)) {
+      Hive.registerAdapter(BookingHistoryScheduleAdapter());
+    }
+    if (!Hive.isAdapterRegistered(13)) {
+      Hive.registerAdapter(BookingTransactionAdapter());
     }
 
     _userBox = await Hive.openBox<User>(userBoxName);

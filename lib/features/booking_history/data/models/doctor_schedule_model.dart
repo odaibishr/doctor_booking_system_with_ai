@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/doctor_schedule.dart';
 
-class DoctorScheduleModel extends DoctorSchedule {
+class DoctorScheduleModel extends BookingHistorySchedule {
   DoctorScheduleModel({
     required super.id,
     required super.doctorId,
@@ -25,14 +25,14 @@ class DoctorScheduleModel extends DoctorSchedule {
       );
 
   Map<String, dynamic> toMap() => {
-        'id': id,
-        'doctor_id': doctorId,
-        'day_id': dayId,
-        'start_time': startTime,
-        'end_time': endTime,
-        'created_at': createdAt,
-        'updated_at': updatedAt,
-      };
+    'id': id,
+    'doctor_id': doctorId,
+    'day_id': dayId,
+    'start_time': startTime,
+    'end_time': endTime,
+    'created_at': createdAt,
+    'updated_at': updatedAt,
+  };
 
   factory DoctorScheduleModel.fromJson(String data) {
     return DoctorScheduleModel.fromMap(
@@ -63,12 +63,12 @@ class DoctorScheduleModel extends DoctorSchedule {
   }
 
   factory DoctorScheduleModel.empty() => DoctorScheduleModel(
-        id: 0,
-        doctorId: 0,
-        dayId: 0,
-        startTime: '',
-        endTime: '',
-        createdAt: '',
-        updatedAt: '',
-      );
+    id: 0,
+    doctorId: 0,
+    dayId: 0,
+    startTime: '',
+    endTime: '',
+    createdAt: '',
+    updatedAt: '',
+  );
 }
