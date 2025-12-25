@@ -1,5 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/back_button.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -90,7 +92,7 @@ class _DoctorMapPageState extends State<DoctorMapPage> {
           child: BlocBuilder<MapBloc, MapState>(
             builder: (context, state) {
               if (state.status == MapStatus.loading) {
-                return const Center(child: CircularProgressIndicator());
+                return const CustomLoader(loaderSize: kLoaderSize);
               }
 
               if (state.status == MapStatus.error) {
