@@ -57,9 +57,10 @@ class BottomSheetDeteals extends StatelessWidget {
             child: MainButton(
               text: 'إظهار الحجز',
               onTap: () {
-                GoRouter.of(
-                  context,
-                ).pushReplacement(AppRouter.bookingHistoryViewRoute);
+                GoRouter.of(context).pushReplacement(
+                  AppRouter.appNavigationRoute,
+                  extra: 2, 
+                );
               },
             ),
           ),
@@ -67,7 +68,7 @@ class BottomSheetDeteals extends StatelessWidget {
           TextButton(
             child: Text('العودة للرئيسية', style: FontStyles.subTitle1),
             onPressed: () {
-              GoRouter.of(context).pushReplacement(AppRouter.homeViewRoute);
+              GoRouter.of(context).go(AppRouter.appNavigationRoute);
             },
           ),
         ],

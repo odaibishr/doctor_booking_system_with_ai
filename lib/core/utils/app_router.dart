@@ -63,7 +63,8 @@ class AppRouter {
       ),
       GoRoute(
         path: appNavigationRoute,
-        builder: (context, state) => const AppNavigation(),
+        builder: (context, state) =>
+            AppNavigation(initialIndex: (state.extra as int?) ?? 0),
       ),
       GoRoute(
         path: searchViewRoute,

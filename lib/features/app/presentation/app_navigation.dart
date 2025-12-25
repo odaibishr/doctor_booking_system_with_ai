@@ -8,14 +8,21 @@ import 'package:doctor_booking_system_with_ai/features/search/presentation/searc
 import 'package:flutter/material.dart';
 
 class AppNavigation extends StatefulWidget {
-  const AppNavigation({super.key});
+  final int initialIndex;
+  const AppNavigation({super.key, this.initialIndex = 0});
 
   @override
   State<AppNavigation> createState() => _AppNavigationState();
 }
 
 class _AppNavigationState extends State<AppNavigation> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+  }
 
   final List<Widget> _pages = [
     HomeView(),
@@ -32,8 +39,9 @@ class _AppNavigationState extends State<AppNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    final safeIndex =
-        (_selectedIndex >= 0 && _selectedIndex < _pages.length) ? _selectedIndex : 0;
+    final safeIndex = (_selectedIndex >= 0 && _selectedIndex < _pages.length)
+        ? _selectedIndex
+        : 0;
     return Scaffold(
       extendBody: true,
       body: _pages[safeIndex],
