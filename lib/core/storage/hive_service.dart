@@ -5,6 +5,7 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/locati
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specialty.dart';
 import 'package:doctor_booking_system_with_ai/core/storage/adapters/safe_doctor_adapter.dart';
 import 'package:doctor_booking_system_with_ai/core/storage/adapters/safe_user_adapter.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 
@@ -36,6 +37,7 @@ class HiveService {
     await Hive.openBox<Doctor>(kDoctorBox);
     await Hive.openBox<Specialty>(kSpecialtyBox);
     await Hive.openBox<Hospital>(kHospitalBox);
+    await Hive.openBox<Booking>(kBookingHistoryBox);
   }
 
   static Future<void> cacheAuthData(User user) async {
