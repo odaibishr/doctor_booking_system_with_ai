@@ -23,6 +23,8 @@ import 'package:doctor_booking_system_with_ai/core/layers/data/repos/profile_rep
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/profile_repo.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/repos/review_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/repos/logout_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/data/datasources/booking_history_local_data_source.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/domain/usecases/create_profile_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/data/datasources/booking_history_remote_data_source.dart';
@@ -131,6 +133,11 @@ Future<void> init() async {
     () => BookingHistoryRemoteDataSourceImpl(serviceLocator()),
   );
 
+  final bookingHistoryBox = Hive.box<Booking>(kBookingHistoryBox);
+  serviceLocator.registerLazySingleton<BookingHistoryLocalDataSource>(
+    () => BookingHistoryLocalDataSourceImpl(bookingHistoryBox),
+  );
+
   final doctorsBox = Hive.box<Doctor>(kDoctorBox);
   serviceLocator.registerLazySingleton<DoctorLocalDataSource>(
     () => DoctorLocalDataSourceImpl(doctorsBox),
@@ -159,9 +166,7 @@ Future<void> init() async {
   );
 
   serviceLocator.registerLazySingleton<AiChatRemoteDataSource>(
-    () => AiChatRemoteDataSourceImpl(
-      dio: Dio(),
-    ), // Using new Dio instance for chat or reuse if needed
+    () => AiChatRemoteDataSourceImpl(dio: Dio()),
   );
 
   serviceLocator.registerLazySingleton<AppointmentRemoteDataSource>(
@@ -199,6 +204,7 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<BookingHistoryRepo>(
     () => BookingHistoryRepoImpl(
+      localDataSource: serviceLocator(),
       remoteDataSource: serviceLocator(),
       networkInfo: serviceLocator(),
     ),
