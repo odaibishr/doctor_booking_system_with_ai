@@ -4,9 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/hospital_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/hospital_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/profile_local_data_source.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/reivew_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/review_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/repos/hospital_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/review.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/hospital_repo.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/review_repo.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/create_review_use_case.dart';
@@ -160,6 +162,11 @@ Future<void> init() async {
     () => ReviewRemoteDataSourceImpl(serviceLocator()),
   );
 
+  final reviewBox = Hive.box<Review>(kReviewBox);
+  serviceLocator.registerLazySingleton<ReviewLocalDataSource>(
+    () => ReviewLocalDataSourceImpl(reviewBox),
+  );
+
   final hospitalsBox = Hive.box<Hospital>(kHospitalBox);
   serviceLocator.registerLazySingleton<HospitalLocalDataSource>(
     () => HospitalLocalDataSourceImpl(hospitalsBox),
@@ -219,7 +226,11 @@ Future<void> init() async {
   );
 
   serviceLocator.registerLazySingleton<ReviewRepo>(
-    () => ReviewRepoImpl(serviceLocator<ReviewRemoteDataSource>()),
+    () => ReviewRepoImpl(
+      serviceLocator<ReviewRemoteDataSource>(),
+      serviceLocator<ReviewLocalDataSource>(),
+      serviceLocator<NetworkInfo>(),
+    ),
   );
 
   serviceLocator.registerLazySingleton<AiChatRepository>(
