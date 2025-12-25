@@ -21,6 +21,7 @@ import 'package:doctor_booking_system_with_ai/features/profile/presentation/prof
 import 'package:doctor_booking_system_with_ai/features/search/presentation/search_view.dart';
 import 'package:doctor_booking_system_with_ai/features/splash/presentation/splash_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/top_doctors_view.dart';
+import 'package:doctor_booking_system_with_ai/features/map/doctor_map_view.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -51,6 +52,7 @@ class AppRouter {
   static const String addcardViewRoute = '/addcardView';
   static const String notificationViewRoute = '/notificationView';
   static const String topDoctorsViewRoute = '/topDoctorsView';
+  static const String doctorMapViewRoute = '/doctorMapView';
 
   static GoRouter router = GoRouter(
     navigatorKey: navigatorKey,
@@ -159,6 +161,11 @@ class AppRouter {
       GoRoute(
         path: topDoctorsViewRoute,
         builder: (context, state) => const TopDoctorsView(),
+      ),
+      GoRoute(
+        path: doctorMapViewRoute,
+        builder: (context, state) =>
+            DoctorMapPage(initialDoctor: state.extra as Doctor?),
       ),
     ],
     initialLocation: splashRoute,

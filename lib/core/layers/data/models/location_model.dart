@@ -10,12 +10,22 @@ class LocationModel extends Location {
     required super.name,
   });
 
-  factory LocationModel.fromMap(Map<String, dynamic> data) => LocationModel(
-    id: data['id'] as int,
-    lat: (data['lat'] as num).toDouble(),
-    lng: (data['lng'] as num).toDouble(),
-    name: data['name'] as String,
-  );
+  factory LocationModel.fromMap(Map<String, dynamic> data) {
+    double parseDouble(dynamic value) {
+      if (value is num) return value.toDouble();
+      if (value is String) return double.tryParse(value) ?? 0.0;
+      return 0.0;
+    }
+
+    return LocationModel(
+      id: data['id'] is int
+          ? data['id'] as int
+          : int.tryParse(data['id']?.toString() ?? '0') ?? 0,
+      lat: parseDouble(data['lat'] ?? data['latitude']),
+      lng: parseDouble(data['lng'] ?? data['longitude']),
+      name: data['name']?.toString() ?? '',
+    );
+  }
 
   Map<String, dynamic> toMap() => {
     'id': id,
@@ -39,5 +49,6 @@ class LocationModel extends Location {
 
   String toJson() => json.encode(toMap());
 
-  factory LocationModel.empty() => LocationModel(id: 0, lat: 0.0, lng: 0.0, name: '');
+  factory LocationModel.empty() =>
+      LocationModel(id: 0, lat: 0.0, lng: 0.0, name: '');
 }

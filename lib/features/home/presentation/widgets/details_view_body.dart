@@ -71,7 +71,7 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                     ),
 
                     const SizedBox(height: 16),
-                    DoctorStatsSection(),
+                    DoctorStatsSection(doctor: doctor!),
                     const SizedBox(height: 22),
 
                     Text(

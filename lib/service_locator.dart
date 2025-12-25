@@ -60,6 +60,7 @@ import 'package:doctor_booking_system_with_ai/features/profile/domain/repos/logo
 import 'package:doctor_booking_system_with_ai/features/profile/domain/use_cases/logout_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/search/domain/usecases/search_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/manager/search_doctors_bloc/search_doctors_bloc.dart';
+import 'package:doctor_booking_system_with_ai/features/map/presentation/manager/map_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/data/data_sources/ai_chat_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/data/repositories/ai_chat_repository_impl.dart';
@@ -357,6 +358,10 @@ Future<void> init() async {
       serviceLocator<SearchDoctorsUseCase>(),
       serviceLocator<GetDoctorsUseCase>(),
     ),
+  );
+
+  serviceLocator.registerFactory<MapBloc>(
+    () => MapBloc(getDoctorsUseCase: serviceLocator<GetDoctorsUseCase>()),
   );
 
   serviceLocator.registerLazySingleton<ToggleFavoriteCubit>(

@@ -51,7 +51,7 @@ class ModelNavBar extends StatelessWidget {
                 label: 'الموقع',
                 onTap: () {
                   onClose?.call();
-                  GoRouter.of(context).push(AppRouter.aichatViewRoute);
+                  GoRouter.of(context).push(AppRouter.doctorMapViewRoute);
                 },
               ),
               NavBarModelItem(
@@ -59,7 +59,7 @@ class ModelNavBar extends StatelessWidget {
                 label: 'الحجوزات',
                 onTap: () {
                   onClose?.call();
-                  GoRouter.of(context).push(AppRouter.aichatViewRoute);
+                  GoRouter.of(context).push(AppRouter.bookingHistoryViewRoute);
                 },
               ),
             ],
