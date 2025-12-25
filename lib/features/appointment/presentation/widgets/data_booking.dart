@@ -116,8 +116,9 @@ class _DataBookingState extends State<DataBooking> {
         // Thursday(4) -> 6
         // Friday(5) -> 7
         int apiDayNumber = (_selectedDate.weekday + 1) % 7;
-        if (apiDayNumber == 0)
-          apiDayNumber = 7; // In case of offset logic differences
+        if (apiDayNumber == 0) {
+          apiDayNumber = 7; // 1In case of offset logic differences
+        }
         // Let's assume the user's mapping: Saturday=1, Sunday=2...
         // My manual mapping above:
         int targetDayNumber = 0;

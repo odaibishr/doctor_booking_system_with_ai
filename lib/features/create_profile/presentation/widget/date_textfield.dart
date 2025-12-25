@@ -37,9 +37,9 @@ class _DateTextFieldState extends State<DateTextField> {
           ),
         ),
       ),
-      mode: DateTimeFieldPickerMode.date, // لاختيار تاريخ فقط
+      mode: DateTimeFieldPickerMode.date,
       autovalidateMode: AutovalidateMode.always,
-      onChanged: widget.onchanged, //TODO this the onChanged Function
+      onChanged: widget.onchanged,
     );
   }
 }
