@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/review.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
@@ -43,12 +44,16 @@ class HiveService {
     if (!Hive.isAdapterRegistered(13)) {
       Hive.registerAdapter(BookingTransactionAdapter());
     }
+    if (!Hive.isAdapterRegistered(7)) {
+      Hive.registerAdapter(ReviewAdapter());
+    }
 
     _userBox = await Hive.openBox<User>(userBoxName);
     await Hive.openBox<Doctor>(kDoctorBox);
     await Hive.openBox<Specialty>(kSpecialtyBox);
     await Hive.openBox<Hospital>(kHospitalBox);
     await Hive.openBox<Booking>(kBookingHistoryBox);
+    await Hive.openBox<Review>(kReviewBox);
   }
 
   static Future<void> cacheAuthData(User user) async {
