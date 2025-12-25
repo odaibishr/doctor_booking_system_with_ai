@@ -1,15 +1,15 @@
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/review.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-abstract class ReivewLocalDataSource {
+abstract class ReviewLocalDataSource {
   Future<List<Review>> getDoctorReviews(int doctorId);
   Future<void> cachedDoctorReviews(List<Review> reviews);
 }
 
-class ReivewLocalDataSourceImpl implements ReivewLocalDataSource {
+class ReviewLocalDataSourceImpl implements ReviewLocalDataSource {
   final Box<Review> _reviewBox;
 
-  ReivewLocalDataSourceImpl(this._reviewBox);
+  ReviewLocalDataSourceImpl(this._reviewBox);
 
   @override
   Future<List<Review>> getDoctorReviews(int doctorId) async {
