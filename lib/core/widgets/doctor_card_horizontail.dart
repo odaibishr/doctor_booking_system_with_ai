@@ -120,7 +120,15 @@ class DoctorCardHorizontail extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            MainButton(text: 'حجز موعد', onTap: () {}, height: 30),
+            MainButton(
+              text: 'حجز موعد',
+              onTap: () {
+                GoRouter.of(
+                  context,
+                ).push(AppRouter.appointmentViewRoute, extra: doctor);
+              },
+              height: 30,
+            ),
           ],
         ),
       ),

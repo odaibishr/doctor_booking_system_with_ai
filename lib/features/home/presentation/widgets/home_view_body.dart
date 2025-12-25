@@ -90,7 +90,11 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                           SectionHeader(
                             title: 'افضل الأطباء',
                             moreText: 'إظهار المزيد',
-                            onTap: () {},
+                            onTap: () {
+                              GoRouter.of(
+                                context,
+                              ).push(AppRouter.topDoctorsViewRoute);
+                            },
                           ),
                           const SizedBox(height: 3),
                           DoctorCardListView(

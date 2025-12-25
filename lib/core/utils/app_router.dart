@@ -20,6 +20,7 @@ import 'package:doctor_booking_system_with_ai/features/payment/presentation/paym
 import 'package:doctor_booking_system_with_ai/features/profile/presentation/profile_view.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/search_view.dart';
 import 'package:doctor_booking_system_with_ai/features/splash/presentation/splash_view.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/top_doctors_view.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -49,6 +50,7 @@ class AppRouter {
   static const String favoritedoctorViewRoute = '/favoritedoctorView';
   static const String addcardViewRoute = '/addcardView';
   static const String notificationViewRoute = '/notificationView';
+  static const String topDoctorsViewRoute = '/topDoctorsView';
 
   static GoRouter router = GoRouter(
     navigatorKey: navigatorKey,
@@ -153,6 +155,10 @@ class AppRouter {
       GoRoute(
         path: notificationViewRoute,
         builder: (context, state) => NotificationView(),
+      ),
+      GoRoute(
+        path: topDoctorsViewRoute,
+        builder: (context, state) => const TopDoctorsView(),
       ),
     ],
     initialLocation: splashRoute,
