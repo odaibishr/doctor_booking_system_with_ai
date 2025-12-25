@@ -61,7 +61,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                     }
                     List<Doctor> doctors = [];
                     if (state is DoctorsLoaded) {
-                      doctors.addAll(state.doctors.reversed);
+                      doctors.addAll(state.doctors);
                       log(
                         'Number of doctors in HomeViewBody: ${doctors.toString()}',
                       );
