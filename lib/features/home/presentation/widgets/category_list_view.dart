@@ -1,6 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/specialty/specialty_cubit.dart';
 import 'package:flutter/material.dart';
@@ -30,15 +31,20 @@ class _CategoryListViewState extends State<CategoryListView> {
               scrollDirection: Axis.horizontal,
               itemCount: activeSpecialties.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: CategoryCard(
-                    color: false,
-                    id: activeSpecialties[index].id,
-                    title: activeSpecialties[index].name,
-                    icon: activeSpecialties[index].icon,
-                    width: Responsive.isDesktop(context) ? 120 : 85,
-                    height: Responsive.isDesktop(context) ? 120 : 85,
+                return AnimatedListItem(
+                  index: index,
+                  delay: const Duration(milliseconds: 60),
+                  animationType: AnimationType.fadeScale,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: CategoryCard(
+                      color: false,
+                      id: activeSpecialties[index].id,
+                      title: activeSpecialties[index].name,
+                      icon: activeSpecialties[index].icon,
+                      width: Responsive.isDesktop(context) ? 120 : 85,
+                      height: Responsive.isDesktop(context) ? 120 : 85,
+                    ),
                   ),
                 );
               },

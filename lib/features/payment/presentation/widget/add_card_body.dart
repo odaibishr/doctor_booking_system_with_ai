@@ -25,31 +25,21 @@ class _AddCardBodyState extends State<AddCardBody>
   void initState() {
     super.initState();
 
-    // 1️⃣ إنشاء المتحكم بالأنيميشن
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 700), // مدة الحركة
+      duration: const Duration(milliseconds: 700),
     );
 
-    // 2️⃣ تحديد مسار الحركة (من أسفل إلى منتصف الصفحة)
-    _slideAnimation =
-        Tween<Offset>(
-          begin: const Offset(0, 1), // يبدأ من خارج الشاشة (أسفل)
-          end: Offset.zero, // ينتهي في مكانه الطبيعي (المنتصف)
-        ).animate(
-          CurvedAnimation(
-            parent: _controller,
-            curve: Curves.easeOutBack, // حركة ناعمة للخارج
-          ),
-        );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
 
-    // 3️⃣ أنيميشن التلاشي التدريجي (شفافية)
     _fadeAnimation = Tween<double>(
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
-    // 4️⃣ بدء الأنيميشن فور الدخول للصفحة
     _controller.forward();
   }
 

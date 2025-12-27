@@ -12,7 +12,7 @@ class DividerCustom extends StatelessWidget {
           child: Divider(
             color: Colors.grey.shade400,
             thickness: 1,
-            endIndent: 10, // مسافة بعد الخط من الجهة اليمنى
+            endIndent: 10,
           ),
         ),
         Text(
@@ -24,11 +24,7 @@ class DividerCustom extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Divider(
-            color: Colors.grey.shade400,
-            thickness: 1,
-            indent: 10, // مسافة بعد الخط من الجهة اليسرى
-          ),
+          child: Divider(color: Colors.grey.shade400, thickness: 1, indent: 10),
         ),
       ],
     );

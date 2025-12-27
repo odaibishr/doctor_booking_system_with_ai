@@ -48,7 +48,7 @@ class _OnboardingpagesState extends State<Onboardingpages>
     );
 
     _imageOffset = Tween<Offset>(
-      begin: const Offset(1, 0), // الصورة تبدأ من اليمين
+      begin: const Offset(1, 0),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _imageController, curve: Curves.easeOut));
 
@@ -57,7 +57,6 @@ class _OnboardingpagesState extends State<Onboardingpages>
       end: 1,
     ).animate(CurvedAnimation(parent: _textController, curve: Curves.easeIn));
 
-    // نبدأ الأنيميشن عند عرض الصفحة
     _runAnimations();
   }
 
@@ -69,7 +68,6 @@ class _OnboardingpagesState extends State<Onboardingpages>
   @override
   void didUpdateWidget(Onboardingpages oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // إعادة تشغيل الأنيميشن عند تغيير الصفحة
     _imageController.reset();
     _textController.reset();
     _runAnimations();
@@ -88,13 +86,11 @@ class _OnboardingpagesState extends State<Onboardingpages>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const SizedBox(height: 80),
-        // الصورة تتحرك لوحدها
         SlideTransition(
           position: _imageOffset,
           child: Image.asset(widget.image, height: 260),
         ),
         const SizedBox(height: 30),
-        // النصوص تظهر تدريجيًا
         FadeTransition(
           opacity: _textOpacity,
           child: Column(

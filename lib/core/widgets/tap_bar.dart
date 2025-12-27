@@ -17,12 +17,11 @@ class TapBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(
-          bottom: BorderSide(color: AppColors.gray400, width: 1.0),
+          bottom: BorderSide(color: AppColors.gray200, width: 1.0),
         ),
       ),
       child: Row(

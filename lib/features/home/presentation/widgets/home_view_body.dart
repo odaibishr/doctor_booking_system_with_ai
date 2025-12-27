@@ -4,6 +4,7 @@ import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/category_list_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/custom_home_appbar.dart';
@@ -68,48 +69,86 @@ class _HomeViewBodyState extends State<HomeViewBody> {
 
                       return Column(
                         children: [
-                          const SizedBox(height: 16),
-                          DoctorBannerSlider(
-                            featuredDoctor: doctors
-                                .where((doctor) => (doctor.isFeatured == 1))
-                                .toList(),
+                          // Banner Slider with fade animation
+                          AnimatedEntrance(
+                            delay: const Duration(milliseconds: 100),
+                            animationType: AnimationType.fadeScale,
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 16),
+                                DoctorBannerSlider(
+                                  featuredDoctor: doctors
+                                      .where(
+                                        (doctor) => (doctor.isFeatured == 1),
+                                      )
+                                      .toList(),
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 16),
-                          SectionHeader(
-                            title: 'التخصصات',
-                            moreText: 'إظهار المزيد',
-                            onTap: () {
-                              GoRouter.of(
-                                context,
-                              ).push(AppRouter.categoryViewRoute);
-                            },
+                          // Categories Section
+                          AnimatedEntrance(
+                            delay: const Duration(milliseconds: 200),
+                            animationType: AnimationType.fadeSlideUp,
+                            child: SectionHeader(
+                              title: 'التخصصات',
+                              moreText: 'إظهار المزيد',
+                              onTap: () {
+                                GoRouter.of(
+                                  context,
+                                ).push(AppRouter.categoryViewRoute);
+                              },
+                            ),
                           ),
                           const SizedBox(height: 3),
-                          const CategoryListView(),
-                          const SizedBox(height: 16),
-                          SectionHeader(
-                            title: 'افضل الأطباء',
-                            moreText: 'إظهار المزيد',
-                            onTap: () {
-                              GoRouter.of(
-                                context,
-                              ).push(AppRouter.topDoctorsViewRoute);
-                            },
-                          ),
-                          const SizedBox(height: 3),
-                          DoctorCardListView(
-                            topOfDoctors: doctors
-                                .where((doctor) => doctor.isTopDoctor == 1)
-                                .toList(),
+                          AnimatedEntrance(
+                            delay: const Duration(milliseconds: 250),
+                            animationType: AnimationType.fadeSlideRight,
+                            child: const CategoryListView(),
                           ),
                           const SizedBox(height: 16),
-                          SectionHeader(
-                            title: 'المستشفيات',
-                            moreText: 'إظهار المزيد',
-                            onTap: () {},
+                          // Top Doctors Section
+                          AnimatedEntrance(
+                            delay: const Duration(milliseconds: 350),
+                            animationType: AnimationType.fadeSlideUp,
+                            child: SectionHeader(
+                              title: 'افضل الأطباء',
+                              moreText: 'إظهار المزيد',
+                              onTap: () {
+                                GoRouter.of(
+                                  context,
+                                ).push(AppRouter.topDoctorsViewRoute);
+                              },
+                            ),
                           ),
                           const SizedBox(height: 3),
-                          const HopitalsListView(),
+                          AnimatedEntrance(
+                            delay: const Duration(milliseconds: 400),
+                            animationType: AnimationType.fadeSlideRight,
+                            child: DoctorCardListView(
+                              topOfDoctors: doctors
+                                  .where((doctor) => doctor.isTopDoctor == 1)
+                                  .toList(),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          // Hospitals Section
+                          AnimatedEntrance(
+                            delay: const Duration(milliseconds: 500),
+                            animationType: AnimationType.fadeSlideUp,
+                            child: SectionHeader(
+                              title: 'المستشفيات',
+                              moreText: 'إظهار المزيد',
+                              onTap: () {},
+                            ),
+                          ),
+                          const SizedBox(height: 3),
+                          AnimatedEntrance(
+                            delay: const Duration(milliseconds: 550),
+                            animationType: AnimationType.fadeSlideRight,
+                            child: const HopitalsListView(),
+                          ),
                           const SizedBox(height: 16),
                         ],
                       );

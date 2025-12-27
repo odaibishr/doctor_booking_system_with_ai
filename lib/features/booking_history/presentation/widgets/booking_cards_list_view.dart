@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/appointment_card.dart';
@@ -16,7 +17,10 @@ class BookingCardsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (bookings.isEmpty) {
-      return const Center(child: Text('لا توجد حجوزات في هذا القسم حالياً'));
+      return AnimatedEntrance(
+        animationType: AnimationType.fadeScale,
+        child: const Center(child: Text('لا توجد حجوزات في هذا القسم حالياً')),
+      );
     }
 
     if (!Responsive.isMobile(context)) {
@@ -30,7 +34,12 @@ class BookingCardsListView extends StatelessWidget {
         ),
         itemCount: bookings.length,
         itemBuilder: (context, index) {
-          return AppointmentCard(booking: bookings[index], status: status);
+          return AnimatedListItem(
+            index: index,
+            delay: const Duration(milliseconds: 60),
+            animationType: AnimationType.fadeScale,
+            child: AppointmentCard(booking: bookings[index], status: status),
+          );
         },
       );
     }
@@ -40,7 +49,12 @@ class BookingCardsListView extends StatelessWidget {
       itemCount: bookings.length,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) {
-        return AppointmentCard(booking: bookings[index], status: status);
+        return AnimatedListItem(
+          index: index,
+          delay: const Duration(milliseconds: 80),
+          animationType: AnimationType.fadeSlideUp,
+          child: AppointmentCard(booking: bookings[index], status: status),
+        );
       },
     );
   }

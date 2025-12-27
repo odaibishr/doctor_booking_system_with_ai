@@ -73,7 +73,6 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
       if (normalized == 'false' || normalized == '0') return false;
     }
 
-    // في حال لم يحدد الخادم القيمة بشكل صريح نعتبر العملية ناجحة
     return true;
   }
 

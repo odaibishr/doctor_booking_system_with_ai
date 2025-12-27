@@ -19,7 +19,7 @@ class VerifyCodeBody extends StatefulWidget {
 }
 
 class _VerifyCodeBodyState extends State<VerifyCodeBody> {
-  String otpCode = ''; //TODO this var have the value od digits
+  String otpCode = '';
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -48,11 +48,10 @@ class _VerifyCodeBodyState extends State<VerifyCodeBody> {
                 Directionality(
                   textDirection: TextDirection.ltr,
                   child: AnimatedOtpInput(
-                    length: 5, // عدد الخانات
+                    length: 5,
                     onCompleted: (value) {
                       setState(() {
-                        otpCode =
-                            value; //TODO this var have the value od digits
+                        otpCode = value;
                       });
                     },
                   ),
@@ -73,7 +72,6 @@ class _VerifyCodeBodyState extends State<VerifyCodeBody> {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                 Row(
-                  //Text for create account
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(

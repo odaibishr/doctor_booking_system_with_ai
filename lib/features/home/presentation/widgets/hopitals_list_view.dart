@@ -3,6 +3,7 @@ import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/hospital_card.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +30,17 @@ class _HopitalsListViewState extends State<HopitalsListView> {
               scrollDirection: Axis.horizontal,
               itemCount: hospitals.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: HospitalCard(
-                    hospital: hospitals[index],
-                    width: isDesktop ? 280 : 221,
-                    height: isDesktop ? 230 : 180,
+                return AnimatedListItem(
+                  index: index,
+                  delay: const Duration(milliseconds: 80),
+                  animationType: AnimationType.fadeSlideRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: HospitalCard(
+                      hospital: hospitals[index],
+                      width: isDesktop ? 280 : 221,
+                      height: isDesktop ? 230 : 180,
+                    ),
                   ),
                 );
               },

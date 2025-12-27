@@ -115,7 +115,7 @@ class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
 
       await for (final line in stream) {
         if (line.trim().isEmpty) continue;
-        log("RAW LINE: $line"); // لنتحقق مما يصل فعلياً
+        log("RAW LINE: $line");
 
         if (line.startsWith('data: ')) {
           final jsonStr = line.substring(6);

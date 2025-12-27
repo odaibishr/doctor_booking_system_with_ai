@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/tap_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
@@ -47,17 +48,27 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
       child: Column(
         children: [
-          CustomAppBar(
-            userImage: 'assets/images/my-photo.jpg',
-            title: 'سجل الحجوزات',
-            isBackButtonVisible: false,
-            isUserImageVisible: true,
+          // AppBar with animation
+          AnimatedEntrance(
+            delay: const Duration(milliseconds: 100),
+            animationType: AnimationType.fadeSlideDown,
+            child: CustomAppBar(
+              userImage: 'assets/images/my-photo.jpg',
+              title: 'سجل الحجوزات',
+              isBackButtonVisible: false,
+              isUserImageVisible: true,
+            ),
           ),
           const SizedBox(height: 16),
-          TapBar(
-            tabItems: ['القادمة', 'المكتملة', 'الملغاة'],
-            selectedTab: _selectedTab,
-            onTabChanged: _onTabChanged,
+          // TabBar with animation
+          AnimatedEntrance(
+            delay: const Duration(milliseconds: 200),
+            animationType: AnimationType.fadeSlideUp,
+            child: TapBar(
+              tabItems: ['القادمة', 'المكتملة', 'الملغاة'],
+              selectedTab: _selectedTab,
+              onTabChanged: _onTabChanged,
+            ),
           ),
           const SizedBox(height: 16),
           Expanded(
@@ -76,29 +87,33 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
                     state.bookings,
                   );
 
-                  return PageView(
-                    controller: _pageController,
-                    onPageChanged: _onPageSwiped,
-                    children: [
-                      BookingCardsListView(
-                        bookings:
-                            groupedBookings[AppointmentStatus.upcoming] ??
-                            const <Booking>[],
-                        status: AppointmentStatus.upcoming,
-                      ),
-                      BookingCardsListView(
-                        bookings:
-                            groupedBookings[AppointmentStatus.completed] ??
-                            const <Booking>[],
-                        status: AppointmentStatus.completed,
-                      ),
-                      BookingCardsListView(
-                        bookings:
-                            groupedBookings[AppointmentStatus.cancelled] ??
-                            const <Booking>[],
-                        status: AppointmentStatus.cancelled,
-                      ),
-                    ],
+                  return AnimatedEntrance(
+                    delay: const Duration(milliseconds: 300),
+                    animationType: AnimationType.fade,
+                    child: PageView(
+                      controller: _pageController,
+                      onPageChanged: _onPageSwiped,
+                      children: [
+                        BookingCardsListView(
+                          bookings:
+                              groupedBookings[AppointmentStatus.upcoming] ??
+                              const <Booking>[],
+                          status: AppointmentStatus.upcoming,
+                        ),
+                        BookingCardsListView(
+                          bookings:
+                              groupedBookings[AppointmentStatus.completed] ??
+                              const <Booking>[],
+                          status: AppointmentStatus.completed,
+                        ),
+                        BookingCardsListView(
+                          bookings:
+                              groupedBookings[AppointmentStatus.cancelled] ??
+                              const <Booking>[],
+                          status: AppointmentStatus.cancelled,
+                        ),
+                      ],
+                    ),
                   );
                 }
 

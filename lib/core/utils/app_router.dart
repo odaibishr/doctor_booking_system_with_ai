@@ -23,6 +23,7 @@ import 'package:doctor_booking_system_with_ai/features/splash/presentation/splas
 import 'package:doctor_booking_system_with_ai/features/home/presentation/top_doctors_view.dart';
 import 'package:doctor_booking_system_with_ai/features/map/doctor_map_view.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/page_transitions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -57,115 +58,202 @@ class AppRouter {
   static GoRouter router = GoRouter(
     navigatorKey: navigatorKey,
     routes: [
+      // Splash - no transition needed
       GoRoute(
         path: splashRoute,
         builder: (context, state) => const SplashView(),
       ),
+      // Home View - fade transition
       GoRoute(
         path: homeViewRoute,
-        builder: (context, state) => const HomeView(),
+        pageBuilder: (context, state) => PageTransitionBuilder.fade(
+          child: const HomeView(),
+          name: homeViewRoute,
+        ),
       ),
+      // App Navigation - fade transition
       GoRoute(
         path: appNavigationRoute,
-        builder: (context, state) =>
-            AppNavigation(initialIndex: (state.extra as int?) ?? 0),
+        pageBuilder: (context, state) => PageTransitionBuilder.fade(
+          child: AppNavigation(initialIndex: (state.extra as int?) ?? 0),
+          name: appNavigationRoute,
+        ),
       ),
+      // Search View - slide up transition
       GoRoute(
         path: searchViewRoute,
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final idStr = state.uri.queryParameters["id"];
           final specialtyId = int.tryParse(idStr ?? "");
-
-          return SearchView(specialtyQuery: specialtyId);
-        },
-      ),
-      GoRoute(
-        path: bookingHistoryViewRoute,
-        builder: (context, state) => const BookingHistoryView(),
-      ),
-      GoRoute(
-        path: profileViewRoute,
-        builder: (context, state) => const ProfileView(),
-      ),
-      GoRoute(
-        path: detailsViewRoute,
-        builder: (context, state) => DetailsView(doctorId: state.extra as int),
-      ),
-      GoRoute(
-        path: onboardingViewRoute,
-        builder: (context, state) => const OnBoardingView(),
-      ),
-      GoRoute(
-        path: hospitalDetailsViewRoute,
-        builder: (context, state) =>
-            HospitalDetailsView(hospitalId: state.extra as int),
-      ),
-      GoRoute(
-        path: signInViewRoute,
-        builder: (context, state) => const SignInView(),
-      ),
-      GoRoute(
-        path: signupViewRoute,
-        builder: (context, state) => const SignUpView(),
-      ),
-      GoRoute(
-        path: createprofileViewRout,
-        builder: (context, state) => const CreateProfileView(),
-      ),
-      GoRoute(
-        path: emailinputViewRoute,
-        builder: (context, state) => const EmailInputView(),
-      ),
-      GoRoute(
-        path: verifyCodeViewRoute,
-        builder: (context, state) => const VerifyCodeView(),
-      ),
-      GoRoute(
-        path: createNewPasswordViewRoute,
-        builder: (context, state) => const CreateNewPasswordView(),
-      ),
-      GoRoute(
-        path: appointmentViewRoute,
-        builder: (context, state) =>
-            AppointmentView(doctor: state.extra as Doctor),
-      ),
-      GoRoute(path: aichatViewRoute, builder: (context, state) => AiChatView()),
-      GoRoute(
-        path: categoryViewRoute,
-        builder: (context, state) => const CategoryView(),
-      ),
-      GoRoute(
-        path: paymentViewRoute,
-        builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>;
-          return PaymentView(
-            doctor: extra['doctor'] as Doctor,
-            date: extra['date'] as DateTime,
-            time: extra['time'] as String,
-            doctorScheduleId: extra['scheduleId'] as int?,
+          return PageTransitionBuilder.slideUp(
+            child: SearchView(specialtyQuery: specialtyId),
+            name: searchViewRoute,
           );
         },
       ),
+      // Booking History - shared axis transition
+      GoRoute(
+        path: bookingHistoryViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const BookingHistoryView(),
+          name: bookingHistoryViewRoute,
+        ),
+      ),
+      // Profile View - shared axis transition
+      GoRoute(
+        path: profileViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const ProfileView(),
+          name: profileViewRoute,
+        ),
+      ),
+      // Details View - scale with fade for important content
+      GoRoute(
+        path: detailsViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.scaleWithFade(
+          child: DetailsView(doctorId: state.extra as int),
+          name: detailsViewRoute,
+        ),
+      ),
+      // Onboarding - fade transition
+      GoRoute(
+        path: onboardingViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.fade(
+          child: const OnBoardingView(),
+          name: onboardingViewRoute,
+        ),
+      ),
+      // Hospital Details - scale with fade
+      GoRoute(
+        path: hospitalDetailsViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.scaleWithFade(
+          child: HospitalDetailsView(hospitalId: state.extra as int),
+          name: hospitalDetailsViewRoute,
+        ),
+      ),
+      // Auth Views - fade transition for auth flow
+      GoRoute(
+        path: signInViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.fade(
+          child: const SignInView(),
+          name: signInViewRoute,
+        ),
+      ),
+      GoRoute(
+        path: signupViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.fade(
+          child: const SignUpView(),
+          name: signupViewRoute,
+        ),
+      ),
+      GoRoute(
+        path: createprofileViewRout,
+        pageBuilder: (context, state) => PageTransitionBuilder.fade(
+          child: const CreateProfileView(),
+          name: createprofileViewRout,
+        ),
+      ),
+      // Forget Password Flow - fade through for sequential steps
+      GoRoute(
+        path: emailinputViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.fadeThrough(
+          child: const EmailInputView(),
+          name: emailinputViewRoute,
+        ),
+      ),
+      GoRoute(
+        path: verifyCodeViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.fadeThrough(
+          child: const VerifyCodeView(),
+          name: verifyCodeViewRoute,
+        ),
+      ),
+      GoRoute(
+        path: createNewPasswordViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.fadeThrough(
+          child: const CreateNewPasswordView(),
+          name: createNewPasswordViewRoute,
+        ),
+      ),
+      // Appointment - slide up for modal-like behavior
+      GoRoute(
+        path: appointmentViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.slideUp(
+          child: AppointmentView(doctor: state.extra as Doctor),
+          name: appointmentViewRoute,
+        ),
+      ),
+      // AI Chat - scale with fade
+      GoRoute(
+        path: aichatViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.scaleWithFade(
+          child: AiChatView(),
+          name: aichatViewRoute,
+        ),
+      ),
+      // Category View - shared axis
+      GoRoute(
+        path: categoryViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const CategoryView(),
+          name: categoryViewRoute,
+        ),
+      ),
+      // Payment - slide up for important action
+      GoRoute(
+        path: paymentViewRoute,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return PageTransitionBuilder.slideUp(
+            child: PaymentView(
+              doctor: extra['doctor'] as Doctor,
+              date: extra['date'] as DateTime,
+              time: extra['time'] as String,
+              doctorScheduleId: extra['scheduleId'] as int?,
+            ),
+            name: paymentViewRoute,
+          );
+        },
+      ),
+      // Favorite Doctor - shared axis
       GoRoute(
         path: favoritedoctorViewRoute,
-        builder: (context, state) => const FavoratieDoctorView(),
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const FavoratieDoctorView(),
+          name: favoritedoctorViewRoute,
+        ),
       ),
+      // Add Card - slide up for form
       GoRoute(
         path: addcardViewRoute,
-        builder: (context, state) => const AddCardView(),
+        pageBuilder: (context, state) => PageTransitionBuilder.slideUp(
+          child: const AddCardView(),
+          name: addcardViewRoute,
+        ),
       ),
+      // Notification - fade transition
       GoRoute(
         path: notificationViewRoute,
-        builder: (context, state) => NotificationView(),
+        pageBuilder: (context, state) => PageTransitionBuilder.fade(
+          child: NotificationView(),
+          name: notificationViewRoute,
+        ),
       ),
+      // Top Doctors - shared axis
       GoRoute(
         path: topDoctorsViewRoute,
-        builder: (context, state) => const TopDoctorsView(),
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const TopDoctorsView(),
+          name: topDoctorsViewRoute,
+        ),
       ),
+      // Doctor Map - scale with fade
       GoRoute(
         path: doctorMapViewRoute,
-        builder: (context, state) =>
-            DoctorMapPage(initialDoctor: state.extra as Doctor?),
+        pageBuilder: (context, state) => PageTransitionBuilder.scaleWithFade(
+          child: DoctorMapPage(initialDoctor: state.extra as Doctor?),
+          name: doctorMapViewRoute,
+        ),
       ),
     ],
     initialLocation: splashRoute,

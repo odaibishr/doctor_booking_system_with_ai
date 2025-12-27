@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/tap_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/manager/hospital_detailes/hospital_detailes_cubit.dart';
@@ -112,13 +113,23 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        HospitalHeaderSection(
-                          hospitalName: hospital.name,
-                          hospitalLocation: hospital.address,
-                          hospitalImage: hospital.image,
+                        // Hospital Header with animation
+                        AnimatedEntrance(
+                          delay: const Duration(milliseconds: 100),
+                          animationType: AnimationType.fadeScale,
+                          child: HospitalHeaderSection(
+                            hospitalName: hospital.name,
+                            hospitalLocation: hospital.address,
+                            hospitalImage: hospital.image,
+                          ),
                         ),
                         const SizedBox(height: 20),
-                        const HospitalStatsSection(),
+                        // Stats Section with animation
+                        AnimatedEntrance(
+                          delay: const Duration(milliseconds: 200),
+                          animationType: AnimationType.fadeSlideUp,
+                          child: const HospitalStatsSection(),
+                        ),
                         const SizedBox(height: 24),
                       ],
                     ),
@@ -133,35 +144,44 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
                     ),
                     child: Column(
                       children: [
-                        TapBar(
-                          tabItems: const ['عنا', 'المتخصصون', 'التقييمات'],
-                          selectedTab: _selectedTab,
-                          onTabChanged: (index) {
-                            setState(() => _selectedTab = index);
-                            _pageController.animateToPage(
-                              index,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                            );
-                          },
+                        // TabBar with animation
+                        AnimatedEntrance(
+                          delay: const Duration(milliseconds: 300),
+                          animationType: AnimationType.fadeSlideUp,
+                          child: TapBar(
+                            tabItems: const ['عنا', 'المتخصصون', 'التقييمات'],
+                            selectedTab: _selectedTab,
+                            onTabChanged: (index) {
+                              setState(() => _selectedTab = index);
+                              _pageController.animateToPage(
+                                index,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                          ),
                         ),
                         const SizedBox(height: 16),
                         Expanded(
-                          child: PageView(
-                            controller: _pageController,
-                            onPageChanged: (index) {
-                              setState(() => _selectedTab = index);
-                            },
-                            children: [
-                              HospitalDetailsAboutTab(
-                                doctors: hospital.doctors!,
-                                reviews: _reviews,
-                              ),
-                              HospitalDetailsDoctorsTab(
-                                doctors: hospital.doctors!,
-                              ),
-                              // HospitalDetailsReviewsTab(reviews: _reviews),
-                            ],
+                          child: AnimatedEntrance(
+                            delay: const Duration(milliseconds: 400),
+                            animationType: AnimationType.fade,
+                            child: PageView(
+                              controller: _pageController,
+                              onPageChanged: (index) {
+                                setState(() => _selectedTab = index);
+                              },
+                              children: [
+                                HospitalDetailsAboutTab(
+                                  doctors: hospital.doctors!,
+                                  reviews: _reviews,
+                                ),
+                                HospitalDetailsDoctorsTab(
+                                  doctors: hospital.doctors!,
+                                ),
+                                // HospitalDetailsReviewsTab(reviews: _reviews),
+                              ],
+                            ),
                           ),
                         ),
                       ],

@@ -1,6 +1,7 @@
 ﻿import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/section_header.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor_details/doctor_details_cubit.dart';
@@ -62,46 +63,85 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                 ),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
-                    DoctorHeaderSection(
-                      doctorName: 'د. ${doctor!.name}',
-                      doctorSpecializatioin: doctor!.specialty.name,
-                      doctorLocation: doctor!.location.name,
-                      doctorImage:
-                          '${EndPoints.photoUrl}/${doctor!.profileImage}',
+                    // Doctor Header with scale animation
+                    AnimatedEntrance(
+                      delay: const Duration(milliseconds: 100),
+                      animationType: AnimationType.fadeScale,
+                      child: DoctorHeaderSection(
+                        doctorName: 'د. ${doctor!.name}',
+                        doctorSpecializatioin: doctor!.specialty.name,
+                        doctorLocation: doctor!.location.name,
+                        doctorImage:
+                            '${EndPoints.photoUrl}/${doctor!.profileImage}',
+                      ),
                     ),
 
                     const SizedBox(height: 16),
-                    DoctorStatsSection(doctor: doctor!),
+
+                    // Stats Section
+                    AnimatedEntrance(
+                      delay: const Duration(milliseconds: 200),
+                      animationType: AnimationType.fadeSlideUp,
+                      child: DoctorStatsSection(doctor: doctor!),
+                    ),
                     const SizedBox(height: 22),
 
-                    Text(
-                      'نبذة عن الطبيب',
-                      style: FontStyles.subTitle2.copyWith(
-                        fontWeight: FontWeight.bold,
+                    // About Section Title
+                    AnimatedEntrance(
+                      delay: const Duration(milliseconds: 300),
+                      animationType: AnimationType.fadeSlideUp,
+                      child: Text(
+                        'نبذة عن الطبيب',
+                        style: FontStyles.subTitle2.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 5),
 
-                    Text(
-                      doctor!.aboutus,
-                      style: FontStyles.body2.copyWith(
-                        color: AppColors.gray500,
+                    // About Section Content
+                    AnimatedEntrance(
+                      delay: const Duration(milliseconds: 350),
+                      animationType: AnimationType.fade,
+                      child: Text(
+                        doctor!.aboutus,
+                        style: FontStyles.body2.copyWith(
+                          color: AppColors.gray500,
+                        ),
                       ),
                     ),
 
                     const SizedBox(height: 16),
 
-                    DoctorServicesSection(
-                      doctorServices: doctor!.services
-                          .replaceAll('\n', '')
-                          .split('.'),
+                    // Services Section
+                    AnimatedEntrance(
+                      delay: const Duration(milliseconds: 400),
+                      animationType: AnimationType.fadeSlideUp,
+                      child: DoctorServicesSection(
+                        doctorServices: doctor!.services
+                            .replaceAll('\n', '')
+                            .split('.'),
+                      ),
                     ),
 
                     const SizedBox(height: 3),
-                    SectionHeader(title: 'تقييمات المرضى', onTap: () {}),
+
+                    // Reviews Section
+                    AnimatedEntrance(
+                      delay: const Duration(milliseconds: 500),
+                      animationType: AnimationType.fadeSlideUp,
+                      child: SectionHeader(
+                        title: 'تقييمات المرضى',
+                        onTap: () {},
+                      ),
+                    ),
                     const SizedBox(height: 2),
 
-                    PatientReviewSlider(doctorId: widget.doctorId),
+                    AnimatedEntrance(
+                      delay: const Duration(milliseconds: 550),
+                      animationType: AnimationType.fadeSlideRight,
+                      child: PatientReviewSlider(doctorId: widget.doctorId),
+                    ),
                     const SizedBox(height: 16),
                   ]),
                 ),
