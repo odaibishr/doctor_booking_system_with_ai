@@ -22,9 +22,9 @@ class PatientReview extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColors.gray100,
+        color: context.gray100Color,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.gray300),
+        border: Border.all(color: context.gray300Color),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +45,7 @@ class PatientReview extends StatelessWidget {
                         name,
                         style: FontStyles.body2.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.black,
+                          color: context.blackColor,
                         ),
                       ),
                     ),
@@ -55,7 +55,7 @@ class PatientReview extends StatelessWidget {
                         Center(
                           child: Icon(
                             Icons.star,
-                            color: AppColors.yellow,
+                            color: context.yellowColor,
                             size: 15,
                           ),
                         ),
@@ -66,7 +66,7 @@ class PatientReview extends StatelessWidget {
                             rating.toString(),
                             style: FontStyles.body2.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: AppColors.black,
+                              color: context.blackColor,
                             ),
                             textAlign: TextAlign.start,
                           ),
@@ -78,7 +78,7 @@ class PatientReview extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   review ?? '',
-                  style: FontStyles.body3.copyWith(color: AppColors.gray600),
+                  style: FontStyles.body3.copyWith(color: context.gray600Color),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
