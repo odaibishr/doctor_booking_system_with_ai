@@ -45,9 +45,7 @@ class CategoryCard extends StatelessWidget {
                   )
                 : BoxShadow(),
           ],
-          color: color
-              ? AppColors.getCard(context)
-              : AppColors.getGray200(context),
+          color: context.cardColor,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -57,7 +55,7 @@ class CategoryCard extends StatelessWidget {
             if (trimmedIcon.isEmpty)
               Icon(
                 Icons.medical_services_outlined,
-                color: AppColors.getPrimary(context),
+                color: context.primaryColor,
                 size: 28,
               )
             else
@@ -66,6 +64,8 @@ class CategoryCard extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 width: 28,
                 height: 28,
+                color: context.primaryColor,
+
                 placeholderBuilder: (context) => const SizedBox(
                   width: 28,
                   height: 28,
