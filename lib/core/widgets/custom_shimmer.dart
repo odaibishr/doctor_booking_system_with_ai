@@ -66,10 +66,10 @@ class _CustomShimmerState extends State<CustomShimmer>
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
-              colors: const [
-                AppColors.gray200,
-                AppColors.gray100,
-                AppColors.gray200,
+              colors: [
+                context.gray200Color,
+                context.gray100Color,
+                context.gray200Color,
               ],
               stops: [
                 _animation.value - 0.3,

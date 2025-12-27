@@ -13,7 +13,7 @@ class SearchDoctorSkelton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       margin: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        color: AppColors.gray100,
+        color: context.gray100Color,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(

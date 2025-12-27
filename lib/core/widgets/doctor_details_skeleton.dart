@@ -89,7 +89,7 @@ class DoctorDetailsSkeleton extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: AppColors.gray100,
+              color: context.gray100Color,
             ),
             child: Column(
               children: [

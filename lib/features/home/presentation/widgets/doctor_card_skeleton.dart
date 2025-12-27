@@ -12,9 +12,9 @@ class DoctorCardSkeleton extends StatelessWidget {
       height: 205,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColors.white, // Or gray100 base if mimics card
+        color: context.cardBackgroundColor, // Or gray100 base if mimics card
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.gray200),
+        border: Border.all(color: context.gray200Color),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
