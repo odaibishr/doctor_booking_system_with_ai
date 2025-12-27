@@ -104,7 +104,7 @@ class _ReviewDialogState extends State<ReviewDialog> {
                     ),
                   ],
                 ),
-                const Divider(color: AppColors.gray300),
+                Divider(color: context.gray300Color),
                 const SizedBox(height: 10),
                 Align(
                   alignment: Alignment.centerRight,
@@ -121,7 +121,7 @@ class _ReviewDialogState extends State<ReviewDialog> {
                       Text(
                         'اضغط على النجوم لتحديد التقييم',
                         style: FontStyles.body2.copyWith(
-                          color: AppColors.gray500,
+                          color: context.gray500Color,
                         ),
                       ),
                     ],
@@ -133,23 +133,23 @@ class _ReviewDialogState extends State<ReviewDialog> {
                 TextField(
                   controller: _commentController,
                   maxLines: 3,
-                  cursorColor: AppColors.gray500,
+                  cursorColor: context.gray500Color,
                   decoration: InputDecoration(
                     hintText: 'اكتب مراجعتك هنا...',
                     hintTextDirection: TextDirection.rtl,
                     filled: true,
-                    fillColor: AppColors.gray100,
+                    fillColor: context.gray100Color,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: AppColors.gray200),
+                      borderSide: BorderSide(color: context.gray200Color),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: AppColors.gray200),
+                      borderSide: BorderSide(color: context.gray200Color),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: AppColors.primary),
+                      borderSide: BorderSide(color: context.primaryColor),
                     ),
                     contentPadding: const EdgeInsets.all(12),
                   ),
@@ -162,8 +162,8 @@ class _ReviewDialogState extends State<ReviewDialog> {
                       text: isSubmitting ? 'جاري الإرسال...' : 'إرسال',
                       onTap: isSubmitting ? () {} : () => _submit(context),
                       color: isSubmitting
-                          ? AppColors.gray300
-                          : AppColors.primary,
+                          ? context.gray300Color
+                          : context.primaryColor,
                     );
                   },
                 ),
@@ -204,7 +204,7 @@ class _StarRating extends StatelessWidget {
               height: 30,
               width: 30,
               colorFilter: ColorFilter.mode(
-                isFilled ? AppColors.yellow : AppColors.gray300,
+                isFilled ? context.yellowColor : context.gray300Color,
                 BlendMode.srcIn,
               ),
             ),

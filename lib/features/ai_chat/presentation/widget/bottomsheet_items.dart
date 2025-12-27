@@ -22,7 +22,7 @@ class BottomSheetItems extends StatelessWidget {
         height: 100,
         width: 110,
         decoration: BoxDecoration(
-          color: AppColors.primary,
+          color: context.primaryColor,
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Padding(
@@ -33,7 +33,7 @@ class BottomSheetItems extends StatelessWidget {
               SizedBox(height: 15),
               Text(
                 title,
-                style: FontStyles.subTitle3.copyWith(color: AppColors.gray100),
+                style: FontStyles.subTitle3.copyWith(color: context.blackColor),
               ),
             ],
           ),

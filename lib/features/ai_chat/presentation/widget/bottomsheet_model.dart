@@ -73,4 +73,3 @@ class BottomSheetModel extends StatelessWidget {
     );
   }
 }
-
