@@ -86,25 +86,29 @@ class DayItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
             color: isDisabled
-                ? AppColors.gray400
+                ? AppColors.getGray400(context)
                 : isSelected
-                ? AppColors.primary
-                : AppColors.gray200,
+                ? AppColors.getPrimary(context)
+                : AppColors.getGray200(context),
             borderRadius: BorderRadius.circular(14),
             border: isToday && !isSelected
-                ? Border.all(color: AppColors.primary, width: 2)
+                ? Border.all(color: AppColors.getPrimary(context), width: 2)
                 : null,
             boxShadow: isSelected
                 ? [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.25),
+                      color: AppColors.getPrimary(
+                        context,
+                      ).withValues(alpha: 0.25),
                       blurRadius: 6,
                       offset: const Offset(0, 3),
                     ),
                   ]
                 : [
                     BoxShadow(
-                      color: AppColors.gray300.withValues(alpha: 0.15),
+                      color: AppColors.getGray300(
+                        context,
+                      ).withValues(alpha: 0.15),
                       blurRadius: 4,
                       offset: const Offset(0, 2),
                     ),
@@ -117,10 +121,10 @@ class DayItem extends StatelessWidget {
                 DateFormat.E('ar').format(date),
                 style: FontStyles.subTitle3.copyWith(
                   color: isDisabled
-                      ? AppColors.gray500
+                      ? AppColors.getGray500(context)
                       : isSelected
                       ? AppColors.white
-                      : AppColors.primary,
+                      : AppColors.getPrimary(context),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -130,10 +134,10 @@ class DayItem extends StatelessWidget {
                 style: FontStyles.headLine4.copyWith(
                   fontSize: 18,
                   color: isDisabled
-                      ? AppColors.gray500
+                      ? AppColors.getGray500(context)
                       : isSelected
                       ? AppColors.white
-                      : AppColors.black,
+                      : AppColors.getTextPrimary(context),
                   fontWeight: FontWeight.bold,
                 ),
               ),

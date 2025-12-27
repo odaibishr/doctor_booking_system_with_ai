@@ -20,6 +20,7 @@ class VerticalDoctorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // استخدام helper methods بدلاً من isDark في كل مكان
     return GestureDetector(
       onTap: () {
         GoRouter.of(
@@ -31,7 +32,7 @@ class VerticalDoctorCard extends StatelessWidget {
         height: height,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
-          color: AppColors.gray100,
+          color: AppColors.getGray100(context), // استخدام helper method
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -42,9 +43,9 @@ class VerticalDoctorCard extends StatelessWidget {
               height: 90,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
-                color: AppColors.gray400,
+                color: AppColors.getGray400(context), // استخدام helper method
               ),
-              child: _buildDoctorImage(),
+              child: _buildDoctorImage(context),
             ),
 
             const SizedBox(height: 12),
@@ -56,20 +57,25 @@ class VerticalDoctorCard extends StatelessWidget {
                   'د. ${topDoctor.name}',
                   style: FontStyles.subTitle3.copyWith(
                     fontWeight: FontWeight.bold,
+                    color: AppColors.getTextPrimary(
+                      context,
+                    ), // استخدام helper method
                   ),
                 ),
                 topDoctor.isFavorite == 1
-                    ? Icon(Icons.favorite, color: AppColors.error)
+                    ? Icon(Icons.favorite, color: AppColors.getError(context))
                     : Icon(
                         Icons.favorite_border_outlined,
-                        color: AppColors.gray500,
+                        color: AppColors.getGray500(context),
                       ),
               ],
             ),
             const SizedBox(height: 3),
             Text(
               topDoctor.specialty.name,
-              style: FontStyles.body2.copyWith(color: AppColors.gray500),
+              style: FontStyles.body2.copyWith(
+                color: AppColors.getGray500(context), // استخدام helper method
+              ),
             ),
             const SizedBox(height: 9),
             Row(
@@ -81,22 +87,27 @@ class VerticalDoctorCard extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.star,
-                      color: const Color.fromARGB(255, 219, 206, 86),
+                      color: AppColors.getYellow(
+                        context,
+                      ), // استخدام helper method
                       size: 20,
                     ),
                     const SizedBox(width: 2),
                     Text(
                       '4.5',
                       style: FontStyles.body2.copyWith(
-                        color: AppColors.gray500,
+                        color: AppColors.getGray500(context),
                       ),
                     ),
                   ],
                 ),
-                // PriceLableWithIcon(price: 5000),
                 Text(
                   '${topDoctor.price} ريال',
-                  style: FontStyles.body2.copyWith(color: AppColors.gray600),
+                  style: FontStyles.body2.copyWith(
+                    color: AppColors.getGray600(
+                      context,
+                    ), // استخدام helper method
+                  ),
                 ),
               ],
             ),
@@ -106,17 +117,17 @@ class VerticalDoctorCard extends StatelessWidget {
     );
   }
 
-  Widget _buildDoctorImage() {
+  Widget _buildDoctorImage(BuildContext context) {
     final image = topDoctor.profileImage.trim();
     if (image.isEmpty || image.toLowerCase() == 'null') {
-      return const Icon(Icons.person, color: AppColors.primary);
+      return Icon(Icons.person, color: AppColors.getPrimary(context));
     }
 
     return CachedNetworkImage(
       imageUrl: '${EndPoints.photoUrl}/$image',
       fit: BoxFit.contain,
       errorWidget: (context, url, error) =>
-          const Icon(Icons.person, color: AppColors.primary),
+          Icon(Icons.person, color: AppColors.getPrimary(context)),
     );
   }
 }

@@ -17,17 +17,6 @@ class DoctorCardHorizontail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = isDark ? AppColors.cardDark : AppColors.gray100;
-    final textColor = isDark ? AppColors.textPrimaryDark : AppColors.black;
-    final secondaryTextColor = isDark
-        ? AppColors.textSecondaryDark
-        : AppColors.gray500;
-    final primaryColor = isDark ? AppColors.primaryDark : AppColors.primary;
-    final imageBackgroundColor = isDark
-        ? AppColors.gray400Dark
-        : AppColors.gray400;
-
     return GestureDetector(
       onTap: () {
         GoRouter.of(context).push(AppRouter.detailsViewRoute, extra: doctor.id);
@@ -38,7 +27,7 @@ class DoctorCardHorizontail extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
-          color: cardColor,
+          color: AppColors.getGray100(context),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -50,10 +39,10 @@ class DoctorCardHorizontail extends StatelessWidget {
                     width: 70,
                     height: double.infinity,
                     decoration: BoxDecoration(
-                      color: imageBackgroundColor,
+                      color: AppColors.getGray400(context),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: _buildDoctorImage(primaryColor),
+                    child: _buildDoctorImage(context),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -85,7 +74,7 @@ class DoctorCardHorizontail extends StatelessWidget {
                                 'د. ${doctor.name}',
                                 style: FontStyles.subTitle3.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: textColor,
+                                  color: AppColors.getTextPrimary(context),
                                 ),
                               ),
                               SvgPicture.asset(
@@ -101,14 +90,14 @@ class DoctorCardHorizontail extends StatelessWidget {
                             'د. ${doctor.name}',
                             style: FontStyles.subTitle3.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: textColor,
+                              color: AppColors.getTextPrimary(context),
                             ),
                           ),
                         const SizedBox(height: 7),
                         Text(
                           doctor.specialty.name,
                           style: FontStyles.body2.copyWith(
-                            color: secondaryTextColor,
+                            color: AppColors.getGray500(context),
                           ),
                         ),
                         const SizedBox(height: 7),
@@ -121,7 +110,7 @@ class DoctorCardHorizontail extends StatelessWidget {
                                 '${doctor.price} ريال',
                                 style: FontStyles.body2.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: textColor,
+                                  color: AppColors.getTextPrimary(context),
                                 ),
                               ),
                             ],
@@ -149,17 +138,17 @@ class DoctorCardHorizontail extends StatelessWidget {
     );
   }
 
-  Widget _buildDoctorImage(Color primaryColor) {
+  Widget _buildDoctorImage(BuildContext context) {
     final image = doctor.profileImage.trim();
     if (image.isEmpty || image.toLowerCase() == 'null') {
-      return Icon(Icons.person, color: primaryColor);
+      return Icon(Icons.person, color: AppColors.getPrimary(context));
     }
 
     return CachedNetworkImage(
       imageUrl: '${EndPoints.photoUrl}/$image',
       fit: BoxFit.fill,
       errorWidget: (context, url, error) =>
-          Icon(Icons.person, color: primaryColor),
+          Icon(Icons.person, color: AppColors.getPrimary(context)),
     );
   }
 }

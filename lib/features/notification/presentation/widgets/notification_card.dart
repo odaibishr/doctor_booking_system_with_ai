@@ -24,9 +24,9 @@ class MedicalNotificationCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.gray100,
+        color: AppColors.getGray100(context),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.gray300),
+        border: Border.all(color: AppColors.getGray300(context)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,14 +35,14 @@ class MedicalNotificationCard extends StatelessWidget {
             children: [
               Icon(
                 Icons.notifications_active,
-                color: AppColors.primary,
+                color: AppColors.getPrimary(context),
                 size: 22,
               ),
               const SizedBox(width: 10),
               Text(
                 title,
                 style: FontStyles.subTitle1.copyWith(
-                  color: AppColors.black,
+                  color: AppColors.getTextPrimary(context),
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -50,7 +50,7 @@ class MedicalNotificationCard extends StatelessWidget {
               Text(
                 amount,
                 style: FontStyles.subTitle2.copyWith(
-                  color: AppColors.success,
+                  color: AppColors.getSuccess(context),
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -62,7 +62,7 @@ class MedicalNotificationCard extends StatelessWidget {
           Text(
             description,
             style: FontStyles.body1.copyWith(
-              color: AppColors.gray600,
+              color: AppColors.getGray600(context),
               height: 1.4,
             ),
           ),
@@ -72,7 +72,7 @@ class MedicalNotificationCard extends StatelessWidget {
           Text(
             number,
             style: FontStyles.body2.copyWith(
-              color: AppColors.black,
+              color: AppColors.getTextPrimary(context),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -88,7 +88,7 @@ class MedicalNotificationCard extends StatelessWidget {
                   width: 30,
                   height: 30,
                   colorFilter: ColorFilter.mode(
-                    AppColors.primary,
+                    AppColors.getPrimary(context),
                     BlendMode.srcIn,
                   ),
 
@@ -98,7 +98,9 @@ class MedicalNotificationCard extends StatelessWidget {
               const SizedBox(width: 6),
               Text(
                 date,
-                style: FontStyles.body2.copyWith(color: AppColors.primary),
+                style: FontStyles.body2.copyWith(
+                  color: AppColors.getPrimary(context),
+                ),
               ),
             ],
           ),

@@ -9,6 +9,10 @@ import 'package:flutter/material.dart';
 /// - Gray Colors (gray100-gray600)
 /// - Accent Colors (yellow)
 /// - Dark Theme specific colors
+///
+/// Usage:
+/// 1. Static methods: AppColors.getPrimary(context)
+/// 2. Extension (recommended): context.primaryColor
 class AppColors {
   // ============================================================
   // LIGHT THEME COLORS
@@ -38,7 +42,8 @@ class AppColors {
   // Yellow Color
   static const Color yellow = Color(0xFFFEB052);
 
-  static Color? get primaryColor => null;
+  // Legacy getter for backward compatibility
+  static Color? get primaryColor => primary;
 
   // ============================================================
   // DARK THEME COLORS
@@ -78,60 +83,137 @@ class AppColors {
   static const Color dividerDark = Color(0xFF2E2E3A);
 
   // ============================================================
-  // HELPER METHODS FOR THEME-AWARE COLORS
+  // STATIC HELPER METHODS (للتوافق مع الكود القديم)
   // ============================================================
 
-  /// Returns the appropriate gray100 color based on brightness
-  static Color getGray100(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
-        ? gray100Dark
-        : gray100;
+  /// Check if current theme is dark
+  static bool isDark(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark;
   }
 
-  /// Returns the appropriate gray200 color based on brightness
-  static Color getGray200(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
-        ? gray200Dark
-        : gray200;
-  }
+  static Color getPrimary(BuildContext context) =>
+      isDark(context) ? primaryDark : primary;
 
-  /// Returns the appropriate gray400 color based on brightness
-  static Color getGray400(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
-        ? gray400Dark
-        : gray400;
-  }
+  static Color getSecondary(BuildContext context) =>
+      isDark(context) ? secondaryDark : secondary;
 
-  /// Returns the appropriate surface color based on brightness
-  static Color getSurface(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
-        ? surfaceDark
-        : white;
-  }
+  static Color getScaffoldBackground(BuildContext context) =>
+      isDark(context) ? scaffoldBackgroundDark : white;
 
-  /// Returns the appropriate card color based on brightness
-  static Color getCard(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark ? cardDark : white;
-  }
+  static Color getSurface(BuildContext context) =>
+      isDark(context) ? surfaceDark : white;
 
-  /// Returns the appropriate primary color based on brightness
-  static Color getPrimary(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
-        ? primaryDark
-        : primary;
-  }
+  static Color getCard(BuildContext context) =>
+      isDark(context) ? cardDark : white;
 
-  /// Returns the appropriate text color based on brightness
-  static Color getTextPrimary(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
-        ? textPrimaryDark
-        : black;
-  }
+  static Color getCardBackground(BuildContext context) =>
+      isDark(context) ? gray100Dark : gray100;
 
-  /// Returns the appropriate secondary text color based on brightness
-  static Color getTextSecondary(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
-        ? textSecondaryDark
-        : gray600;
-  }
+  static Color getTextPrimary(BuildContext context) =>
+      isDark(context) ? textPrimaryDark : black;
+
+  static Color getTextSecondary(BuildContext context) =>
+      isDark(context) ? textSecondaryDark : gray600;
+
+  static Color getTextTertiary(BuildContext context) =>
+      isDark(context) ? textTertiaryDark : gray500;
+
+  static Color getGray100(BuildContext context) =>
+      isDark(context) ? gray100Dark : gray100;
+
+  static Color getGray200(BuildContext context) =>
+      isDark(context) ? gray200Dark : gray200;
+
+  static Color getGray300(BuildContext context) =>
+      isDark(context) ? gray300Dark : gray300;
+
+  static Color getGray400(BuildContext context) =>
+      isDark(context) ? gray400Dark : gray400;
+
+  static Color getGray500(BuildContext context) =>
+      isDark(context) ? gray500Dark : gray500;
+
+  static Color getGray600(BuildContext context) =>
+      isDark(context) ? gray600Dark : gray600;
+
+  static Color getError(BuildContext context) =>
+      isDark(context) ? errorDark : error;
+
+  static Color getSuccess(BuildContext context) =>
+      isDark(context) ? successDark : success;
+
+  static Color getSuccessLight(BuildContext context) =>
+      isDark(context) ? successLightDark : successLight;
+
+  static Color getYellow(BuildContext context) =>
+      isDark(context) ? yellowDark : yellow;
+
+  static Color getDivider(BuildContext context) =>
+      isDark(context) ? dividerDark : gray200;
+
+  static Color getShadow(BuildContext context) => isDark(context)
+      ? Colors.black.withAlpha(100)
+      : Colors.black.withAlpha(25);
+}
+
+// ============================================================
+// EXTENSION للحصول على الألوان كـ Properties (الطريقة الأنظف!)
+// ============================================================
+/// استخدام: context.primaryColor بدلاً من AppColors.getPrimary(context)
+extension ThemeColors on BuildContext {
+  // Helper
+  bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
+
+  // Primary & Secondary
+  Color get primaryColor =>
+      isDarkMode ? AppColors.primaryDark : AppColors.primary;
+  Color get secondaryColor =>
+      isDarkMode ? AppColors.secondaryDark : AppColors.secondary;
+
+  // Background Colors
+  Color get scaffoldBackgroundColor =>
+      isDarkMode ? AppColors.scaffoldBackgroundDark : AppColors.white;
+  Color get surfaceColor =>
+      isDarkMode ? AppColors.surfaceDark : AppColors.white;
+  Color get cardColor => isDarkMode ? AppColors.cardDark : AppColors.white;
+  Color get cardBackgroundColor =>
+      isDarkMode ? AppColors.gray100Dark : AppColors.gray100;
+
+  // Text Colors
+  Color get textPrimaryColor =>
+      isDarkMode ? AppColors.textPrimaryDark : AppColors.black;
+  Color get textSecondaryColor =>
+      isDarkMode ? AppColors.textSecondaryDark : AppColors.gray600;
+  Color get textTertiaryColor =>
+      isDarkMode ? AppColors.textTertiaryDark : AppColors.gray500;
+
+  // Gray Colors
+  Color get gray100Color =>
+      isDarkMode ? AppColors.gray100Dark : AppColors.gray100;
+  Color get gray200Color =>
+      isDarkMode ? AppColors.gray200Dark : AppColors.gray200;
+  Color get gray300Color =>
+      isDarkMode ? AppColors.gray300Dark : AppColors.gray300;
+  Color get gray400Color =>
+      isDarkMode ? AppColors.gray400Dark : AppColors.gray400;
+  Color get gray500Color =>
+      isDarkMode ? AppColors.gray500Dark : AppColors.gray500;
+  Color get gray600Color =>
+      isDarkMode ? AppColors.gray600Dark : AppColors.gray600;
+
+  // Status Colors
+  Color get errorColor => isDarkMode ? AppColors.errorDark : AppColors.error;
+  Color get successColor =>
+      isDarkMode ? AppColors.successDark : AppColors.success;
+  Color get successLightColor =>
+      isDarkMode ? AppColors.successLightDark : AppColors.successLight;
+
+  // Accent Colors
+  Color get yellowColor => isDarkMode ? AppColors.yellowDark : AppColors.yellow;
+
+  // Divider & Shadow
+  Color get dividerColor =>
+      isDarkMode ? AppColors.dividerDark : AppColors.gray200;
+  Color get shadowColor =>
+      isDarkMode ? Colors.black.withAlpha(100) : Colors.black.withAlpha(25);
 }

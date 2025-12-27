@@ -27,16 +27,6 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = isDark ? AppColors.primaryDark : AppColors.primary;
-    final cardColorActive = isDark ? AppColors.cardDark : AppColors.white;
-    final cardColorInactive = isDark
-        ? AppColors.gray200Dark
-        : AppColors.gray200;
-    final shadowColor = isDark
-        ? Colors.black.withAlpha(100)
-        : const Color.fromARGB(69, 1, 1, 1);
-
     final trimmedIcon = icon.trim();
     return GestureDetector(
       onTap: () =>
@@ -48,14 +38,16 @@ class CategoryCard extends StatelessWidget {
           boxShadow: [
             color
                 ? BoxShadow(
-                    color: shadowColor,
+                    color: AppColors.getShadow(context),
                     spreadRadius: 1,
                     blurRadius: 5,
                     offset: const Offset(3, 3),
                   )
                 : BoxShadow(),
           ],
-          color: color ? cardColorActive : cardColorInactive,
+          color: color
+              ? AppColors.getCard(context)
+              : AppColors.getGray200(context),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -65,7 +57,7 @@ class CategoryCard extends StatelessWidget {
             if (trimmedIcon.isEmpty)
               Icon(
                 Icons.medical_services_outlined,
-                color: primaryColor,
+                color: AppColors.getPrimary(context),
                 size: 28,
               )
             else
@@ -83,7 +75,12 @@ class CategoryCard extends StatelessWidget {
                 ),
               ),
             const SizedBox(height: 8),
-            Text(title, style: FontStyles.body2.copyWith(color: primaryColor)),
+            Text(
+              title,
+              style: FontStyles.body2.copyWith(
+                color: AppColors.getPrimary(context),
+              ),
+            ),
           ],
         ),
       ),

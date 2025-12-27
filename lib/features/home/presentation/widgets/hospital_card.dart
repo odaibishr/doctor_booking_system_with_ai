@@ -31,7 +31,7 @@ class HospitalCard extends StatelessWidget {
         height: height,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
-          color: AppColors.gray100,
+          color: AppColors.getGray100(context),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -42,27 +42,36 @@ class HospitalCard extends StatelessWidget {
               height: 90,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
-                color: AppColors.gray400,
+                color: AppColors.getGray400(context),
               ),
               clipBehavior: Clip.antiAlias,
-              child: _buildHospitalImage(),
+              child: _buildHospitalImage(context),
             ),
 
             const SizedBox(height: 12),
 
             Text(
               hospital.name,
-              style: FontStyles.body3.copyWith(fontWeight: FontWeight.bold),
+              style: FontStyles.body3.copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppColors.getTextPrimary(context),
+              ),
             ),
             const SizedBox(height: 6),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(Icons.location_on, color: AppColors.gray500, size: 10),
+                Icon(
+                  Icons.location_on,
+                  color: AppColors.getGray500(context),
+                  size: 10,
+                ),
                 const SizedBox(width: 2),
                 Text(
                   hospital.address,
-                  style: FontStyles.body4.copyWith(color: AppColors.gray500),
+                  style: FontStyles.body4.copyWith(
+                    color: AppColors.getGray500(context),
+                  ),
                 ),
               ],
             ),
@@ -76,14 +85,14 @@ class HospitalCard extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.star,
-                      color: const Color.fromARGB(255, 219, 206, 86),
+                      color: AppColors.getYellow(context),
                       size: 15,
                     ),
                     const SizedBox(width: 2),
                     Text(
                       '4.5',
                       style: FontStyles.body3.copyWith(
-                        color: AppColors.gray500,
+                        color: AppColors.getGray500(context),
                       ),
                     ),
                   ],
@@ -96,17 +105,17 @@ class HospitalCard extends StatelessWidget {
     );
   }
 
-  Widget _buildHospitalImage() {
+  Widget _buildHospitalImage(BuildContext context) {
     final image = hospital.image.trim();
     if (image.isEmpty || image.toLowerCase() == 'null') {
-      return const Icon(Icons.local_hospital, color: AppColors.primary);
+      return Icon(Icons.local_hospital, color: AppColors.getPrimary(context));
     }
 
     return CachedNetworkImage(
       imageUrl: '${EndPoints.photoUrl}/$image',
       fit: BoxFit.cover,
       errorWidget: (context, url, error) =>
-          const Icon(Icons.local_hospital, color: AppColors.primary),
+          Icon(Icons.local_hospital, color: AppColors.getPrimary(context)),
     );
   }
 }

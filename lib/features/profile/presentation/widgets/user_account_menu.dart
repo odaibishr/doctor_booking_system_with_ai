@@ -19,8 +19,6 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
       child: Padding(
@@ -44,14 +42,16 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+                    AppColors.isDark(context)
+                        ? Icons.dark_mode_rounded
+                        : Icons.light_mode_rounded,
                     size: 18,
-                    color: isDark ? AppColors.primaryDark : AppColors.primary,
+                    color: AppColors.getPrimary(context),
                   ),
                   const SizedBox(width: 8),
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: isDark ? AppColors.primaryDark : AppColors.primary,
+                    color: AppColors.getPrimary(context),
                     size: 15,
                   ),
                 ],
@@ -85,7 +85,7 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
                 vertical: _isSupportExpanded ? 10 : 0,
               ),
               decoration: BoxDecoration(
-                color: isDark ? AppColors.gray100Dark : AppColors.gray100,
+                color: AppColors.getGray100(context),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: ClipRect(

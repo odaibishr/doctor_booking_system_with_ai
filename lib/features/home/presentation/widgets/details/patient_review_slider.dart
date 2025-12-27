@@ -63,7 +63,7 @@ class _PatientReviewSliderState extends State<PatientReviewSlider> {
           return Center(
             child: Text(
               'لا توجد مراجعات حتى الآن',
-              style: FontStyles.body3.copyWith(color: AppColors.gray600),
+              style: FontStyles.body3.copyWith(color: context.gray600Color),
             ),
           );
         }

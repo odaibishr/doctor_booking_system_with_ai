@@ -24,10 +24,6 @@ class UserAccountMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = isDark ? AppColors.primaryDark : AppColors.primary;
-    final backgroundColor = isDark ? AppColors.gray100Dark : AppColors.gray100;
-
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -35,7 +31,7 @@ class UserAccountMenuItem extends StatelessWidget {
         height: 45,
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: AppColors.getGray100(context),
           borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
@@ -45,16 +41,25 @@ class UserAccountMenuItem extends StatelessWidget {
               width: 15,
               height: 15,
               fit: BoxFit.scaleDown,
-              colorFilter: ColorFilter.mode(primaryColor, BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(
+                AppColors.getPrimary(context),
+                BlendMode.srcIn,
+              ),
             ),
             const SizedBox(width: 10),
             Text(
               title,
-              style: FontStyles.subTitle3.copyWith(color: primaryColor),
+              style: FontStyles.subTitle3.copyWith(
+                color: AppColors.getPrimary(context),
+              ),
             ),
             const Spacer(),
             trailing ??
-                Icon(Icons.arrow_forward_ios, color: primaryColor, size: 15),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  color: AppColors.getPrimary(context),
+                  size: 15,
+                ),
           ],
         ),
       ),

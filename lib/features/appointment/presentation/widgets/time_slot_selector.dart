@@ -25,16 +25,17 @@ class TimeSlotSelector extends StatelessWidget {
         final isDisabled = disabledSlots.contains(slot);
         final isSelected = selectedSlot == slot;
 
-        final bgColor =
-            isSelected
-                ? AppColors.primary
-                : isDisabled
-                ? AppColors.gray300
-                : AppColors.white;
-        final borderColor =
-            isSelected ? AppColors.primary : AppColors.gray200;
-        final textColor =
-            isSelected ? AppColors.white : AppColors.black;
+        final bgColor = isSelected
+            ? AppColors.getPrimary(context)
+            : isDisabled
+            ? AppColors.getGray300(context)
+            : AppColors.getCard(context);
+        final borderColor = isSelected
+            ? AppColors.getPrimary(context)
+            : AppColors.getGray200(context);
+        final textColor = isSelected
+            ? AppColors.white
+            : AppColors.getTextPrimary(context);
 
         return InkWell(
           onTap: isDisabled ? null : () => onSelected(slot),
@@ -48,7 +49,9 @@ class TimeSlotSelector extends StatelessWidget {
               boxShadow: isSelected
                   ? [
                       BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.22),
+                        color: AppColors.getPrimary(
+                          context,
+                        ).withValues(alpha: 0.22),
                         blurRadius: 8,
                         offset: const Offset(0, 4),
                       ),
@@ -58,7 +61,7 @@ class TimeSlotSelector extends StatelessWidget {
             child: Text(
               slot,
               style: FontStyles.subTitle3.copyWith(
-                color: isDisabled ? AppColors.gray500 : textColor,
+                color: isDisabled ? AppColors.getGray500(context) : textColor,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -68,4 +71,3 @@ class TimeSlotSelector extends StatelessWidget {
     );
   }
 }
-

@@ -22,10 +22,6 @@ class CustomHomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = isDark ? AppColors.primaryDark : AppColors.primary;
-    final textColor = isDark ? AppColors.textPrimaryDark : AppColors.black;
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -36,7 +32,7 @@ class CustomHomeAppBar extends StatelessWidget {
                 state.errorMessage,
                 style: FontStyles.subTitle2.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: textColor,
+                  color: AppColors.getTextPrimary(context),
                 ),
               );
             }
@@ -55,7 +51,7 @@ class CustomHomeAppBar extends StatelessWidget {
                     width: 38,
                     height: 38,
                     decoration: BoxDecoration(
-                      color: primaryColor,
+                      color: AppColors.getPrimary(context),
                       shape: BoxShape.circle,
                     ),
                     child: ClipOval(
@@ -88,7 +84,7 @@ class CustomHomeAppBar extends StatelessWidget {
                     'مرحبا ${state.profile.user.name.split(' ')[0]}',
                     style: FontStyles.subTitle2.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: textColor,
+                      color: AppColors.getTextPrimary(context),
                     ),
                   ),
                 ],
@@ -105,7 +101,7 @@ class CustomHomeAppBar extends StatelessWidget {
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: primaryColor,
+              color: AppColors.getPrimary(context),
               shape: BoxShape.circle,
             ),
             child: SvgPicture.asset(

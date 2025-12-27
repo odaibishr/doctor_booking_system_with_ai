@@ -31,7 +31,7 @@ class DoctorHeaderSection extends StatelessWidget {
             right: 10,
           ),
           decoration: BoxDecoration(
-            color: AppColors.primary,
+            color: AppColors.getPrimary(context),
             borderRadius: BorderRadius.circular(12),
           ),
           child: CachedNetworkImage(
@@ -49,13 +49,14 @@ class DoctorHeaderSection extends StatelessWidget {
                   doctorName,
                   style: FontStyles.subTitle1.copyWith(
                     fontWeight: FontWeight.bold,
+                    color: AppColors.getTextPrimary(context),
                   ),
                 ),
                 const Spacer(),
                 Text(
                   doctorSpecializatioin,
                   style: FontStyles.subTitle2.copyWith(
-                    color: AppColors.gray500,
+                    color: AppColors.getGray500(context),
                   ),
                 ),
               ],
@@ -69,14 +70,16 @@ class DoctorHeaderSection extends StatelessWidget {
                   height: 14,
                   fit: BoxFit.scaleDown,
                   colorFilter: ColorFilter.mode(
-                    AppColors.gray500,
+                    AppColors.getGray500(context),
                     BlendMode.srcIn,
                   ),
                 ),
                 const SizedBox(width: 5),
                 Text(
                   doctorLocation,
-                  style: FontStyles.body2.copyWith(color: AppColors.gray500),
+                  style: FontStyles.body2.copyWith(
+                    color: AppColors.getGray500(context),
+                  ),
                 ),
               ],
             ),
