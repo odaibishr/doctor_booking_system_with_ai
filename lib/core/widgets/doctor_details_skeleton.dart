@@ -35,7 +35,7 @@ class DoctorDetailsSkeleton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.gray200),
+              border: Border.all(color: context.gray200Color),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
