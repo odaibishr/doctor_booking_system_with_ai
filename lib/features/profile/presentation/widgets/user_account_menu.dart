@@ -1,6 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/confirm_action_dialog.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/theme_mode_selector.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/profile/presentation/widgets/user_account_menu_item.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
       child: Padding(
@@ -29,6 +32,30 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
               title: 'الحساب الشخصي',
               icon: 'assets/icons/user.svg',
               onTap: () {},
+            ),
+            const SizedBox(height: 14),
+
+            // Theme Mode Selector
+            UserAccountMenuItem(
+              title: 'المظهر',
+              icon: 'assets/icons/setting-2.svg',
+              onTap: () => ThemeModeSelector.show(context),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    isDark ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+                    size: 18,
+                    color: isDark ? AppColors.primaryDark : AppColors.primary,
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: isDark ? AppColors.primaryDark : AppColors.primary,
+                    size: 15,
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 14),
 
@@ -58,7 +85,7 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
                 vertical: _isSupportExpanded ? 10 : 0,
               ),
               decoration: BoxDecoration(
-                color: AppColors.gray100,
+                color: isDark ? AppColors.gray100Dark : AppColors.gray100,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: ClipRect(

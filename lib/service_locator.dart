@@ -84,6 +84,7 @@ import 'package:doctor_booking_system_with_ai/features/appointment/domain/use_ca
 import 'package:doctor_booking_system_with_ai/features/payment/data/repos/payment_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/domain/repos/payment_repo.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/manager/payment_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/manager/theme/theme_cubit.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -401,4 +402,7 @@ Future<void> init() async {
       createAppointmentUseCase: serviceLocator(),
     ),
   );
+
+  // Theme Cubit - manages app theme (light/dark/system)
+  serviceLocator.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
 }

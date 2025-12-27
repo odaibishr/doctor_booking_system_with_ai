@@ -16,19 +16,26 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? AppColors.textPrimaryDark : AppColors.black;
+    final primaryColor = isDark ? AppColors.primaryDark : AppColors.primary;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           title,
-          style: FontStyles.subTitle1.copyWith(fontWeight: FontWeight.bold),
+          style: FontStyles.subTitle1.copyWith(
+            fontWeight: FontWeight.bold,
+            color: textColor,
+          ),
         ),
         TextButton(
           onPressed: onTap,
           child: Text(
             moreText!,
-            style: FontStyles.body2.copyWith(color: AppColors.primary),
+            style: FontStyles.body2.copyWith(color: primaryColor),
           ),
         ),
       ],

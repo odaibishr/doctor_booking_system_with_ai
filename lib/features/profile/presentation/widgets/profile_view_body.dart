@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
@@ -15,14 +16,19 @@ class ProfileViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDark
+        ? AppColors.scaffoldBackgroundDark
+        : Colors.white;
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthLoggedOut) {
           GoRouter.of(context).go(AppRouter.signInViewRoute);
         } else if (state is AuthError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.message)));
         }
       },
       child: CustomScrollView(
@@ -36,8 +42,8 @@ class ProfileViewBody extends StatelessWidget {
               isUserImageVisible: false,
             ),
             pinned: true,
-            backgroundColor: Colors.white,
-            surfaceTintColor: Colors.white,
+            backgroundColor: backgroundColor,
+            surfaceTintColor: backgroundColor,
             automaticallyImplyLeading: false,
           ),
           SliverToBoxAdapter(
@@ -59,7 +65,14 @@ class ProfileViewBody extends StatelessWidget {
                         );
                       }
                       if (state is ProfileFailure) {
-                        return Text(state.errorMessage);
+                        return Text(
+                          state.errorMessage,
+                          style: TextStyle(
+                            color: isDark
+                                ? AppColors.textPrimaryDark
+                                : AppColors.black,
+                          ),
+                        );
                       } else {
                         return const CustomLoader(loaderSize: kLoaderSize);
                       }
@@ -76,4 +89,3 @@ class ProfileViewBody extends StatelessWidget {
     );
   }
 }
-

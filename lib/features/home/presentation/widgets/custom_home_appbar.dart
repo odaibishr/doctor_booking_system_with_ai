@@ -22,6 +22,10 @@ class CustomHomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primaryColor = isDark ? AppColors.primaryDark : AppColors.primary;
+    final textColor = isDark ? AppColors.textPrimaryDark : AppColors.black;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -32,13 +36,15 @@ class CustomHomeAppBar extends StatelessWidget {
                 state.errorMessage,
                 style: FontStyles.subTitle2.copyWith(
                   fontWeight: FontWeight.bold,
+                  color: textColor,
                 ),
               );
             }
             if (state is ProfileSuccess) {
               final profileImage = (state.profile.profileImage ?? '').trim();
               final hasValidImage =
-                  profileImage.isNotEmpty && profileImage.toLowerCase() != 'null';
+                  profileImage.isNotEmpty &&
+                  profileImage.toLowerCase() != 'null';
               final isLocalFile =
                   !kIsWeb &&
                   (profileImage.startsWith('/') ||
@@ -49,32 +55,32 @@ class CustomHomeAppBar extends StatelessWidget {
                     width: 38,
                     height: 38,
                     decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: primaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: ClipOval(
-                      child:
-                          (!hasValidImage)
-                              ? Image.asset(userImage, fit: BoxFit.cover)
-                              : isLocalFile
-                              ? Image.file(
-                                  File(
-                                    profileImage.startsWith('file://')
-                                        ? (Uri.tryParse(profileImage)
-                                                ?.toFilePath() ??
-                                            profileImage)
-                                        : profileImage,
-                                  ),
-                                  fit: BoxFit.cover,
-                                )
-                              : hasValidImage
-                              ? CachedNetworkImage(
-                                  imageUrl: '${EndPoints.photoUrl}/$profileImage',
-                                  fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(userImage, fit: BoxFit.cover),
-                                )
-                              : Image.asset(userImage, fit: BoxFit.cover),
+                      child: (!hasValidImage)
+                          ? Image.asset(userImage, fit: BoxFit.cover)
+                          : isLocalFile
+                          ? Image.file(
+                              File(
+                                profileImage.startsWith('file://')
+                                    ? (Uri.tryParse(
+                                            profileImage,
+                                          )?.toFilePath() ??
+                                          profileImage)
+                                    : profileImage,
+                              ),
+                              fit: BoxFit.cover,
+                            )
+                          : hasValidImage
+                          ? CachedNetworkImage(
+                              imageUrl: '${EndPoints.photoUrl}/$profileImage',
+                              fit: BoxFit.cover,
+                              errorWidget: (context, url, error) =>
+                                  Image.asset(userImage, fit: BoxFit.cover),
+                            )
+                          : Image.asset(userImage, fit: BoxFit.cover),
                     ),
                   ),
                   const SizedBox(width: 5),
@@ -82,6 +88,7 @@ class CustomHomeAppBar extends StatelessWidget {
                     'مرحبا ${state.profile.user.name.split(' ')[0]}',
                     style: FontStyles.subTitle2.copyWith(
                       fontWeight: FontWeight.bold,
+                      color: textColor,
                     ),
                   ),
                 ],
@@ -98,7 +105,7 @@ class CustomHomeAppBar extends StatelessWidget {
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: AppColors.primary,
+              color: primaryColor,
               shape: BoxShape.circle,
             ),
             child: SvgPicture.asset(

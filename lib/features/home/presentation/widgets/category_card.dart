@@ -27,6 +27,16 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primaryColor = isDark ? AppColors.primaryDark : AppColors.primary;
+    final cardColorActive = isDark ? AppColors.cardDark : AppColors.white;
+    final cardColorInactive = isDark
+        ? AppColors.gray200Dark
+        : AppColors.gray200;
+    final shadowColor = isDark
+        ? Colors.black.withAlpha(100)
+        : const Color.fromARGB(69, 1, 1, 1);
+
     final trimmedIcon = icon.trim();
     return GestureDetector(
       onTap: () =>
@@ -38,14 +48,14 @@ class CategoryCard extends StatelessWidget {
           boxShadow: [
             color
                 ? BoxShadow(
-                    color: const Color.fromARGB(69, 1, 1, 1),
+                    color: shadowColor,
                     spreadRadius: 1,
                     blurRadius: 5,
                     offset: const Offset(3, 3),
                   )
                 : BoxShadow(),
           ],
-          color: color ? AppColors.white : AppColors.gray200,
+          color: color ? cardColorActive : cardColorInactive,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -53,9 +63,9 @@ class CategoryCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (trimmedIcon.isEmpty)
-              const Icon(
+              Icon(
                 Icons.medical_services_outlined,
-                color: AppColors.primary,
+                color: primaryColor,
                 size: 28,
               )
             else
@@ -73,10 +83,7 @@ class CategoryCard extends StatelessWidget {
                 ),
               ),
             const SizedBox(height: 8),
-            Text(
-              title,
-              style: FontStyles.body2.copyWith(color: AppColors.primary),
-            ),
+            Text(title, style: FontStyles.body2.copyWith(color: primaryColor)),
           ],
         ),
       ),

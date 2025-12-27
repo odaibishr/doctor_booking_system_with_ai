@@ -32,6 +32,15 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDark
+        ? AppColors.scaffoldBackgroundDark
+        : AppColors.white;
+    final textColor = isDark ? AppColors.textPrimaryDark : AppColors.black;
+    final secondaryTextColor = isDark
+        ? AppColors.textSecondaryDark
+        : AppColors.gray500;
+
     return BlocBuilder<DoctorDetailsCubit, DoctorDetailsState>(
       builder: (context, state) {
         if (state is DoctorDetailsError) {
@@ -53,8 +62,8 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                 ),
                 pinned: true,
                 automaticallyImplyLeading: false,
-                backgroundColor: AppColors.white,
-                surfaceTintColor: AppColors.white,
+                backgroundColor: backgroundColor,
+                surfaceTintColor: backgroundColor,
               ),
               SliverPadding(
                 padding: const EdgeInsets.symmetric(
@@ -94,6 +103,7 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                         'نبذة عن الطبيب',
                         style: FontStyles.subTitle2.copyWith(
                           fontWeight: FontWeight.bold,
+                          color: textColor,
                         ),
                       ),
                     ),
@@ -106,7 +116,7 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                       child: Text(
                         doctor!.aboutus,
                         style: FontStyles.body2.copyWith(
-                          color: AppColors.gray500,
+                          color: secondaryTextColor,
                         ),
                       ),
                     ),

@@ -139,6 +139,11 @@ class _HomeViewBodyState extends State<HomeViewBody>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDark
+        ? AppColors.scaffoldBackgroundDark
+        : AppColors.white;
+
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -150,8 +155,8 @@ class _HomeViewBodyState extends State<HomeViewBody>
               ),
               pinned: true,
               automaticallyImplyLeading: false,
-              backgroundColor: AppColors.white,
-              surfaceTintColor: AppColors.white,
+              backgroundColor: backgroundColor,
+              surfaceTintColor: backgroundColor,
             ),
             SliverToBoxAdapter(
               child: Padding(

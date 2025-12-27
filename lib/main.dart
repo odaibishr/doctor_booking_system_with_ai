@@ -1,4 +1,6 @@
 import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/manager/theme/theme_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/manager/theme/theme_state.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_theme.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
@@ -24,6 +26,10 @@ void main() async {
 
   final authCubit = serviceLocator<AuthCubit>();
   await authCubit.checkAuthStatus();
+
+  // Initialize theme cubit
+  final themeCubit = serviceLocator<ThemeCubit>();
+  await themeCubit.initialize();
 
   runApp(MyApp());
 }
@@ -52,21 +58,30 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => serviceLocator<HospitalCubit>()..getHospitals(),
         ),
+        // Theme Cubit - manages app theme state
+        BlocProvider(create: (_) => serviceLocator<ThemeCubit>()),
       ],
-      child: ToastificationWrapper(
-        child: MaterialApp.router(
-          title: 'Doctor Booking System',
-          routerConfig: AppRouter.router,
-          theme: AppTheme.lightTheme,
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('ar')],
-          locale: const Locale('ar'),
-          debugShowCheckedModeBanner: false,
-        ),
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, themeState) {
+          return ToastificationWrapper(
+            child: MaterialApp.router(
+              title: 'Doctor Booking System',
+              routerConfig: AppRouter.router,
+              // Theme configuration with Dark Mode support
+              theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
+              themeMode: themeState.themeMode,
+              localizationsDelegates: [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [Locale('en'), Locale('ar')],
+              locale: const Locale('ar'),
+              debugShowCheckedModeBanner: false,
+            ),
+          );
+        },
       ),
     );
   }

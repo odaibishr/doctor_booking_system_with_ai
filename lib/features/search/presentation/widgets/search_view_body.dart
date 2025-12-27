@@ -30,6 +30,14 @@ class _SearchViewBodyState extends State<SearchViewBody> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final secondaryTextColor = isDark
+        ? AppColors.textSecondaryDark
+        : AppColors.gray600;
+    final tertiaryTextColor = isDark
+        ? AppColors.gray400Dark
+        : AppColors.gray400;
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -57,7 +65,7 @@ class _SearchViewBodyState extends State<SearchViewBody> {
                         child: Text(
                           state.message,
                           style: FontStyles.body1.copyWith(
-                            color: AppColors.gray600,
+                            color: secondaryTextColor,
                           ),
                         ),
                       );
@@ -68,7 +76,7 @@ class _SearchViewBodyState extends State<SearchViewBody> {
                           Text(
                             'تم العثور على ${state.doctors.length} طبيب',
                             style: FontStyles.body2.copyWith(
-                              color: AppColors.gray400,
+                              color: tertiaryTextColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

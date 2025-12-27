@@ -28,6 +28,10 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primaryColor = isDark ? AppColors.primaryDark : AppColors.primary;
+    final textColor = isDark ? AppColors.textPrimaryDark : AppColors.black;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,7 +41,7 @@ class CustomAppBar extends StatelessWidget {
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  color: primaryColor,
                   shape: BoxShape.circle,
                 ),
                 child: BlocBuilder<ProfileCubit, ProfileState>(
@@ -71,10 +75,9 @@ class CustomAppBar extends StatelessWidget {
                       if (!kIsWeb &&
                           (profileImage.startsWith('/') ||
                               profileImage.startsWith('file://'))) {
-                        final filePath =
-                            profileImage.startsWith('file://')
-                                ? Uri.tryParse(profileImage)?.toFilePath()
-                                : profileImage;
+                        final filePath = profileImage.startsWith('file://')
+                            ? Uri.tryParse(profileImage)?.toFilePath()
+                            : profileImage;
                         if (filePath != null && filePath.isNotEmpty) {
                           return ClipOval(
                             child: Image.file(
@@ -86,8 +89,7 @@ class CustomAppBar extends StatelessWidget {
                       }
                       return ClipOval(
                         child: CachedNetworkImage(
-                          imageUrl:
-                              '${EndPoints.photoUrl}/$profileImage',
+                          imageUrl: '${EndPoints.photoUrl}/$profileImage',
                           scale: 1,
                           fit: BoxFit.cover,
                         ),
@@ -110,12 +112,12 @@ class CustomAppBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.transparent,
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.primary),
+                  border: Border.all(color: primaryColor),
                 ),
                 child: ClipOval(
                   child: Icon(
                     Icons.favorite_border_outlined,
-                    color: AppColors.primary,
+                    color: primaryColor,
                   ),
                 ),
               )
@@ -126,7 +128,10 @@ class CustomAppBar extends StatelessWidget {
 
         Text(
           title,
-          style: FontStyles.headLine4.copyWith(fontWeight: FontWeight.bold),
+          style: FontStyles.headLine4.copyWith(
+            fontWeight: FontWeight.bold,
+            color: textColor,
+          ),
         ),
         isBackButtonVisible
             ? const BackButtons()

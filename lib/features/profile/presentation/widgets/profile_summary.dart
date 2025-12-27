@@ -20,23 +20,26 @@ class ProfileSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final ImageProvider avatarProvider = _resolveImageProvider(userImage);
 
     return Column(
       children: [
-        CircleAvatar(
-          radius: 70,
-          backgroundImage: avatarProvider,
-        ),
+        CircleAvatar(radius: 70, backgroundImage: avatarProvider),
         const SizedBox(height: 5),
         Text(
           name,
-          style: FontStyles.headLine4.copyWith(fontWeight: FontWeight.bold),
+          style: FontStyles.headLine4.copyWith(
+            fontWeight: FontWeight.bold,
+            color: isDark ? AppColors.textPrimaryDark : AppColors.black,
+          ),
         ),
         const SizedBox(height: 8),
         Text(
           phoneNumber,
-          style: FontStyles.subTitle2.copyWith(color: AppColors.gray400),
+          style: FontStyles.subTitle2.copyWith(
+            color: isDark ? AppColors.textSecondaryDark : AppColors.gray400,
+          ),
         ),
       ],
     );

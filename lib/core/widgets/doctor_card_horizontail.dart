@@ -17,6 +17,17 @@ class DoctorCardHorizontail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDark ? AppColors.cardDark : AppColors.gray100;
+    final textColor = isDark ? AppColors.textPrimaryDark : AppColors.black;
+    final secondaryTextColor = isDark
+        ? AppColors.textSecondaryDark
+        : AppColors.gray500;
+    final primaryColor = isDark ? AppColors.primaryDark : AppColors.primary;
+    final imageBackgroundColor = isDark
+        ? AppColors.gray400Dark
+        : AppColors.gray400;
+
     return GestureDetector(
       onTap: () {
         GoRouter.of(context).push(AppRouter.detailsViewRoute, extra: doctor.id);
@@ -27,7 +38,7 @@ class DoctorCardHorizontail extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
-          color: AppColors.gray100,
+          color: cardColor,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -39,10 +50,10 @@ class DoctorCardHorizontail extends StatelessWidget {
                     width: 70,
                     height: double.infinity,
                     decoration: BoxDecoration(
-                      color: AppColors.gray400,
+                      color: imageBackgroundColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: _buildDoctorImage(),
+                    child: _buildDoctorImage(primaryColor),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -74,6 +85,7 @@ class DoctorCardHorizontail extends StatelessWidget {
                                 'د. ${doctor.name}',
                                 style: FontStyles.subTitle3.copyWith(
                                   fontWeight: FontWeight.bold,
+                                  color: textColor,
                                 ),
                               ),
                               SvgPicture.asset(
@@ -89,13 +101,14 @@ class DoctorCardHorizontail extends StatelessWidget {
                             'د. ${doctor.name}',
                             style: FontStyles.subTitle3.copyWith(
                               fontWeight: FontWeight.bold,
+                              color: textColor,
                             ),
                           ),
                         const SizedBox(height: 7),
                         Text(
                           doctor.specialty.name,
                           style: FontStyles.body2.copyWith(
-                            color: AppColors.gray500,
+                            color: secondaryTextColor,
                           ),
                         ),
                         const SizedBox(height: 7),
@@ -108,6 +121,7 @@ class DoctorCardHorizontail extends StatelessWidget {
                                 '${doctor.price} ريال',
                                 style: FontStyles.body2.copyWith(
                                   fontWeight: FontWeight.bold,
+                                  color: textColor,
                                 ),
                               ),
                             ],
@@ -135,17 +149,17 @@ class DoctorCardHorizontail extends StatelessWidget {
     );
   }
 
-  Widget _buildDoctorImage() {
+  Widget _buildDoctorImage(Color primaryColor) {
     final image = doctor.profileImage.trim();
     if (image.isEmpty || image.toLowerCase() == 'null') {
-      return const Icon(Icons.person, color: AppColors.primary);
+      return Icon(Icons.person, color: primaryColor);
     }
 
     return CachedNetworkImage(
       imageUrl: '${EndPoints.photoUrl}/$image',
       fit: BoxFit.fill,
       errorWidget: (context, url, error) =>
-          const Icon(Icons.person, color: AppColors.primary),
+          Icon(Icons.person, color: primaryColor),
     );
   }
 }
