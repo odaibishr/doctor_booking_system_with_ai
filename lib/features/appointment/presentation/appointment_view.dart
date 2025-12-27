@@ -52,10 +52,10 @@ class _AppointmentViewState extends State<AppointmentView> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: context.cardColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.06),
+              color: context.blackColor.withValues(alpha: 0.06),
               blurRadius: 14,
               offset: const Offset(0, -6),
             ),
@@ -74,9 +74,9 @@ class _AppointmentViewState extends State<AppointmentView> {
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.gray100,
+                  color: context.gray100Color,
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: AppColors.gray200),
+                  border: Border.all(color: context.gray200Color),
                 ),
                 child: Row(
                   children: [
@@ -84,12 +84,12 @@ class _AppointmentViewState extends State<AppointmentView> {
                       width: 36,
                       height: 36,
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.1),
+                        color: context.primaryColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.event_available,
-                        color: AppColors.primary,
+                        color: context.primaryColor,
                         size: 20,
                       ),
                     ),
@@ -101,7 +101,7 @@ class _AppointmentViewState extends State<AppointmentView> {
                           Text(
                             'الموعد المختار',
                             style: FontStyles.body1.copyWith(
-                              color: AppColors.gray600,
+                              color: context.gray600Color,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -111,7 +111,7 @@ class _AppointmentViewState extends State<AppointmentView> {
                                 ? 'اختر الوقت للمتابعة'
                                 : _formatSelection(),
                             style: FontStyles.subTitle3.copyWith(
-                              color: AppColors.black,
+                              color: context.blackColor,
                               fontWeight: FontWeight.bold,
                             ),
                             maxLines: 2,

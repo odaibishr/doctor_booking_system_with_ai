@@ -17,11 +17,11 @@ class TimePeriodSelector extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.gray100,
+        color: context.gray100Color,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.gray300.withValues(alpha: 0.15),
+            color: context.gray300Color.withValues(alpha: 0.15),
             blurRadius: 10,
             offset: const Offset(0, 6),
           ),
@@ -33,7 +33,7 @@ class TimePeriodSelector extends StatelessWidget {
           Text(
             'اختر الفترة',
             style: FontStyles.headLine4.copyWith(
-              color: AppColors.black,
+              color: context.blackColor,
               fontWeight: FontWeight.w700,
             ),
             textAlign: TextAlign.right,
@@ -45,12 +45,14 @@ class TimePeriodSelector extends StatelessWidget {
                 title: 'صباحاً',
                 timeRange: '10:00 ص - 1:30 م',
                 periodKey: 'morning',
+                context: context,
               ),
               const SizedBox(width: 12),
               _periodCard(
                 title: 'مساءً',
                 timeRange: '4:00 م - 8:30 م',
                 periodKey: 'evening',
+                context: context,
               ),
             ],
           ),
@@ -63,11 +65,14 @@ class TimePeriodSelector extends StatelessWidget {
     required String title,
     required String timeRange,
     required String periodKey,
+    required BuildContext context,
   }) {
     final isSelected = selectedPeriodKey == periodKey;
-    final bgColor = isSelected ? AppColors.primary : AppColors.white;
-    final textColor = isSelected ? AppColors.white : AppColors.black;
-    final borderColor = isSelected ? AppColors.primary : AppColors.gray200;
+    final bgColor = isSelected ? context.primaryColor : context.gray300Color;
+    final textColor = isSelected ? context.whiteColor : context.blackColor;
+    final borderColor = isSelected
+        ? context.primaryColor
+        : context.gray200Color;
 
     return Expanded(
       child: GestureDetector(
@@ -82,7 +87,7 @@ class TimePeriodSelector extends StatelessWidget {
             boxShadow: isSelected
                 ? [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.24),
+                      color: context.primaryColor.withValues(alpha: 0.24),
                       blurRadius: 10,
                       offset: const Offset(0, 6),
                     ),
@@ -113,4 +118,3 @@ class TimePeriodSelector extends StatelessWidget {
     );
   }
 }
-

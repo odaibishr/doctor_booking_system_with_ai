@@ -76,11 +76,11 @@ class _DatePickerCardState extends State<DatePickerCard> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.gray100,
+        color: context.gray100Color,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.gray300.withValues(alpha: 0.25),
+            color: context.gray300Color.withValues(alpha: 0.25),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -92,7 +92,7 @@ class _DatePickerCardState extends State<DatePickerCard> {
           Text(
             'اختر يوم الحجز المناسب',
             style: FontStyles.headLine4.copyWith(
-              color: AppColors.black,
+              color: context.blackColor,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -100,7 +100,7 @@ class _DatePickerCardState extends State<DatePickerCard> {
           Text(
             DateFormat.yMMMM('ar').format(widget.selectedDate),
             style: FontStyles.subTitle2.copyWith(
-              color: AppColors.primary,
+              color: context.primaryColor,
               fontWeight: FontWeight.bold,
             ),
           ),
