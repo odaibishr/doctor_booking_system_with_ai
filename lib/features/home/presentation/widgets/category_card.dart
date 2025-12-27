@@ -64,7 +64,7 @@ class CategoryCard extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 width: 28,
                 height: 28,
-                color: context.primaryColor,
+                color: context.whiteColor,
 
                 placeholderBuilder: (context) => const SizedBox(
                   width: 28,
@@ -77,9 +77,7 @@ class CategoryCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               title,
-              style: FontStyles.body2.copyWith(
-                color: AppColors.getPrimary(context),
-              ),
+              style: FontStyles.body2.copyWith(color: context.whiteColor),
             ),
           ],
         ),
