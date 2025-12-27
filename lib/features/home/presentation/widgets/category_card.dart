@@ -45,7 +45,7 @@ class CategoryCard extends StatelessWidget {
                   )
                 : BoxShadow(),
           ],
-          color: context.cardColor,
+          color: context.gray200Color,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(

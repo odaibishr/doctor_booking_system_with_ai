@@ -41,17 +41,10 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    AppColors.isDark(context)
-                        ? Icons.dark_mode_rounded
-                        : Icons.light_mode_rounded,
-                    size: 18,
-                    color: AppColors.getPrimary(context),
-                  ),
                   const SizedBox(width: 8),
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: AppColors.getPrimary(context),
+                    color: context.primaryColor,
                     size: 15,
                   ),
                 ],
