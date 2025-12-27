@@ -31,7 +31,7 @@ class DoctorFeaturedBanner extends StatelessWidget {
         height: Responsive.isDesktop(context) ? 250 : 162,
         padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
         decoration: BoxDecoration(
-          color: AppColors.primary,
+          color: context.primaryColor,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(

@@ -16,8 +16,8 @@ class AnimatedIndecator extends StatelessWidget {
     return AnimatedSmoothIndicator(
       activeIndex: currentIndex,
       count: dotsCount,
-      effect: const ExpandingDotsEffect(
-        activeDotColor: AppColors.primary,
+      effect: ExpandingDotsEffect(
+        activeDotColor: context.primaryColor,
         dotColor: Colors.grey,
         dotHeight: 8,
         dotWidth: 8,
