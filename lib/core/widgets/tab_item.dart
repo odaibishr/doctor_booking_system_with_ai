@@ -87,7 +87,7 @@ class _TabItemState extends State<TabItem> with SingleTickerProviderStateMixin {
                 height: 3,
                 width: 50 * _indicatorWidthAnimation.value,
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  color: context.primaryColor,
                   borderRadius: BorderRadius.circular(2),
                 ),
               );

@@ -13,7 +13,7 @@ class TopDoctor extends StatelessWidget {
       height: 20,
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
-        color: AppColors.gray200,
+        color: context.gray200Color,
         borderRadius: BorderRadius.circular(100),
       ),
       child: Row(
@@ -23,11 +23,15 @@ class TopDoctor extends StatelessWidget {
             width: 12,
             height: 12,
             fit: BoxFit.scaleDown,
+            colorFilter: ColorFilter.mode(
+              context.primaryColor,
+              BlendMode.srcIn,
+            ),
           ),
           const SizedBox(width: 5),
           Text(
             'افضل الدكاترة',
-            style: FontStyles.body2.copyWith(color: AppColors.primary),
+            style: FontStyles.body2.copyWith(color: context.primaryColor),
           ),
         ],
       ),
