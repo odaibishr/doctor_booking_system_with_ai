@@ -18,15 +18,15 @@ class GoogleButton extends StatelessWidget {
         onPressed: onPressed,
         textStyle: FontStyles.body1.copyWith(
           fontWeight: FontWeight.bold,
-          color: AppColors.black,
+          color: context.blackColor,
         ),
 
         padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width * 0.2,
           vertical: 10,
         ),
-        buttonColor: AppColors.white,
-        borderColor: AppColors.gray300,
+        buttonColor: context.cardBackgroundColor,
+        borderColor: context.gray300Color,
         borderWidth: 1,
         borderRadius: 12,
       ),

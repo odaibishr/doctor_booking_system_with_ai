@@ -88,6 +88,7 @@ class _SignInBodyState extends State<SignInBody> {
                         isShowLeftIcon: false,
                         validator: emailValidator,
                         controller: emailController,
+                        border: context.primaryColor,
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
@@ -130,7 +131,7 @@ class _SignInBodyState extends State<SignInBody> {
                           Text(
                             'ليس لديك حساب؟',
                             style: FontStyles.body1.copyWith(
-                              color: AppColors.gray400,
+                              color: context.gray400Color,
                             ),
                           ),
                           ForgetPasswordButton(

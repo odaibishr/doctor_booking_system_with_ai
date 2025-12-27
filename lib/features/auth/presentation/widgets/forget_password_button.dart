@@ -20,8 +20,9 @@ class ForgetPasswordButton extends StatelessWidget {
         child: Text(
           text,
           style: FontStyles.body1.copyWith(
-            color: AppColors.primary,
+            color: context.primaryColor,
             decoration: TextDecoration.underline,
+            decorationColor: context.primaryColor,
           ),
         ),
       ),

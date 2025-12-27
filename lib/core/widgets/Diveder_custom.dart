@@ -10,7 +10,7 @@ class DividerCustom extends StatelessWidget {
       children: [
         Expanded(
           child: Divider(
-            color: Colors.grey.shade400,
+            color: context.gray400Color,
             thickness: 1,
             endIndent: 10,
           ),
@@ -18,13 +18,13 @@ class DividerCustom extends StatelessWidget {
         Text(
           'أو',
           style: TextStyle(
-            color: AppColors.primaryColor,
+            color: context.primaryColor,
             fontSize: 18,
             fontWeight: FontWeight.w500,
           ),
         ),
         Expanded(
-          child: Divider(color: Colors.grey.shade400, thickness: 1, indent: 10),
+          child: Divider(color: context.gray400Color, thickness: 1, indent: 10),
         ),
       ],
     );
