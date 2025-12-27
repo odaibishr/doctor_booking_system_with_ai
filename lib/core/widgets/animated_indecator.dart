@@ -18,7 +18,7 @@ class AnimatedIndecator extends StatelessWidget {
       count: dotsCount,
       effect: ExpandingDotsEffect(
         activeDotColor: context.primaryColor,
-        dotColor: Colors.grey,
+        dotColor: context.gray400Color,
         dotHeight: 8,
         dotWidth: 8,
         spacing: 8,
