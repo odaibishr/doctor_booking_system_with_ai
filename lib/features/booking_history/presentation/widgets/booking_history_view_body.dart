@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/tap_bar.dart';
@@ -48,7 +49,6 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
       child: Column(
         children: [
-          // AppBar with animation
           AnimatedEntrance(
             delay: const Duration(milliseconds: 100),
             animationType: AnimationType.fadeSlideDown,
@@ -60,7 +60,6 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
             ),
           ),
           const SizedBox(height: 16),
-          // TabBar with animation
           AnimatedEntrance(
             delay: const Duration(milliseconds: 200),
             animationType: AnimationType.fadeSlideUp,
@@ -79,7 +78,12 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
                 }
 
                 if (state is BookingHistoryError) {
-                  return Center(child: Text(state.message));
+                  return Center(
+                    child: Text(
+                      state.message,
+                      style: TextStyle(color: context.errorColor),
+                    ),
+                  );
                 }
 
                 if (state is BookingHistoryLoaded) {

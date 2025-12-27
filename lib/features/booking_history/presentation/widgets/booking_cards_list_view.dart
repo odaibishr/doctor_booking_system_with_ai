@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
@@ -19,7 +20,12 @@ class BookingCardsListView extends StatelessWidget {
     if (bookings.isEmpty) {
       return AnimatedEntrance(
         animationType: AnimationType.fadeScale,
-        child: const Center(child: Text('لا توجد حجوزات في هذا القسم حالياً')),
+        child: Center(
+          child: Text(
+            'لا توجد حجوزات في هذا القسم حالياً',
+            style: TextStyle(color: context.gray600Color),
+          ),
+        ),
       );
     }
 

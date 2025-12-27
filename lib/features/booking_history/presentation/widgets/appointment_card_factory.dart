@@ -34,7 +34,7 @@ class AppointmentCardFactory {
               onTap: () => _showCancelBottomSheet(context),
               height: 28,
               radius: 6,
-              color: AppColors.gray300,
+              color: context.gray300Color,
             ),
           ),
         ];
@@ -71,7 +71,7 @@ class AppointmentCardFactory {
               },
               height: 28,
               radius: 6,
-              color: AppColors.gray300,
+              color: context.gray300Color,
             ),
           ),
         ];
@@ -90,7 +90,7 @@ class AppointmentCardFactory {
               },
               height: 28,
               radius: 6,
-              color: AppColors.primary,
+              color: context.primaryColor,
             ),
           ),
           const SizedBox(width: 10),
@@ -104,7 +104,7 @@ class AppointmentCardFactory {
               },
               height: 28,
               radius: 6,
-              color: AppColors.gray300,
+              color: context.gray300Color,
             ),
           ),
         ];

@@ -19,9 +19,9 @@ class TapBar extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.scaffoldBackgroundColor,
         border: Border(
-          bottom: BorderSide(color: AppColors.gray200, width: 1.0),
+          bottom: BorderSide(color: context.gray200Color, width: 1.0),
         ),
       ),
       child: Row(

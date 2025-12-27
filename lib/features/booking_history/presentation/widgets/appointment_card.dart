@@ -36,7 +36,7 @@ class AppointmentCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
-          color: AppColors.getGray100(context),
+          color: context.cardColor,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(

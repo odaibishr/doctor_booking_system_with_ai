@@ -72,8 +72,8 @@ class _TabItemState extends State<TabItem> with SingleTickerProviderStateMixin {
               widget.text,
               style: FontStyles.subTitle3.copyWith(
                 color: widget.isSelected
-                    ? AppColors.primary
-                    : AppColors.gray500,
+                    ? context.primaryColor
+                    : context.gray500Color,
                 fontWeight: widget.isSelected
                     ? FontWeight.bold
                     : FontWeight.normal,
