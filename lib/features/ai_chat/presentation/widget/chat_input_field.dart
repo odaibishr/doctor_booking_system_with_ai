@@ -29,7 +29,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
 
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: const Color(0xFF364989),
+        color: context.primaryColor,
         borderRadius: BorderRadius.circular(1000),
       ),
       child: Stack(
@@ -61,8 +61,11 @@ class _ChatInputFieldState extends State<ChatInputField> {
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
                       hintText: 'اوصف حالتك ...',
+                      fillColor: context.primaryColor,
                       hintStyle: FontStyles.body1.copyWith(
-                        color: AppColors.gray100,
+                        color: context.isDarkMode
+                            ? context.whiteColor
+                            : context.gray100Color,
                       ),
                       border: InputBorder.none,
                       enabledBorder: InputBorder.none,
