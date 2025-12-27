@@ -27,7 +27,7 @@ class StatesItem extends StatelessWidget {
             width: 42,
             height: 42,
             decoration: BoxDecoration(
-              color: AppColors.gray300,
+              color: context.gray300Color,
               shape: BoxShape.circle,
             ),
             child: SvgPicture.asset(
@@ -35,7 +35,10 @@ class StatesItem extends StatelessWidget {
               height: 24,
               width: 24,
               fit: BoxFit.scaleDown,
-              colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(
+                context.primaryColor,
+                BlendMode.srcIn,
+              ),
             ),
           ),
           const SizedBox(height: 5),

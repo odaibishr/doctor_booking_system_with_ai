@@ -48,9 +48,9 @@ class DetailsViewActions extends StatelessWidget {
                 height: 45,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppColors.gray100,
+                  color: context.gray100Color,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.gray300),
+                  border: Border.all(color: context.gray300Color),
                 ),
                 child: Center(
                   child: SvgPicture.asset(
@@ -59,7 +59,7 @@ class DetailsViewActions extends StatelessWidget {
                     height: 25,
                     fit: BoxFit.scaleDown,
                     colorFilter: ColorFilter.mode(
-                      AppColors.primary,
+                      context.primaryColor,
                       BlendMode.srcIn,
                     ),
                   ),
