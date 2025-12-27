@@ -15,7 +15,7 @@ class DoctorInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 8,
-      color: AppColors.primary,
+      color: context.primaryColor,
       margin: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
@@ -24,7 +24,7 @@ class DoctorInfoCard extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: AppColors.white,
+                color: context.gray200Color,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: ClipRRect(
@@ -36,12 +36,12 @@ class DoctorInfoCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Center(
                     child: CircularProgressIndicator(
-                      color: AppColors.primary,
+                      color: context.primaryColor,
                       strokeWidth: 2,
                     ),
                   ),
                   errorWidget: (context, url, error) =>
-                      Icon(Icons.person, size: 40, color: AppColors.primary),
+                      Icon(Icons.person, size: 40, color: context.primaryColor),
                 ),
               ),
             ),
@@ -56,23 +56,23 @@ class DoctorInfoCard extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: AppColors.white,
+                      color: context.whiteColor,
                     ),
                   ),
                   Text(
                     doctor.specialty.name,
-                    style: TextStyle(color: AppColors.white),
+                    style: TextStyle(color: context.whiteColor),
                   ),
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      const Icon(Icons.star, color: Colors.amber, size: 18),
+                      Icon(Icons.star, color: context.yellowColor, size: 18),
                       const SizedBox(width: 4),
                       Text(
                         "4.8 (120 reviews)", // Placeholder for real rating
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          color: AppColors.white,
+                          color: context.whiteColor,
                         ),
                       ),
                     ],
@@ -82,10 +82,9 @@ class DoctorInfoCard extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                // Navigate to doctor details
                 context.push(AppRouter.detailsViewRoute, extra: doctor.id);
               },
-              icon: Icon(Icons.arrow_forward_ios, color: AppColors.white),
+              icon: Icon(Icons.arrow_forward_ios, color: context.whiteColor),
             ),
           ],
         ),

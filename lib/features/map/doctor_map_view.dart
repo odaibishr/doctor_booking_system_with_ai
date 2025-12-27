@@ -69,8 +69,8 @@ class _DoctorMapPageState extends State<DoctorMapPage> {
           title: const Text("مواقع الأطباء"),
           centerTitle: true,
           elevation: 0,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
+          backgroundColor: context.scaffoldBackgroundColor,
+          foregroundColor: context.blackColor,
           automaticallyImplyLeading: false,
           actions: [
             Padding(
@@ -125,7 +125,10 @@ class _DoctorMapPageState extends State<DoctorMapPage> {
                     children: [
                       TileLayer(
                         urlTemplate:
-                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            Theme.of(context).brightness == Brightness.dark
+                            ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                            : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        subdomains: const ['a', 'b', 'c', 'd'],
                         userAgentPackageName: 'com.example.doctor_booking',
                       ),
                       if (state.routePoints.isNotEmpty)
@@ -134,7 +137,7 @@ class _DoctorMapPageState extends State<DoctorMapPage> {
                             Polyline(
                               points: state.routePoints,
                               strokeWidth: 5,
-                              color: AppColors.primary,
+                              color: context.primaryColor,
                             ),
                           ],
                         ),
@@ -145,9 +148,9 @@ class _DoctorMapPageState extends State<DoctorMapPage> {
                               point: LatLng(state.userLat!, state.userLng!),
                               width: 60,
                               height: 60,
-                              child: const Icon(
+                              child: Icon(
                                 Icons.person_pin_circle,
-                                color: Colors.blue,
+                                color: context.primaryColor,
                                 size: 40,
                               ),
                             ),
@@ -188,10 +191,10 @@ class _DoctorMapPageState extends State<DoctorMapPage> {
                     right: 20,
                     child: FloatingActionButton(
                       mini: true,
-                      backgroundColor: Colors.white,
+                      backgroundColor: context.gray200Color,
                       child: Icon(
                         Icons.my_location,
-                        color: Theme.of(context).primaryColor,
+                        color: context.primaryColor,
                       ),
                       onPressed: () {
                         if (state.userLat != null && state.userLng != null) {

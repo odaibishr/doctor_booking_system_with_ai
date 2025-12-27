@@ -18,7 +18,7 @@ class BottomSheetDeteals extends StatelessWidget {
           SizedBox(height: 10),
           Text(
             'لقد تم حجز موعد مع',
-            style: FontStyles.subTitle3.copyWith(color: AppColors.gray500),
+            style: FontStyles.subTitle3.copyWith(color: context.gray500Color),
           ),
           SizedBox(height: 12),
           Text('د. صادق محمد بشر', style: FontStyles.subTitle1),
@@ -26,10 +26,18 @@ class BottomSheetDeteals extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset('assets/icons/userf.svg'),
+              SvgPicture.asset(
+                'assets/icons/userf.svg',
+                colorFilter: ColorFilter.mode(
+                  context.primaryColor,
+                  BlendMode.srcIn,
+                ),
+              ),
               Text(
                 'عدي جلال محمد بشر',
-                style: FontStyles.subTitle3.copyWith(color: AppColors.gray400),
+                style: FontStyles.subTitle3.copyWith(
+                  color: context.gray600Color,
+                ),
               ),
             ],
           ),
@@ -39,13 +47,25 @@ class BottomSheetDeteals extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  SvgPicture.asset('assets/icons/calendarf.svg'),
+                  SvgPicture.asset(
+                    'assets/icons/calendarf.svg',
+                    colorFilter: ColorFilter.mode(
+                      context.primaryColor,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                   Text('30 يوليو 2025', style: FontStyles.subTitle3),
                 ],
               ),
               Row(
                 children: [
-                  SvgPicture.asset('assets/icons/timerf.svg'),
+                  SvgPicture.asset(
+                    'assets/icons/timerf.svg',
+                    colorFilter: ColorFilter.mode(
+                      context.primaryColor,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                   Text(' 8:00ص - 1:00م', style: FontStyles.subTitle3),
                 ],
               ),
@@ -57,10 +77,9 @@ class BottomSheetDeteals extends StatelessWidget {
             child: MainButton(
               text: 'إظهار الحجز',
               onTap: () {
-                GoRouter.of(context).pushReplacement(
-                  AppRouter.appNavigationRoute,
-                  extra: 2, 
-                );
+                GoRouter.of(
+                  context,
+                ).pushReplacement(AppRouter.appNavigationRoute, extra: 2);
               },
             ),
           ),
