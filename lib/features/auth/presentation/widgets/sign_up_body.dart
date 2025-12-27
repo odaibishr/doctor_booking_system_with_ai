@@ -1,4 +1,5 @@
-﻿import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
+﻿import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/google_auth_button.dart';
@@ -78,6 +79,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                         isShowLeftIcon: false,
                         controller: nameController,
                         validator: nameValidator,
+                        border: context.primaryColor,
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
@@ -91,6 +93,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                         isShowLeftIcon: false,
                         controller: emailController,
                         validator: emailValidator,
+                        border: context.primaryColor,
                       ),
 
                       SizedBox(
@@ -132,11 +135,17 @@ class _SignUpBodyState extends State<SignUpBody> {
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
                       DividerCustom(),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
                       GoogleButton(onPressed: () {}), //Google Button
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
                       EndSection(), //End Section of the page
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
                     ],
                   ),
                 );
