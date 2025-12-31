@@ -5,7 +5,7 @@ class AiChatInitial extends AiChatState {}
 class AiChatLoading extends AiChatState {}
 
 class AiChatSuccess extends AiChatState {
-  final List<Map<String, String>>
+  final List<Map<String, dynamic>>
   messages; // [{'role': 'user', 'text': '...'}, {'role': 'ai', 'text': '...'}]
 
   AiChatSuccess({required this.messages});

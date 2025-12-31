@@ -6,13 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AiChatCubit extends Cubit<AiChatState> {
   final AiChatRepository aiChatRepository;
-  final List<Map<String, String>> _messages = [];
+  final List<Map<String, dynamic>> _messages = [];
 
   AiChatCubit({required this.aiChatRepository}) : super(AiChatInitial());
 
   Future<void> sendMessage(String message) async {
     // Add user message immediately
-    _messages.add({'role': 'user', 'text': message,});
+    _messages.add({'role': 'user', 'text': message, 'isDone': false});
     emit(
       AiChatSuccess(messages: List.from(_messages)),
     ); // Emit to show user message
@@ -55,6 +55,8 @@ class AiChatCubit extends Cubit<AiChatState> {
         onDone: () {
           // Stream finished
           log('Stream done');
+          _messages[aiIndex]['isDone'] = true ;
+          emit(AiChatSuccess(messages: List.from(_messages)));
         },
       );
     } catch (e) {

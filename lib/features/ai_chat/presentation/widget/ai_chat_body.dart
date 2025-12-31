@@ -17,6 +17,13 @@ class AiChatBody extends StatefulWidget {
 }
 
 class _AiChatBodyState extends State<AiChatBody> {
+  // final List<Map<String, String>> _conversation = [
+  //   {
+  //     "role": "system",
+  //     "content":
+  //         "أنت طبيب ذكي، تجاوب بشكل متسلسل بدون تكرار، وتكمل على نفس النقاش."
+  //   }
+  // ];
   final ScrollController _scrollController = ScrollController();
   List<Map<String, dynamic>> _messages =
       []; // Keep it to map state to UI format if needed, or use state directly
@@ -79,6 +86,7 @@ class _AiChatBodyState extends State<AiChatBody> {
                         'type': 'text',
                         'isUser': m['role'] == 'user',
                         'content': m['text'],
+                        'isDone': m['isDone'] ?? true,
                       };
                     }).toList(),
                     controller: _scrollController,

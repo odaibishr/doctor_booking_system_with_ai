@@ -4,7 +4,8 @@ import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ChatBubble extends StatefulWidget {
-  const ChatBubble({super.key, required this.isUser, required this.content});
+  const ChatBubble({super.key, required this.isUser, required this.content, required this.isDone});
+  final bool isDone;
 
   final bool isUser;
   final String content;
@@ -14,6 +15,7 @@ class ChatBubble extends StatefulWidget {
 }
 
 class _ChatBubbleState extends State<ChatBubble> {
+  
   String _visibleText = '';
   int _currentIndex = 0;
   Timer? _timer;
@@ -42,11 +44,11 @@ class _ChatBubbleState extends State<ChatBubble> {
     super.initState();
     _visibleText = '';
     _currentIndex = 0;
-    if (!widget.isUser) {
-      _startTypingEffect();
-    } else {
-      _visibleText = widget.content;
-    }
+    if (widget.isUser || widget.isDone) {
+    _visibleText = widget.content;
+  } else {
+    _startTypingEffect();
+  }
   }
 
   @override
@@ -57,6 +59,8 @@ class _ChatBubbleState extends State<ChatBubble> {
 
   @override
   Widget build(BuildContext context) {
+    
+
     return Align(
       alignment: widget.isUser ? Alignment.centerLeft : Alignment.centerRight,
       child: ConstrainedBox(
