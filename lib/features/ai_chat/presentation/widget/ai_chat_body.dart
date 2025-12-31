@@ -59,38 +59,34 @@ class _AiChatBodyState extends State<AiChatBody> {
             isUserImageVisible: false,
           ),
           Expanded(
-            child: BlocConsumer<AiChatCubit, AiChatState>(
-              listener: (context, state) {
-                if (state is AiChatSuccess) {
-                  _messages = state.messages.map((m) {
-                    return {
-                      'type': 'text',
-                      'isUser': m['role'] == 'user',
-                      'content': m['text'],
-                    };
-                  }).toList();
-                  _scrollToBottom();
-                } else if (state is AiChatFailure) {
-                  toastification.show(
-                    context: context,
-                    title: Text("حدث خطأ"),
-                    description: Text(state.errMessage),
-                    autoCloseDuration: const Duration(seconds: 3),
-                    type: ToastificationType.error,
-                    style: ToastificationStyle.flat,
-                  );
-                }
-              },
+            child: BlocBuilder<AiChatCubit, AiChatState>(
+             
               builder: (context, state) {
                 // Initial message if empty
                 if (_messages.isEmpty && state is AiChatInitial) {
                   return Center(child: Text("ابدأ المحادثة مع مساعدك الطبي"));
                 }
 
-                return ChatMessageBuilder(
-                  messages: _messages,
-                  controller: _scrollController,
-                );
+                if (state is AiChatLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (state is AiChatSuccess) {
+                  _scrollToBottom();
+                  return ChatMessageBuilder(
+                    messages: state.messages.map((m) {
+                      return {
+                        'type': 'text',
+                        'isUser': m['role'] == 'user',
+                        'content': m['text'],
+                      };
+                    }).toList(),
+                    controller: _scrollController,
+                  );
+                }
+
+                // Fallback for failure or any other unknown state
+                return const SizedBox.shrink();
               },
             ),
           ),

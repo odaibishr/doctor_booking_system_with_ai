@@ -12,7 +12,7 @@ class AiChatCubit extends Cubit<AiChatState> {
 
   Future<void> sendMessage(String message) async {
     // Add user message immediately
-    _messages.add({'role': 'user', 'text': message});
+    _messages.add({'role': 'user', 'text': message,});
     emit(
       AiChatSuccess(messages: List.from(_messages)),
     ); // Emit to show user message

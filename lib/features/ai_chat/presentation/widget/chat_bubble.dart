@@ -40,6 +40,8 @@ class _ChatBubbleState extends State<ChatBubble> {
   @override
   void initState() {
     super.initState();
+    _visibleText = '';
+    _currentIndex = 0;
     if (!widget.isUser) {
       _startTypingEffect();
     } else {

@@ -32,7 +32,7 @@ class _ChatMessageBuilderState extends State<ChatMessageBuilder> {
                 if (msg['type'] == 'text') {
                   final isUser = msg['isUser'] == true;
                   final content = msg['content']?.toString() ?? '';
-                  return ChatBubble(isUser: isUser, content: content);
+                  return ChatBubble(isUser: isUser, content: content,key: ValueKey(msg['content']),);
                 } else {
                   final isUser = msg['isUser'] == true;
                   if (msg['type'] == 'image' && msg['content'] is File) {
