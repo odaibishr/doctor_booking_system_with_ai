@@ -4,11 +4,13 @@ import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ChatBubble extends StatefulWidget {
-  const ChatBubble({super.key, required this.isUser, required this.content, required this.isDone});
-  final bool isDone;
+   ChatBubble({super.key, required this.isUser, required this.content, required this.isDone,});
+   bool isDone;
 
   final bool isUser;
   final String content;
+ 
+
 
   @override
   State<ChatBubble> createState() => _ChatBubbleState();
@@ -20,33 +22,44 @@ class _ChatBubbleState extends State<ChatBubble> {
   int _currentIndex = 0;
   Timer? _timer;
 
-  void _startTypingEffect() {
-    const duration = Duration(milliseconds: 40);
-    _timer = Timer.periodic(duration, (timer) {
-      if (_currentIndex < widget.content.length) {
-        if (!mounted) {
-          timer.cancel();
-          return;
-        }
-
-        setState(() {
-          _visibleText += widget.content[_currentIndex];
-          _currentIndex++;
-        });
-      } else {
+void _startTypingEffect() {
+  const duration = Duration(milliseconds: 40);
+  _timer = Timer.periodic(duration, (timer) {
+    if (_currentIndex < widget.content.length) {
+      if (!mounted) {
         timer.cancel();
+        return;
       }
-    });
-  }
+
+      setState(() {
+        _visibleText += widget.content[_currentIndex];
+        _currentIndex++;
+      });
+    } else {
+      widget.isDone = true; // 🔥 هذا هو المفتاح
+      timer.cancel();
+    }
+  });
+}
+
 
   @override
   void initState() {
     super.initState();
     _visibleText = '';
     _currentIndex = 0;
-    if (widget.isUser || widget.isDone) {
+  //   if (widget.isUser || widget.isDone) {
+  //   _visibleText = widget.content;
+  // } else {
+  //   _startTypingEffect();
+  // }
+  if (widget.isUser) {
     _visibleText = widget.content;
-  } else {
+  } 
+  else if (widget.isDone) {
+    _visibleText = widget.content;
+  } 
+  else {
     _startTypingEffect();
   }
   }
