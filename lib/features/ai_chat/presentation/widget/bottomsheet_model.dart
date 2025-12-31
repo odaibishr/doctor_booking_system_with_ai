@@ -4,6 +4,8 @@ import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widg
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/upload_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class BottomSheetModel extends StatelessWidget {
   const BottomSheetModel({
@@ -14,6 +16,16 @@ class BottomSheetModel extends StatelessWidget {
 
   final ImagePicker _picker;
   final UploadButton widget;
+Future<void> _openLink(String url) async {
+  final Uri uri = Uri.parse(url);
+
+  if (!await launchUrl(
+    uri,
+    mode: LaunchMode.externalApplication,
+  )) {
+    throw 'Could not launch $url';
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -39,26 +51,28 @@ class BottomSheetModel extends StatelessWidget {
                 icons: 'assets/icons/camera.svg',
                 title: 'الكاميرا',
                 ontap: () async {
-                  Navigator.pop(context);
-                  final XFile? photo = await _picker.pickImage(
-                    source: ImageSource.camera,
-                  );
-                  if (photo != null) {
-                    widget.onSend(image: File(photo.path));
-                  }
+                  _openLink('https://huggingface.co/spaces/Aosldofdos/XrayModel');
+                   Navigator.pop(context);
+                  // final XFile? photo = await _picker.pickImage(
+                  //   source: ImageSource.camera,
+                  // );
+                  // if (photo != null) {
+                  //   widget.onSend(image: File(photo.path));
+                  // }
                 },
               ),
               BottomSheetItems(
                 icons: 'assets/icons/gallery.svg',
                 title: 'المعرض',
                 ontap: () async {
+                  _openLink('https://huggingface.co/spaces/Aosldofdos/XrayModel');
                   Navigator.pop(context);
-                  final XFile? image = await _picker.pickImage(
-                    source: ImageSource.gallery,
-                  );
-                  if (image != null) {
-                    widget.onSend(image: File(image.path));
-                  }
+                  // final XFile? image = await _picker.pickImage(
+                  //   source: ImageSource.gallery,
+                  // );
+                  // if (image != null) {
+                  //   widget.onSend(image: File(image.path));
+                  // }
                 },
               ),
               BottomSheetItems(
