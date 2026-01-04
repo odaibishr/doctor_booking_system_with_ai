@@ -10,6 +10,17 @@ abstract class AiChatRemoteDataSource {
 }
 
 class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
+  String? extractSpecialtyFromMessage(String message) {
+  final regex = RegExp(r'###SPECIALTY:\s*(.+)$', multiLine: true);
+  final match = regex.firstMatch(message);
+
+  if (match != null) {
+    return match.group(1)?.trim();
+  }
+
+  return null;
+}
+
   final Dio dio;
   final String _apiKey = dotenv.env['AI_API_KEY'] ?? '';
 
@@ -36,6 +47,15 @@ class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
 // - عند ذكر معلومات طبية مهمة أو تحذير صحي، أضف رمز 🚨 قبل الجملة.
 // - عند أي عبارة تشير لدورك كمساعد ذكي، أضف رمز 🤖 تلقائيًا.
 // - نسّق النقاط بشكل جميل وواضح واجعل المخرجات جذابة بصريًا.
+- في نهاية كل رد، أضف سطرًا أخيرًا فقط بالشكل التالي:
+  ###SPECIALTY: <اسم_التخصص_بالعربية>
+- يجب أن يكون اسم التخصص مطابقًا تمامًا لأسماء التخصصات الطبية الشائعة.
+-اذكر اسم التخصص بكلمة واحدة فقط
+- لا تشرح التخصص.
+- لا تضع أي نص بعد هذا السطر.
+- إذا لم يكن هناك تخصص واضح، استخدم:
+  ###SPECIALTY: عام
+
 // - التزم بهذه القواعد في كل إجابة دون استثناء.
 // - كن جذاباً وسريعاً وواضحاً وتجنب الشرح الطويل واختصر الاجابة قدر الامكان.
 // - إذا كان السؤال غير طبي، قل:
@@ -139,6 +159,17 @@ class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
     if (text == null || text.toString().trim().isEmpty) continue;
 
     log('✅ YIELD TEXT: $text');
+    final aiMessage = text.toString();
+
+final String? specialty = extractSpecialtyFromMessage(aiMessage);
+
+if (specialty != null && specialty != 'عام') {
+  print("**************************************************************");
+  print('التخصص المستخرج: $specialty');
+  print("**************************************************************");
+  // أرسله إلى Laravel
+}
+
     yield text.toString();
   } catch (e) {
     log('❌ JSON Parse Error: $e');
