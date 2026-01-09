@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
@@ -23,72 +24,76 @@ class _MyWaitlistsPageState extends State<MyWaitlistsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('قوائم الانتظار'),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: BlocConsumer<WaitlistCubit, WaitlistState>(
-        listener: (context, state) {
-          if (state is WaitlistError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: AppColors.error,
-              ),
-            );
-          } else if (state is WaitlistLeft) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('تم إزالتك من قائمة الانتظار'),
-                backgroundColor: AppColors.success,
-              ),
-            );
-            context.read<WaitlistCubit>().loadMyWaitlists();
-          }
-        },
-        builder: (context, state) {
-          if (state is WaitlistLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state is WaitlistLoaded) {
-            if (state.waitlists.isEmpty) {
-              return const EmptyWaitlistView();
-            }
-
-            return RefreshIndicator(
-              onRefresh: () async {
+      body: Column(
+        children: [
+          CustomAppBar(
+            title: 'قائمة الانتظار',
+            isBackButtonVisible: true,
+            isUserImageVisible: false,
+          ),
+          BlocConsumer<WaitlistCubit, WaitlistState>(
+            listener: (context, state) {
+              if (state is WaitlistError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: AppColors.error,
+                  ),
+                );
+              } else if (state is WaitlistLeft) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('تم إزالتك من قائمة الانتظار'),
+                    backgroundColor: AppColors.success,
+                  ),
+                );
                 context.read<WaitlistCubit>().loadMyWaitlists();
-              },
-              child: ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: state.waitlists.length,
-                itemBuilder: (context, index) {
-                  final entry = state.waitlists[index];
-                  return WaitlistCard(
-                    entry: entry,
-                    onLeave: () {
-                      _showLeaveConfirmation(context, entry.id);
-                    },
-                    onAccept: entry.isNotified
-                        ? () {
-                            _showAcceptDialog(context, entry);
-                          }
-                        : null,
-                    onDecline: entry.isNotified
-                        ? () {
-                            _showDeclineConfirmation(context, entry.id);
-                          }
-                        : null,
-                  );
-                },
-              ),
-            );
-          }
+              }
+            },
+            builder: (context, state) {
+              if (state is WaitlistLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-          return const EmptyWaitlistView();
-        },
+              if (state is WaitlistLoaded) {
+                if (state.waitlists.isEmpty) {
+                  return const EmptyWaitlistView();
+                }
+
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<WaitlistCubit>().loadMyWaitlists();
+                  },
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: state.waitlists.length,
+                    itemBuilder: (context, index) {
+                      final entry = state.waitlists[index];
+                      return WaitlistCard(
+                        entry: entry,
+                        onLeave: () {
+                          _showLeaveConfirmation(context, entry.id);
+                        },
+                        onAccept: entry.isNotified
+                            ? () {
+                                _showAcceptDialog(context, entry);
+                              }
+                            : null,
+                        onDecline: entry.isNotified
+                            ? () {
+                                _showDeclineConfirmation(context, entry.id);
+                              }
+                            : null,
+                      );
+                    },
+                  ),
+                );
+              }
+
+              return const EmptyWaitlistView();
+            },
+          ),
+        ],
       ),
     );
   }
