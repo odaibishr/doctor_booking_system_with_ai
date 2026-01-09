@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "904253282096",
+    "project_id": "medicalappointment-46925",
+    "storage_bucket": "medicalappointment-46925.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904253282096:android:3d55ed1a8ec7e2d24c1af5",
+        "android_client_info": {
+          "package_name": "com.example.doctor_booking_system_with_ai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn4ZimbsUnDWwpJ2odxDe-q9HbSEB4Dg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
