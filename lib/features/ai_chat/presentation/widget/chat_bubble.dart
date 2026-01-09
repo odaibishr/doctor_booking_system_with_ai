@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ChatBubble extends StatefulWidget {
    ChatBubble({super.key, required this.isUser, required this.content, required this.isDone,});
    bool isDone;

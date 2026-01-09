@@ -22,9 +22,13 @@ import 'package:doctor_booking_system_with_ai/features/search/presentation/searc
 import 'package:doctor_booking_system_with_ai/features/splash/presentation/splash_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/top_doctors_view.dart';
 import 'package:doctor_booking_system_with_ai/features/map/doctor_map_view.dart';
+import 'package:doctor_booking_system_with_ai/features/waitlist/presentation/pages/my_waitlists_page.dart';
+import 'package:doctor_booking_system_with_ai/features/waitlist/presentation/cubit/waitlist_cubit.dart';
+import 'package:doctor_booking_system_with_ai/service_locator.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/page_transitions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
@@ -54,6 +58,7 @@ class AppRouter {
   static const String notificationViewRoute = '/notificationView';
   static const String topDoctorsViewRoute = '/topDoctorsView';
   static const String doctorMapViewRoute = '/doctorMapView';
+  static const String myWaitlistsViewRoute = '/myWaitlistsView';
 
   static GoRouter router = GoRouter(
     navigatorKey: navigatorKey,
@@ -253,6 +258,17 @@ class AppRouter {
         pageBuilder: (context, state) => PageTransitionBuilder.scaleWithFade(
           child: DoctorMapPage(initialDoctor: state.extra as Doctor?),
           name: doctorMapViewRoute,
+        ),
+      ),
+      // My Waitlists - shared axis
+      GoRoute(
+        path: myWaitlistsViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: BlocProvider(
+            create: (_) => serviceLocator<WaitlistCubit>()..loadMyWaitlists(),
+            child: const MyWaitlistsPage(),
+          ),
+          name: myWaitlistsViewRoute,
         ),
       ),
     ],

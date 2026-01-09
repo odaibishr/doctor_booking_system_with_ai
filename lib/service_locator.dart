@@ -61,6 +61,11 @@ import 'package:doctor_booking_system_with_ai/features/profile/domain/use_cases/
 import 'package:doctor_booking_system_with_ai/features/search/domain/usecases/search_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/manager/search_doctors_bloc/search_doctors_bloc.dart';
 import 'package:doctor_booking_system_with_ai/features/map/presentation/manager/map_bloc.dart';
+import 'package:doctor_booking_system_with_ai/features/waitlist/data/datasources/waitlist_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/features/waitlist/data/datasources/waitlist_remote_data_source_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/waitlist/data/repos/waitlist_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/waitlist/domain/repos/waitlist_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/waitlist/presentation/cubit/waitlist_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/data/data_sources/ai_chat_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/data/repositories/ai_chat_repository_impl.dart';
@@ -405,4 +410,34 @@ Future<void> init() async {
 
   // Theme Cubit - manages app theme (light/dark/system)
   serviceLocator.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
+
+  // Waitlist Feature
+  serviceLocator.registerLazySingleton<WaitlistRemoteDataSource>(
+    () => WaitlistRemoteDataSourceImpl(
+      dio: Dio()
+        ..options.baseUrl = ''
+        ..interceptors.add(
+          InterceptorsWrapper(
+            onRequest: (options, handler) async {
+              final authLocalDataSource = serviceLocator<AuthLocalDataSource>();
+              final authData = await authLocalDataSource.getCachedAuthData();
+              if (authData?.token != null) {
+                options.headers['Authorization'] = 'Bearer ${authData!.token}';
+              }
+              options.headers['Accept'] = 'application/json';
+              options.headers['Content-Type'] = 'application/json';
+              return handler.next(options);
+            },
+          ),
+        ),
+    ),
+  );
+
+  serviceLocator.registerLazySingleton<WaitlistRepo>(
+    () => WaitlistRepoImpl(remoteDataSource: serviceLocator()),
+  );
+
+  serviceLocator.registerFactory<WaitlistCubit>(
+    () => WaitlistCubit(serviceLocator()),
+  );
 }

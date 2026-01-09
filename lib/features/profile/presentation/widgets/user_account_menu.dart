@@ -1,11 +1,13 @@
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/confirm_action_dialog.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/theme_mode_selector.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/profile/presentation/widgets/user_account_menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class UserAccountMenu extends StatefulWidget {
   const UserAccountMenu({super.key});
@@ -56,6 +58,25 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
               title: 'الإعدادات',
               icon: 'assets/icons/setting-2.svg',
               onTap: () {},
+            ),
+            const SizedBox(height: 14),
+
+            UserAccountMenuItem(
+              title: 'قوائم الانتظار',
+              icon: 'assets/icons/setting-2.svg',
+              onTap: () => context.push(AppRouter.myWaitlistsViewRoute),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.queue, color: context.primaryColor, size: 18),
+                  const SizedBox(width: 8),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: context.primaryColor,
+                    size: 15,
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 14),
 
