@@ -14,6 +14,7 @@ import 'package:doctor_booking_system_with_ai/features/search/presentation/manag
 import 'package:doctor_booking_system_with_ai/firebase_options.dart' show DefaultFirebaseOptions;
 import 'package:doctor_booking_system_with_ai/service_locator.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -35,6 +36,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+      String? token = await FirebaseMessaging.instance.getToken();
+    print("************************************************************************8");
+    print("Firebase Messaging Token: $token");
+       print("************************************************************************8");
+
   runApp(MyApp());
 }
 

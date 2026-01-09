@@ -25,6 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signIn({required String email, required String password}) async {
     emit(AuthLoading());
     try {
+      
       final result = await signInUseCase(
         SignInParams(email: email, password: password),
       );
@@ -37,6 +38,7 @@ class AuthCubit extends Cubit<AuthState> {
           emit(AuthSuccess(user: user));
         }
       });
+      
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
