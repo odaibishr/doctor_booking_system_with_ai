@@ -4,6 +4,7 @@ import 'package:doctor_booking_system_with_ai/features/booking_history/domain/en
 
 abstract class BookingHistoryRemoteDataSource {
   Future<List<Booking>> getBookingHistory();
+  Future<void> cancelAppointment(int appointmentId, String reason);
 }
 
 class BookingHistoryRemoteDataSourceImpl
@@ -19,12 +20,19 @@ class BookingHistoryRemoteDataSourceImpl
 
     if (response['data'] != null && response['data'] is List) {
       for (final booking in response['data']) {
-        bookings.add(
-          BookingModel.fromMap(booking as Map<String, dynamic>),
-        );
+        bookings.add(BookingModel.fromMap(booking as Map<String, dynamic>));
       }
     }
 
     return bookings;
+  }
+  
+  @override
+  Future<void> cancelAppointment(int appointmentId, String reason) async{
+    await dioConsumer.delete('appointment/updateAppointmentStatus/$appointmentId',
+    data: {
+      'status': 'cancelled',
+      'cancellation_reason': reason,
+    });
   }
 }
