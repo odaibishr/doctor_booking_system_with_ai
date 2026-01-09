@@ -118,7 +118,7 @@ class JoinWaitlistButton extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withAlpha(25),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(

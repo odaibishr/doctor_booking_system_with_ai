@@ -16,7 +16,7 @@ class EmptyWaitlistView extends StatelessWidget {
               width: 120,
               height: 120,
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withAlpha(25),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
