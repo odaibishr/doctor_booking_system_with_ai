@@ -53,4 +53,22 @@ class BookingHistoryRepoImpl implements BookingHistoryRepo {
       return Left(Failure(error.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> rescheduleAppointment(
+    int appointmentId,
+    String date,
+    int? scheduleId,
+  ) async {
+    try {
+      await remoteDataSource.rescheduleAppointment(
+        appointmentId,
+        date,
+        scheduleId,
+      );
+      return Right(null);
+    } catch (error) {
+      return Left(Failure(error.toString()));
+    }
+  }
 }

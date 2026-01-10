@@ -28,6 +28,7 @@ import 'package:doctor_booking_system_with_ai/features/auth/data/repos/logout_re
 import 'package:doctor_booking_system_with_ai/features/booking_history/data/datasources/booking_history_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/usecases/cancel_appointment_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/domain/usecases/reschedule_appointment_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/domain/usecases/create_profile_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/data/datasources/booking_history_remote_data_source.dart';
@@ -334,6 +335,10 @@ Future<void> init() async {
     () => CancelAppointmentUseCase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<RescheduleAppointmentUseCase>(
+    () => RescheduleAppointmentUseCase(serviceLocator()),
+  );
+
   // Cubit
   serviceLocator.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
@@ -395,6 +400,7 @@ Future<void> init() async {
     () => BookingHistoryCubit(
       serviceLocator<GetBookingHistoryUseCase>(),
       serviceLocator<CancelAppointmentUseCase>(),
+      serviceLocator<RescheduleAppointmentUseCase>(),
     ),
   );
 

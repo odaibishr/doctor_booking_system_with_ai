@@ -1,10 +1,13 @@
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/review_dialog.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/manager/booking_history_cubit/booking_history_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'appointment_card.dart';
 
@@ -12,8 +15,7 @@ class AppointmentCardFactory {
   static List<Widget> getButtons({
     required BuildContext context,
     required AppointmentStatus status,
-    required int doctorId,
-    required int bookingId,
+    required Booking booking,
   }) {
     switch (status) {
       case AppointmentStatus.upcoming:
@@ -21,11 +23,7 @@ class AppointmentCardFactory {
           Expanded(
             child: MainButton(
               text: 'تغيير الموعد',
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('سيتم دعم تعديل الموعد قريباً')),
-                );
-              },
+              onTap: () => _showRescheduleBottomSheet(context, booking),
               height: 28,
               radius: 6,
             ),
@@ -34,7 +32,7 @@ class AppointmentCardFactory {
           Expanded(
             child: MainButton(
               text: 'إلغاء الموعد',
-              onTap: () => _showCancelBottomSheet(context, bookingId),
+              onTap: () => _showCancelBottomSheet(context, booking.id),
               height: 28,
               radius: 6,
               color: context.gray300Color,
@@ -48,9 +46,9 @@ class AppointmentCardFactory {
             child: MainButton(
               text: 'حجز مرة أخرى',
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('تمت إضافة الحجز بنجاح')),
-                );
+                GoRouter.of(
+                  context,
+                ).push(AppRouter.detailsViewRoute, extra: booking.doctorId);
               },
               height: 28,
               radius: 6,
@@ -69,7 +67,8 @@ class AppointmentCardFactory {
                       top: Radius.circular(25),
                     ),
                   ),
-                  builder: (context) => ReviewDialog(doctorId: doctorId),
+                  builder: (context) =>
+                      ReviewDialog(doctorId: booking.doctorId),
                 );
               },
               height: 28,
@@ -85,11 +84,9 @@ class AppointmentCardFactory {
             child: MainButton(
               text: 'إعادة الحجز',
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('هذا الموعد ملغى، يرجى إنشاء حجز جديد'),
-                  ),
-                );
+                GoRouter.of(
+                  context,
+                ).push(AppRouter.detailsViewRoute, extra: booking.doctorId);
               },
               height: 28,
               radius: 6,
@@ -101,9 +98,9 @@ class AppointmentCardFactory {
             child: MainButton(
               text: 'حجز جديد',
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('سيتم دعم هذه العملية قريباً')),
-                );
+                GoRouter.of(
+                  context,
+                ).push(AppRouter.detailsViewRoute, extra: booking.doctorId);
               },
               height: 28,
               radius: 6,
@@ -112,6 +109,85 @@ class AppointmentCardFactory {
           ),
         ];
     }
+  }
+
+  static void _showRescheduleBottomSheet(
+    BuildContext context,
+    Booking booking,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      ),
+      builder: (bottomSheetContext) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(bottomSheetContext).viewInsets.bottom,
+              right: 20,
+              left: 20,
+              top: 16,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 60,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'تغيير الموعد',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'سيتم نقلك لصفحة تعديل الموعد مع د. ${booking.doctor.name}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: context.gray600Color),
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: MainButton(
+                    text: 'تعديل الموعد',
+                    onTap: () async {
+                      Navigator.pop(bottomSheetContext);
+                      final result = await GoRouter.of(context).push<bool>(
+                        AppRouter.rescheduleAppointmentViewRoute,
+                        extra: booking,
+                      );
+                      if (result == true && context.mounted) {
+                        context
+                            .read<BookingHistoryCubit>()
+                            .fetchBookingHistory();
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: MainButton(
+                    text: 'إلغاء',
+                    onTap: () => Navigator.pop(bottomSheetContext),
+                    color: context.gray300Color,
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   static void _showCancelBottomSheet(BuildContext context, int bookingId) {
