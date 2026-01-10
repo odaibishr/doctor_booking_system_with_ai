@@ -8,4 +8,9 @@ abstract class BookingHistoryRepo {
     int appointmentId,
     String reason,
   );
+  Future<Either<Failure, void>> rescheduleAppointment(
+    int appointmentId,
+    String date,
+    int? scheduleId,
+  );
 }

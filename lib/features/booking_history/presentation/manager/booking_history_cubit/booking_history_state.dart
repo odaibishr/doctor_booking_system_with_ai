@@ -16,3 +16,21 @@ final class BookingHistoryError extends BookingHistoryState {
   final String message;
   BookingHistoryError(this.message);
 }
+
+final class CancelAppointmentLoading extends BookingHistoryState {}
+
+final class CancelAppointmentSuccess extends BookingHistoryState {}
+
+final class CancelAppointmentError extends BookingHistoryState {
+  final String message;
+  CancelAppointmentError(this.message);
+}
+
+final class RescheduleAppointmentLoading extends BookingHistoryState {}
+
+final class RescheduleAppointmentSuccess extends BookingHistoryState {}
+
+final class RescheduleAppointmentError extends BookingHistoryState {
+  final String message;
+  RescheduleAppointmentError(this.message);
+}

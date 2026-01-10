@@ -3,7 +3,10 @@ import 'package:doctor_booking_system_with_ai/features/auth/presentation/sign_up
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/ai_chat_view.dart';
 import 'package:doctor_booking_system_with_ai/features/app/presentation/app_navigation.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/presentation/appointment_view.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/booking_history_view.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/manager/booking_history_cubit/booking_history_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/reschedule_appointment_view.dart';
 import 'package:doctor_booking_system_with_ai/features/categories/presentation/category_view.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/create_profile_view.dart';
 import 'package:doctor_booking_system_with_ai/features/favorite_doctor/presentation/favorite_doctor_view.dart';
@@ -59,6 +62,8 @@ class AppRouter {
   static const String topDoctorsViewRoute = '/topDoctorsView';
   static const String doctorMapViewRoute = '/doctorMapView';
   static const String myWaitlistsViewRoute = '/myWaitlistsView';
+  static const String rescheduleAppointmentViewRoute =
+      '/rescheduleAppointmentView';
 
   static GoRouter router = GoRouter(
     navigatorKey: navigatorKey,
@@ -269,6 +274,17 @@ class AppRouter {
             child: const MyWaitlistsPage(),
           ),
           name: myWaitlistsViewRoute,
+        ),
+      ),
+      // Reschedule Appointment - slide up
+      GoRoute(
+        path: rescheduleAppointmentViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.slideUp(
+          child: BlocProvider(
+            create: (_) => serviceLocator<BookingHistoryCubit>(),
+            child: RescheduleAppointmentView(booking: state.extra as Booking),
+          ),
+          name: rescheduleAppointmentViewRoute,
         ),
       ),
     ],
