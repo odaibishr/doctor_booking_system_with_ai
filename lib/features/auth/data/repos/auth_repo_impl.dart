@@ -28,10 +28,10 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<Either<Failure, User>> signIn(String email, String password) async {
+  Future<Either<Failure, User>> signIn(String email, String password, String? fcm_token) async {
     try {
       log("Attempting to sign in with email: $email");
-      final result = await authRemoteDataSource.signIn(email, password);
+      final result = await authRemoteDataSource.signIn(email, password, fcm_token);
       await authLocalDataSource.cacheAuthData(result);
       log("Sign in successful for user: ${result.email}");
       return Right(result);

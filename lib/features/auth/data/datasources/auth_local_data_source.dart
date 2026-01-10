@@ -29,6 +29,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
             gender: user.gender,
             location: user.location,
             locationId: user.locationId,
+            fcm_token: user.fcm_token,
           );
 
     await HiveService.cacheAuthData(userModel);
@@ -53,6 +54,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       gender: user.gender,
       location: user.location,
       locationId: user.locationId,
+      fcm_token: user.fcm_token,
     );
   }
 

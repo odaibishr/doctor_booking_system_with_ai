@@ -4,12 +4,13 @@ import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dar
 import '../models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserModel> signIn(String email, String password);
+  Future<UserModel> signIn(String email, String password, String?fcm_token);
   Future<UserModel> signUp(
     String name,
     String email,
     String password,
     String passwordConfirmation,
+  
   );
   Future<void> logout(String token);
 }
@@ -20,10 +21,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this.dioConsumer);
 
   @override
-  Future<UserModel> signIn(String email, String password) async {
+  Future<UserModel> signIn(String email, String password,String? fcm_token) async {
     final response = await dioConsumer.post(
       'login',
-      data: {'email': email, 'password': password},
+      data: {'email': email, 'password': password, 'fcm_token': fcm_token},
     );
 
     log("Full response: $response");
