@@ -26,13 +26,12 @@ class BookingHistoryRemoteDataSourceImpl
 
     return bookings;
   }
-  
+
   @override
-  Future<void> cancelAppointment(int appointmentId, String reason) async{
-    await dioConsumer.delete('appointment/updateAppointmentStatus/$appointmentId',
-    data: {
-      'status': 'cancelled',
-      'cancellation_reason': reason,
-    });
+  Future<void> cancelAppointment(int appointmentId, String reason) async {
+    await dioConsumer.put(
+      'appointment/updateAppointmentStatus/$appointmentId',
+      data: {'status': 'cancelled', 'cancellation_reason': reason},
+    );
   }
 }

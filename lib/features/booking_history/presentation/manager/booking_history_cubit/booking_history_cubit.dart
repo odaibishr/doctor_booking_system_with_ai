@@ -50,7 +50,10 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
 
     result.fold(
       (failure) => emit(CancelAppointmentError(failure.errorMessage)),
-      (_) => emit(CancelAppointmentSuccess()),
+      (_) {
+        emit(CancelAppointmentSuccess());
+        fetchBookingHistory();
+      },
     );
   }
 

@@ -150,6 +150,24 @@ class DioConsumer extends ApiConsumer {
           );
           break;
 
+        case 'put':
+          response = await _dio.put(
+            path,
+            data: isFormData ? FormData.fromMap(data) : data,
+            queryParameters: queryParameters,
+            options:
+                options ??
+                Options(
+                  validateStatus: (status) => status! < 500,
+                  responseType: ResponseType.plain,
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                  },
+                ),
+          );
+          break;
+
         default:
           throw Exception('Unsupported HTTP method: $method');
       }
@@ -213,6 +231,20 @@ class DioConsumer extends ApiConsumer {
     bool isFormData = false,
   }) => _request(
     'patch',
+    path,
+    data: data,
+    queryParameters: queryParameters,
+    isFormData: isFormData,
+  );
+
+  @override
+  Future<dynamic> put(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    bool isFormData = false,
+  }) => _request(
+    'put',
     path,
     data: data,
     queryParameters: queryParameters,

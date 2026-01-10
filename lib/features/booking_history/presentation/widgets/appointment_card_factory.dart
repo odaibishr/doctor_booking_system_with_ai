@@ -116,6 +116,7 @@ class AppointmentCardFactory {
 
   static void _showCancelBottomSheet(BuildContext context, int bookingId) {
     final TextEditingController reasonController = TextEditingController();
+    final cubit = context.read<BookingHistoryCubit>();
 
     showModalBottomSheet(
       context: context,
@@ -123,12 +124,12 @@ class AppointmentCardFactory {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
       ),
-      builder: (context) {
+      builder: (bottomSheetContext) {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Padding(
             padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
+              bottom: MediaQuery.of(bottomSheetContext).viewInsets.bottom,
               right: 20,
               left: 20,
               top: 16,
@@ -153,19 +154,7 @@ class AppointmentCardFactory {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     IconButton(
-                      onPressed: () {
-                        final reason = reasonController.text.trim();
-                        if (reason.isNotEmpty) {
-                          context.showErrorToast(
-                            'من فضلك اكتب سبب الإلغاء أولا',
-                          );
-                        } else {
-                          context.read<BookingHistoryCubit>().cancelAppointment(
-                            bookingId,
-                            reason,
-                          );
-                        }
-                      },
+                      onPressed: () => Navigator.pop(bottomSheetContext),
                       icon: const Icon(Icons.close),
                     ),
                   ],
@@ -218,18 +207,12 @@ class AppointmentCardFactory {
                     onPressed: () {
                       final reason = reasonController.text.trim();
                       if (reason.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('من فضلك اكتب سبب الإلغاء أولاً'),
-                          ),
+                        context.showErrorToast(
+                          'من فضلك اكتب سبب الإلغاء أولاً',
                         );
                       } else {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('تم استلام سبب الإلغاء: $reason'),
-                          ),
-                        );
+                        Navigator.pop(bottomSheetContext);
+                        cubit.cancelAppointment(bookingId, reason);
                       }
                     },
                     child: const Text(
