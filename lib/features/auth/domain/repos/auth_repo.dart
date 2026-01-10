@@ -3,7 +3,7 @@ import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 
 abstract class AuthRepo {
-  Future<Either<Failure, User>> signIn(String email, String password);
+  Future<Either<Failure, User>> signIn(String email, String password, String? fcm_token);
   Future<Either<Failure, User>> signUp(
     String name,
     String email,

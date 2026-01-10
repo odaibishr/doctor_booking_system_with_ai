@@ -11,13 +11,14 @@ class SignInUseCase extends Usecase<User, SignInParams> {
 
   @override
   Future<Either<Failure, User>> call([SignInParams? params]) async {
-    return await authRepo.signIn(params!.email, params.password);
+    return await authRepo.signIn(params!.email, params.password, params.fcm_token);
   }
 }
 
 class SignInParams {
   final String email;
   final String password;
+  final String? fcm_token;
 
-  SignInParams({required this.email, required this.password});
+  SignInParams({required this.email, required this.password, this.fcm_token});
 }
