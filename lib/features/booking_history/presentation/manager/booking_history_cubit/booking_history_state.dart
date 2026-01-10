@@ -16,3 +16,12 @@ final class BookingHistoryError extends BookingHistoryState {
   final String message;
   BookingHistoryError(this.message);
 }
+
+final class BookingHistoryCancelLoading extends BookingHistoryState {}
+
+final class BookingHistoryCancelSuccess extends BookingHistoryState {}
+
+final class BookingHistoryCancelError extends BookingHistoryState {
+  final String message;
+  BookingHistoryCancelError(this.message);
+}
