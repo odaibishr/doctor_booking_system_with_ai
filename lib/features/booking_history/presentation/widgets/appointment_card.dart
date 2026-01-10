@@ -57,6 +57,7 @@ class AppointmentCard extends StatelessWidget {
                 context: context,
                 status: status,
                 doctorId: booking.doctorId,
+                bookingId: booking.id,
               ),
             ),
           ],

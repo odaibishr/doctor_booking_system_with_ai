@@ -1,8 +1,10 @@
+import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/review_dialog.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/manager/booking_history_cubit/booking_history_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'appointment_card.dart';
 
@@ -11,6 +13,7 @@ class AppointmentCardFactory {
     required BuildContext context,
     required AppointmentStatus status,
     required int doctorId,
+    required int bookingId,
   }) {
     switch (status) {
       case AppointmentStatus.upcoming:
@@ -31,7 +34,7 @@ class AppointmentCardFactory {
           Expanded(
             child: MainButton(
               text: 'إلغاء الموعد',
-              onTap: () => _showCancelBottomSheet(context),
+              onTap: () => _showCancelBottomSheet(context, bookingId),
               height: 28,
               radius: 6,
               color: context.gray300Color,
@@ -111,7 +114,7 @@ class AppointmentCardFactory {
     }
   }
 
-  static void _showCancelBottomSheet(BuildContext context) {
+  static void _showCancelBottomSheet(BuildContext context, int bookingId) {
     final TextEditingController reasonController = TextEditingController();
 
     showModalBottomSheet(
@@ -150,7 +153,19 @@ class AppointmentCardFactory {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     IconButton(
-                      onPressed: () => GoRouter.of(context).pop(),
+                      onPressed: () {
+                        final reason = reasonController.text.trim();
+                        if (reason.isNotEmpty) {
+                          context.showErrorToast(
+                            'من فضلك اكتب سبب الإلغاء أولا',
+                          );
+                        } else {
+                          context.read<BookingHistoryCubit>().cancelAppointment(
+                            bookingId,
+                            reason,
+                          );
+                        }
+                      },
                       icon: const Icon(Icons.close),
                     ),
                   ],
