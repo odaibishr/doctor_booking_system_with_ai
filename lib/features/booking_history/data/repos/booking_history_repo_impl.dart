@@ -40,4 +40,17 @@ class BookingHistoryRepoImpl implements BookingHistoryRepo {
       return Left(Failure(error.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> cancelAppointment(
+    int appointmentId,
+    String reason,
+  ) async {
+    try {
+      await remoteDataSource.cancelAppointment(appointmentId, reason);
+      return Right(null);
+    } catch (error) {
+      return Left(Failure(error.toString()));
+    }
+  }
 }

@@ -7,7 +7,6 @@ import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widg
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/chatmessageview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toastification/toastification.dart'; // Assuming toastification is used in project based on pubspec
 
 class AiChatBody extends StatefulWidget {
   const AiChatBody({super.key});
