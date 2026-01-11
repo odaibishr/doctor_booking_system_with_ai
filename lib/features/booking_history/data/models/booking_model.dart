@@ -43,7 +43,7 @@ class BookingModel extends Booking {
     transaction: BookingTransactionModel.fromMap(
       _ensureMap(data['transaction']),
     ),
-    isReturning: data['is_returning'],
+    isReturning: _parseBool(data['is_returning']),
   );
 
   Map<String, dynamic> toMap() => {

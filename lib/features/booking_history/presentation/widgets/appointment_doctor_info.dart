@@ -13,12 +13,14 @@ class AppointmentDoctorInfo extends StatelessWidget {
     required this.date,
     required this.bookingNumber,
     required this.doctorImage,
+    required this.isReturning,
   });
   final String doctorName;
   final String location;
   final String date;
   final String bookingNumber;
   final String doctorImage;
+  final bool isReturning;
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +42,19 @@ class AppointmentDoctorInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    date,
-                    style: FontStyles.body2.copyWith(
-                      color: AppColors.gray500,
-                      fontWeight: FontWeight.bold,
+                  Flexible(
+                    child: Text(
+                      date,
+                      style: FontStyles.body2.copyWith(
+                        color: AppColors.gray500,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  SvgPicture.asset(
-                    'assets/icons/heart-filled.svg',
-                    width: 24,
-                    height: 24,
-                    fit: BoxFit.scaleDown,
-                  ),
+                  const SizedBox(width: 8),
+                  _buildPatientTypeBadge(),
                 ],
               ),
               const SizedBox(height: 7),
@@ -99,5 +99,34 @@ class AppointmentDoctorInfo extends StatelessWidget {
     }
 
     return Image.asset(doctorImage, fit: BoxFit.contain);
+  }
+
+  Widget _buildPatientTypeBadge() {
+    final color = isReturning ? Colors.blue : Colors.green;
+    final text = isReturning ? 'عائد' : 'جديد';
+    final icon = isReturning ? Icons.replay : Icons.person_add;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 4),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -31,6 +31,7 @@ class BookingAdapter extends TypeAdapter<Booking> {
       doctor: fields[11] as Doctor,
       schedule: fields[12] as BookingHistorySchedule,
       transaction: fields[13] as BookingTransaction,
+      isReturning: fields[14] as bool,
     );
   }
 
