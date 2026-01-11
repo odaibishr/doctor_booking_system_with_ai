@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/location_info.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/patient_type_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -47,14 +48,14 @@ class AppointmentDoctorInfo extends StatelessWidget {
                     child: Text(
                       date,
                       style: FontStyles.body2.copyWith(
-                        color: AppColors.gray500,
-                        fontWeight: FontWeight.bold,
+                        color: context.gray500Color,
+                        fontWeight: FontWeight.w600,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(width: 8),
-                  _buildPatientTypeBadge(),
+                  PatientTypeBadge(isReturning: isReturning),
                 ],
               ),
               const SizedBox(height: 7),
@@ -99,34 +100,5 @@ class AppointmentDoctorInfo extends StatelessWidget {
     }
 
     return Image.asset(doctorImage, fit: BoxFit.contain);
-  }
-
-  Widget _buildPatientTypeBadge() {
-    final color = isReturning ? Colors.blue : Colors.green;
-    final text = isReturning ? 'عائد' : 'جديد';
-    final icon = isReturning ? Icons.replay : Icons.person_add;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: color),
-          const SizedBox(width: 4),
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: color,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
