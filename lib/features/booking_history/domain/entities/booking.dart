@@ -35,6 +35,8 @@ class Booking {
   final BookingHistorySchedule schedule;
   @HiveField(13)
   final BookingTransaction transaction;
+  @HiveField(14)
+  final bool isReturning;
 
   Booking({
     required this.id,
@@ -51,5 +53,6 @@ class Booking {
     required this.doctor,
     required this.schedule,
     required this.transaction,
+    required this.isReturning,
   });
 }

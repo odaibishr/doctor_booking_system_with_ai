@@ -37,7 +37,7 @@ class BookingAdapter extends TypeAdapter<Booking> {
   @override
   void write(BinaryWriter writer, Booking obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -65,7 +65,9 @@ class BookingAdapter extends TypeAdapter<Booking> {
       ..writeByte(12)
       ..write(obj.schedule)
       ..writeByte(13)
-      ..write(obj.transaction);
+      ..write(obj.transaction)
+      ..writeByte(14)
+      ..write(obj.isReturning);
   }
 
   @override
