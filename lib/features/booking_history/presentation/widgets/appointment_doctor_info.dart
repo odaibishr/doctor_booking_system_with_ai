@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/location_info.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/widgets/patient_type_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -13,12 +14,14 @@ class AppointmentDoctorInfo extends StatelessWidget {
     required this.date,
     required this.bookingNumber,
     required this.doctorImage,
+    required this.isReturning,
   });
   final String doctorName;
   final String location;
   final String date;
   final String bookingNumber;
   final String doctorImage;
+  final bool isReturning;
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +43,19 @@ class AppointmentDoctorInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    date,
-                    style: FontStyles.body2.copyWith(
-                      color: AppColors.gray500,
-                      fontWeight: FontWeight.bold,
+                  Flexible(
+                    child: Text(
+                      date,
+                      style: FontStyles.body2.copyWith(
+                        color: context.gray500Color,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  SvgPicture.asset(
-                    'assets/icons/heart-filled.svg',
-                    width: 24,
-                    height: 24,
-                    fit: BoxFit.scaleDown,
-                  ),
+                  const SizedBox(width: 8),
+                  PatientTypeBadge(isReturning: isReturning),
                 ],
               ),
               const SizedBox(height: 7),

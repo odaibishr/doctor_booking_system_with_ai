@@ -48,6 +48,7 @@ class AppointmentCard extends StatelessWidget {
                 date: _formatDate(),
                 bookingNumber: _bookingNumber(),
                 doctorImage: _doctorImageUrl(),
+                isReturning: booking.isReturning,
               ),
             ),
             const SizedBox(height: 16),

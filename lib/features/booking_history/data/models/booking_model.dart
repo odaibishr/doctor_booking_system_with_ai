@@ -23,6 +23,7 @@ class BookingModel extends Booking {
     required super.doctor,
     required super.schedule,
     required super.transaction,
+    required super.isReturning,
   });
 
   factory BookingModel.fromMap(Map<String, dynamic> data) => BookingModel(
@@ -42,6 +43,7 @@ class BookingModel extends Booking {
     transaction: BookingTransactionModel.fromMap(
       _ensureMap(data['transaction']),
     ),
+    isReturning: _parseBool(data['is_returning']),
   );
 
   Map<String, dynamic> toMap() => {
@@ -59,6 +61,7 @@ class BookingModel extends Booking {
     'doctor': doctor,
     'schedule': schedule,
     'transaction': transaction,
+    'is_returning': isReturning,
   };
 
   factory BookingModel.fromJson(String data) {
@@ -82,6 +85,7 @@ class BookingModel extends Booking {
     DoctorModel? doctor,
     BookingHistorySchedule? schedule,
     BookingTransaction? transaction,
+    bool? isReturning,
   }) {
     return BookingModel(
       id: id ?? this.id,
@@ -98,6 +102,7 @@ class BookingModel extends Booking {
       doctor: doctor ?? this.doctor,
       schedule: schedule ?? this.schedule,
       transaction: transaction ?? this.transaction,
+      isReturning: isReturning ?? this.isReturning,
     );
   }
 
