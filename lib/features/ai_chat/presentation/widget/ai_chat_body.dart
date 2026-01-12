@@ -16,17 +16,8 @@ class AiChatBody extends StatefulWidget {
 }
 
 class _AiChatBodyState extends State<AiChatBody> {
-  // final List<Map<String, String>> _conversation = [
-  //   {
-  //     "role": "system",
-  //     "content":
-  //         "أنت طبيب ذكي، تجاوب بشكل متسلسل بدون تكرار، وتكمل على نفس النقاش."
-  //   }
-  // ];
   final ScrollController _scrollController = ScrollController();
-  List<Map<String, dynamic>> _messages =
-      []; // Keep it to map state to UI format if needed, or use state directly
-
+  List<Map<String, dynamic>> _messages = [];
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
@@ -42,7 +33,6 @@ class _AiChatBodyState extends State<AiChatBody> {
   void _sendMessage({String? text, File? image}) {
     if (text != null && text.isNotEmpty) {
       context.read<AiChatCubit>().sendMessage(text);
-      // Wait for state update to scroll
     }
   }
 
@@ -66,9 +56,7 @@ class _AiChatBodyState extends State<AiChatBody> {
           ),
           Expanded(
             child: BlocBuilder<AiChatCubit, AiChatState>(
-             
               builder: (context, state) {
-                // Initial message if empty
                 if (_messages.isEmpty && state is AiChatInitial) {
                   return Center(child: Text("ابدأ المحادثة مع مساعدك الطبي"));
                 }
@@ -89,10 +77,10 @@ class _AiChatBodyState extends State<AiChatBody> {
                       };
                     }).toList(),
                     controller: _scrollController,
+                    recommendedDoctors: state.recommendedDoctors,
                   );
                 }
 
-                // Fallback for failure or any other unknown state
                 return const SizedBox.shrink();
               },
             ),

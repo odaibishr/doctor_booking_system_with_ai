@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/bottomsheet_items.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/upload_button.dart';

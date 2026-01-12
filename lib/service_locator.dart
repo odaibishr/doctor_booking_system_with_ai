@@ -412,7 +412,11 @@ Future<void> init() async {
   );
 
   serviceLocator.registerFactory<AiChatCubit>(
-    () => AiChatCubit(aiChatRepository: serviceLocator()),
+    () => AiChatCubit(
+      aiChatRepository: serviceLocator(),
+      doctorRepo: serviceLocator(),
+      specialtyRepo: serviceLocator(),
+    ),
   );
 
   serviceLocator.registerFactory<PaymentCubit>(
