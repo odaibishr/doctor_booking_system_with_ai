@@ -69,10 +69,21 @@ class _AiChatBodyState extends State<AiChatBody> {
                   _scrollToBottom();
                   return ChatMessageBuilder(
                     messages: state.messages.map((m) {
+                      String content = m['text'] ?? '';
+                      // إزالة سطر ###SPECIALTY من النص المعروض
+                      content = content
+                          .replaceAll(
+                            RegExp(
+                              r'###SPECIALTY:\s*[^\n]+\n?',
+                              caseSensitive: false,
+                            ),
+                            '',
+                          )
+                          .trim();
                       return {
                         'type': 'text',
                         'isUser': m['role'] == 'user',
-                        'content': m['text'],
+                        'content': content,
                         'isDone': m['isDone'] ?? true,
                       };
                     }).toList(),
