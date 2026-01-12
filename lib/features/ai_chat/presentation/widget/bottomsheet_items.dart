@@ -22,7 +22,7 @@ class BottomSheetItems extends StatelessWidget {
         height: 100,
         width: 110,
         decoration: BoxDecoration(
-          color: context.primaryColor,
+          color: AppColors.primary,
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Padding(
