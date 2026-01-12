@@ -70,7 +70,6 @@ class _AiChatBodyState extends State<AiChatBody> {
                   return ChatMessageBuilder(
                     messages: state.messages.map((m) {
                       String content = m['text'] ?? '';
-                      // إزالة سطر ###SPECIALTY من النص المعروض
                       content = content
                           .replaceAll(
                             RegExp(
