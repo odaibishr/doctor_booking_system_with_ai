@@ -101,7 +101,7 @@ class CustomHomeAppBar extends StatelessWidget {
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: AppColors.getPrimary(context),
+              color: AppColors.primary,
               shape: BoxShape.circle,
             ),
             child: SvgPicture.asset(
