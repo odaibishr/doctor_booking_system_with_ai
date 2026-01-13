@@ -21,6 +21,8 @@ class DoctorModel extends Doctor {
     required super.price,
     required super.experience,
     super.schedules,
+    super.newPatientDuration = 30,
+    super.returningPatientDuration = 15,
   });
 
   factory DoctorModel.fromMap(Map<String, dynamic> data) {
@@ -55,6 +57,14 @@ class DoctorModel extends Doctor {
                 .map<DoctorSchedule>((e) => DoctorScheduleModel.fromMap(e))
                 .toList()
           : null,
+      newPatientDuration: _toInt(
+        data['new_patient_duration'] ?? data['newPatientDuration'] ?? 30,
+      ),
+      returningPatientDuration: _toInt(
+        data['returning_patient_duration'] ??
+            data['returningPatientDuration'] ??
+            15,
+      ),
     );
   }
 
@@ -73,6 +83,8 @@ class DoctorModel extends Doctor {
     'price': price,
     'experience': experience,
     'schedules': schedules,
+    'new_patient_duration': newPatientDuration,
+    'returning_patient_duration': returningPatientDuration,
   };
 
   static int _toInt(dynamic value) {
