@@ -2,6 +2,7 @@ import 'package:doctor_booking_system_with_ai/core/layers/data/models/hospital_m
 import 'package:doctor_booking_system_with_ai/core/layers/data/models/specialty_model.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor_schedule.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/parse_helpers.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/models/user_model.dart';
 import 'doctor_schedule_model.dart';
 
@@ -28,39 +29,39 @@ class DoctorModel extends Doctor {
   factory DoctorModel.fromMap(Map<String, dynamic> data) {
     final userMapRaw = data['user'];
     final userMap = userMapRaw is Map
-        ? _ensureMap(userMapRaw)
+        ? ensureMap(userMapRaw)
         : <String, dynamic>{};
     final user = userMap.isNotEmpty
         ? UserModel.fromJson(userMap)
-        : UserModel.fromJson(_ensureMap(data));
+        : UserModel.fromJson(ensureMap(data));
 
     return DoctorModel(
-      id: _toInt(data['id']),
+      id: parseToInt(data['id']),
       aboutus: (data['aboutus'] ?? data['about_us'] ?? '').toString(),
-      specialtyId: _toInt(data['specialty_id'] ?? data['specialtyId']),
-      hospitalId: _toInt(data['hospital_id'] ?? data['hospitalId']),
-      isFeatured: _toInt(data['is_featured'] ?? data['isFeatured']),
-      isTopDoctor: _toInt(data['is_top_doctor'] ?? data['isTopDoctor']),
+      specialtyId: parseToInt(data['specialty_id'] ?? data['specialtyId']),
+      hospitalId: parseToInt(data['hospital_id'] ?? data['hospitalId']),
+      isFeatured: parseToInt(data['is_featured'] ?? data['isFeatured']),
+      isTopDoctor: parseToInt(data['is_top_doctor'] ?? data['isTopDoctor']),
       services: (data['services'] ?? '').toString(),
       specialty: data['specialty'] is Map
-          ? SpecialtyModel.fromMap(_ensureMap(data['specialty']))
+          ? SpecialtyModel.fromMap(ensureMap(data['specialty']))
           : SpecialtyModel.empty(),
       hospital: data['hospital'] is Map
-          ? HospitalModel.fromMap(_ensureMap(data['hospital']))
+          ? HospitalModel.fromMap(ensureMap(data['hospital']))
           : HospitalModel.empty(),
-      isFavorite: _toInt(data['is_favorite'] ?? data['isFavorite']),
+      isFavorite: parseToInt(data['is_favorite'] ?? data['isFavorite']),
       user: user,
-      price: _toDouble(data['price']),
-      experience: _toInt(data['experience']),
+      price: parseToDouble(data['price']),
+      experience: parseToInt(data['experience']),
       schedules: data['schedules'] is List
           ? (data['schedules'] as List)
                 .map<DoctorSchedule>((e) => DoctorScheduleModel.fromMap(e))
                 .toList()
           : null,
-      newPatientDuration: _toInt(
+      newPatientDuration: parseToInt(
         data['new_patient_duration'] ?? data['newPatientDuration'] ?? 30,
       ),
-      returningPatientDuration: _toInt(
+      returningPatientDuration: parseToInt(
         data['returning_patient_duration'] ??
             data['returningPatientDuration'] ??
             15,
@@ -86,24 +87,4 @@ class DoctorModel extends Doctor {
     'new_patient_duration': newPatientDuration,
     'returning_patient_duration': returningPatientDuration,
   };
-
-  static int _toInt(dynamic value) {
-    if (value is int) return value;
-    if (value is num) return value.toInt();
-    return int.tryParse('${value ?? ''}') ?? 0;
-  }
-
-  static double _toDouble(dynamic value) {
-    if (value is double) return value;
-    if (value is num) return value.toDouble();
-    return double.tryParse('${value ?? ''}') ?? 0.0;
-  }
-
-  static Map<String, dynamic> _ensureMap(dynamic value) {
-    if (value is Map<String, dynamic>) return value;
-    if (value is Map) {
-      return value.map((key, val) => MapEntry(key.toString(), val));
-    }
-    return <String, dynamic>{};
-  }
 }
