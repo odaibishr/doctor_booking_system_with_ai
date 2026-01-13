@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/models/doctor_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/schedule_capacity_model.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 
 abstract class DoctorRemoteDataSource {
@@ -10,6 +11,11 @@ abstract class DoctorRemoteDataSource {
   Future<List<Doctor>> searchDoctors(String query, int? specialtyId);
   Future<bool> toggleFavoriteDoctor(int doctorId);
   Future<List<Doctor>> getFavoriteDoctors();
+  Future<ScheduleCapacity> getScheduleCapacity({
+    required int doctorId,
+    required int scheduleId,
+    required String date,
+  });
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
@@ -81,5 +87,23 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
     final response = await getDoctors();
 
     return response.where((doctor) => doctor.isFavorite == 1).toList();
+  }
+
+  @override
+  Future<ScheduleCapacity> getScheduleCapacity({
+    required int doctorId,
+    required int scheduleId,
+    required String date,
+  }) async {
+    final response = await dioConsumer.get(
+      'appointment/getScheduleCapacity',
+      queryParameters: {
+        'doctor_id': doctorId,
+        'doctor_schedule_id': scheduleId,
+        'date': date,
+      },
+    );
+
+    return ScheduleCapacity.fromMap(response['data']);
   }
 }
