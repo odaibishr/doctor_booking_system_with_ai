@@ -31,13 +31,15 @@ class DoctorAdapter extends TypeAdapter<Doctor> {
       price: fields[11] as double,
       experience: fields[12] as int,
       schedules: (fields[13] as List?)?.cast<DoctorSchedule>(),
+      newPatientDuration: fields[14] as int,
+      returningPatientDuration: fields[15] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Doctor obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -65,7 +67,11 @@ class DoctorAdapter extends TypeAdapter<Doctor> {
       ..writeByte(12)
       ..write(obj.experience)
       ..writeByte(13)
-      ..write(obj.schedules);
+      ..write(obj.schedules)
+      ..writeByte(14)
+      ..write(obj.newPatientDuration)
+      ..writeByte(15)
+      ..write(obj.returningPatientDuration);
   }
 
   @override
