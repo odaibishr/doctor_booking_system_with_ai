@@ -27,7 +27,7 @@ class DoctorCardHorizontail extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
-          color: context.cardColor,
+          color: context.cardBackgroundColor,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -90,7 +90,7 @@ class DoctorCardHorizontail extends StatelessWidget {
                             'د. ${doctor.name}',
                             style: FontStyles.subTitle3.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: context.whiteColor,
+                              color: context.primaryColor,
                             ),
                           ),
                         const SizedBox(height: 7),

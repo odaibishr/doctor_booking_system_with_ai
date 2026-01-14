@@ -3,10 +3,7 @@ import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/tap_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/manager/hospital_detailes/hospital_detailes_cubit.dart';
-import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_about.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_details_skeleton.dart';
-import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_header_section.dart';
-import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_stats_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'hospital_details_about_tab.dart';
@@ -177,28 +174,4 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
       },
     );
   }
-
-  final List<Map<String, dynamic>> _reviews = [
-    {
-      'id': '1',
-      'name': 'Brooklyn Simmons',
-      'rating': '4.5',
-      'review':
-          'Great care from the staff. The facility was clean and the doctors took time to explain everything.',
-    },
-    {
-      'id': '2',
-      'name': 'Eleanor Pena',
-      'rating': '4.8',
-      'review':
-          'Quick check-in and very professional team. I felt heard and respected throughout my visit.',
-    },
-    {
-      'id': '3',
-      'name': 'Courtney Henry',
-      'rating': '4.2',
-      'review':
-          'Good experience overall. There was a slight wait, but the service quality made up for it.',
-    },
-  ];
 }
