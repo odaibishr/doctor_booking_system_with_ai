@@ -113,6 +113,24 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // TabBar with animation
+                        AnimatedEntrance(
+                          delay: const Duration(milliseconds: 300),
+                          animationType: AnimationType.fadeSlideUp,
+                          child: TapBar(
+                            tabItems: const ['عنا', 'المتخصصون', 'التقييمات'],
+                            selectedTab: _selectedTab,
+                            onTabChanged: (index) {
+                              setState(() => _selectedTab = index);
+                              _pageController.animateToPage(
+                                index,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 16),
                         // Hospital Header with animation
                         AnimatedEntrance(
                           delay: const Duration(milliseconds: 100),
@@ -144,23 +162,7 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
                     ),
                     child: Column(
                       children: [
-                        // TabBar with animation
-                        AnimatedEntrance(
-                          delay: const Duration(milliseconds: 300),
-                          animationType: AnimationType.fadeSlideUp,
-                          child: TapBar(
-                            tabItems: const ['عنا', 'المتخصصون', 'التقييمات'],
-                            selectedTab: _selectedTab,
-                            onTabChanged: (index) {
-                              setState(() => _selectedTab = index);
-                              _pageController.animateToPage(
-                                index,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            },
-                          ),
-                        ),
+                        
                         const SizedBox(height: 16),
                         Expanded(
                           child: AnimatedEntrance(
