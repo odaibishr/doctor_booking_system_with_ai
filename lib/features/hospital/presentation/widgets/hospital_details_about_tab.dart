@@ -1,17 +1,14 @@
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
+import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_about.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'hospital_details_service_item.dart';
 
 class HospitalDetailsAboutTab extends StatelessWidget {
-  final List<Doctor> doctors;
-  final List<Map<String, dynamic>> reviews;
+  final Hospital hospital;
 
-  const HospitalDetailsAboutTab({
-    super.key,
-    required this.doctors,
-    required this.reviews,
-  });
+  const HospitalDetailsAboutTab({super.key, required this.hospital});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +16,8 @@ class HospitalDetailsAboutTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          HospitalAbout(hospital: hospital),
+          const SizedBox(height: 16),
           Text(
             'عن المستشفى',
             style: FontStyles.subTitle1.copyWith(fontWeight: FontWeight.bold),
