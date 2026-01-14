@@ -1,4 +1,3 @@
-import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_about.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,14 @@ class HospitalDetailsAboutTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final serviceItem = [
+      HospitalDetailsServiceItem(service: 'طوارئ 24 ساعة'),
+      HospitalDetailsServiceItem(service: 'عيادات خارجية'),
+      HospitalDetailsServiceItem(service: 'عمليات جراحية'),
+      HospitalDetailsServiceItem(service: 'مختبرات متطورة'),
+      HospitalDetailsServiceItem(service: 'أشعة وتشخيص'),
+      HospitalDetailsServiceItem(service: 'رعاية مركزة'),
+    ];
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,12 +42,20 @@ class HospitalDetailsAboutTab extends StatelessWidget {
             style: FontStyles.subTitle1.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
-          HospitalDetailsServiceItem(service: 'طوارئ 24 ساعة'),
-          HospitalDetailsServiceItem(service: 'عيادات خارجية'),
-          HospitalDetailsServiceItem(service: 'عمليات جراحية'),
-          HospitalDetailsServiceItem(service: 'مختبرات متطورة'),
-          HospitalDetailsServiceItem(service: 'أشعة وتشخيص'),
-          HospitalDetailsServiceItem(service: 'رعاية مركزة'),
+
+          GridView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 3.5,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
+            itemCount: serviceItem.length,
+            itemBuilder: (context, int index) => serviceItem[index],
+          ),
+          const SizedBox(height: 16),
         ],
       ),
     );
