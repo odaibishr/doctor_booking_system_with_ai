@@ -368,17 +368,13 @@ Future<void> init() async {
     ),
   );
 
-  serviceLocator.registerLazySingleton<DoctorCubit>(
-    () => DoctorCubit(serviceLocator<GetDoctorsUseCase>()),
-  );
+  serviceLocator.registerLazySingleton<DoctorCubit>(() => DoctorCubit());
 
   serviceLocator.registerLazySingleton<DoctorDetailsCubit>(
-    () => DoctorDetailsCubit(serviceLocator()),
+    () => DoctorDetailsCubit(),
   );
 
-  serviceLocator.registerLazySingleton<SpecialtyCubit>(
-    () => SpecialtyCubit(serviceLocator<GetSpecilatiesUseCase>()),
-  );
+  serviceLocator.registerLazySingleton<SpecialtyCubit>(() => SpecialtyCubit());
 
   serviceLocator.registerLazySingleton<SearchDoctorsBloc>(
     () => SearchDoctorsBloc(
@@ -391,17 +387,19 @@ Future<void> init() async {
     () => MapBloc(getDoctorsUseCase: serviceLocator<GetDoctorsUseCase>()),
   );
 
-  serviceLocator.registerLazySingleton<ToggleFavoriteCubit>(
-    () => ToggleFavoriteCubit(serviceLocator()),
-  );
-
   serviceLocator.registerLazySingleton<FavoriteDoctorCubit>(
-    () => FavoriteDoctorCubit(serviceLocator<GetFavoriteDoctorsUseCase>()),
+    () => FavoriteDoctorCubit(),
   );
 
-  serviceLocator.registerLazySingleton<HospitalCubit>(
-    () => HospitalCubit(serviceLocator<GetHospitalsUseCase>()),
+  serviceLocator.registerLazySingleton<ToggleFavoriteCubit>(
+    () => ToggleFavoriteCubit(
+      serviceLocator(),
+      serviceLocator<DoctorCubit>(),
+      serviceLocator<FavoriteDoctorCubit>(),
+    ),
   );
+
+  serviceLocator.registerLazySingleton<HospitalCubit>(() => HospitalCubit());
 
   serviceLocator.registerFactory<HospitalDetailesCubit>(
     () => HospitalDetailesCubit(serviceLocator<GetHospitalDetailsUseCase>()),
@@ -409,17 +407,13 @@ Future<void> init() async {
 
   serviceLocator.registerFactory<BookingHistoryCubit>(
     () => BookingHistoryCubit(
-      serviceLocator<GetBookingHistoryUseCase>(),
       serviceLocator<CancelAppointmentUseCase>(),
       serviceLocator<RescheduleAppointmentUseCase>(),
     ),
   );
 
   serviceLocator.registerFactory<ReviewCubit>(
-    () => ReviewCubit(
-      serviceLocator<CreateReviewUseCase>(),
-      serviceLocator<GetDoctorReviewsUseCase>(),
-    ),
+    () => ReviewCubit(serviceLocator<CreateReviewUseCase>()),
   );
 
   serviceLocator.registerFactory<AiChatCubit>(
