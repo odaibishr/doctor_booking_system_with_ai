@@ -21,6 +21,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:toastification/toastification.dart';
+import 'package:doctor_booking_system_with_ai/core/cache/query_config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,8 @@ void main() async {
 
   await dotenv.load(fileName: ".env");
   await init();
+
+  AppQueryConfig.init();
 
   final authCubit = serviceLocator<AuthCubit>();
   await authCubit.checkAuthStatus();

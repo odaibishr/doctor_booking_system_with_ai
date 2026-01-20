@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
-import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/category_list_view.dart';
@@ -44,8 +43,16 @@ class _HomeViewBodyState extends State<HomeViewBody>
   @override
   void initState() {
     super.initState();
-    context.read<DoctorCubit>().fetchDoctors();
     _initAnimations();
+
+    final currentState = context.read<DoctorCubit>().state;
+    if (currentState is DoctorsLoaded) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _startAnimations();
+      });
+    } else {
+      context.read<DoctorCubit>().fetchDoctors();
+    }
   }
 
   void _initAnimations() {
@@ -171,14 +178,13 @@ class _HomeViewBodyState extends State<HomeViewBody>
                     }
                   },
                   builder: (context, state) {
-                    if (state is DoctorsLoading) {
+                    if (state is DoctorsLoading || state is DoctorInitial) {
                       return const HomeViewSkeleton();
                     }
-                    List<Doctor> doctors = [];
                     if (state is DoctorsLoaded) {
-                      doctors.addAll(state.doctors);
+                      final doctors = state.doctors;
                       log(
-                        'Number of doctors in HomeViewBody: ${doctors.toString()}',
+                        'Number of doctors in HomeViewBody: ${doctors.length}',
                       );
 
                       return Column(
@@ -272,9 +278,29 @@ class _HomeViewBodyState extends State<HomeViewBody>
                           const SizedBox(height: 16),
                         ],
                       );
-                    } else {
-                      return const SizedBox.shrink();
                     }
+                    if (state is DoctorsError) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.error_outline, size: 64),
+                            const SizedBox(height: 16),
+                            Text(state.message),
+                            const SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed: () {
+                                context.read<DoctorCubit>().fetchDoctors(
+                                  forceRefresh: true,
+                                );
+                              },
+                              child: const Text('إعادة المحاولة'),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    return const HomeViewSkeleton();
                   },
                 ),
               ),

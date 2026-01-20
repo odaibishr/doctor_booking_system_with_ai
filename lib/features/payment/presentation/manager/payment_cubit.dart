@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:doctor_booking_system_with_ai/core/cache/cache_exports.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/domain/use_cases/create_appointment_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/domain/repos/payment_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -55,7 +56,7 @@ class PaymentCubit extends Cubit<PaymentState> {
         },
       );
 
-      if (transactionId == null) return; // Payment failed
+      if (transactionId == null) return;
     }
 
     final appointmentResult = await createAppointmentUseCase.call(
@@ -71,7 +72,10 @@ class PaymentCubit extends Cubit<PaymentState> {
 
     appointmentResult.fold(
       (failure) => emit(PaymentFailure(errMessage: failure.errorMessage)),
-      (appointment) => emit(PaymentSuccess(transactionId: transactionId)),
+      (appointment) {
+        invalidateBookingHistoryCache();
+        emit(PaymentSuccess(transactionId: transactionId));
+      },
     );
   }
 }
