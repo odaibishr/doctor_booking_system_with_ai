@@ -18,7 +18,6 @@ class _SplashViewState extends State<SplashView>
   late Animation<double> _animationOpacity;
   late Animation<double> _animationScale;
   late Animation<Offset> _animationSlide;
-  late Animation<Color?> _animationColor;
   late Animation<double> _pulseAnimation;
 
   @override
@@ -48,17 +47,6 @@ class _SplashViewState extends State<SplashView>
           CurvedAnimation(
             parent: _animationController,
             curve: const Interval(0.1, 0.5, curve: Curves.easeOut),
-          ),
-        );
-
-    _animationColor =
-        ColorTween(
-          begin: AppColors.primaryColor,
-          end: AppColors.primaryColor,
-        ).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: const Interval(0.0, 0.3, curve: Curves.easeIn),
           ),
         );
 
@@ -98,7 +86,7 @@ class _SplashViewState extends State<SplashView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _animationColor.value ?? AppColors.primaryColor,
+      backgroundColor: context.scaffoldBackgroundColor,
       body: Center(
         child: AnimatedBuilder(
           animation: _animationController,
