@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
@@ -29,9 +30,17 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             UserAccountMenuItem(
-              title: 'الحساب الشخصي',
+              title: 'تعديل الحساب الشخصي',
               icon: 'assets/icons/user.svg',
-              onTap: () {},
+              onTap: () {
+                final state = context.read<ProfileCubit>().state;
+                if (state is ProfileSuccess) {
+                  context.push(
+                    AppRouter.editProfileViewRoute, // Updated route
+                    extra: state.profile,
+                  );
+                }
+              },
             ),
             const SizedBox(height: 14),
 
