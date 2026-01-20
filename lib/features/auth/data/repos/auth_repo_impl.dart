@@ -1,19 +1,23 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
+import 'package:doctor_booking_system_with_ai/core/services/google_sign_in_service.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/models/user_model.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/repos/auth_repo.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AuthRepoImpl implements AuthRepo {
   final AuthRemoteDataSource authRemoteDataSource;
   final AuthLocalDataSource authLocalDataSource;
+  final GoogleSignInService googleSignInService;
 
   AuthRepoImpl({
     required this.authRemoteDataSource,
     required this.authLocalDataSource,
+    required this.googleSignInService,
   });
 
   @override
@@ -28,10 +32,18 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<Either<Failure, User>> signIn(String email, String password, String? fcm_token) async {
+  Future<Either<Failure, User>> signIn(
+    String email,
+    String password,
+    String? fcm_token,
+  ) async {
     try {
       log("Attempting to sign in with email: $email");
-      final result = await authRemoteDataSource.signIn(email, password, fcm_token);
+      final result = await authRemoteDataSource.signIn(
+        email,
+        password,
+        fcm_token,
+      );
       await authLocalDataSource.cacheAuthData(result);
       log("Sign in successful for user: ${result.email}");
       return Right(result);
@@ -77,6 +89,33 @@ class AuthRepoImpl implements AuthRepo {
     } catch (e) {
       log("Error getting current user: $e");
       return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> signInWithGoogle({
+    required String name,
+    required String email,
+    required String googleId,
+    required String idToken,
+    String? photoUrl,
+    String? fcmToken,
+  }) async {
+    try {
+      final googleResult = await _googleSignInService.signInWithGoogle();
+
+      final userModel = await authRemoteDataSource.signInWithGoogle(
+        name: name,
+        email: email,
+        googleId: googleId,
+        idToken: idToken,
+        photoUrl: photoUrl,
+        fcmToken: await FirebaseMessaging.instance.getToken(),
+      );
+      await authLocalDataSource.cacheAuthData(userModel);
+      return Right(userModel);
+    } catch (error) {
+      return Left(Failure(error.toString()));
     }
   }
 }
