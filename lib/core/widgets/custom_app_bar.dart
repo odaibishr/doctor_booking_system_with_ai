@@ -89,7 +89,9 @@ class CustomAppBar extends StatelessWidget {
                       }
                       return ClipOval(
                         child: CachedNetworkImage(
-                          imageUrl: '${EndPoints.photoUrl}/$profileImage',
+                          imageUrl: profileImage.startsWith('http')
+                              ? profileImage
+                              : '${EndPoints.photoUrl}/$profileImage',
                           scale: 1,
                           fit: BoxFit.cover,
                         ),

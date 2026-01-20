@@ -10,8 +10,9 @@ import 'package:doctor_booking_system_with_ai/features/profile/presentation/widg
 
 class ProfileImage extends StatefulWidget {
   final Function(File?) onImageSelected;
+  final String? imageUrl;
 
-  const ProfileImage({super.key, required this.onImageSelected});
+  const ProfileImage({super.key, required this.onImageSelected, this.imageUrl});
 
   @override
   State<ProfileImage> createState() => _ProfileImageState();
@@ -46,7 +47,7 @@ class _ProfileImageState extends State<ProfileImage> {
           name: '',
           userImage: _selectedImage != null
               ? _selectedImage!.path
-              : 'assets/images/profile_image.png',
+              : (widget.imageUrl ?? 'assets/images/profile_image.png'),
           phoneNumber: '',
         ),
         Positioned(

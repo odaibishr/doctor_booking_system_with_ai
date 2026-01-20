@@ -27,6 +27,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     required String gender,
     required int locationId,
     File? imageFile,
+    String? name,
+    String? email,
+    String? password,
   }) async {
     emit(ProfileLoading());
     try {
@@ -37,6 +40,9 @@ class ProfileCubit extends Cubit<ProfileState> {
           gender: gender,
           locationId: locationId,
           imageFile: imageFile,
+          name: name,
+          email: email,
+          password: password,
         ),
       );
 

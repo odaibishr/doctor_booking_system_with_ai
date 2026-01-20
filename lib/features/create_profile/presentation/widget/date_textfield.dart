@@ -5,7 +5,9 @@ import 'package:svg_flutter/svg.dart';
 
 class DateTextField extends StatefulWidget {
   final Function(DateTime? date) onchanged;
-  const DateTextField({super.key, required this.onchanged});
+  final DateTime? initialDate;
+
+  const DateTextField({super.key, required this.onchanged, this.initialDate});
 
   @override
   State<DateTextField> createState() => _DateTextFieldState();
@@ -15,6 +17,7 @@ class _DateTextFieldState extends State<DateTextField> {
   @override
   Widget build(BuildContext context) {
     return DateTimeFormField(
+      initialValue: widget.initialDate,
       decoration: InputDecoration(
         labelText: 'تاريخ الميلاد',
         labelStyle: TextStyle(color: AppColors.gray400),
