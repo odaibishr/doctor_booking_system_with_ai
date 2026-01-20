@@ -256,6 +256,7 @@ Future<void> init() async {
       serviceLocator<AuthRemoteDataSource>(),
       serviceLocator<AuthLocalDataSource>(),
       serviceLocator<ProfileLocalDataSource>(),
+      serviceLocator<GoogleSignInService>(),
     ),
   );
 
