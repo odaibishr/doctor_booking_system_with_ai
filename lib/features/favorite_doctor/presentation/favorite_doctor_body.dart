@@ -36,7 +36,8 @@ class _FavoriteDoctorBodyState extends State<FavoriteDoctorBody> {
           Expanded(
             child: BlocBuilder<FavoriteDoctorCubit, FavoriteDoctorState>(
               builder: (context, state) {
-                if (state is FavoirteDoctorsLoading) {
+                if (state is FavoirteDoctorsLoading ||
+                    state is FavoriteDoctorInitial) {
                   return const FavoriteDoctorsSkeleton();
                 } else if (state is FavoriteDoctorsError) {
                   return Center(
@@ -51,7 +52,7 @@ class _FavoriteDoctorBodyState extends State<FavoriteDoctorBody> {
                   final doctors = state.doctors;
                   return FavoriteDoctorListView(doctors: doctors);
                 }
-                return Container();
+                return const FavoriteDoctorsSkeleton();
               },
             ),
           ),
