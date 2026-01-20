@@ -34,9 +34,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:doctor_booking_system_with_ai/features/profile/presentation/edit_profile_view.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/profile.dart'; // Ensure Profile is imported
+
 class AppRouter {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
+  // ... existing routes
+  static const String editProfileViewRoute = '/editProfileView';
   static const String splashRoute = '/';
   static const String homeViewRoute = '/homeView';
   static const String appNavigationRoute = '/appNavigation';
@@ -285,6 +290,14 @@ class AppRouter {
             child: RescheduleAppointmentView(booking: state.extra as Booking),
           ),
           name: rescheduleAppointmentViewRoute,
+        ),
+      ),
+      // Edit Profile - shared axis
+      GoRoute(
+        path: editProfileViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: EditProfileView(profile: state.extra as Profile),
+          name: editProfileViewRoute,
         ),
       ),
     ],

@@ -71,7 +71,9 @@ class CustomHomeAppBar extends StatelessWidget {
                             )
                           : hasValidImage
                           ? CachedNetworkImage(
-                              imageUrl: '${EndPoints.photoUrl}/$profileImage',
+                              imageUrl: profileImage.startsWith('http')
+                                  ? profileImage
+                                  : '${EndPoints.photoUrl}/$profileImage',
                               fit: BoxFit.cover,
                               errorWidget: (context, url, error) =>
                                   Image.asset(userImage, fit: BoxFit.cover),
