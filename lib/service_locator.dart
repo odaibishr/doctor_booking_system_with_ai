@@ -19,12 +19,14 @@ import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cub
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_service.dart';
 import 'package:doctor_booking_system_with_ai/core/network/network_info.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/review/review_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/services/google_sign_in_service.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/profile_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/repos/profile_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/profile_repo.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/repos/review_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/repos/logout_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/google_sign_in_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/data/datasources/booking_history_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/usecases/cancel_appointment_use_case.dart';
@@ -99,6 +101,8 @@ final GetIt serviceLocator = GetIt.instance;
 Future<void> init() async {
   // Hive Initialization
   await HiveService.init();
+
+  serviceLocator.registerLazySingleton(() => GoogleSignInService());
 
   serviceLocator.registerLazySingleton<HiveService>(() => HiveService());
 
@@ -194,6 +198,7 @@ Future<void> init() async {
     () => AuthRepoImpl(
       authRemoteDataSource: serviceLocator(),
       authLocalDataSource: serviceLocator(),
+      googleSignInService: serviceLocator(),
     ),
   );
 
@@ -251,6 +256,7 @@ Future<void> init() async {
       serviceLocator<AuthRemoteDataSource>(),
       serviceLocator<AuthLocalDataSource>(),
       serviceLocator<ProfileLocalDataSource>(),
+      serviceLocator<GoogleSignInService>(),
     ),
   );
 
@@ -339,6 +345,10 @@ Future<void> init() async {
     () => RescheduleAppointmentUseCase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<GoogleSignInUseCase>(
+    () => GoogleSignInUseCase(serviceLocator()),
+  );
+
   // Cubit
   serviceLocator.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
@@ -346,6 +356,7 @@ Future<void> init() async {
       signUpUsecase: serviceLocator(),
       checkAuthSatusUsecase: serviceLocator(),
       logoutUseCase: serviceLocator(),
+      googleSignInUseCase: serviceLocator(),
     ),
   );
 

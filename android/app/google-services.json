@@ -12,7 +12,20 @@
           "package_name": "com.example.doctor_booking_system_with_ai"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "904253282096-vjacvvfqr53gd2ps8936ohs6v78vn124.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.doctor_booking_system_with_ai",
+            "certificate_hash": "5fbd29250ccfe0da0c788c9b650202d263700138"
+          }
+        },
+        {
+          "client_id": "904253282096-o246ouc0v1qk47ara2cihhdl5jpqbqpo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBn4ZimbsUnDWwpJ2odxDe-q9HbSEB4Dg8"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904253282096-o246ouc0v1qk47ara2cihhdl5jpqbqpo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "904253282096-3hu9o4747bfptfhe6jhkct7u1eh8epg8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.doctorBookingSystemWithAi"
+              }
+            }
+          ]
         }
       }
     }
