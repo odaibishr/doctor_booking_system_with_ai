@@ -1,46 +1,76 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
+import 'package:dartz/dartz.dart';
+import 'package:doctor_booking_system_with_ai/core/cache/cache_exports.dart';
+import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/usecases/cancel_appointment_use_case.dart';
-import 'package:doctor_booking_system_with_ai/features/booking_history/domain/usecases/get_booking_history_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/usecases/reschedule_appointment_use_case.dart';
 import 'package:flutter/foundation.dart';
 
 part 'booking_history_state.dart';
 
 class BookingHistoryCubit extends Cubit<BookingHistoryState> {
-  final GetBookingHistoryUseCase getBookingHistoryUseCase;
   final CancelAppointmentUseCase cancelAppointmentUseCase;
   final RescheduleAppointmentUseCase rescheduleAppointmentUseCase;
-  int _requestId = 0;
+  Query<Either<Failure, List<Booking>>>? _bookingQuery;
 
   BookingHistoryCubit(
-    this.getBookingHistoryUseCase,
     this.cancelAppointmentUseCase,
     this.rescheduleAppointmentUseCase,
   ) : super(BookingHistoryInitial());
 
-  Future<void> fetchBookingHistory() async {
-    final requestId = ++_requestId;
-    if (isClosed) return;
+  Future<void> fetchBookingHistory({bool forceRefresh = false}) async {
+    _bookingQuery = bookingHistoryQuery();
 
-    emit(BookingHistoryLoading());
-    try {
-      final result = await getBookingHistoryUseCase();
-      if (isClosed || requestId != _requestId) return;
-
-      result.fold(
-        (failure) {
-          if (isClosed || requestId != _requestId) return;
-          emit(BookingHistoryError(failure.errorMessage));
-        },
+    final cachedData = _bookingQuery!.state.data;
+    if (cachedData != null && !forceRefresh) {
+      cachedData.fold(
+        (failure) => emit(BookingHistoryError(failure.errorMessage)),
         (bookings) {
-          if (isClosed || requestId != _requestId) return;
+          log('Loaded booking history from cache: ${bookings.length}');
           emit(BookingHistoryLoaded(bookings));
         },
       );
-    } catch (error) {
-      if (isClosed || requestId != _requestId) return;
-      emit(BookingHistoryError(error.toString()));
+
+      _refetchIfStale();
+      return;
+    }
+
+    emit(BookingHistoryLoading());
+
+    final queryState = await _bookingQuery!.result;
+    final result = queryState.data;
+    if (result == null) {
+      emit(BookingHistoryError('Failed to fetch booking history'));
+      return;
+    }
+    result.fold((failure) => emit(BookingHistoryError(failure.errorMessage)), (
+      bookings,
+    ) {
+      log('Fetched booking history from API: ${bookings.length}');
+      emit(BookingHistoryLoaded(bookings));
+    });
+  }
+
+  Future<void> _refetchIfStale() async {
+    if (_bookingQuery == null) return;
+
+    final state = _bookingQuery!.state;
+    final isStale =
+        state.status == QueryStatus.success &&
+        DateTime.now().difference(state.timeCreated) >
+            AppQueryConfig.defaultRefetchDuration;
+
+    if (isStale) {
+      log('Background refetch: booking history data is stale');
+      await _bookingQuery!.refetch();
+      final result = _bookingQuery!.state.data;
+      if (result != null && !isClosed) {
+        result.fold((_) {}, (bookings) => emit(BookingHistoryLoaded(bookings)));
+      }
     }
   }
 
@@ -55,7 +85,8 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
       (failure) => emit(CancelAppointmentError(failure.errorMessage)),
       (_) {
         emit(CancelAppointmentSuccess());
-        fetchBookingHistory();
+        invalidateBookingHistoryCache();
+        fetchBookingHistory(forceRefresh: true);
       },
     );
   }
@@ -79,14 +110,19 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
       (failure) => emit(RescheduleAppointmentError(failure.errorMessage)),
       (_) {
         emit(RescheduleAppointmentSuccess());
-        fetchBookingHistory();
+        invalidateBookingHistoryCache();
+        fetchBookingHistory(forceRefresh: true);
       },
     );
   }
 
+  void invalidateCache() {
+    invalidateBookingHistoryCache();
+  }
+
   @override
   Future<void> close() {
-    _requestId++;
+    _bookingQuery = null;
     return super.close();
   }
 }
