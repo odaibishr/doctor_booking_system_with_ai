@@ -13,11 +13,7 @@ abstract class AuthRemoteDataSource {
   );
   Future<void> logout(String token);
   Future<UserModel> signInWithGoogle({
-    required String name,
-    required String email,
-    required String googleId,
     required String idToken,
-    String? photoUrl,
     String? fcmToken,
   });
 }
@@ -93,23 +89,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<UserModel> signInWithGoogle({
-    required String name,
-    required String email,
-    required String googleId,
     required String idToken,
-    String? photoUrl,
     String? fcmToken,
   }) async {
     final response = await dioConsumer.post(
-      'auth/google',
-      data: {
-        'name': name,
-        'email': email,
-        'google_id': googleId,
-        'id_token': idToken,
-        'photo_url': photoUrl,
-        'fcm_token': fcmToken,
-      },
+      'google-auth',
+      data: {'id_token': idToken, 'fcm_token': fcmToken},
     );
 
     log("Google Sign in response: $response");

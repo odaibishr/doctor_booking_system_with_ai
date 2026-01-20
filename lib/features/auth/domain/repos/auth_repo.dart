@@ -19,12 +19,5 @@ abstract class AuthRepo {
 
   Future<Either<Failure, User?>> getCurrentUser();
 
-  Future<Either<Failure, User>> signInWithGoogle({
-    required String name,
-    required String email,
-    required String googleId,
-    required String idToken,
-    String? photoUrl,
-    String? fcmToken,
-  });
+  Future<Either<Failure, User>> signInWithGoogle();
 }

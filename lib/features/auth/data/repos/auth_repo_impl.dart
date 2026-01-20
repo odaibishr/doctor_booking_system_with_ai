@@ -93,25 +93,19 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<Either<Failure, User>> signInWithGoogle({
-    required String name,
-    required String email,
-    required String googleId,
-    required String idToken,
-    String? photoUrl,
-    String? fcmToken,
-  }) async {
+  Future<Either<Failure, User>> signInWithGoogle() async {
     try {
-      final googleResult = await _googleSignInService.signInWithGoogle();
+      final googleResult = await googleSignInService.signInWithGoogle();
+
+      if (googleResult == null) {
+        return Left(Failure('Google sign-in was cancelled'));
+      }
 
       final userModel = await authRemoteDataSource.signInWithGoogle(
-        name: name,
-        email: email,
-        googleId: googleId,
-        idToken: idToken,
-        photoUrl: photoUrl,
+        idToken: googleResult.idToken,
         fcmToken: await FirebaseMessaging.instance.getToken(),
       );
+
       await authLocalDataSource.cacheAuthData(userModel);
       return Right(userModel);
     } catch (error) {
