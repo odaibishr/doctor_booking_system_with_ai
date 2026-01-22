@@ -30,33 +30,12 @@ class PaymentCubit extends Cubit<PaymentState> {
   }) async {
     emit(PaymentLoading());
 
-    String? transactionId = '1';
+    String? transactionId;
 
     if (_selectedPaymentMode == 'online') {
-      if (amount == null) {
-        emit(
-          const PaymentFailure(
-            errMessage: "Amount is required for online payment",
-          ),
-        );
-        return;
-      }
-
-      final paymentResult = await paymentRepo.processPayment(
-        amount: amount,
-        currency: 'USD',
-      );
-
-      paymentResult.fold(
-        (failure) {
-          emit(PaymentFailure(errMessage: failure.errorMessage));
-        },
-        (id) {
-          transactionId = id;
-        },
-      );
-
-      if (transactionId == null) return;
+      // We no longer process payment on the frontend as the backend handles
+      // transaction creation with the correct doctor price and gateway ID.
+      await Future.delayed(const Duration(seconds: 1));
     }
 
     final appointmentResult = await createAppointmentUseCase.call(
