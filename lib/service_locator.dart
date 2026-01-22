@@ -396,6 +396,7 @@ Future<void> init() async {
       serviceLocator(),
       serviceLocator<DoctorCubit>(),
       serviceLocator<FavoriteDoctorCubit>(),
+      serviceLocator<DoctorDetailsCubit>(),
     ),
   );
 
