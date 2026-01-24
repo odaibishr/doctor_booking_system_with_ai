@@ -22,21 +22,42 @@ class SpecialtyRepoImpl implements SpecialtyRepo {
   @override
   Future<Either<Failure, List<Specialty>>> getSpecialties() async {
     try {
-      // check if network is connected
       if (!await _networkInfo.isConnected) {
         final cachedSpecialties = await localDataSource.getSpecialties();
         return Right(cachedSpecialties);
       }
 
-      log("Fetching specialties from remote data source");
+      log("Fetching active specialties from remote data source");
 
       final result = await remoteDataSource.getSpecialties();
       await localDataSource.cachedSpecialties(result);
 
-      log("Fetched ${result.length} specialties from remote data source");
+      log(
+        "Fetched ${result.length} active specialties from remote data source",
+      );
       return Right(result);
     } catch (error) {
       log('Error fetching specialties: $error');
+      return Left(Failure(error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Specialty>>> getAllSpecialties() async {
+    try {
+      if (!await _networkInfo.isConnected) {
+        final cachedSpecialties = await localDataSource.getSpecialties();
+        return Right(cachedSpecialties);
+      }
+
+      log("Fetching all specialties from remote data source");
+
+      final result = await remoteDataSource.getAllSpecialties();
+
+      log("Fetched ${result.length} specialties (all) from remote data source");
+      return Right(result);
+    } catch (error) {
+      log('Error fetching all specialties: $error');
       return Left(Failure(error.toString()));
     }
   }

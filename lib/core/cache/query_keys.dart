@@ -1,6 +1,7 @@
 class QueryKeys {
   static const String doctors = 'doctors';
   static const String specialties = 'specialties';
+  static const String allSpecialties = 'all_specialties';
   static const String hospitals = 'hospitals';
   static const String bookingHistory = 'booking_history';
   static const String favoriteDoctors = 'favorite_doctors';

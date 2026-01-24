@@ -15,6 +15,18 @@ Query<Either<Failure, List<Specialty>>> specialtiesQuery() {
   );
 }
 
+Query<Either<Failure, List<Specialty>>> allSpecialtiesQuery() {
+  return Query<Either<Failure, List<Specialty>>>(
+    key: QueryKeys.allSpecialties,
+    queryFn: () => serviceLocator<SpecialtyRepo>().getAllSpecialties(),
+    config: AppQueryConfig.rareUpdateConfig,
+  );
+}
+
 void invalidateSpecialtiesCache() {
   AppQueryConfig.invalidateQuery(QueryKeys.specialties);
+}
+
+void invalidateAllSpecialtiesCache() {
+  AppQueryConfig.invalidateQuery(QueryKeys.allSpecialties);
 }
