@@ -154,11 +154,11 @@ class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
           final String? specialty = extractSpecialtyFromMessage(aiMessage);
 
           if (specialty != null && specialty != 'عام') {
-            print(
+            log(
               "**************************************************************",
             );
-            print('التخصص المستخرج: $specialty');
-            print(
+            log('التخصص المستخرج: $specialty');
+            log(
               "**************************************************************",
             );
             // أرسله إلى Laravel

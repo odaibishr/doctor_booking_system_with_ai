@@ -39,7 +39,7 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
     if (widget.profile != null) {
       phoneController.text = widget.profile!.phone;
       if (widget.profile!.birthDate != 'null') {
-        birthDateController.text = widget.profile!.birthDate!;
+        birthDateController.text = widget.profile!.birthDate;
       }
       selectedGender = widget.profile!.gender;
     }
