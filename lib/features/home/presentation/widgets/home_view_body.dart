@@ -268,7 +268,11 @@ class _HomeViewBodyState extends State<HomeViewBody>
                                   SectionHeader(
                                     title: 'المستشفيات',
                                     moreText: 'إظهار المزيد',
-                                    onTap: () {},
+                                    onTap: () {
+                                      GoRouter.of(
+                                        context,
+                                      ).push(AppRouter.allHospitalsViewRoute);
+                                    },
                                   ),
                                   const SizedBox(height: 3),
                                   const HopitalsListView(),
