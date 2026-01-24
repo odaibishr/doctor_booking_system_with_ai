@@ -16,6 +16,7 @@ import 'package:doctor_booking_system_with_ai/features/forget_password/verify_co
 import 'package:doctor_booking_system_with_ai/features/home/presentation/details_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/home_view.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/hospital_details_view.dart';
+import 'package:doctor_booking_system_with_ai/features/hospital/presentation/all_hospitals_view.dart';
 import 'package:doctor_booking_system_with_ai/features/notification/presentation/notification_view.dart';
 import 'package:doctor_booking_system_with_ai/features/onboarding/presentation/onboarding_view.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/add_card_view.dart';
@@ -69,6 +70,7 @@ class AppRouter {
   static const String myWaitlistsViewRoute = '/myWaitlistsView';
   static const String rescheduleAppointmentViewRoute =
       '/rescheduleAppointmentView';
+  static const String allHospitalsViewRoute = '/allHospitalsView';
 
   static GoRouter router = GoRouter(
     navigatorKey: navigatorKey,
@@ -260,6 +262,14 @@ class AppRouter {
         pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
           child: const TopDoctorsView(),
           name: topDoctorsViewRoute,
+        ),
+      ),
+      // All Hospitals - shared axis
+      GoRoute(
+        path: allHospitalsViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const AllHospitalsView(),
+          name: allHospitalsViewRoute,
         ),
       ),
       // Doctor Map - scale with fade
