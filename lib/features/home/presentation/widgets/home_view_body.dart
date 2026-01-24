@@ -251,6 +251,7 @@ class _HomeViewBodyState extends State<HomeViewBody>
                                         .where(
                                           (doctor) => doctor.isTopDoctor == 1,
                                         )
+                                        .take(5)
                                         .toList(),
                                   ),
                                 ],
