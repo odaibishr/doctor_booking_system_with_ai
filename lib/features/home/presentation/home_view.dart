@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/widgets/exit_confirmation_wrapper.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/home_view_body.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,6 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const HomeViewBody();
+    return const ExitConfirmationWrapper(child: HomeViewBody());
   }
 }
