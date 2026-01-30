@@ -42,7 +42,7 @@ class DoctorModel extends Doctor {
       hospitalId: parseToInt(data['hospital_id'] ?? data['hospitalId']),
       isFeatured: parseToInt(data['is_featured'] ?? data['isFeatured']),
       isTopDoctor: parseToInt(data['is_top_doctor'] ?? data['isTopDoctor']),
-      services: (data['services'] ?? '').toString(),
+      services: _parseServices(data['services']),
       specialty: data['specialty'] is Map
           ? SpecialtyModel.fromMap(ensureMap(data['specialty']))
           : SpecialtyModel.empty(),
@@ -87,4 +87,21 @@ class DoctorModel extends Doctor {
     'new_patient_duration': newPatientDuration,
     'returning_patient_duration': returningPatientDuration,
   };
+
+  static List<String> _parseServices(dynamic raw) {
+    if (raw == null) return [];
+    if (raw is List) {
+      return raw.map((e) => e.toString()).where((s) => s.isNotEmpty).toList();
+    }
+    if (raw is String) {
+      if (raw.isEmpty) return [];
+      return raw
+          .replaceAll('\n', '')
+          .split('.')
+          .map((s) => s.trim())
+          .where((s) => s.isNotEmpty)
+          .toList();
+    }
+    return [];
+  }
 }

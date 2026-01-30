@@ -64,7 +64,7 @@ class DoctorFeaturedBanner extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      doctor.services.replaceAll('.', ' و'),
+                      doctor.services.join(' و '),
                       style: FontStyles.body3.copyWith(
                         color: AppColors.gray100,
                       ),

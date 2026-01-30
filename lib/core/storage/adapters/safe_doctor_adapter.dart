@@ -26,8 +26,8 @@ class SafeDoctorAdapter extends TypeAdapter<Doctor> {
     final int hospitalId = parseToInt(_pick(fields, primary: 3, legacy: 7));
     final int isFeatured = parseToInt(_pick(fields, primary: 4, legacy: 9));
     final int isTopDoctor = parseToInt(_pick(fields, primary: 5, legacy: 10));
-    final String services = (_pick(fields, primary: 6, legacy: 13) ?? '')
-        .toString();
+    final dynamic rawServices = _pick(fields, primary: 6, legacy: 13);
+    final List<String> services = _parseServices(rawServices);
 
     final specialtyValue =
         _asSpecialty(_pick(fields, primary: 7, legacy: 15)) ??
@@ -156,5 +156,22 @@ class SafeDoctorAdapter extends TypeAdapter<Doctor> {
       location: locationValue,
       locationId: locationId,
     );
+  }
+
+  static List<String> _parseServices(dynamic raw) {
+    if (raw == null) return [];
+    if (raw is List) {
+      return raw.map((e) => e.toString()).where((s) => s.isNotEmpty).toList();
+    }
+    if (raw is String) {
+      if (raw.isEmpty) return [];
+      return raw
+          .replaceAll('\n', '')
+          .split('.')
+          .map((s) => s.trim())
+          .where((s) => s.isNotEmpty)
+          .toList();
+    }
+    return [];
   }
 }

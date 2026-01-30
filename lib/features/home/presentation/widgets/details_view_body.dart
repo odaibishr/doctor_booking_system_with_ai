@@ -128,9 +128,7 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                       delay: const Duration(milliseconds: 400),
                       animationType: AnimationType.fadeSlideUp,
                       child: DoctorServicesSection(
-                        doctorServices: doctor!.services
-                            .replaceAll('\n', '')
-                            .split('.'),
+                        doctorServices: doctor!.services,
                       ),
                     ),
 
