@@ -30,7 +30,7 @@ class Doctor {
   int isTopDoctor;
 
   @HiveField(6)
-  String services;
+  List<String> services;
 
   @HiveField(7)
   Specialty specialty;
