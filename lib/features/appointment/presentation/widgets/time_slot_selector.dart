@@ -18,10 +18,18 @@ class TimeSlotSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 10,
-      runSpacing: 10,
-      children: slots.map((slot) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 2.5,
+      ),
+      itemCount: slots.length,
+      itemBuilder: (context, index) {
+        final slot = slots[index];
         final isDisabled = disabledSlots.contains(slot);
         final isSelected = selectedSlot == slot;
 
@@ -41,7 +49,7 @@ class TimeSlotSelector extends StatelessWidget {
           onTap: isDisabled ? null : () => onSelected(slot),
           borderRadius: BorderRadius.circular(14),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            alignment: Alignment.center,
             decoration: BoxDecoration(
               color: bgColor,
               borderRadius: BorderRadius.circular(14),
@@ -64,10 +72,11 @@ class TimeSlotSelector extends StatelessWidget {
                 color: isDisabled ? AppColors.getGray500(context) : textColor,
                 fontWeight: FontWeight.w700,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
         );
-      }).toList(),
+      },
     );
   }
 }

@@ -23,15 +23,18 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
   ) : super(BookingHistoryInitial());
 
   Future<void> fetchBookingHistory({bool forceRefresh = false}) async {
+    if (isClosed) return;
     _bookingQuery = bookingHistoryQuery();
 
     final cachedData = _bookingQuery!.state.data;
     if (cachedData != null && !forceRefresh) {
       cachedData.fold(
-        (failure) => emit(BookingHistoryError(failure.errorMessage)),
+        (failure) {
+          if (!isClosed) emit(BookingHistoryError(failure.errorMessage));
+        },
         (bookings) {
           log('Loaded booking history from cache: ${bookings.length}');
-          emit(BookingHistoryLoaded(bookings));
+          if (!isClosed) emit(BookingHistoryLoaded(bookings));
         },
       );
 
@@ -39,20 +42,26 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
       return;
     }
 
-    emit(BookingHistoryLoading());
+    if (!isClosed) emit(BookingHistoryLoading());
 
     final queryState = await _bookingQuery!.result;
+    if (isClosed) return;
+
     final result = queryState.data;
     if (result == null) {
-      emit(BookingHistoryError('Failed to fetch booking history'));
+      if (!isClosed)
+        emit(BookingHistoryError('Failed to fetch booking history'));
       return;
     }
-    result.fold((failure) => emit(BookingHistoryError(failure.errorMessage)), (
-      bookings,
-    ) {
-      log('Fetched booking history from API: ${bookings.length}');
-      emit(BookingHistoryLoaded(bookings));
-    });
+    result.fold(
+      (failure) {
+        if (!isClosed) emit(BookingHistoryError(failure.errorMessage));
+      },
+      (bookings) {
+        log('Fetched booking history from API: ${bookings.length}');
+        if (!isClosed) emit(BookingHistoryLoaded(bookings));
+      },
+    );
   }
 
   Future<void> _refetchIfStale() async {
@@ -75,18 +84,23 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
   }
 
   Future<void> cancelAppointment(int appointmentId, String reason) async {
+    if (isClosed) return;
     emit(CancelAppointmentLoading());
 
     final result = await cancelAppointmentUseCase(
       CancelAppointmentParams(appointmentId, reason),
     );
 
+    if (isClosed) return;
+
     result.fold(
-      (failure) => emit(CancelAppointmentError(failure.errorMessage)),
+      (failure) {
+        if (!isClosed) emit(CancelAppointmentError(failure.errorMessage));
+      },
       (_) {
-        emit(CancelAppointmentSuccess());
+        if (!isClosed) emit(CancelAppointmentSuccess());
         invalidateBookingHistoryCache();
-        fetchBookingHistory(forceRefresh: true);
+        if (!isClosed) fetchBookingHistory(forceRefresh: true);
       },
     );
   }
@@ -96,6 +110,7 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
     String date,
     int? scheduleId,
   ) async {
+    if (isClosed) return;
     emit(RescheduleAppointmentLoading());
 
     final result = await rescheduleAppointmentUseCase(
@@ -106,12 +121,16 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
       ),
     );
 
+    if (isClosed) return;
+
     result.fold(
-      (failure) => emit(RescheduleAppointmentError(failure.errorMessage)),
+      (failure) {
+        if (!isClosed) emit(RescheduleAppointmentError(failure.errorMessage));
+      },
       (_) {
-        emit(RescheduleAppointmentSuccess());
+        if (!isClosed) emit(RescheduleAppointmentSuccess());
         invalidateBookingHistoryCache();
-        fetchBookingHistory(forceRefresh: true);
+        if (!isClosed) fetchBookingHistory(forceRefresh: true);
       },
     );
   }
