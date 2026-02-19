@@ -26,59 +26,36 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
     if (isClosed) return;
     _bookingQuery = bookingHistoryQuery();
 
-    final cachedData = _bookingQuery!.state.data;
-    if (cachedData != null && !forceRefresh) {
-      cachedData.fold(
+    final currentData = _bookingQuery!.state.data;
+    if (currentData != null) {
+      currentData.fold((_) {}, (bookings) {
+        if (!isClosed) emit(BookingHistoryLoaded(bookings));
+      });
+    } else {
+      if (!isClosed) emit(BookingHistoryLoading());
+    }
+
+    if (forceRefresh) {
+      await _bookingQuery!.refetch();
+    } else {
+      await _bookingQuery!.result;
+    }
+
+    if (isClosed) return;
+
+    final result = _bookingQuery!.state.data;
+    if (result != null) {
+      result.fold(
         (failure) {
           if (!isClosed) emit(BookingHistoryError(failure.errorMessage));
         },
         (bookings) {
-          log('Loaded booking history from cache: ${bookings.length}');
+          log('Booking history updated: ${bookings.length}');
           if (!isClosed) emit(BookingHistoryLoaded(bookings));
         },
       );
-
-      _refetchIfStale();
-      return;
-    }
-
-    if (!isClosed) emit(BookingHistoryLoading());
-
-    final queryState = await _bookingQuery!.result;
-    if (isClosed) return;
-
-    final result = queryState.data;
-    if (result == null) {
-      if (!isClosed) emit(BookingHistoryError('فشل في جلب سجل الحجوزات'));
-      return;
-    }
-    result.fold(
-      (failure) {
-        if (!isClosed) emit(BookingHistoryError(failure.errorMessage));
-      },
-      (bookings) {
-        log('Fetched booking history from API: ${bookings.length}');
-        if (!isClosed) emit(BookingHistoryLoaded(bookings));
-      },
-    );
-  }
-
-  Future<void> _refetchIfStale() async {
-    if (_bookingQuery == null) return;
-
-    final state = _bookingQuery!.state;
-    final isStale =
-        state.status == QueryStatus.success &&
-        DateTime.now().difference(state.timeCreated) >
-            AppQueryConfig.defaultRefetchDuration;
-
-    if (isStale) {
-      log('Background refetch: booking history data is stale');
-      await _bookingQuery!.refetch();
-      final result = _bookingQuery!.state.data;
-      if (result != null && !isClosed) {
-        result.fold((_) {}, (bookings) => emit(BookingHistoryLoaded(bookings)));
-      }
+    } else if (_bookingQuery!.state.status == QueryStatus.error) {
+      if (!isClosed) emit(BookingHistoryError('فشل في جلب البيانات'));
     }
   }
 
