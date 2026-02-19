@@ -38,7 +38,7 @@ class DoctorDetailsCubit extends Cubit<DoctorDetailsState> {
     final queryState = await _doctorDetailsQuery!.result;
     final result = queryState.data;
     if (result == null) {
-      emit(DoctorDetailsError(message: 'Failed to fetch doctor details'));
+      emit(DoctorDetailsError(message: 'فشل في جلب تفاصيل الطبيب'));
       return;
     }
     result.fold(

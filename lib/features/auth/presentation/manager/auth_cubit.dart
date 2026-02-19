@@ -69,7 +69,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (cachedUser != null && cachedUser.token.isNotEmpty) {
         emit(AuthSuccess(user: cachedUser));
       } else {
-        emit(AuthError(message: "No logged in user found"));
+        emit(AuthError(message: "لم يتم العثور على مستخدم مسجل الدخول"));
       }
     } catch (e) {
       emit(AuthError(message: e.toString()));
@@ -97,7 +97,7 @@ class AuthCubit extends Cubit<AuthState> {
         user,
       ) {
         if (user.token.isEmpty) {
-          emit(AuthError(message: "Invalid token received"));
+          emit(AuthError(message: "تم استلام رمز غير صالح"));
         } else {
           emit(AuthSuccess(user: user));
         }

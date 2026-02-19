@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:doctor_booking_system_with_ai/core/errors/exceptions.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/data/data_sources/appointment_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/domain/entities/appointment.dart';
@@ -31,6 +33,19 @@ class AppointmentRepoImpl implements AppoinmentRepo {
       );
       return Right(appointment);
     } catch (e) {
+      if (e is DioException) {
+        try {
+          handleDioException(e);
+        } catch (e2) {
+          if (e2 is ServerException) {
+            return Left(ServerFailure(e2.errorModel.errorMessage));
+          }
+          return Left(ServerFailure(e2.toString()));
+        }
+      }
+      if (e is ServerException) {
+        return Left(ServerFailure(e.errorModel.errorMessage));
+      }
       return Left(ServerFailure(e.toString()));
     }
   }

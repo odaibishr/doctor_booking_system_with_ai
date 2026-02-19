@@ -37,7 +37,7 @@ class SpecialtyCubit extends Cubit<SpecialtyState> {
     final queryState = await _specialtiesQuery!.result;
     final result = queryState.data;
     if (result == null) {
-      emit(SpecialtyError(message: 'Failed to fetch specialties'));
+      emit(SpecialtyError(message: 'فشل في جلب التخصصات'));
       return;
     }
     result.fold(
@@ -71,7 +71,7 @@ class SpecialtyCubit extends Cubit<SpecialtyState> {
     final queryState = await _allSpecialtiesQuery!.result;
     final result = queryState.data;
     if (result == null) {
-      emit(SpecialtyError(message: 'Failed to fetch all specialties'));
+      emit(SpecialtyError(message: 'فشل في جلب جميع التخصصات'));
       return;
     }
     result.fold(

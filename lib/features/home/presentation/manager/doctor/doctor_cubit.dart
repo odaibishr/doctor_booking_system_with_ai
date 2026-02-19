@@ -53,7 +53,7 @@ class DoctorCubit extends Cubit<DoctorState> {
     final queryState = await _doctorsQuery!.result;
     final result = queryState.data;
     if (result == null) {
-      emit(DoctorsError(message: 'Failed to fetch doctors'));
+      emit(DoctorsError(message: 'فشل في جلب قائمة الأطباء'));
       return;
     }
     result.fold(

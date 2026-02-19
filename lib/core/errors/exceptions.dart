@@ -75,7 +75,7 @@ handleDioException(DioException e) {
         // fall through to default
       }
     }
-    final message = e.message ?? e.error?.toString() ?? 'Unexpected error';
+    final message = e.message ?? e.error?.toString() ?? 'حدث خطأ غير متوقع';
     return ErrorModel(status: status, errorMessage: message);
   }
 
@@ -105,14 +105,14 @@ handleDioException(DioException e) {
           throw CofficientException(buildErrorModel(overrideStatus: 409));
         case 504:
           throw BadResponseException(
-            ErrorModel(status: 504, errorMessage: 'Gateway Timeout'),
+            ErrorModel(status: 504, errorMessage: 'انتهت مهلة البوابة'),
           );
         default:
           throw BadResponseException(buildErrorModel());
       }
     case DioExceptionType.cancel:
       throw CancelException(
-        ErrorModel(errorMessage: e.toString(), status: 499),
+        ErrorModel(errorMessage: "تم إلغاء الطلب", status: 499),
       );
     case DioExceptionType.unknown:
       throw UnknownException(buildErrorModel());

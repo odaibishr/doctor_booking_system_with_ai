@@ -49,8 +49,7 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
 
     final result = queryState.data;
     if (result == null) {
-      if (!isClosed)
-        emit(BookingHistoryError('Failed to fetch booking history'));
+      if (!isClosed) emit(BookingHistoryError('فشل في جلب سجل الحجوزات'));
       return;
     }
     result.fold(

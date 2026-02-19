@@ -98,7 +98,7 @@ class AuthRepoImpl implements AuthRepo {
       final googleResult = await googleSignInService.signInWithGoogle();
 
       if (googleResult == null) {
-        return Left(Failure('Google sign-in was cancelled'));
+        return Left(Failure('تم إلغاء تسجيل الدخول بواسطة جوجل'));
       }
 
       final userModel = await authRemoteDataSource.signInWithGoogle(

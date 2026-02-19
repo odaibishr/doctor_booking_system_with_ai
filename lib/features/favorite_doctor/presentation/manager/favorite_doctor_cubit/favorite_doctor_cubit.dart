@@ -52,7 +52,7 @@ class FavoriteDoctorCubit extends Cubit<FavoriteDoctorState> {
     final queryState = await _favoriteDoctorsQuery!.result;
     final result = queryState.data;
     if (result == null) {
-      emit(FavoriteDoctorsError('Failed to fetch favorite doctors'));
+      emit(FavoriteDoctorsError('فشل في جلب الأطباء المفضلين'));
       return;
     }
     result.fold((failure) => emit(FavoriteDoctorsError(failure.errorMessage)), (

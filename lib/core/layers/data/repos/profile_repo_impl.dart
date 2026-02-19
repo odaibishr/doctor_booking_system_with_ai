@@ -35,7 +35,8 @@ class ProfileRepoImpl implements ProfileRepo {
       log(
         "Attempting to update/create profile with phone: $phone, birthDate: $birthDate, gender: $gender, locationId: $locationId, name: $name, email: $email",
       );
-      if (!await networkInfo.isConnected) return Left(Failure('No internet'));
+      if (!await networkInfo.isConnected)
+        return Left(Failure('لا يوجد اتصال بالإنترنت'));
       final result = await remoteDataSource.createProfile(
         phone: phone,
         birthDate: birthDate,

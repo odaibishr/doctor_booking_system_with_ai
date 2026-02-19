@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:doctor_booking_system_with_ai/core/errors/exceptions.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/core/network/network_info.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/doctor_local_data_source.dart';
@@ -19,8 +21,7 @@ class DoctorRepoImpl implements DoctorRepo {
     required this.networkInfo,
   });
 
-  static Failure _noDoctorsFailure() =>
-      Failure('عذراً، لا يوجد أطباء متاحون');
+  static Failure _noDoctorsFailure() => Failure('عذراً، لا يوجد أطباء متاحون');
 
   static Failure _noDoctorDetailsFailure() =>
       Failure('عذراً، لا توجد بيانات لهذا الطبيب');
@@ -41,8 +42,8 @@ class DoctorRepoImpl implements DoctorRepo {
       await localDataSource.cachedDoctors(result);
       log('Number of doctors fetched in RepoImpl: ${result.length}');
       return Right(result);
-    } catch (error) {
-      return Left(Failure(error.toString()));
+    } catch (e) {
+      return _handleError(e);
     }
   }
 
@@ -57,8 +58,8 @@ class DoctorRepoImpl implements DoctorRepo {
 
       final result = await remoteDataSource.getDoctorDetails(id);
       return Right(result);
-    } catch (error) {
-      return Left(Failure(error.toString()));
+    } catch (e) {
+      return _handleError(e);
     }
   }
 
@@ -87,8 +88,8 @@ class DoctorRepoImpl implements DoctorRepo {
       final result = await remoteDataSource.searchDoctors(query, specialtyId);
       if (result.isEmpty) return Left(_noDoctorsFailure());
       return Right(result);
-    } catch (error) {
-      return Left(Failure(error.toString()));
+    } catch (e) {
+      return _handleError(e);
     }
   }
 
@@ -97,8 +98,8 @@ class DoctorRepoImpl implements DoctorRepo {
     try {
       final result = await remoteDataSource.toggleFavoriteDoctor(doctorId);
       return Right(result);
-    } catch (error) {
-      return Left(Failure(error.toString()));
+    } catch (e) {
+      return _handleError(e);
     }
   }
 
@@ -107,8 +108,9 @@ class DoctorRepoImpl implements DoctorRepo {
     try {
       if (!await networkInfo.isConnected) {
         final cachedDoctors = await localDataSource.getCachedDoctors();
-        final favoriteDoctors =
-            cachedDoctors.where((doctor) => doctor.isFavorite == 1).toList();
+        final favoriteDoctors = cachedDoctors
+            .where((doctor) => doctor.isFavorite == 1)
+            .toList();
         if (favoriteDoctors.isEmpty) return Left(_noDoctorsFailure());
         return Right(favoriteDoctors);
       }
@@ -116,9 +118,25 @@ class DoctorRepoImpl implements DoctorRepo {
       final result = await remoteDataSource.getFavoriteDoctors();
       if (result.isEmpty) return Left(_noDoctorsFailure());
       return Right(result);
-    } catch (error) {
-      return Left(Failure(error.toString()));
+    } catch (e) {
+      return _handleError(e);
     }
   }
-}
 
+  Either<Failure, T> _handleError<T>(dynamic e) {
+    if (e is DioException) {
+      try {
+        handleDioException(e);
+      } catch (e2) {
+        if (e2 is ServerException) {
+          return Left(Failure(e2.errorModel.errorMessage));
+        }
+        return Left(Failure(e2.toString()));
+      }
+    }
+    if (e is ServerException) {
+      return Left(Failure(e.errorModel.errorMessage));
+    }
+    return Left(Failure(e.toString()));
+  }
+}
