@@ -1,12 +1,13 @@
 import 'dart:ui';
+import 'package:doctor_booking_system_with_ai/core/storage/hive_service.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/payment_bottomsheet.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/payment_view_body.dart';
-import 'package:svg_flutter/svg.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/manager/payment_cubit.dart';
 import 'package:doctor_booking_system_with_ai/service_locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'dart:developer' as developer;
 
 class PaymentView extends StatefulWidget {
@@ -75,20 +76,27 @@ class _PaymentViewState extends State<PaymentView> {
                 ),
                 if (completePayment == true)
                   Positioned.fill(
-                    top: MediaQuery.of(context).size.height * 0.49,
-                    left: MediaQuery.of(context).size.width * 0.03,
-                    right: MediaQuery.of(context).size.width * 0.03,
-                    bottom: MediaQuery.of(context).size.height * 0.002,
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                      child: PaymentBottomSheet(),
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                        child: Container(
+                          color: Colors.black.withValues(alpha: 0.3),
+                        ),
+                      ),
                     ),
                   ),
                 if (completePayment == true)
                   Positioned(
-                    right: MediaQuery.of(context).size.width * 0.37,
-                    bottom: MediaQuery.of(context).size.height * 0.43,
-                    child: SvgPicture.asset('assets/images/sucess.svg'),
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: PaymentBottomSheet(
+                      doctorName: widget.doctor.name,
+                      userName: HiveService.getCachedAuthData()?.name ?? '',
+                      date: DateFormat.yMMMMd('ar').format(widget.date),
+                      time: widget.time,
+                    ),
                   ),
               ],
             ),

@@ -2,7 +2,6 @@ import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
-import 'package:doctor_booking_system_with_ai/features/payment/presentation/widget/payment_bottomsheet.dart';
 import 'package:flutter/widgets.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -60,7 +59,6 @@ class _JaibDialogContentState extends State<JaibDialogContent> {
             text: 'تاكيد',
             color: Color(0xffdb232d),
             onTap: () {
-              PaymentBottomSheet();
               showBottomSheetNow();
               Future.delayed(Duration(milliseconds: 300), () {});
               Navigator.pop(context);
