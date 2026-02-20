@@ -50,7 +50,7 @@ class BookingHistoryRepoImpl implements BookingHistoryRepo {
       await remoteDataSource.cancelAppointment(appointmentId, reason);
       return Right(null);
     } catch (error) {
-      return Left(Failure(error.toString()));
+      return Left(Failure('فشل إلغاء الموعد، يرجى المحاولة لاحقاً'));
     }
   }
 
@@ -68,7 +68,7 @@ class BookingHistoryRepoImpl implements BookingHistoryRepo {
       );
       return Right(null);
     } catch (error) {
-      return Left(Failure(error.toString()));
+      return Left(Failure('فشل تعديل الموعد، يرجى المحاولة لاحقاً'));
     }
   }
 }

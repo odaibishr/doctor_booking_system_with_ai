@@ -27,7 +27,7 @@ class AuthRepoImpl implements AuthRepo {
       await authRemoteDataSource.logout('');
       return Right(UserModel.empty());
     } catch (e) {
-      return Left(Failure(e.toString()));
+      return Left(Failure('فشل تسجيل الخروج، يرجى المحاولة مرة أخرى'));
     }
   }
 
@@ -49,7 +49,7 @@ class AuthRepoImpl implements AuthRepo {
       return Right(result);
     } catch (e) {
       log("Sign in failed with error: $e");
-      return Left(Failure(e.toString()));
+      return Left(Failure('فشل تسجيل الدخول، تحقق من بياناتك وحاول مرة أخرى'));
     }
   }
 
@@ -73,7 +73,7 @@ class AuthRepoImpl implements AuthRepo {
       return Right(result);
     } catch (e) {
       log("Sign up failed with error: $e");
-      return Left(Failure(e.toString()));
+      return Left(Failure('فشل إنشاء الحساب، يرجى المحاولة مرة أخرى'));
     }
   }
 
@@ -88,7 +88,7 @@ class AuthRepoImpl implements AuthRepo {
       return const Right(null);
     } catch (e) {
       log("Error getting current user: $e");
-      return Left(Failure(e.toString()));
+      return Left(Failure('فشل استرجاع بيانات المستخدم'));
     }
   }
 
@@ -109,7 +109,7 @@ class AuthRepoImpl implements AuthRepo {
       await authLocalDataSource.cacheAuthData(userModel);
       return Right(userModel);
     } catch (error) {
-      return Left(Failure(error.toString()));
+      return Left(Failure('فشل تسجيل الدخول بواسطة جوجل'));
     }
   }
 }

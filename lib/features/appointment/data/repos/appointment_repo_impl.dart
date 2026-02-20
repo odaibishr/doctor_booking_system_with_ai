@@ -40,7 +40,10 @@ class AppointmentRepoImpl implements AppoinmentRepo {
           if (e2 is ServerException) {
             return Left(ServerFailure(e2.errorModel.errorMessage));
           }
-          return Left(ServerFailure(e2.toString()));
+          if (e.response?.statusCode == 409) {
+            return Left(ServerFailure('لديك موعد محجوز بالفعل في هذا التوقيت'));
+          }
+          return Left(ServerFailure('فشل حجز الموعد، يرجى المحاولة مرة أخرى'));
         }
       }
       if (e is ServerException) {
