@@ -25,9 +25,12 @@ class _CustomNavigationState extends State<CustomNavigation> {
       bottomNavigationBar: CrystalNavigationBar(
         currentIndex: currentindex,
          height: 10,
-        // indicatorColor: Colors.blue,
-        unselectedItemColor: const Color.fromARGB(211, 255, 255, 255),
-        borderWidth: 1,
+       // indicatorColor: Colors.blue,
+        unselectedItemColor: AppColors.gray300,
+        enablePaddingAnimation: EditableText.defaultStylusHandwritingEnabled,
+        curve: Curves.linear,
+        
+        borderWidth: 0,
         outlineBorderColor: Colors.white,
         backgroundColor: AppColors.primary,
         onTap: (index){
@@ -37,34 +40,27 @@ class _CustomNavigationState extends State<CustomNavigation> {
         },
         items: [
            CrystalNavigationBarItem(
-            icon: Icons.person,
+
+            icon: Icons.dashboard,
             selectedColor: Colors.white,
-            badge: Badge(
-              label: Text(
-                "",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+            
           ),
           CrystalNavigationBarItem(
             icon: Icons.home,
             selectedColor: Colors.white,
+
             badge: Badge(
+              backgroundColor: AppColors.gray100,
               label: Text(
-                "",
-                style: TextStyle(color: Colors.white),
+                "15",
+                style: TextStyle(color:AppColors.primaryColor),
               ),
             ),
           ),
           CrystalNavigationBarItem(
-            icon: Icons.phone,
+            icon: Icons.person,
             selectedColor: Colors.white,
-            badge: Badge(
-              label: Text(
-                "",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+            
           ),
         ]
       ),
