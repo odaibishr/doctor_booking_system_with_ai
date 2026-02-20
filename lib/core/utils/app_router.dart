@@ -9,6 +9,10 @@ import 'package:doctor_booking_system_with_ai/features/booking_history/presentat
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/reschedule_appointment_view.dart';
 import 'package:doctor_booking_system_with_ai/features/categories/presentation/category_view.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/create_profile_view.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/bottom_navigationbar/presention/custom_navigationbar.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/presention/dashboard_view.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/home_page_view.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/profilee_view.dart';
 import 'package:doctor_booking_system_with_ai/features/favorite_doctor/presentation/favorite_doctor_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/create_new_password/presentation/create_new_password_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/email_input/presentation/email_input_view.dart';
@@ -71,6 +75,10 @@ class AppRouter {
   static const String rescheduleAppointmentViewRoute =
       '/rescheduleAppointmentView';
   static const String allHospitalsViewRoute = '/allHospitalsView';
+  static const String customNavigationBarRoute='/customNavigationBarView';
+  static const String homePageViewRoute='/homePageView';
+  static const String profileeViewRoute='/profileeView';
+  static const String dashBoardViewRoute='/dashBoardView';
 
   static GoRouter router = GoRouter(
     navigatorKey: navigatorKey,
@@ -310,6 +318,35 @@ class AppRouter {
           name: editProfileViewRoute,
         ),
       ),
+     GoRoute(
+        path: customNavigationBarRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const CustomNavigation(),
+          name: customNavigationBarRoute,
+        ),
+      ),
+       GoRoute(
+        path: homePageViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const HomePageView(),
+          name:homePageViewRoute ,
+        ),
+      ),
+       GoRoute(
+        path: profileeViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const ProfileeView(),
+          name: profileeViewRoute,
+        ),
+      ),
+       GoRoute(
+        path: dashBoardViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const DashboardView(),
+          name: dashBoardViewRoute,
+        ),
+      ),
+
     ],
     initialLocation: splashRoute,
   );

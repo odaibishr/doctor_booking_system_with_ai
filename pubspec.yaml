@@ -79,6 +79,7 @@ dependencies:
   firebase_auth: ^5.3.4
   google_sign_in: ^6.2.1
   cached_query: ^2.2.1
+  crystal_navigation_bar: ^1.1.0
 
 dev_dependencies:
   flutter_test:
