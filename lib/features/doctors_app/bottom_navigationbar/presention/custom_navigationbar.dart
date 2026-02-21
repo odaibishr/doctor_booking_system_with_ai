@@ -20,50 +20,62 @@ class _CustomNavigationState extends State<CustomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[currentindex],
-       extendBody: true,
-      bottomNavigationBar: CrystalNavigationBar(
-        currentIndex: currentindex,
-         height: 10,
-       // indicatorColor: Colors.blue,
-        unselectedItemColor: AppColors.gray300,
-        enablePaddingAnimation: EditableText.defaultStylusHandwritingEnabled,
-        curve: Curves.linear,
+     
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: _pages[currentindex],),
+          Positioned(
+            bottom: 0,
+            left: 12,
+            right: 12,
+            child: CrystalNavigationBar(
+       currentIndex: currentindex,
+        height: 10,
+      // indicatorColor: Colors.blue,
+       unselectedItemColor: AppColors.gray300,
+       enablePaddingAnimation: EditableText.defaultStylusHandwritingEnabled,
+       curve: Curves.linear,
+       
+       borderWidth: 0,
+       outlineBorderColor: Colors.white,
+       backgroundColor: AppColors.primary,
+       onTap: (index){
+         setState(() {
+           currentindex=index;
+         });
+       },
+       items: [
+          CrystalNavigationBarItem(
+                  
+           icon: Icons.dashboard,
+           selectedColor: Colors.white,
+           
+         ),
+         CrystalNavigationBarItem(
+           icon: Icons.home,
+           selectedColor: Colors.white,
+                  
+           badge: Badge(
+             backgroundColor: AppColors.gray100,
+             label: Text(
+               "15",
+               style: TextStyle(color:AppColors.primaryColor),
+             ),
+           ),
+         ),
+         CrystalNavigationBarItem(
+           icon: Icons.person,
+           selectedColor: Colors.white,
+           
+         ),
+       ]
+                  ),)
         
-        borderWidth: 0,
-        outlineBorderColor: Colors.white,
-        backgroundColor: AppColors.primary,
-        onTap: (index){
-          setState(() {
-            currentindex=index;
-          });
-        },
-        items: [
-           CrystalNavigationBarItem(
-
-            icon: Icons.dashboard,
-            selectedColor: Colors.white,
-            
-          ),
-          CrystalNavigationBarItem(
-            icon: Icons.home,
-            selectedColor: Colors.white,
-
-            badge: Badge(
-              backgroundColor: AppColors.gray100,
-              label: Text(
-                "15",
-                style: TextStyle(color:AppColors.primaryColor),
-              ),
-            ),
-          ),
-          CrystalNavigationBarItem(
-            icon: Icons.person,
-            selectedColor: Colors.white,
-            
-          ),
-        ]
+        ],
       ),
+       extendBody: true,
+      //bottomNavigationBar: 
     );
   }
 }
