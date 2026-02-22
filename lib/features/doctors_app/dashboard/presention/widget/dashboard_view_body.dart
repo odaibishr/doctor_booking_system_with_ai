@@ -29,7 +29,7 @@ class DashboardViewBody extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 25,),
+                SizedBox(height: 48,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
