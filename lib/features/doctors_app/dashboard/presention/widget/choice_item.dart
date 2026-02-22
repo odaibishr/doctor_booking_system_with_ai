@@ -10,7 +10,7 @@ class ChoiceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(padding: const EdgeInsets.only(top: 10,left: 20,right: 20,bottom: 10),
-      child: Text(title,style: TextStyle(color: AppColors.textPrimaryDark),),decoration: BoxDecoration(
+      child: Text(title,style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255)),),decoration: BoxDecoration(
       color: AppColors.primaryColor,
       borderRadius: BorderRadius.all(Radius.circular(24))
     ),);
