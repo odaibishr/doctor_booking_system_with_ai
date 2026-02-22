@@ -27,11 +27,10 @@ class HospitalModel extends Hospital {
     address: data['address'] as String,
     image: data['image'] as String,
     locationId: data['location_id'] as int,
-    doctors: (data['doctors'] as List<dynamic>?)
+    doctors:
+        (data['doctors'] as List<dynamic>?)
             ?.map(
-              (doctor) => DoctorModel.fromMap(
-                doctor as Map<String, dynamic>,
-              ),
+              (doctor) => DoctorModel.fromMap(doctor as Map<String, dynamic>),
             )
             .toList() ??
         <Doctor>[],
