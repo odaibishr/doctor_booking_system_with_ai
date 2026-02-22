@@ -138,7 +138,11 @@ class _SignUpBodyState extends State<SignUpBody> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
-                      GoogleButton(onPressed: () {}), //Google Button
+                      GoogleButton(
+                        onPressed: () {
+                          context.read<AuthCubit>().signInWithGoogle();
+                        },
+                      ), //Google Button
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
