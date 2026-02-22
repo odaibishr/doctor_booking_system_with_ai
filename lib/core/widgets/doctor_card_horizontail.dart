@@ -24,7 +24,7 @@ class DoctorCardHorizontail extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 165,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
           color: context.cardBackgroundColor,
