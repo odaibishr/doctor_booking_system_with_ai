@@ -15,28 +15,8 @@ class DAppointmentCard extends StatelessWidget {
              
        decoration: BoxDecoration(
     borderRadius: BorderRadius.circular(12),
-    gradient: const LinearGradient(
-      colors: [
-        // Color(0xFF1B1F3B),
-        // Color(0xFF2A2F5E),
-        AppColors.gray300,
-        AppColors.gray100,
-        
-      ],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight
-      
-      
-      
-    ),
-    boxShadow: [
-      BoxShadow(
-        color: AppColors.primary,
-        blurRadius: 20,
-        spreadRadius: 1,
-        offset: const Offset(0, 5),
-      ),
-    ],
+   color: const Color.fromARGB(255, 255, 255, 255)
+   
             ),
             child: Row(children: [
     Container(

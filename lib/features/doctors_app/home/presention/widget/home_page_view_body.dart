@@ -28,10 +28,16 @@ class _HomePageViewBodyState extends State<HomePageViewBody> {
           width: MediaQuery.of(context).size.width,
           color: Color(0xFF364989),
 
-          child: CustomHomeAppBar(
-            name: 'مرحبًا د/محمد ',
-            userImage: 'assets/images/my-photo.jpg',
+        child: Column(children: [
+          Row(
+            children: [
+              Text('                             طبيبي',style: TextStyle(color: const Color.fromARGB(255, 253, 253, 253),fontSize: 24),),
+            ],
           ),
+
+          Text('           الذكي',style: TextStyle(color: const Color.fromARGB(255, 253, 253, 253),fontSize: 24),)
+
+        ],),
         ),
         Positioned(
           child: Padding(
@@ -40,7 +46,7 @@ class _HomePageViewBodyState extends State<HomePageViewBody> {
               height: MediaQuery.of(context).size.height * 0.9,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 255, 255),
+                color:   Color(0xFFE5E7EB),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15),
                   topRight: Radius.circular(15),

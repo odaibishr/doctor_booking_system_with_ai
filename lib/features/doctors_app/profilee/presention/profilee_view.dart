@@ -6,6 +6,6 @@ class ProfileeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: ProfileeViewBody(),);
+    return Scaffold(body: SafeArea(child: ProfileeViewBody()),);
   }
 }

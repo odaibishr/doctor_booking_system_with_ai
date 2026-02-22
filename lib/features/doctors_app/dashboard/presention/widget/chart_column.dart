@@ -1,5 +1,4 @@
 
-import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ChartColumn extends StatelessWidget {
@@ -14,7 +13,7 @@ class ChartColumn extends StatelessWidget {
       width: 10,
       height: coulmnHeight,
       decoration: BoxDecoration(
-        color: AppColors.gray300,
+        color: const Color.fromARGB(255, 255, 255, 255),
         borderRadius: BorderRadius.circular(6),
       ),
     );

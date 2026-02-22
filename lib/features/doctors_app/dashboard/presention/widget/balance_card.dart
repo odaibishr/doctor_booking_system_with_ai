@@ -16,29 +16,30 @@ class BalanceCard extends StatelessWidget {
      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
      decoration: BoxDecoration(
        borderRadius: BorderRadius.circular(24),
-       gradient: const LinearGradient(
-                colors: [
-                  // Color(0xFF1B1F3B),
-                  // Color(0xFF2A2F5E),
-                  Color.fromARGB(255, 51, 70, 132),
-                  Color.fromARGB(255, 22, 31, 61),
-                  Color.fromARGB(255, 1, 1, 1),
+       color: AppColors.primaryColor
+      //  gradient: const LinearGradient(
+      //           colors: [
+      //             // Color(0xFF1B1F3B),
+      //             // Color(0xFF2A2F5E),
+      //             Color.fromARGB(255, 51, 70, 132),
+      //             Color.fromARGB(255, 22, 31, 61),
+      //             Color.fromARGB(255, 1, 1, 1),
                   
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomRight
+      //           ],
+      //           begin: Alignment.topCenter,
+      //           end: Alignment.bottomRight
                 
                 
                 
-       ),
-       boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary,
-                  blurRadius: 20,
-                  spreadRadius: 1,
-                  offset: const Offset(0, 5),
-                ),
-       ],
+      //  ),
+      //  boxShadow: [
+      //           BoxShadow(
+      //             color: AppColors.primary,
+      //             blurRadius: 20,
+      //             spreadRadius: 1,
+      //             offset: const Offset(0, 5),
+      //           ),
+      //  ],
      ),
      child: Column(
        crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +65,7 @@ class BalanceCard extends StatelessWidget {
      style: TextStyle(
        fontSize: 35,
        fontWeight: FontWeight.bold,
-       color: Colors.white,
+       color: Color.fromARGB(255, 255, 255, 255),
      ),
                     ),
                     SizedBox(width: 10),
@@ -72,7 +73,7 @@ class BalanceCard extends StatelessWidget {
      "ريال",
      style: TextStyle(
        fontSize: 20,
-       color: Colors.white70,
+       color: Color.fromARGB(255, 255, 255, 255),
      ),
                     ),
                   ],

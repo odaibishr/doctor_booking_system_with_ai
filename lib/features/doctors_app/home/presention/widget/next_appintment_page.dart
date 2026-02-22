@@ -19,6 +19,9 @@ class _NextAppintmentPageState extends State<NextAppintmentPage> {
           DAppointmentCard(),
           DAppointmentCard(),
           DAppointmentCard(),
+          DAppointmentCard(),
+          DAppointmentCard(),
+          DAppointmentCard(),
          
       
         ],
