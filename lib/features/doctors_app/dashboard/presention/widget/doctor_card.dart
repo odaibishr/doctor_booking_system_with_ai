@@ -14,7 +14,7 @@ class DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 10,left: 2,right: 2),
+      padding: EdgeInsets.only(top: 10,left: 2,right: 8),
       height: CardHeight,
       width: Cardwidth,
       decoration: BoxDecoration(
@@ -23,14 +23,14 @@ class DoctorCard extends StatelessWidget {
       ),
     child: Column(children: [
       Row(children: [
-        Icon(CardIcon,size: 40,),
-        Text(CardTitle,style: TextStyle(fontSize: 17,color: AppColors.primaryColor),)
+        Icon(CardIcon,size: 25,),
+        Text(CardTitle,style: TextStyle(fontSize: 16,color: AppColors.primaryColor),)
 
       ],),
       SizedBox(height: 20,)
       ,Row(mainAxisAlignment: MainAxisAlignment.center,
         children: [
-        Text(CardContent,style: TextStyle(fontSize: 25,color: AppColors.primaryColor),)
+        Text(CardContent,style: TextStyle(fontSize: 18,color: AppColors.primaryColor),)
       ],)
     ],),);
   }

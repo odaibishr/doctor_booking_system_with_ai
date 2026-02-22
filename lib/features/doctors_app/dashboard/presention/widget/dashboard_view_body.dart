@@ -18,36 +18,39 @@ class DashboardViewBody extends StatelessWidget {
             child: Container(child: Column(children: [
                 BalanceCard(),//top card
                  SizedBox(height: 8,),
-                Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ChoiceItem(title: 'الكل',),
-                    ChoiceItem(title: 'يومي',),
-                    ChoiceItem(title: 'اسبوعي',),
-                    ChoiceItem(title: 'شهري',),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(left: 15,right: 15),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ChoiceItem(title: 'الكل',),
+                      ChoiceItem(title: 'يومي',),
+                      ChoiceItem(title: 'اسبوعي',),
+                      ChoiceItem(title: 'شهري',),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 16,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    DoctorCard(CardHeight: 130, Cardwidth: 165, CardIcon: Icons.person, CardTitle: 'عدد المرضى', CardContent: '(20)',),
-                    DoctorCard(CardHeight: 130, Cardwidth: 165, CardIcon: Icons.timelapse, CardTitle: '    عودة', CardContent: '(20)',),
+                    DoctorCard(CardHeight: 110, Cardwidth: 160, CardIcon: Icons.person, CardTitle: '  عدد المرضى', CardContent: '(20)',),
+                    DoctorCard(CardHeight: 110, Cardwidth: 160, CardIcon: Icons.timelapse, CardTitle: '      عودة', CardContent: '(20)',),
                   ],
                 ),
                 SizedBox(height: 14,),
                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    DoctorCard(CardHeight: 130, Cardwidth: 165, CardIcon: Icons.timelapse, CardTitle: 'المستشفى', CardContent: '(سيبلاس)',),
-                    DoctorCard(CardHeight: 130, Cardwidth: 165, CardIcon:Icons.cancel, CardTitle:'    ملغية', CardContent: '(30)',),
+                    DoctorCard(CardHeight: 110, Cardwidth: 160, CardIcon: Icons.local_hospital_rounded, CardTitle: '  المستشفى', CardContent: '(سيبلاس)',),
+                    DoctorCard(CardHeight: 110, Cardwidth: 160, CardIcon:Icons.cancel, CardTitle:'      ملغية', CardContent: '(30)',),
                   ],
                 ),
                 SizedBox(height: 14,),
                  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    DoctorCard(CardHeight: 130, Cardwidth: 165, CardIcon:Icons.timer_rounded, CardTitle:'ساعات الدوام', CardContent: '8:00-12:00',),
-                    DoctorCard(CardHeight: 130, Cardwidth: 165, CardIcon:Icons.holiday_village_rounded, CardTitle:'أيام الاجازة', CardContent: 'Sat,Mon...',),
+                    DoctorCard(CardHeight: 110, Cardwidth: 160, CardIcon:Icons.timer_rounded, CardTitle:' ساعات الدوام', CardContent: '8:00-12:00',),
+                    DoctorCard(CardHeight: 110, Cardwidth: 160, CardIcon:Icons.holiday_village_rounded, CardTitle:'    أيام الاجازة', CardContent: 'Sat,Mon...',),
                   ],
                 )
                 
