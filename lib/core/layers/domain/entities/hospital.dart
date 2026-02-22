@@ -32,6 +32,9 @@ class Hospital {
   @HiveField(8)
   List<Doctor>? doctors;
 
+  @HiveField(9)
+  String? description;
+
   Hospital({
     required this.id,
     required this.name,
@@ -42,5 +45,6 @@ class Hospital {
     required this.image,
     required this.locationId,
     this.doctors,
+    this.description,
   });
 }
