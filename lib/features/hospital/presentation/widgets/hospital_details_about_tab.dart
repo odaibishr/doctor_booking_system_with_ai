@@ -31,8 +31,7 @@ class HospitalDetailsAboutTab extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            'مستشفى جامعة العلوم والتكنولوجيا هو أحد أبرز المستشفيات التعليمية والعلاجية في اليمن. '
-            'يقدم المستشفى خدمات طبية متكاملة تشمل مختلف التخصصات الطبية مع أحدث الأجهزة والتقنيات الطبية.',
+            hospital.description ?? 'لايوجد وصف',
             style: FontStyles.subTitle3,
             textAlign: TextAlign.start,
           ),
