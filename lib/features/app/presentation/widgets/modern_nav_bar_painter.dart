@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:flutter/material.dart';
 
@@ -30,32 +28,26 @@ class ModernNavBarPainter extends CustomPainter {
     path.lineTo(0, borderRadius);
     path.quadraticBezierTo(0, 0, borderRadius, 0);
 
-    path.lineTo(width / 2 - fabWidth / 2 - 10, 0);
+    final centerX = width / 2;
+    final notchMargin = fabWidth / 2 + 12;
 
-    path.quadraticBezierTo(
-      width / 2 - fabWidth / 2,
+    path.lineTo(centerX - notchMargin, 0);
+
+    path.cubicTo(
+      centerX - notchMargin + 8,
       0,
-      width / 2 - fabWidth / 2,
-      10,
+      centerX - fabWidth / 2,
+      notchRadius,
+      centerX,
+      notchRadius,
     );
 
-    path.arcTo(
-      Rect.fromCircle(center: Offset(width / 2, 15), radius: notchRadius),
-      -pi,
-      pi,
-      false,
-    );
-
-    path.quadraticBezierTo(
-      width / 2 + fabWidth / 2,
-      10,
-      width / 2 + fabWidth / 2,
+    path.cubicTo(
+      centerX + fabWidth / 2,
+      notchRadius,
+      centerX + notchMargin - 8,
       0,
-    );
-    path.quadraticBezierTo(
-      width / 2 + fabWidth / 2 + 10,
-      0,
-      width / 2 + fabWidth / 2 + 15,
+      centerX + notchMargin,
       0,
     );
 
@@ -83,8 +75,8 @@ class ModernNavBarPainter extends CustomPainter {
 
     final innerHighlightPath = Path()
       ..moveTo(20, 2)
-      ..lineTo(width / 2 - fabWidth / 2 - 5, 2)
-      ..moveTo(width / 2 + fabWidth / 2 + 5, 2)
+      ..lineTo(centerX - notchMargin, 2)
+      ..moveTo(centerX + notchMargin, 2)
       ..lineTo(width - 20, 2);
 
     final innerHighlightPaint = Paint()
