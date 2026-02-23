@@ -8,6 +8,7 @@ abstract class ReviewRemoteDataSource {
     required int doctorId,
     required int rating,
     required String comment,
+    required bool isActive,
   });
 }
 
@@ -55,10 +56,16 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
     required int doctorId,
     required int rating,
     required String comment,
+    required bool isActive,
   }) async {
     final response = await dioConsumer.post(
       'review/createReview',
-      data: {'doctor_id': doctorId, 'rating': rating, 'comment': comment},
+      data: {
+        'doctor_id': doctorId,
+        'rating': rating,
+        'comment': comment,
+        'is_active': isActive,
+      },
     );
 
     if (response == null) {
