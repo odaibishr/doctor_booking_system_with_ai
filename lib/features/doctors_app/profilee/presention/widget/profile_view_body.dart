@@ -14,7 +14,7 @@ import 'package:go_router/go_router.dart';
 class ProfileeViewBody extends StatelessWidget {
   const ProfileeViewBody({super.key});
 
- @override
+  @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final backgroundColor = isDark
@@ -80,6 +80,7 @@ class ProfileeViewBody extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   const UserAccountMenu(),
+                  const SizedBox(height: 100),
                 ],
               ),
             ),
