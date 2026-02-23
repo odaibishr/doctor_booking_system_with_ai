@@ -45,51 +45,54 @@ class CustomHomeAppBar extends StatelessWidget {
                   !kIsWeb &&
                   (profileImage.startsWith('/') ||
                       profileImage.startsWith('file://'));
-              return Row(
-                children: [
-                  Container(
-                    width: 38,
-                    height: 38,
-                    decoration: BoxDecoration(
-                      color: AppColors.getPrimary(context),
-                      shape: BoxShape.circle,
+              return Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      width: 38,
+                      height: 38,
+                      decoration: BoxDecoration(
+                        color: AppColors.getPrimary(context),
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipOval(
+                        child: (!hasValidImage)
+                            ? Image.asset(userImage, fit: BoxFit.cover)
+                            : isLocalFile
+                            ? Image.file(
+                                File(
+                                  profileImage.startsWith('file://')
+                                      ? (Uri.tryParse(
+                                              profileImage,
+                                            )?.toFilePath() ??
+                                            profileImage)
+                                      : profileImage,
+                                ),
+                                fit: BoxFit.cover,
+                              )
+                            : hasValidImage
+                            ? CachedNetworkImage(
+                                imageUrl: '${EndPoints.photoUrl}/$profileImage',
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(userImage, fit: BoxFit.cover),
+                              )
+                            : Image.asset(userImage, fit: BoxFit.cover),
+                      ),
                     ),
-                    child: ClipOval(
-                      child: (!hasValidImage)
-                          ? Image.asset(userImage, fit: BoxFit.cover)
-                          : isLocalFile
-                          ? Image.file(
-                              File(
-                                profileImage.startsWith('file://')
-                                    ? (Uri.tryParse(
-                                            profileImage,
-                                          )?.toFilePath() ??
-                                          profileImage)
-                                    : profileImage,
-                              ),
-                              fit: BoxFit.cover,
-                            )
-                          : hasValidImage
-                          ? CachedNetworkImage(
-                              imageUrl: profileImage.startsWith('http')
-                                  ? profileImage
-                                  : '${EndPoints.photoUrl}/$profileImage',
-                              fit: BoxFit.cover,
-                              errorWidget: (context, url, error) =>
-                                  Image.asset(userImage, fit: BoxFit.cover),
-                            )
-                          : Image.asset(userImage, fit: BoxFit.cover),
+                    const SizedBox(width: 5),
+                    Flexible(
+                      child: Text(
+                        'مرحبا ${state.profile.user.name.split(' ')[0]}',
+                        style: FontStyles.subTitle2.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.getTextPrimary(context),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 5),
-                  Text(
-                    'مرحبا ${state.profile.user.name.split(' ')[0]}',
-                    style: FontStyles.subTitle2.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.getTextPrimary(context),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               );
             }
             return const CircularProgressIndicator();

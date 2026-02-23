@@ -28,19 +28,33 @@ class ReviewCubit extends Cubit<ReviewState> {
 
     emit(ReviewSubmitting());
 
-    final result = await _createReviewUseCase(
-      CreateReviewParams(doctorId: doctorId, rating: rating, comment: comment),
-    );
+    try {
+      final result = await _createReviewUseCase(
+        CreateReviewParams(
+          doctorId: doctorId,
+          rating: rating,
+          comment: comment,
+          isActive: true,
+        ),
+      );
 
-    if (isClosed) return;
+      if (isClosed || requestId != _requestId) return;
 
-    result.fold((failure) => emit(ReviewFailure(failure.errorMessage)), (
-      review,
-    ) {
-      emit(ReviewSuccess(review));
-      invalidateDoctorReviewsCache(doctorId);
-      unawaited(getDoctorReviews(doctorId, forceRefresh: true));
-    });
+      result.fold(
+        (failure) {
+          if (isClosed || requestId != _requestId) return;
+          emit(ReviewFailure(failure.errorMessage));
+        },
+        (review) {
+          if (isClosed || requestId != _requestId) return;
+          emit(ReviewSuccess(review));
+          unawaited(getDoctorReviews(doctorId));
+        },
+      );
+    } catch (error) {
+      if (isClosed || requestId != _requestId) return;
+      emit(ReviewFailure(error.toString()));
+    }
   }
 
   Future<void> getDoctorReviews(
