@@ -17,12 +17,14 @@ class ReviewRepoImpl implements ReviewRepo {
     required int doctorId,
     required int rating,
     required String comment,
+    required bool isActive,
   }) async {
     try {
       final review = await remoteDataSource.createReview(
         doctorId: doctorId,
         rating: rating,
         comment: comment,
+        isActive: isActive,
       );
 
       return Right(review);
