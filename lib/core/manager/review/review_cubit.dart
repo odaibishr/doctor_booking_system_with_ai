@@ -38,21 +38,21 @@ class ReviewCubit extends Cubit<ReviewState> {
         ),
       );
 
-      if (isClosed || requestId != _requestId) return;
+      if (isClosed) return;
 
       result.fold(
         (failure) {
-          if (isClosed || requestId != _requestId) return;
+          if (isClosed) return;
           emit(ReviewFailure(failure.errorMessage));
         },
         (review) {
-          if (isClosed || requestId != _requestId) return;
+          if (isClosed) return;
           emit(ReviewSuccess(review));
           unawaited(getDoctorReviews(doctorId));
         },
       );
     } catch (error) {
-      if (isClosed || requestId != _requestId) return;
+      if (isClosed) return;
       emit(ReviewFailure(error.toString()));
     }
   }
