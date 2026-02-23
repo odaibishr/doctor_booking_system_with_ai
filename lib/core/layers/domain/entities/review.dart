@@ -17,7 +17,7 @@ class Review {
   @HiveField(5)
   final User? user;
 
-  @HiveField(6)
+  @HiveField(6, defaultValue: false)
   final bool isActive;
 
   Review({
