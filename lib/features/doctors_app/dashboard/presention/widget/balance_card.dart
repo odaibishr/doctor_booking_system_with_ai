@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/presention/widget/chart_column.dart';
 import 'package:flutter/material.dart';
 
@@ -8,34 +9,23 @@ class BalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.all(20),
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: AppColors.primaryColor,
-        //  gradient: const LinearGradient(
-        //           colors: [
-        //             // Color(0xFF1B1F3B),
-        //             // Color(0xFF2A2F5E),
-        //             Color.fromARGB(255, 51, 70, 132),
-        //             Color.fromARGB(255, 22, 31, 61),
-        //             Color.fromARGB(255, 1, 1, 1),
-
-        //           ],
-        //           begin: Alignment.topCenter,
-        //           end: Alignment.bottomRight
-
-        //  ),
-        //  boxShadow: [
-        //           BoxShadow(
-        //             color: AppColors.primary,
-        //             blurRadius: 20,
-        //             spreadRadius: 1,
-        //             offset: const Offset(0, 5),
-        //           ),
-        //  ],
+        gradient: LinearGradient(
+          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,63 +34,58 @@ class BalanceCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "الرصيد الحالي:",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 16,
+                    "الرصيد الحالي",
+                    style: FontStyles.body1.copyWith(
+                      color: Colors.white.withValues(alpha: 0.8),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 8),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
                       Text(
                         "12.000",
-                        style: TextStyle(
-                          fontSize: 35,
+                        style: FontStyles.headLine1.copyWith(
+                          fontSize: 32,
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 255, 255),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 8),
                       Text(
                         "ريال",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 255, 255, 255),
+                        style: FontStyles.body1.copyWith(
+                          color: Colors.white.withValues(alpha: 0.9),
                         ),
                       ),
                     ],
                   ),
                 ],
               ),
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 7, top: 40),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        ChartColumn(coulmnHeight: 50),
-                        SizedBox(width: 6),
-                        ChartColumn(coulmnHeight: 35),
-                        SizedBox(width: 6),
-                        ChartColumn(coulmnHeight: 45),
-                        SizedBox(width: 6),
-                        ChartColumn(coulmnHeight: 25),
-                        SizedBox(width: 6),
-                        ChartColumn(coulmnHeight: 40),
-                        SizedBox(width: 6),
-                        ChartColumn(coulmnHeight: 60),
-                        SizedBox(width: 6),
-                        ChartColumn(coulmnHeight: 45),
-                      ],
-                    ),
-                  ),
-                ],
+              const Icon(
+                Icons.account_balance_wallet_outlined,
+                color: Colors.white,
+                size: 32,
               ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              ChartColumn(coulmnHeight: 40),
+              ChartColumn(coulmnHeight: 60),
+              ChartColumn(coulmnHeight: 30),
+              ChartColumn(coulmnHeight: 50),
+              ChartColumn(coulmnHeight: 70),
+              ChartColumn(coulmnHeight: 45),
+              ChartColumn(coulmnHeight: 55),
+              ChartColumn(coulmnHeight: 35),
             ],
           ),
         ],
