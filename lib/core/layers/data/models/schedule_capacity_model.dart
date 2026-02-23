@@ -1,3 +1,5 @@
+import 'package:doctor_booking_system_with_ai/core/utils/parse_helpers.dart';
+
 class ScheduleCapacity {
   final int totalMinutes;
   final int usedMinutes;
@@ -25,27 +27,21 @@ class ScheduleCapacity {
 
   factory ScheduleCapacity.fromMap(Map<String, dynamic> data) {
     return ScheduleCapacity(
-      totalMinutes: _toInt(data['total_minutes']),
-      usedMinutes: _toInt(data['used_minutes']),
-      remainingMinutes: _toInt(data['remaining_minutes']),
+      totalMinutes: parseToInt(data['total_minutes']),
+      usedMinutes: parseToInt(data['used_minutes']),
+      remainingMinutes: parseToInt(data['remaining_minutes']),
       canAcceptNewPatient: data['can_accept_new_patient'] == true,
       canAcceptReturningPatient: data['can_accept_returning_patient'] == true,
-      maxNewPatientsRemaining: _toInt(data['max_new_patients_remaining']),
-      maxReturningPatientsRemaining: _toInt(
+      maxNewPatientsRemaining: parseToInt(data['max_new_patients_remaining']),
+      maxReturningPatientsRemaining: parseToInt(
         data['max_returning_patients_remaining'],
       ),
-      bookedCount: _toInt(data['booked_count']),
-      newPatientDuration: _toInt(data['new_patient_duration'] ?? 30),
-      returningPatientDuration: _toInt(
+      bookedCount: parseToInt(data['booked_count']),
+      newPatientDuration: parseToInt(data['new_patient_duration'] ?? 30),
+      returningPatientDuration: parseToInt(
         data['returning_patient_duration'] ?? 15,
       ),
     );
-  }
-
-  static int _toInt(dynamic value) {
-    if (value is int) return value;
-    if (value is num) return value.toInt();
-    return int.tryParse('${value ?? ''}') ?? 0;
   }
 
   String get formattedRemainingTime {

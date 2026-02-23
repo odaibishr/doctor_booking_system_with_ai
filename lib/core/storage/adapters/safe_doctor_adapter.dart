@@ -2,6 +2,7 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/location.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specialty.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/parse_helpers.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -19,27 +20,20 @@ class SafeDoctorAdapter extends TypeAdapter<Doctor> {
     // Support both current layout (user at field 10) and old layout (name/email/...)
     final hasUser = fields[10] is User;
 
-    final int id = _toInt(fields[0]);
+    final int id = parseToInt(fields[0]);
 
-    final int specialtyId = _toInt(
-      _pick(fields, primary: 2, legacy: 6),
-    );
-    final int hospitalId = _toInt(
-      _pick(fields, primary: 3, legacy: 7),
-    );
-    final int isFeatured = _toInt(
-      _pick(fields, primary: 4, legacy: 9),
-    );
-    final int isTopDoctor = _toInt(
-      _pick(fields, primary: 5, legacy: 10),
-    );
-    final String services =
-        (_pick(fields, primary: 6, legacy: 13) ?? '').toString();
+    final int specialtyId = parseToInt(_pick(fields, primary: 2, legacy: 6));
+    final int hospitalId = parseToInt(_pick(fields, primary: 3, legacy: 7));
+    final int isFeatured = parseToInt(_pick(fields, primary: 4, legacy: 9));
+    final int isTopDoctor = parseToInt(_pick(fields, primary: 5, legacy: 10));
+    final dynamic rawServices = _pick(fields, primary: 6, legacy: 13);
+    final List<String> services = _parseServices(rawServices);
 
     final specialtyValue =
         _asSpecialty(_pick(fields, primary: 7, legacy: 15)) ??
-            Specialty(id: 0, name: '', icon: '', isActive: false);
-    final hospitalValue = _asHospital(_pick(fields, primary: 8, legacy: 16)) ??
+        Specialty(id: 0, name: '', icon: '', isActive: false);
+    final hospitalValue =
+        _asHospital(_pick(fields, primary: 8, legacy: 16)) ??
         Hospital(
           id: 0,
           name: '',
@@ -52,15 +46,14 @@ class SafeDoctorAdapter extends TypeAdapter<Doctor> {
           doctors: null,
         );
 
-    final int isFavorite = _toInt(
-      _pick(fields, primary: 9, legacy: 17),
-    );
+    final int isFavorite = parseToInt(_pick(fields, primary: 9, legacy: 17));
 
-    final double price = _toDouble(fields[11]);
-    final int experience = _toInt(fields[12]);
+    final double price = parseToDouble(fields[11]);
+    final int experience = parseToInt(fields[12]);
 
-    final User userValue =
-        hasUser ? fields[10] as User : _buildUserFromLegacy(fields);
+    final User userValue = hasUser
+        ? fields[10] as User
+        : _buildUserFromLegacy(fields);
 
     // Old layouts stored "aboutus" at field 4; current layout at field 1.
     final String aboutus = hasUser
@@ -124,18 +117,6 @@ class SafeDoctorAdapter extends TypeAdapter<Doctor> {
     return fields.containsKey(primary) ? fields[primary] : fields[legacy];
   }
 
-  static int _toInt(dynamic value, {int fallback = 0}) {
-    if (value is int) return value;
-    if (value is num) return value.toInt();
-    return int.tryParse('${value ?? ''}') ?? fallback;
-  }
-
-  static double _toDouble(dynamic value, {double fallback = 0.0}) {
-    if (value is double) return value;
-    if (value is num) return value.toDouble();
-    return double.tryParse('${value ?? ''}') ?? fallback;
-  }
-
   static Specialty? _asSpecialty(dynamic value) {
     if (value is Specialty) return value;
     return null;
@@ -157,11 +138,13 @@ class SafeDoctorAdapter extends TypeAdapter<Doctor> {
     final profileImage = fields[11]?.toString();
     final birthDate = fields[12]?.toString();
 
-    final locationValue = (fields[14] is Location) ? fields[14] as Location : _defaultLocation();
-    final locationId = _toInt(fields[5], fallback: locationValue.id);
+    final locationValue = (fields[14] is Location)
+        ? fields[14] as Location
+        : _defaultLocation();
+    final locationId = parseToInt(fields[5], fallback: locationValue.id);
 
     return User(
-      id: _toInt(fields[0]),
+      id: parseToInt(fields[0]),
       name: name,
       email: email,
       token: '',
@@ -173,5 +156,22 @@ class SafeDoctorAdapter extends TypeAdapter<Doctor> {
       location: locationValue,
       locationId: locationId,
     );
+  }
+
+  static List<String> _parseServices(dynamic raw) {
+    if (raw == null) return [];
+    if (raw is List) {
+      return raw.map((e) => e.toString()).where((s) => s.isNotEmpty).toList();
+    }
+    if (raw is String) {
+      if (raw.isEmpty) return [];
+      return raw
+          .replaceAll('\n', '')
+          .split('.')
+          .map((s) => s.trim())
+          .where((s) => s.isNotEmpty)
+          .toList();
+    }
+    return [];
   }
 }

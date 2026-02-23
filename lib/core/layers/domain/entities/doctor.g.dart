@@ -23,7 +23,7 @@ class DoctorAdapter extends TypeAdapter<Doctor> {
       hospitalId: fields[3] as int,
       isFeatured: fields[4] as int,
       isTopDoctor: fields[5] as int,
-      services: fields[6] as String,
+      services: (fields[6] as List).cast<String>(),
       specialty: fields[7] as Specialty,
       hospital: fields[8] as Hospital,
       isFavorite: fields[9] as int,

@@ -53,15 +53,18 @@ class VerticalDoctorCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'د. ${topDoctor.name}',
-                  style: FontStyles.subTitle3.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.getTextPrimary(
-                      context,
-                    ), // استخدام helper method
+                Flexible(
+                  child: Text(
+                    'د. ${topDoctor.name}',
+                    style: FontStyles.subTitle3.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.getTextPrimary(context),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                const SizedBox(width: 4),
                 topDoctor.isFavorite == 1
                     ? Icon(Icons.favorite, color: AppColors.getError(context))
                     : Icon(

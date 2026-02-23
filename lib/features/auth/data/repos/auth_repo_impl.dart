@@ -1,19 +1,23 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
+import 'package:doctor_booking_system_with_ai/core/services/google_sign_in_service.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/models/user_model.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/repos/auth_repo.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AuthRepoImpl implements AuthRepo {
   final AuthRemoteDataSource authRemoteDataSource;
   final AuthLocalDataSource authLocalDataSource;
+  final GoogleSignInService googleSignInService;
 
   AuthRepoImpl({
     required this.authRemoteDataSource,
     required this.authLocalDataSource,
+    required this.googleSignInService,
   });
 
   @override
@@ -23,21 +27,29 @@ class AuthRepoImpl implements AuthRepo {
       await authRemoteDataSource.logout('');
       return Right(UserModel.empty());
     } catch (e) {
-      return Left(Failure(e.toString()));
+      return Left(Failure('فشل تسجيل الخروج، يرجى المحاولة مرة أخرى'));
     }
   }
 
   @override
-  Future<Either<Failure, User>> signIn(String email, String password, String? fcm_token) async {
+  Future<Either<Failure, User>> signIn(
+    String email,
+    String password,
+    String? fcm_token,
+  ) async {
     try {
       log("Attempting to sign in with email: $email");
-      final result = await authRemoteDataSource.signIn(email, password, fcm_token);
+      final result = await authRemoteDataSource.signIn(
+        email,
+        password,
+        fcm_token,
+      );
       await authLocalDataSource.cacheAuthData(result);
       log("Sign in successful for user: ${result.email}");
       return Right(result);
     } catch (e) {
       log("Sign in failed with error: $e");
-      return Left(Failure(e.toString()));
+      return Left(Failure('فشل تسجيل الدخول، تحقق من بياناتك وحاول مرة أخرى'));
     }
   }
 
@@ -61,7 +73,7 @@ class AuthRepoImpl implements AuthRepo {
       return Right(result);
     } catch (e) {
       log("Sign up failed with error: $e");
-      return Left(Failure(e.toString()));
+      return Left(Failure('فشل إنشاء الحساب، يرجى المحاولة مرة أخرى'));
     }
   }
 
@@ -76,7 +88,28 @@ class AuthRepoImpl implements AuthRepo {
       return const Right(null);
     } catch (e) {
       log("Error getting current user: $e");
-      return Left(Failure(e.toString()));
+      return Left(Failure('فشل استرجاع بيانات المستخدم'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> signInWithGoogle() async {
+    try {
+      final googleResult = await googleSignInService.signInWithGoogle();
+
+      if (googleResult == null) {
+        return Left(Failure('تم إلغاء تسجيل الدخول بواسطة جوجل'));
+      }
+
+      final userModel = await authRemoteDataSource.signInWithGoogle(
+        idToken: googleResult.idToken,
+        fcmToken: await FirebaseMessaging.instance.getToken(),
+      );
+
+      await authLocalDataSource.cacheAuthData(userModel);
+      return Right(userModel);
+    } catch (error) {
+      return Left(Failure('فشل تسجيل الدخول بواسطة جوجل'));
     }
   }
 }

@@ -27,18 +27,25 @@ class ProfileRepoImpl implements ProfileRepo {
     required String gender,
     required int locationId,
     required File? imageFile,
+    String? name,
+    String? email,
+    String? password,
   }) async {
     try {
       log(
-        "Attempting to create profile with phone: $phone, birthDate: $birthDate, gender: $gender, locationId: $locationId, imageFile: ${imageFile?.path}",
+        "Attempting to update/create profile with phone: $phone, birthDate: $birthDate, gender: $gender, locationId: $locationId, name: $name, email: $email",
       );
-      if (!await networkInfo.isConnected) return Left(Failure('No internet'));
+      if (!await networkInfo.isConnected)
+        return Left(Failure('لا يوجد اتصال بالإنترنت'));
       final result = await remoteDataSource.createProfile(
         phone: phone,
         birthDate: birthDate,
         gender: gender,
         locationId: locationId,
         imageFile: imageFile,
+        name: name,
+        email: email,
+        password: password,
       );
       await localDataSource.cachedProfile(result);
       log("Create profile result: ${result.phone}");
@@ -52,8 +59,7 @@ class ProfileRepoImpl implements ProfileRepo {
   @override
   Future<Either<Failure, Profile>> getProfile() async {
     try {
-      if (!await networkInfo.isConnected)
-      {
+      if (!await networkInfo.isConnected) {
         final cachedProfile = await localDataSource.getCachedProfile();
         return Right(cachedProfile);
       }

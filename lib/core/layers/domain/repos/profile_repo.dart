@@ -11,6 +11,9 @@ abstract class ProfileRepo {
     required String gender,
     required int locationId,
     required File? imageFile,
+    String? name,
+    String? email,
+    String? password,
   });
 
   Future<Either<Failure, Profile>> getProfile();

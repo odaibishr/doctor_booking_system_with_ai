@@ -12,6 +12,7 @@ import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/forget_password_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/google_auth_button.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/logo.dart';
+import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,10 +42,20 @@ class _SignInBodyState extends State<SignInBody> {
             child: BlocConsumer<AuthCubit, AuthState>(
               listener: (context, state) {
                 if (state is AuthSuccess) {
-                  context.showSuccessToast('تم تسجيل الدخول بنجاح');
-                  GoRouter.of(
-                    context,
-                  ).pushReplacement(AppRouter.appNavigationRoute);
+                  context.read<ProfileCubit>().getProfile();
+                  final user = state.user;
+                  if (user.phone == null ||
+                      user.phone!.isEmpty ||
+                      user.gender == null ||
+                      user.gender!.isEmpty) {
+                    GoRouter.of(
+                      context,
+                    ).pushReplacement(AppRouter.createprofileViewRout);
+                  } else {
+                    GoRouter.of(
+                      context,
+                    ).pushReplacement(AppRouter.appNavigationRoute);
+                  }
                 } else if (state is AuthError) {
                   context.showErrorToast(state.message);
                 }
@@ -123,7 +134,11 @@ class _SignInBodyState extends State<SignInBody> {
                       const SizedBox(height: 23.5),
                       DividerCustom(),
                       const SizedBox(height: 18.5),
-                      GoogleButton(onPressed: () {}),
+                      GoogleButton(
+                        onPressed: () {
+                          context.read<AuthCubit>().signInWithGoogle();
+                        },
+                      ),
                       const SizedBox(height: 23.5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -22,108 +22,78 @@ class DatePickerCard extends StatefulWidget {
 }
 
 class _DatePickerCardState extends State<DatePickerCard> {
-  final Set<DateTime> _unavailableDays = {
-    DateTime(2025, 7, 1),
-    DateTime(2025, 7, 3),
-    DateTime(2025, 7, 7),
-  };
+  final Set<DateTime> _unavailableDays = {};
+
+  int _toDayNumber(int weekday) {
+    const map = {
+      DateTime.saturday: 1,
+      DateTime.sunday: 2,
+      DateTime.monday: 3,
+      DateTime.tuesday: 4,
+      DateTime.wednesday: 5,
+      DateTime.thursday: 6,
+      DateTime.friday: 7,
+    };
+    return map[weekday] ?? 1;
+  }
 
   @override
   Widget build(BuildContext context) {
     Intl.defaultLocale = 'ar';
     final today = DateTime.now();
 
-    final List<DateTime> allPotentialDates = List<DateTime>.generate(
-      30, // Show next 30 days
+    final allPotentialDates = List<DateTime>.generate(
+      30,
       (i) => DateTime(today.year, today.month, today.day + i),
     );
 
-    final List<DateTime> allowedDates = allPotentialDates.where((date) {
+    final allowedDates = allPotentialDates.where((date) {
       if (widget.doctorSchedules == null || widget.doctorSchedules!.isEmpty) {
-        return true; // If no schedules, allow all? or none? Let's say all for now.
+        return true;
       }
-
-      int targetDayNumber = 0;
-      switch (date.weekday) {
-        case DateTime.saturday:
-          targetDayNumber = 1;
-          break;
-        case DateTime.sunday:
-          targetDayNumber = 2;
-          break;
-        case DateTime.monday:
-          targetDayNumber = 3;
-          break;
-        case DateTime.tuesday:
-          targetDayNumber = 4;
-          break;
-        case DateTime.wednesday:
-          targetDayNumber = 5;
-          break;
-        case DateTime.thursday:
-          targetDayNumber = 6;
-          break;
-        case DateTime.friday:
-          targetDayNumber = 7;
-          break;
-      }
-
+      final targetDayNumber = _toDayNumber(date.weekday);
       return widget.doctorSchedules!.any(
         (s) => (s.day?.dayNumber ?? s.dayId) == targetDayNumber,
       );
     }).toList();
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.gray100Color,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: context.gray300Color.withValues(alpha: 0.25),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          'اختر يوم الحجز المناسب',
+          style: FontStyles.headLine4.copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          DateFormat.yMMMM('ar').format(widget.selectedDate),
+          style: FontStyles.subTitle2.copyWith(
+            color: AppColors.getPrimary(context),
+            fontWeight: FontWeight.bold,
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'اختر يوم الحجز المناسب',
-            style: FontStyles.headLine4.copyWith(
-              color: context.blackColor,
-              fontWeight: FontWeight.bold,
-            ),
+        ),
+        const SizedBox(height: 16),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 1.1,
           ),
-          const SizedBox(height: 16),
-          Text(
-            DateFormat.yMMMM('ar').format(widget.selectedDate),
-            style: FontStyles.subTitle2.copyWith(
-              color: context.primaryColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 20),
-          SizedBox(
-            height: 110,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              itemCount: allowedDates.length,
-              itemBuilder: (context, index) {
-                return DayItem(
-                  date: allowedDates[index],
-                  selectedDate: widget.selectedDate,
-                  unavailableDays: _unavailableDays,
-                  doctorSchedules: widget.doctorSchedules,
-                  onTap: widget.onDateSelected,
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+          itemCount: allowedDates.length > 9 ? 9 : allowedDates.length,
+          itemBuilder: (context, index) {
+            return DayItem(
+              date: allowedDates[index],
+              selectedDate: widget.selectedDate,
+              unavailableDays: _unavailableDays,
+              doctorSchedules: widget.doctorSchedules,
+              onTap: widget.onDateSelected,
+            );
+          },
+        ),
+      ],
     );
   }
 }

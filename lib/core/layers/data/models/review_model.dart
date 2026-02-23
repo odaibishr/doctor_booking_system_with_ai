@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/review.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/parse_helpers.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/models/user_model.dart';
 
 class ReviewModel extends Review {
@@ -52,10 +53,4 @@ class ReviewModel extends Review {
     'rating': rating,
     'is_active': isActive,
   };
-
-  static int _toInt(dynamic value) {
-    if (value is int) return value;
-    if (value is num) return value.toInt();
-    return int.tryParse('${value ?? ''}') ?? 0;
-  }
 }

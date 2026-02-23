@@ -3,29 +3,44 @@ import 'package:doctor_booking_system_with_ai/features/payment/presentation/widg
 import 'package:flutter/material.dart';
 
 class PaymentBottomSheet extends StatelessWidget {
-  const PaymentBottomSheet({super.key});
+  final String doctorName;
+  final String userName;
+  final String date;
+  final String time;
+
+  const PaymentBottomSheet({
+    super.key,
+    required this.doctorName,
+    required this.userName,
+    required this.date,
+    required this.time,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(microseconds: 1300),
-      curve: Curves.easeInOutBack,
-      height: MediaQuery.of(context).size.height * 0.55,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOutCubic,
       width: double.infinity,
-      padding: EdgeInsets.only(top: 45, left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
-        color: context.gray200Color,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        color: context.cardColor,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         boxShadow: [
           BoxShadow(
-            color: const Color.fromARGB(255, 0, 0, 0).withValues(alpha: 0.5),
-            blurRadius: 20,
-            spreadRadius: 2,
-            offset: const Offset(0, 8),
+            color: Colors.black.withValues(alpha: 0.12),
+            blurRadius: 30,
+            spreadRadius: 0,
+            offset: const Offset(0, -8),
           ),
         ],
       ),
-      child: BottomSheetDeteals(),
+      child: BottomSheetDeteals(
+        doctorName: doctorName,
+        userName: userName,
+        date: date,
+        time: time,
+      ),
     );
   }
 }

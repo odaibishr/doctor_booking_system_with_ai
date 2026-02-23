@@ -9,6 +9,10 @@ import 'package:doctor_booking_system_with_ai/features/booking_history/presentat
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/reschedule_appointment_view.dart';
 import 'package:doctor_booking_system_with_ai/features/categories/presentation/category_view.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/create_profile_view.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/bottom_navigationbar/presention/custom_navigationbar.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/presention/dashboard_view.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/home_page_view.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/profilee_view.dart';
 import 'package:doctor_booking_system_with_ai/features/favorite_doctor/presentation/favorite_doctor_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/create_new_password/presentation/create_new_password_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/email_input/presentation/email_input_view.dart';
@@ -16,6 +20,7 @@ import 'package:doctor_booking_system_with_ai/features/forget_password/verify_co
 import 'package:doctor_booking_system_with_ai/features/home/presentation/details_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/home_view.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/hospital_details_view.dart';
+import 'package:doctor_booking_system_with_ai/features/hospital/presentation/all_hospitals_view.dart';
 import 'package:doctor_booking_system_with_ai/features/notification/presentation/notification_view.dart';
 import 'package:doctor_booking_system_with_ai/features/onboarding/presentation/onboarding_view.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/add_card_view.dart';
@@ -34,9 +39,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:doctor_booking_system_with_ai/features/profile/presentation/edit_profile_view.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/profile.dart'; // Ensure Profile is imported
+
 class AppRouter {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
+  // ... existing routes
+  static const String editProfileViewRoute = '/editProfileView';
   static const String splashRoute = '/';
   static const String homeViewRoute = '/homeView';
   static const String appNavigationRoute = '/appNavigation';
@@ -64,6 +74,11 @@ class AppRouter {
   static const String myWaitlistsViewRoute = '/myWaitlistsView';
   static const String rescheduleAppointmentViewRoute =
       '/rescheduleAppointmentView';
+  static const String allHospitalsViewRoute = '/allHospitalsView';
+  static const String customNavigationBarRoute='/customNavigationBarView';
+  static const String homePageViewRoute='/homePageView';
+  static const String profileeViewRoute='/profileeView';
+  static const String dashBoardViewRoute='/dashBoardView';
 
   static GoRouter router = GoRouter(
     navigatorKey: navigatorKey,
@@ -257,6 +272,14 @@ class AppRouter {
           name: topDoctorsViewRoute,
         ),
       ),
+      // All Hospitals - shared axis
+      GoRoute(
+        path: allHospitalsViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const AllHospitalsView(),
+          name: allHospitalsViewRoute,
+        ),
+      ),
       // Doctor Map - scale with fade
       GoRoute(
         path: doctorMapViewRoute,
@@ -287,6 +310,43 @@ class AppRouter {
           name: rescheduleAppointmentViewRoute,
         ),
       ),
+      // Edit Profile - shared axis
+      GoRoute(
+        path: editProfileViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: EditProfileView(profile: state.extra as Profile),
+          name: editProfileViewRoute,
+        ),
+      ),
+     GoRoute(
+        path: customNavigationBarRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const CustomNavigation(),
+          name: customNavigationBarRoute,
+        ),
+      ),
+       GoRoute(
+        path: homePageViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const HomePageView(),
+          name:homePageViewRoute ,
+        ),
+      ),
+       GoRoute(
+        path: profileeViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const ProfileeView(),
+          name: profileeViewRoute,
+        ),
+      ),
+       GoRoute(
+        path: dashBoardViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
+          child: const DashboardView(),
+          name: dashBoardViewRoute,
+        ),
+      ),
+
     ],
     initialLocation: splashRoute,
   );

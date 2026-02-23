@@ -20,7 +20,14 @@ class LocationInfo extends StatelessWidget {
           colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
         ),
         const SizedBox(width: 2),
-        Text(location, style: FontStyles.body3.copyWith(color: color)),
+        Flexible(
+          child: Text(
+            location,
+            style: FontStyles.body3.copyWith(color: color),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     );
   }

@@ -29,7 +29,7 @@ class ReviewRepoImpl implements ReviewRepo {
 
       return Right(review);
     } catch (error) {
-      return Left(Failure(error.toString()));
+      return Left(Failure('فشل إضافة المراجعة، يرجى المحاولة لاحقاً'));
     }
   }
 
@@ -50,7 +50,7 @@ class ReviewRepoImpl implements ReviewRepo {
       await localDataSource.cachedDoctorReviews(reviews);
       return Right(reviews);
     } catch (error) {
-      return Left(Failure(error.toString()));
+      return Left(Failure('فشل جلب المراجعات، يرجى المحاولة لاحقاً'));
     }
   }
 }

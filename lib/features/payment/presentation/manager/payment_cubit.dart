@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:doctor_booking_system_with_ai/core/cache/cache_exports.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/domain/use_cases/create_appointment_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/domain/repos/payment_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -29,33 +30,12 @@ class PaymentCubit extends Cubit<PaymentState> {
   }) async {
     emit(PaymentLoading());
 
-    String? transactionId = '1';
+    String? transactionId;
 
     if (_selectedPaymentMode == 'online') {
-      if (amount == null) {
-        emit(
-          const PaymentFailure(
-            errMessage: "Amount is required for online payment",
-          ),
-        );
-        return;
-      }
-
-      final paymentResult = await paymentRepo.processPayment(
-        amount: amount,
-        currency: 'USD',
-      );
-
-      paymentResult.fold(
-        (failure) {
-          emit(PaymentFailure(errMessage: failure.errorMessage));
-        },
-        (id) {
-          transactionId = id;
-        },
-      );
-
-      if (transactionId == null) return; // Payment failed
+      // We no longer process payment on the frontend as the backend handles
+      // transaction creation with the correct doctor price and gateway ID.
+      await Future.delayed(const Duration(seconds: 1));
     }
 
     final appointmentResult = await createAppointmentUseCase.call(
@@ -65,13 +45,17 @@ class PaymentCubit extends Cubit<PaymentState> {
         date: date,
         paymentMode: _selectedPaymentMode,
         transactionId: transactionId,
-        status: 'pending',
+        status:
+            'pending', // Status is internal, likely doesn't need translation unless displayed directly
       ),
     );
 
     appointmentResult.fold(
       (failure) => emit(PaymentFailure(errMessage: failure.errorMessage)),
-      (appointment) => emit(PaymentSuccess(transactionId: transactionId)),
+      (appointment) {
+        invalidateBookingHistoryCache();
+        emit(PaymentSuccess(transactionId: transactionId));
+      },
     );
   }
 }

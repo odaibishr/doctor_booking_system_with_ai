@@ -21,7 +21,7 @@ class _HopitalsListViewState extends State<HopitalsListView> {
     return BlocBuilder<HospitalCubit, HospitalState>(
       builder: (context, state) {
         if (state is HospitalLoadded) {
-          final hospitals = state.hospitals;
+          final hospitals = state.hospitals.take(5).toList();
           final isDesktop = Responsive.isDesktop(context);
           return SizedBox(
             height: isDesktop ? 240 : 180,

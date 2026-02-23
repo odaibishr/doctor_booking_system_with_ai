@@ -69,17 +69,12 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
       'favorite/toggle',
       data: {'doctor_id': doctorId},
     );
+    log('Toggle favorite response: $response');
     final data = response['data'];
-
+    log('Toggle favorite data: $data (type: ${data.runtimeType})');
     if (data is bool) return data;
     if (data is num) return data != 0;
-    if (data is String) {
-      final normalized = data.toLowerCase();
-      if (normalized == 'true' || normalized == '1') return true;
-      if (normalized == 'false' || normalized == '0') return false;
-    }
-
-    return true;
+    return data.toString().toLowerCase() == 'true';
   }
 
   @override

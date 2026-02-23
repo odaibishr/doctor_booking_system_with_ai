@@ -23,126 +23,103 @@ class DayItem extends StatelessWidget {
   bool _isSameDay(DateTime a, DateTime b) =>
       a.year == b.year && a.month == b.month && a.day == b.day;
 
+  int _toDayNumber(int weekday) {
+    const map = {
+      DateTime.saturday: 1,
+      DateTime.sunday: 2,
+      DateTime.monday: 3,
+      DateTime.tuesday: 4,
+      DateTime.wednesday: 5,
+      DateTime.thursday: 6,
+      DateTime.friday: 7,
+    };
+    return map[weekday] ?? 1;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final today = DateTime.now();
-    final isToday = _isSameDay(date, today);
     final isSelected = _isSameDay(date, selectedDate);
+    final isToday = _isSameDay(date, DateTime.now());
 
-    // Check if day is in doctor's schedule
     bool isScheduled = true;
     if (doctorSchedules != null && doctorSchedules!.isNotEmpty) {
-      int targetDayNumber = 0;
-      switch (date.weekday) {
-        case DateTime.saturday:
-          targetDayNumber = 1;
-          break;
-        case DateTime.sunday:
-          targetDayNumber = 2;
-          break;
-        case DateTime.monday:
-          targetDayNumber = 3;
-          break;
-        case DateTime.tuesday:
-          targetDayNumber = 4;
-          break;
-        case DateTime.wednesday:
-          targetDayNumber = 5;
-          break;
-        case DateTime.thursday:
-          targetDayNumber = 6;
-          break;
-        case DateTime.friday:
-          targetDayNumber = 7;
-          break;
-      }
       isScheduled = doctorSchedules!.any(
-        (s) => (s.day?.dayNumber ?? s.dayId) == targetDayNumber,
+        (s) => (s.day?.dayNumber ?? s.dayId) == _toDayNumber(date.weekday),
       );
     }
 
     final isUnavailable = unavailableDays.any((d) => _isSameDay(d, date));
     final isDisabled = !isScheduled || isUnavailable;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 6),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(14),
-        onTap: isDisabled
-            ? () => ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text(
-                    'عذراً، هذا اليوم غير متاح للحجز لدى الطبيب',
-                    textAlign: TextAlign.center,
+    final monthName = DateFormat.MMMM('ar').format(date);
+    final dayName = DateFormat.EEEE('ar').format(date);
+
+    return GestureDetector(
+      onTap: isDisabled
+          ? () => ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'عذراً، هذا اليوم غير متاح للحجز لدى الطبيب',
+                  textAlign: TextAlign.center,
+                ),
+                duration: Duration(milliseconds: 900),
+                behavior: SnackBarBehavior.floating,
+              ),
+            )
+          : () => onTap(date),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+        decoration: BoxDecoration(
+          color: isDisabled
+              ? AppColors.getGray400(context)
+              : isSelected
+              ? AppColors.getPrimary(context)
+              : AppColors.getGray200(context),
+          borderRadius: BorderRadius.circular(14),
+          border: isToday && !isSelected
+              ? Border.all(color: AppColors.getPrimary(context), width: 2)
+              : null,
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: AppColors.getPrimary(
+                      context,
+                    ).withValues(alpha: 0.25),
+                    blurRadius: 6,
+                    offset: const Offset(0, 3),
                   ),
-                  duration: const Duration(milliseconds: 900),
-                  behavior: SnackBarBehavior.floating,
-                ),
-              )
-            : () => onTap(date),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          width: 80,
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-            color: isDisabled
-                ? AppColors.getGray400(context)
-                : isSelected
-                ? AppColors.getPrimary(context)
-                : AppColors.getGray200(context),
-            borderRadius: BorderRadius.circular(14),
-            border: isToday && !isSelected
-                ? Border.all(color: AppColors.getPrimary(context), width: 2)
-                : null,
-            boxShadow: isSelected
-                ? [
-                    BoxShadow(
-                      color: AppColors.getPrimary(
-                        context,
-                      ).withValues(alpha: 0.25),
-                      blurRadius: 6,
-                      offset: const Offset(0, 3),
-                    ),
-                  ]
-                : [
-                    BoxShadow(
-                      color: AppColors.getGray300(
-                        context,
-                      ).withValues(alpha: 0.15),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                DateFormat.E('ar').format(date),
-                style: FontStyles.subTitle3.copyWith(
-                  color: isDisabled
-                      ? AppColors.getGray500(context)
-                      : isSelected
-                      ? AppColors.white
-                      : AppColors.getPrimary(context),
-                  fontWeight: FontWeight.w600,
-                ),
+                ]
+              : null,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '${date.day} $monthName',
+              style: FontStyles.body2.copyWith(
+                color: isDisabled
+                    ? AppColors.getGray500(context)
+                    : isSelected
+                    ? Colors.white
+                    : AppColors.getTextPrimary(context),
+                fontWeight: FontWeight.w500,
               ),
-              const SizedBox(height: 6),
-              Text(
-                '${date.day}',
-                style: FontStyles.headLine4.copyWith(
-                  fontSize: 18,
-                  color: isDisabled
-                      ? AppColors.getGray500(context)
-                      : isSelected
-                      ? AppColors.white
-                      : AppColors.getTextPrimary(context),
-                  fontWeight: FontWeight.bold,
-                ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              dayName,
+              style: FontStyles.subTitle3.copyWith(
+                color: isDisabled
+                    ? AppColors.getGray500(context)
+                    : isSelected
+                    ? Colors.white
+                    : AppColors.getPrimary(context),
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

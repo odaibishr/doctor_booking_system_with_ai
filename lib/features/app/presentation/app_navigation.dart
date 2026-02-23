@@ -42,69 +42,72 @@ class _AppNavigationState extends State<AppNavigation> {
     final safeIndex = (_selectedIndex >= 0 && _selectedIndex < _pages.length)
         ? _selectedIndex
         : 0;
+    final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
+
     return Scaffold(
       extendBody: true,
       body: _pages[safeIndex],
-
-      floatingActionButton: FloatingMiddleButton(),
+      floatingActionButton: isKeyboardVisible ? null : FloatingMiddleButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.fromLTRB(20, 0, 20, 15),
-        height: 70,
-        child: Stack(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF364989).withValues(alpha: 0.3),
-                    blurRadius: 15,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-            ),
-            CustomPaint(
-              size: Size(MediaQuery.of(context).size.width, 70),
-              painter: ModernNavBarPainter(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      bottomNavigationBar: isKeyboardVisible
+          ? null
+          : Container(
+              margin: const EdgeInsets.fromLTRB(20, 0, 20, 15),
+              height: 70,
+              child: Stack(
                 children: [
-                  NavItem(
-                    icon: 'assets/icons/home.svg',
-                    index: 0,
-                    selectedIndex: _selectedIndex,
-                    onItemTapped: _onItemTapped,
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF364989).withValues(alpha: 0.3),
+                          blurRadius: 15,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
                   ),
-                  NavItem(
-                    icon: 'assets/icons/search.svg',
-                    index: 1,
-                    selectedIndex: _selectedIndex,
-                    onItemTapped: _onItemTapped,
+                  CustomPaint(
+                    size: Size(MediaQuery.of(context).size.width, 70),
+                    painter: ModernNavBarPainter(),
                   ),
-                  const SizedBox(width: 50),
-                  NavItem(
-                    icon: 'assets/icons/calendar.svg',
-                    index: 2,
-                    selectedIndex: _selectedIndex,
-                    onItemTapped: _onItemTapped,
-                  ),
-                  NavItem(
-                    icon: 'assets/icons/user.svg',
-                    index: 3,
-                    selectedIndex: _selectedIndex,
-                    onItemTapped: _onItemTapped,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        NavItem(
+                          icon: 'assets/icons/home.svg',
+                          index: 0,
+                          selectedIndex: _selectedIndex,
+                          onItemTapped: _onItemTapped,
+                        ),
+                        NavItem(
+                          icon: 'assets/icons/search.svg',
+                          index: 1,
+                          selectedIndex: _selectedIndex,
+                          onItemTapped: _onItemTapped,
+                        ),
+                        const SizedBox(width: 50),
+                        NavItem(
+                          icon: 'assets/icons/calendar.svg',
+                          index: 2,
+                          selectedIndex: _selectedIndex,
+                          onItemTapped: _onItemTapped,
+                        ),
+                        NavItem(
+                          icon: 'assets/icons/user.svg',
+                          index: 3,
+                          selectedIndex: _selectedIndex,
+                          onItemTapped: _onItemTapped,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }

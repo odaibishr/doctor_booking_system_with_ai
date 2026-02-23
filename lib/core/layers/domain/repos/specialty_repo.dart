@@ -4,4 +4,5 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specia
 
 abstract class SpecialtyRepo {
   Future<Either<Failure, List<Specialty>>> getSpecialties();
+  Future<Either<Failure, List<Specialty>>> getAllSpecialties();
 }

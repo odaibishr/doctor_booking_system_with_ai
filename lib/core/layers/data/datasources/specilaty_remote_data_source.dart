@@ -4,6 +4,7 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specia
 
 abstract class SpecilatyRemoteDataSource {
   Future<List<Specialty>> getSpecialties();
+  Future<List<Specialty>> getAllSpecialties();
 }
 
 class SpecilatyRemoteDataSourceImpl implements SpecilatyRemoteDataSource {
@@ -14,7 +15,16 @@ class SpecilatyRemoteDataSourceImpl implements SpecilatyRemoteDataSource {
   @override
   Future<List<Specialty>> getSpecialties() async {
     final response = await _dioConsumer.get('specialty/index');
+    return _parseSpecialties(response);
+  }
 
+  @override
+  Future<List<Specialty>> getAllSpecialties() async {
+    final response = await _dioConsumer.get('specialty/all');
+    return _parseSpecialties(response);
+  }
+
+  List<Specialty> _parseSpecialties(Map<String, dynamic> response) {
     final specialties = <Specialty>[];
 
     final data = response['data'];

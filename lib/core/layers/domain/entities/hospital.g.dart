@@ -26,13 +26,14 @@ class HospitalAdapter extends TypeAdapter<Hospital> {
       image: fields[6] as String,
       locationId: fields[7] as int,
       doctors: (fields[8] as List?)?.cast<Doctor>(),
+      description: fields[9] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Hospital obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class HospitalAdapter extends TypeAdapter<Hospital> {
       ..writeByte(7)
       ..write(obj.locationId)
       ..writeByte(8)
-      ..write(obj.doctors);
+      ..write(obj.doctors)
+      ..writeByte(9)
+      ..write(obj.description);
   }
 
   @override

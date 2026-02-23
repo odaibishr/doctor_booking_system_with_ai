@@ -1,14 +1,14 @@
-import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
-import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
+import 'package:doctor_booking_system_with_ai/features/appointment/presentation/utils/schedule_helpers.dart';
+import 'package:doctor_booking_system_with_ai/features/appointment/presentation/widgets/appointment_bottom_bar.dart';
+import 'package:doctor_booking_system_with_ai/features/appointment/presentation/widgets/booking_confirmation_step.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/presentation/widgets/date_picker_card.dart';
+import 'package:doctor_booking_system_with_ai/features/appointment/presentation/widgets/step_indicator.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/presentation/widgets/time_period_selector.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/presentation/widgets/time_slot_selector.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/manager/booking_history_cubit/booking_history_cubit.dart';
-import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor_schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -25,22 +25,17 @@ class RescheduleAppointmentView extends StatefulWidget {
 }
 
 class _RescheduleAppointmentViewState extends State<RescheduleAppointmentView> {
-  late DateTime _selectedDate;
+  int _currentStep = 0;
+  DateTime _selectedDate = DateTime.now();
   String? _selectedPeriodKey;
   String? _selectedTimeSlot;
   int? _selectedScheduleId;
 
-  @override
-  void initState() {
-    super.initState();
-    _selectedDate = DateTime.now();
-  }
-
-  void _handleDateSelected(DateTime date) {
+  void _onDateSelected(DateTime date) {
     setState(() {
       _selectedDate = date;
-      _selectedTimeSlot = null;
       _selectedPeriodKey = null;
+      _selectedTimeSlot = null;
       _selectedScheduleId = null;
     });
   }
@@ -48,11 +43,17 @@ class _RescheduleAppointmentViewState extends State<RescheduleAppointmentView> {
   void _handlePeriodSelected(String periodKey) {
     setState(() {
       _selectedPeriodKey = periodKey;
-      final slots = _timeSlotsForPeriod(periodKey);
+      final slots = timeSlotsForPeriod(
+        widget.booking.doctor.schedules,
+        _selectedDate,
+        periodKey,
+      );
       if (slots.isNotEmpty) {
         _selectedTimeSlot = slots.first;
-        final schedule = _getCurrentSchedule();
-        _selectedScheduleId = schedule?.id;
+        _selectedScheduleId = getCurrentSchedule(
+          widget.booking.doctor.schedules,
+          _selectedDate,
+        )?.id;
       } else {
         _selectedTimeSlot = null;
         _selectedScheduleId = null;
@@ -63,93 +64,32 @@ class _RescheduleAppointmentViewState extends State<RescheduleAppointmentView> {
   void _handleTimeSelected(String timeSlot) {
     setState(() {
       _selectedTimeSlot = timeSlot;
-      final schedule = _getCurrentSchedule();
-      _selectedScheduleId = schedule?.id;
+      _selectedScheduleId = getCurrentSchedule(
+        widget.booking.doctor.schedules,
+        _selectedDate,
+      )?.id;
     });
   }
 
-  DoctorSchedule? _getCurrentSchedule() {
-    final schedules = widget.booking.doctor.schedules;
-    if (schedules == null || schedules.isEmpty) return null;
-
-    int targetDayNumber = _getDayNumber(_selectedDate.weekday);
-
-    return schedules.firstWhere(
-      (s) => (s.day?.dayNumber ?? s.dayId) == targetDayNumber,
-      orElse: () => schedules.first,
-    );
-  }
-
-  int _getDayNumber(int weekday) {
-    switch (weekday) {
-      case DateTime.saturday:
-        return 1;
-      case DateTime.sunday:
-        return 2;
-      case DateTime.monday:
-        return 3;
-      case DateTime.tuesday:
-        return 4;
-      case DateTime.wednesday:
-        return 5;
-      case DateTime.thursday:
-        return 6;
-      case DateTime.friday:
-        return 7;
-      default:
-        return 1;
+  void _nextStep() {
+    if (_currentStep == 0) {
+      setState(() => _currentStep = 1);
+    } else if (_currentStep == 1) {
+      if ((_selectedTimeSlot ?? '').isEmpty) {
+        context.showErrorToast('يرجى اختيار وقت مناسب أولاً');
+        return;
+      }
+      setState(() => _currentStep = 2);
+    } else if (_currentStep == 2) {
+      _onReschedule();
     }
   }
 
-  List<String> _timeSlotsForPeriod(String? periodKey) {
-    final schedules = widget.booking.doctor.schedules;
-    if (schedules == null || schedules.isEmpty) return [];
-
-    int targetDayNumber = _getDayNumber(_selectedDate.weekday);
-
-    final schedule = schedules.firstWhere(
-      (s) => (s.day?.dayNumber ?? s.dayId) == targetDayNumber,
-      orElse: () => schedules.first,
-    );
-
-    final startTime = schedule.startTime;
-    final endTime = schedule.endTime;
-
-    final List<String> slots = [];
-    final start = int.parse(startTime.split(':')[0]);
-    final end = int.parse(endTime.split(':')[0]);
-
-    for (int h = start; h < end; h++) {
-      final hourStr = h > 12 ? (h - 12).toString() : h.toString();
-      final suffix = h >= 12 ? 'م' : 'ص';
-      slots.add('$hourStr:00 $suffix');
-      slots.add('$hourStr:30 $suffix');
-    }
-
-    if (periodKey == 'morning') {
-      return slots.where((s) => s.contains('ص') || s.startsWith('12')).toList();
-    } else if (periodKey == 'evening') {
-      return slots
-          .where((s) => s.contains('م') && !s.startsWith('12'))
-          .toList();
-    }
-
-    return slots;
-  }
-
-  String _formatSelection() {
-    final date = DateFormat.yMMMMEEEEd('ar').format(_selectedDate);
-    final time = _selectedTimeSlot ?? '';
-    if (time.isEmpty) return date;
-    return '$date • $time';
+  void _previousStep() {
+    if (_currentStep > 0) setState(() => _currentStep--);
   }
 
   void _onReschedule() {
-    if (_selectedTimeSlot == null || _selectedTimeSlot!.isEmpty) {
-      context.showErrorToast('يرجى اختيار وقت مناسب أولاً');
-      return;
-    }
-
     final dateStr = DateFormat('yyyy-MM-dd', 'en').format(_selectedDate);
     context.read<BookingHistoryCubit>().rescheduleAppointment(
       widget.booking.id,
@@ -172,178 +112,120 @@ class _RescheduleAppointmentViewState extends State<RescheduleAppointmentView> {
         }
       },
       child: Scaffold(
-        body: SafeArea(
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
-                  ),
-                  child: CustomAppBar(
-                    title: 'تعديل الموعد',
-                    isBackButtonVisible: true,
-                    isUserImageVisible: false,
-                    isHeartIconVisible: false,
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'تعديل موعدك مع د. ${widget.booking.doctor.name}',
-                        style: FontStyles.subTitle3.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'الموعد الحالي: ${widget.booking.date}',
-                        style: FontStyles.body1.copyWith(
-                          color: AppColors.gray600,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      if (!hasSchedules)
-                        Container(
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.red.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Text(
-                            'لا تتوفر مواعيد حالياً لهذا الطبيب',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        )
-                      else ...[
-                        DatePickerCard(
-                          selectedDate: _selectedDate,
-                          onDateSelected: _handleDateSelected,
-                          doctorSchedules: widget.booking.doctor.schedules,
-                        ),
-                        const SizedBox(height: 16),
-                        TimePeriodSelector(
-                          selectedPeriodKey: _selectedPeriodKey,
-                          onPeriodSelected: _handlePeriodSelected,
-                        ),
-                        const SizedBox(height: 16),
-                        TimeSlotSelector(
-                          slots: _timeSlotsForPeriod(_selectedPeriodKey),
-                          selectedSlot: _selectedTimeSlot,
-                          onSelected: _handleTimeSelected,
-                          disabledSlots: const {},
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 20)),
-            ],
-          ),
-        ),
+        body: SafeArea(child: _buildMainContent(hasSchedules)),
         bottomNavigationBar: hasSchedules
-            ? Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.06),
-                      blurRadius: 14,
-                      offset: const Offset(0, -6),
-                    ),
-                  ],
-                ),
-                padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-                child: SafeArea(
-                  top: false,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.gray100,
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: AppColors.gray200),
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 36,
-                              height: 36,
-                              decoration: BoxDecoration(
-                                color: context.primaryColor.withValues(
-                                  alpha: 0.1,
-                                ),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Icon(
-                                Icons.event_available,
-                                color: context.primaryColor,
-                                size: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'الموعد الجديد',
-                                    style: FontStyles.body1.copyWith(
-                                      color: AppColors.gray600,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    (_selectedTimeSlot ?? '').isEmpty
-                                        ? 'اختر الوقت للمتابعة'
-                                        : _formatSelection(),
-                                    style: FontStyles.subTitle3.copyWith(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+            ? BlocBuilder<BookingHistoryCubit, BookingHistoryState>(
+                builder: (context, state) {
+                  final isLoading = state is RescheduleAppointmentLoading;
+                  if (isLoading) {
+                    return Container(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+                      child: const SafeArea(
+                        top: false,
+                        child: Center(child: CircularProgressIndicator()),
                       ),
-                      const SizedBox(height: 10),
-                      BlocBuilder<BookingHistoryCubit, BookingHistoryState>(
-                        builder: (context, state) {
-                          final isLoading =
-                              state is RescheduleAppointmentLoading;
-                          return MainButton(
-                            text: isLoading
-                                ? 'جاري التعديل...'
-                                : 'تأكيد تعديل الموعد',
-                            onTap: isLoading ? () {} : _onReschedule,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                    );
+                  }
+                  return AppointmentBottomBar(
+                    currentStep: _currentStep,
+                    onNext: _nextStep,
+                    onBack: _previousStep,
+                  );
+                },
               )
             : null,
       ),
     );
+  }
+
+  Widget _buildMainContent(bool hasSchedules) {
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: CustomAppBar(
+            title: 'تعديل الموعد',
+            isBackButtonVisible: true,
+            isUserImageVisible: false,
+            isHeartIconVisible: false,
+          ),
+        ),
+        if (!hasSchedules)
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.red.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Text(
+                'لا تتوفر مواعيد حالياً لهذا الطبيب',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          )
+        else ...[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: StepIndicator(currentStep: _currentStep),
+          ),
+          const SizedBox(height: 16),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: _buildStepContent(),
+              ),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildStepContent() {
+    switch (_currentStep) {
+      case 0:
+        return DatePickerCard(
+          key: const ValueKey(0),
+          selectedDate: _selectedDate,
+          onDateSelected: _onDateSelected,
+          doctorSchedules: widget.booking.doctor.schedules,
+        );
+      case 1:
+        return Column(
+          key: const ValueKey(1),
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TimePeriodSelector(
+              selectedPeriodKey: _selectedPeriodKey,
+              onPeriodSelected: _handlePeriodSelected,
+            ),
+            const SizedBox(height: 16),
+            TimeSlotSelector(
+              slots: timeSlotsForPeriod(
+                widget.booking.doctor.schedules,
+                _selectedDate,
+                _selectedPeriodKey,
+              ),
+              selectedSlot: _selectedTimeSlot,
+              onSelected: _handleTimeSelected,
+              disabledSlots: const {},
+            ),
+          ],
+        );
+      case 2:
+        return BookingConfirmationStep(
+          key: const ValueKey(2),
+          doctor: widget.booking.doctor,
+          selectedDate: _selectedDate,
+          selectedTime: _selectedTimeSlot ?? '',
+        );
+      default:
+        return const SizedBox.shrink();
+    }
   }
 }

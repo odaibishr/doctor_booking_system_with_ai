@@ -35,53 +35,54 @@ class DoctorFeaturedBanner extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Info Content
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    doctor.specialty.name,
-                    style: FontStyles.subTitle3.copyWith(
-                      color: AppColors.gray100,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      doctor.specialty.name,
+                      style: FontStyles.subTitle3.copyWith(
+                        color: AppColors.gray100,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    'د/ ${doctor.name}',
-                    style: FontStyles.headLine4.copyWith(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(height: 2),
+                    Text(
+                      'د/ ${doctor.name}',
+                      style: FontStyles.headLine4.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: Responsive.isDesktop(context)
-                        ? 400
-                        : MediaQuery.of(context).size.width * 0.5,
-                    child: Text(
-                      doctor.services.replaceAll('.', ' و'),
+                    const SizedBox(height: 10),
+                    Text(
+                      doctor.services.join(' و '),
                       style: FontStyles.body3.copyWith(
                         color: AppColors.gray100,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  LocationInfo(
-                    location: doctor.location.name,
-                    color: AppColors.gray300,
-                  ),
-                  const SizedBox(height: 5),
-                  PriceLableWithIcon(price: doctor.price),
-                ],
+                    const SizedBox(height: 10),
+                    LocationInfo(
+                      location: doctor.location.name,
+                      color: AppColors.gray300,
+                    ),
+                    const SizedBox(height: 5),
+                    PriceLableWithIcon(price: doctor.price),
+                  ],
+                ),
               ),
             ),
+            const SizedBox(width: 8),
             // Image
             hasValidImage
                 ? CachedNetworkImage(

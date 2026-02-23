@@ -40,12 +40,7 @@ class BookingCardsListView extends StatelessWidget {
         ),
         itemCount: bookings.length,
         itemBuilder: (context, index) {
-          return AnimatedListItem(
-            index: index,
-            delay: const Duration(milliseconds: 60),
-            animationType: AnimationType.fadeScale,
-            child: AppointmentCard(booking: bookings[index], status: status),
-          );
+          return AppointmentCard(booking: bookings[index], status: status);
         },
       );
     }
@@ -55,12 +50,7 @@ class BookingCardsListView extends StatelessWidget {
       itemCount: bookings.length,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) {
-        return AnimatedListItem(
-          index: index,
-          delay: const Duration(milliseconds: 80),
-          animationType: AnimationType.fadeSlideUp,
-          child: AppointmentCard(booking: bookings[index], status: status),
-        );
+        return AppointmentCard(booking: bookings[index], status: status);
       },
     );
   }

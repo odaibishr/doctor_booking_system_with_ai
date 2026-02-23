@@ -15,6 +15,7 @@ class HospitalModel extends Hospital {
     required super.image,
     required super.locationId,
     required super.doctors,
+    required super.description,
   });
 
   factory HospitalModel.fromMap(Map<String, dynamic> data) => HospitalModel(
@@ -26,14 +27,14 @@ class HospitalModel extends Hospital {
     address: data['address'] as String,
     image: data['image'] as String,
     locationId: data['location_id'] as int,
-    doctors: (data['doctors'] as List<dynamic>?)
+    doctors:
+        (data['doctors'] as List<dynamic>?)
             ?.map(
-              (doctor) => DoctorModel.fromMap(
-                doctor as Map<String, dynamic>,
-              ),
+              (doctor) => DoctorModel.fromMap(doctor as Map<String, dynamic>),
             )
             .toList() ??
         <Doctor>[],
+    description: data['description'] ?? '',
   );
 
   Map<String, dynamic> toMap() => {
@@ -46,6 +47,7 @@ class HospitalModel extends Hospital {
     'image': image,
     'location_id': locationId,
     'doctors': doctors,
+    'description': description,
   };
 
   /// `dart:convert`
@@ -72,6 +74,7 @@ class HospitalModel extends Hospital {
     DateTime? createdAt,
     DateTime? updatedAt,
     List<Doctor>? doctors,
+    String? description,
   }) {
     return HospitalModel(
       id: id ?? this.id,
@@ -83,6 +86,7 @@ class HospitalModel extends Hospital {
       image: image ?? this.image,
       locationId: locationId ?? this.locationId,
       doctors: doctors ?? this.doctors,
+      description: description ?? this.description,
     );
   }
 
@@ -96,5 +100,6 @@ class HospitalModel extends Hospital {
     image: '',
     locationId: 0,
     doctors: [],
+    description: '',
   );
 }

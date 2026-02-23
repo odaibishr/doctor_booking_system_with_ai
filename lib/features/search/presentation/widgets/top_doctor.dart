@@ -11,7 +11,7 @@ class TopDoctor extends StatelessWidget {
     return Container(
       width: 120,
       height: 20,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
         color: context.gray200Color,
         borderRadius: BorderRadius.circular(100),

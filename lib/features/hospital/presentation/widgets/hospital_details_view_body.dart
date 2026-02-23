@@ -4,8 +4,6 @@ import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/tap_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/manager/hospital_detailes/hospital_detailes_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_details_skeleton.dart';
-import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_header_section.dart';
-import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_stats_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'hospital_details_about_tab.dart';
@@ -113,37 +111,6 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Hospital Header with animation
-                        AnimatedEntrance(
-                          delay: const Duration(milliseconds: 100),
-                          animationType: AnimationType.fadeScale,
-                          child: HospitalHeaderSection(
-                            hospitalName: hospital.name,
-                            hospitalLocation: hospital.address,
-                            hospitalImage: hospital.image,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        // Stats Section with animation
-                        AnimatedEntrance(
-                          delay: const Duration(milliseconds: 200),
-                          animationType: AnimationType.fadeSlideUp,
-                          child: const HospitalStatsSection(),
-                        ),
-                        const SizedBox(height: 24),
-                      ],
-                    ),
-                  ),
-                ),
-                SliverFillRemaining(
-                  hasScrollBody: true,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 8,
-                    ),
-                    child: Column(
-                      children: [
                         // TabBar with animation
                         AnimatedEntrance(
                           delay: const Duration(milliseconds: 300),
@@ -161,6 +128,19 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
                             },
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                ),
+                SliverFillRemaining(
+                  hasScrollBody: true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 8,
+                    ),
+                    child: Column(
+                      children: [
                         const SizedBox(height: 16),
                         Expanded(
                           child: AnimatedEntrance(
@@ -172,10 +152,7 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
                                 setState(() => _selectedTab = index);
                               },
                               children: [
-                                HospitalDetailsAboutTab(
-                                  doctors: hospital.doctors!,
-                                  reviews: _reviews,
-                                ),
+                                HospitalDetailsAboutTab(hospital: hospital),
                                 HospitalDetailsDoctorsTab(
                                   doctors: hospital.doctors!,
                                 ),
@@ -197,28 +174,4 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
       },
     );
   }
-
-  final List<Map<String, dynamic>> _reviews = [
-    {
-      'id': '1',
-      'name': 'Brooklyn Simmons',
-      'rating': '4.5',
-      'review':
-          'Great care from the staff. The facility was clean and the doctors took time to explain everything.',
-    },
-    {
-      'id': '2',
-      'name': 'Eleanor Pena',
-      'rating': '4.8',
-      'review':
-          'Quick check-in and very professional team. I felt heard and respected throughout my visit.',
-    },
-    {
-      'id': '3',
-      'name': 'Courtney Henry',
-      'rating': '4.2',
-      'review':
-          'Good experience overall. There was a slight wait, but the service quality made up for it.',
-    },
-  ];
 }

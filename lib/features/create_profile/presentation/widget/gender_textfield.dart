@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 
 class GenderTextField extends StatefulWidget {
   final ValueChanged<String?> onchanged;
-  const GenderTextField({super.key, required this.onchanged});
+  final String? initialValue;
+  const GenderTextField({
+    super.key,
+    required this.onchanged,
+    this.initialValue,
+  });
 
   @override
   State<GenderTextField> createState() => _GenderTextFieldState();
@@ -13,6 +18,19 @@ class GenderTextField extends StatefulWidget {
 class _GenderTextFieldState extends State<GenderTextField> {
   String? selectedGender;
   final List<String> genderItems = ['ذكر', 'أنثى'];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialValue != null) {
+      if (widget.initialValue == 'male') {
+        selectedGender = 'ذكر';
+      } else if (widget.initialValue == 'female') {
+        selectedGender = 'أنثى';
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField2<String>(
@@ -47,7 +65,7 @@ class _GenderTextFieldState extends State<GenderTextField> {
       dropdownStyleData: DropdownStyleData(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
+          color: context.cardColor,
           border: Border.all(color: AppColors.primary),
         ),
       ),

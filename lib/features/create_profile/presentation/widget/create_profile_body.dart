@@ -1,4 +1,5 @@
 ﻿import 'dart:io';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/profile.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
@@ -17,7 +18,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class CreateProfileBody extends StatefulWidget {
-  const CreateProfileBody({super.key});
+  const CreateProfileBody({super.key, this.profile});
+  final Profile? profile;
 
   @override
   State<CreateProfileBody> createState() => _CreateProfileBodyState();
@@ -30,6 +32,18 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
   final TextEditingController birthDateController = TextEditingController();
   String? selectedGender;
   File? selectedImage;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.profile != null) {
+      phoneController.text = widget.profile!.phone;
+      if (widget.profile!.birthDate != 'null') {
+        birthDateController.text = widget.profile!.birthDate;
+      }
+      selectedGender = widget.profile!.gender;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +101,7 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
                       ), //Profile image
                       SizedBox(height: 15),
                       MainInputField(
-                        hintText: 'رقم المستخدم',
+                        hintText: 'رقم الهاتف',
                         leftIconPath: 'assets/icons/country.svg',
                         rightIconPath: 'assets/icons/country.svg',
                         isShowRightIcon: true,
@@ -123,7 +137,7 @@ class _CreateProfileBodyState extends State<CreateProfileBody> {
                             ).createProfile(
                               phone: phoneController.text,
                               birthDate: birthDateController.text,
-                              gender: selectedGender!,
+                              gender: selectedGender ?? 'male', // Default
                               locationId: 1,
                               imageFile: selectedImage,
                             );

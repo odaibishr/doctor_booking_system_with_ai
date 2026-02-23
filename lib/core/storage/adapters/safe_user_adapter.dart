@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/location.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/parse_helpers.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -13,20 +14,15 @@ class SafeUserAdapter extends TypeAdapter<User> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
 
-    final locationValue = _asLocation(fields[9]) ??
-        Location(
-          id: 0,
-          lat: 0.0,
-          lng: 0.0,
-          name: '',
-        );
+    final locationValue =
+        _asLocation(fields[9]) ?? Location(id: 0, lat: 0.0, lng: 0.0, name: '');
 
-    final locationIdValue = _toInt(fields[10], fallback: locationValue.id);
+    final locationIdValue = parseToInt(fields[10], fallback: locationValue.id);
 
     final profileImage = _normalizeNullableString(fields[6]);
 
     return User(
-      id: _toInt(fields[0]),
+      id: parseToInt(fields[0]),
       name: (fields[1] ?? '').toString(),
       email: (fields[2] ?? '').toString(),
       token: (fields[3] ?? '').toString(),
@@ -66,12 +62,6 @@ class SafeUserAdapter extends TypeAdapter<User> {
       ..write(obj.location)
       ..writeByte(10)
       ..write(obj.locationId);
-  }
-
-  static int _toInt(dynamic value, {int fallback = 0}) {
-    if (value is int) return value;
-    if (value is num) return value.toInt();
-    return int.tryParse('${value ?? ''}') ?? fallback;
   }
 
   static Location? _asLocation(dynamic value) {

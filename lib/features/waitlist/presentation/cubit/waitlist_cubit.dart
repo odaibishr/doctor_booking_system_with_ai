@@ -105,7 +105,7 @@ class WaitlistCubit extends Cubit<WaitlistState> {
   }
 
   void notifySlotAvailable(Map<String, dynamic> notificationData) {
-    // This will be called from FCM notification handler
-    // Parse notification data and emit slot available state
+    // سيتم استدعاء هذا من معالج إشعارات FCM
+    // تحليل بيانات الإشعار وإصدار حالة توفر الفترة الزمنية
   }
 }

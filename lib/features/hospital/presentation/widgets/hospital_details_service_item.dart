@@ -9,14 +9,17 @@ class HospitalDetailsServiceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Icon(Icons.check_circle, color: AppColors.primary, size: 20),
-          const SizedBox(width: 12),
-          Text(service, style: FontStyles.subTitle2),
-        ],
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+      decoration: BoxDecoration(
+        color: context.cardBackgroundColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      // height: 50,
+      child: Text(
+        service,
+        style: FontStyles.subTitle2,
+        textAlign: TextAlign.center,
       ),
     );
   }

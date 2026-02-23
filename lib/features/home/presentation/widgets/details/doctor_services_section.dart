@@ -18,17 +18,32 @@ class DoctorServicesSection extends StatelessWidget {
         const SizedBox(height: 5),
         Column(
           children: [
-            for (var service in doctorServices)
-              Row(
-                children: [
-                  Icon(Icons.circle, size: 10),
-                  const SizedBox(width: 7),
-                  Text(
-                    service,
-                    style: FontStyles.body2.copyWith(color: AppColors.gray500),
+            doctorServices.isEmpty
+                ? Center(
+                    child: Text(
+                      'لم يتم اضافة خدمات',
+                      style: FontStyles.body2.copyWith(
+                        color: AppColors.gray500,
+                      ),
+                    ),
+                  )
+                : Column(
+                    children: [
+                      for (var service in doctorServices)
+                        Row(
+                          children: [
+                            Icon(Icons.circle, size: 10),
+                            const SizedBox(width: 7),
+                            Text(
+                              service,
+                              style: FontStyles.body2.copyWith(
+                                color: AppColors.gray500,
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
                   ),
-                ],
-              ),
             const SizedBox(height: 5),
           ],
         ),

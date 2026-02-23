@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:doctor_booking_system_with_ai/core/storage/hive_service.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/check_auth_satus_usecase.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/google_sign_in_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/profile/domain/use_cases/logout_use_case.dart'
@@ -15,17 +16,18 @@ class AuthCubit extends Cubit<AuthState> {
     required this.signUpUsecase,
     required this.checkAuthSatusUsecase,
     required this.logoutUseCase,
+    required this.googleSignInUseCase,
   }) : super(AuthInitial());
 
   final SignInUseCase signInUseCase;
   final SignUpUsecase signUpUsecase;
   final CheckAuthSatusUsecase checkAuthSatusUsecase;
   final profile_logout.LogoutUseCase logoutUseCase;
+  final GoogleSignInUseCase googleSignInUseCase;
 
   Future<void> signIn({required String email, required String password}) async {
     emit(AuthLoading());
     try {
-      
       final result = await signInUseCase(
         SignInParams(email: email, password: password),
       );
@@ -38,7 +40,23 @@ class AuthCubit extends Cubit<AuthState> {
           emit(AuthSuccess(user: user));
         }
       });
-      
+    } catch (e) {
+      emit(AuthError(message: e.toString()));
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    emit(AuthLoading());
+    try {
+      final result = await googleSignInUseCase();
+      result.fold((failure) => emit(AuthError(message: failure.errorMessage)), (
+        user,
+      ) async {
+        if (user.token.isNotEmpty) {
+          await HiveService.cacheAuthData(user);
+          emit(AuthSuccess(user: user));
+        }
+      });
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
@@ -51,7 +69,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (cachedUser != null && cachedUser.token.isNotEmpty) {
         emit(AuthSuccess(user: cachedUser));
       } else {
-        emit(AuthError(message: "No logged in user found"));
+        emit(AuthError(message: "لم يتم العثور على مستخدم مسجل الدخول"));
       }
     } catch (e) {
       emit(AuthError(message: e.toString()));
@@ -79,7 +97,7 @@ class AuthCubit extends Cubit<AuthState> {
         user,
       ) {
         if (user.token.isEmpty) {
-          emit(AuthError(message: "Invalid token received"));
+          emit(AuthError(message: "تم استلام رمز غير صالح"));
         } else {
           emit(AuthSuccess(user: user));
         }

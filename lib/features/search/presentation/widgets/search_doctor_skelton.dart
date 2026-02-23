@@ -26,7 +26,7 @@ class SearchDoctorSkelton extends StatelessWidget {
                   width: 70,
                   borderRadius: 10,
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 20),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
