@@ -7,6 +7,7 @@ abstract class ReviewRepo {
     required int doctorId,
     required int rating,
     required String comment,
+    required bool isActive,
   });
   Future<Either<Failure, List<Review>>> getDoctorReviews(int docotrId);
 }
