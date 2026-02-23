@@ -23,7 +23,7 @@ class ReviewAdapter extends TypeAdapter<Review> {
       comment: fields[3] as String,
       rating: fields[4] as int,
       user: fields[5] as User?,
-      isActive: fields[6] as bool,
+      isActive: fields[6] == null ? false : fields[6] as bool,
     );
   }
 

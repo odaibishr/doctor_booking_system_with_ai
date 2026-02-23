@@ -32,6 +32,7 @@ class ReviewCubit extends Cubit<ReviewState> {
           doctorId: doctorId,
           rating: rating,
           comment: comment,
+          isActive: true,
         ),
       );
 
