@@ -14,6 +14,7 @@ class CreateReviewUseCase extends Usecase<Review, CreateReviewParams> {
       doctorId: params!.doctorId,
       rating: params.rating,
       comment: params.comment,
+      isActive: params.isActive,
     );
   }
 }
@@ -22,10 +23,12 @@ class CreateReviewParams {
   final int doctorId;
   final int rating;
   final String comment;
+  final bool isActive;
 
   CreateReviewParams({
     required this.doctorId,
     required this.rating,
     required this.comment,
+    required this.isActive,
   });
 }
