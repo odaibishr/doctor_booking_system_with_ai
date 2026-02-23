@@ -2,6 +2,7 @@ import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/
 import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/presention/dashboard_view.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/home_page_view.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/profilee_view.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/custom_home_appbar.dart';
 import 'package:flutter/material.dart';
 
 class CustomNavigation extends StatefulWidget {
@@ -15,8 +16,8 @@ class _CustomNavigationState extends State<CustomNavigation> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const HomePageView(),
     const DashboardView(),
+    const HomePageView(),
     const ProfileeView(),
   ];
 
@@ -35,6 +36,16 @@ class _CustomNavigationState extends State<CustomNavigation> {
 
     return Scaffold(
       extendBody: true,
+      appBar: safeIndex == 0
+          ? AppBar(
+              automaticallyImplyLeading: false,
+              surfaceTintColor: Colors.transparent,
+              title: CustomHomeAppBar(
+                name: '',
+                userImage: 'assets/images/my-photo.jpg',
+              ),
+            )
+          : null,
       body: _pages[safeIndex],
       bottomNavigationBar: isKeyboardVisible
           ? null
