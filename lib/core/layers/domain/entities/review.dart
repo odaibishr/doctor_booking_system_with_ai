@@ -17,6 +17,9 @@ class Review {
   @HiveField(5)
   final User? user;
 
+  @HiveField(6)
+  final bool isActive;
+
   Review({
     required this.id,
     required this.doctorId,
@@ -24,5 +27,6 @@ class Review {
     required this.comment,
     required this.rating,
     this.user,
+    required this.isActive,
   });
 }
