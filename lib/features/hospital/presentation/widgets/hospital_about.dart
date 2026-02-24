@@ -26,7 +26,7 @@ class HospitalAbout extends StatelessWidget {
         AnimatedEntrance(
           delay: const Duration(milliseconds: 200),
           animationType: AnimationType.fadeSlideUp,
-          child: const HospitalStatsSection(),
+          child: HospitalStatsSection(hospital: hospital),
         ),
       ],
     );
