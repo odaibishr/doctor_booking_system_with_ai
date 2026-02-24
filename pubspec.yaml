@@ -80,6 +80,7 @@ dependencies:
   google_sign_in: ^6.2.1
   cached_query: ^2.2.1
   crystal_navigation_bar: ^1.1.0
+  share_plus: ^12.0.1
 
 dev_dependencies:
   flutter_test:
