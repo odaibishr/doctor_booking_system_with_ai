@@ -66,28 +66,14 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
             UserAccountMenuItem(
               title: 'الإعدادات',
               icon: 'assets/icons/setting-2.svg',
-              onTap: () =>
-                context.push(AppRouter.customNavigationBarRoute)
-              ,
+              onTap: () => context.push(AppRouter.customNavigationBarRoute),
             ),
             const SizedBox(height: 14),
 
             UserAccountMenuItem(
               title: 'قوائم الانتظار',
-              icon: 'assets/icons/setting-2.svg',
+              icon: 'assets/icons/timer.svg',
               onTap: () => context.push(AppRouter.myWaitlistsViewRoute),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.queue, color: context.primaryColor, size: 18),
-                  const SizedBox(width: 8),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: context.primaryColor,
-                    size: 15,
-                  ),
-                ],
-              ),
             ),
             const SizedBox(height: 14),
 
@@ -124,13 +110,13 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
                     children: [
                       UserAccountMenuItem(
                         title: 'اللغة',
-                        icon: 'assets/icons/setting-2.svg',
+                        icon: 'assets/icons/country.svg',
                         onTap: () {},
                       ),
                       const SizedBox(height: 10),
                       UserAccountMenuItem(
                         title: 'الإشعارات',
-                        icon: 'assets/icons/setting-2.svg',
+                        icon: 'assets/icons/notification.svg',
                         onTap: () {},
                       ),
                     ],
