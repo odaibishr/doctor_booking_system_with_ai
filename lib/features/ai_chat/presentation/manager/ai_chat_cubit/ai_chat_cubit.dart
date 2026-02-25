@@ -1,12 +1,15 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:doctor_booking_system_with_ai/core/errors/exceptions.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specialty.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/doctor_repo.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/specialty_repo.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
+import 'package:doctor_booking_system_with_ai/features/ai_chat/data/data_sources/ai_image_service.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/domain/repositories/ai_chat_repository.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/manager/ai_chat_cubit/ai_chat_state.dart';
+import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/recommended_doctors_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -207,10 +210,52 @@ class AiChatCubit extends Cubit<AiChatState> {
     return filteredDoctors;
   }
 
-  Future<void> sendMessage(String message) async {
+  Future<void> sendMessage({String? message, File? image}) async {
+    final doctorss;
     if (_specialties.isEmpty) {
       await _loadSpecialties();
     }
+
+    // ================= IMAGE =================
+    if (image != null) {
+      _messages.add({'role': 'user', 'image': image, 'isDone': true});
+
+      int aiIndex = _messages.length - 1;
+      emit(
+        AiChatSuccess(
+          messages: List.from(_messages),
+          recommendedDoctors: Map.from(_recommendedDoctors),
+        ),
+      );
+
+      try {
+        final result = await ImageAiService().analyzeImage(image);
+
+    const int chestspecialityid=3;
+    final doctorss=_fetchDoctorsBySpecialtyFromCache(chestspecialityid);
+    if(doctorss.isNotEmpty)
+    {
+      _recommendedDoctors[aiIndex]=doctorss;
+    }       
+
+
+        _messages.add({'role': 'ai', 'text': result, 'isDone': true});
+
+        emit(
+          AiChatSuccess(
+            messages: List.from(_messages),
+            recommendedDoctors: Map.from(_recommendedDoctors),
+          ),
+        );
+      } catch (e) {
+        emit(AiChatFailure(errMessage: e.toString()));
+      }
+
+      return; // 🔥 مهم جدا — أوقف هنا ولا تكمل منطق النص
+    }
+
+    // ================= TEXT =================
+    if (message == null || message.isEmpty) return;
 
     _messages.add({'role': 'user', 'text': message, 'isDone': false});
     emit(
@@ -231,7 +276,7 @@ class AiChatCubit extends Cubit<AiChatState> {
     );
 
     try {
-      final stream = aiChatRepository.sendMessage(message);
+      final stream = aiChatRepository.sendMessage(message!);
 
       stream.listen(
         (chunk) {
