@@ -1,3 +1,7 @@
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/appointment_schedule_info.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/appointment_transaction_info.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/patient_info.dart';
+
 class DoctorAppointment {
   final int id;
   final int doctorId;
