@@ -22,4 +22,6 @@ abstract class DoctorRepo {
     int id,
     Map<String, dynamic> data,
   );
+
+  Future<Either<Failure, List<Map<String, dynamic>>>> getMyDaysOff();
 }
