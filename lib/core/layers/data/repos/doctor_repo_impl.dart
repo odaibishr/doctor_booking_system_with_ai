@@ -139,4 +139,17 @@ class DoctorRepoImpl implements DoctorRepo {
     }
     return Left(Failure(e.toString()));
   }
+
+  @override
+  Future<Either<Failure, Doctor>> getMyProfile() async {
+    try {
+      if (!await networkInfo.isConnected) {
+        return Left(Failure('لا يوجد اتصال بالانترنت'));
+      }
+      final result = await remoteDataSource.getMyProfile();
+      return Right(result);
+    } catch (error) {
+      Left(Failure(error.toString()));
+    }
+  }
 }
