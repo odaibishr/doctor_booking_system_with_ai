@@ -8,6 +8,7 @@ class DoctorCard extends StatelessWidget {
   final String cardContent;
   final Color? iconColor;
   final Color? iconBackgroundColor;
+  final VoidCallback? onTap;
 
   const DoctorCard({
     super.key,
@@ -16,6 +17,7 @@ class DoctorCard extends StatelessWidget {
     required this.cardContent,
     this.iconColor,
     this.iconBackgroundColor,
+    this.onTap,
   });
 
   @override
@@ -26,7 +28,6 @@ class DoctorCard extends StatelessWidget {
 
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.all(14),
         margin: const EdgeInsets.symmetric(horizontal: 6),
         decoration: BoxDecoration(
           color: context.cardBackgroundColor,
@@ -39,29 +40,41 @@ class DoctorCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
-                color: effectiveIconBg,
-                borderRadius: BorderRadius.circular(12),
+        clipBehavior: Clip.antiAlias,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: effectiveIconBg,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(cardIcon, size: 22, color: effectiveIconColor),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    cardContent,
+                    style: FontStyles.subTitle1.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    cardTitle,
+                    style: FontStyles.body2.copyWith(color: AppColors.gray600),
+                  ),
+                ],
               ),
-              child: Icon(cardIcon, size: 22, color: effectiveIconColor),
             ),
-            const SizedBox(height: 12),
-            Text(
-              cardContent,
-              style: FontStyles.subTitle1.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              cardTitle,
-              style: FontStyles.body2.copyWith(color: AppColors.gray500),
-            ),
-          ],
+          ),
         ),
       ),
     );
