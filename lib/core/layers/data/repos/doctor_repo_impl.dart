@@ -149,7 +149,7 @@ class DoctorRepoImpl implements DoctorRepo {
       final result = await remoteDataSource.getMyProfile();
       return Right(result);
     } catch (error) {
-      Left(Failure(error.toString()));
+      return _handleError(error);
     }
   }
 }
