@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
@@ -13,4 +15,5 @@ abstract class DoctorRepo {
   Future<Either<Failure, List<Doctor>>> getFavoriteDoctors();
   Future<Either<Failure, Doctor>> getMyProfile();
   Future<Either<Failure, Doctor>> updateMyProfile(Map<String, dynamic> data);
+  Future<Either<Failure, String>> updateMyProfileImage(File imageFile);
 }
