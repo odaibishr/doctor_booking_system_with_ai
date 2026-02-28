@@ -53,4 +53,21 @@ class ReviewRepoImpl implements ReviewRepo {
       return Left(Failure('فشل جلب المراجعات، يرجى المحاولة لاحقاً'));
     }
   }
+
+  @override
+  Future<
+    Either<Failure, ({double avgRating, List<Review> reviews, int totalCount})>
+  >
+  getMyReviews() async {
+    try {
+      if (!await networkInfo.isConnected) {
+        return Left(Failure('لايوجد اتصال بالانترنت'));
+      }
+
+      final result = await remoteDataSource.getMyReviews();
+      return Right(result);
+    } catch (error) {
+      return Left(Failure('فشل جلب المراجعات، يرجى المحاولة لاحقاً'));
+    }
+  }
 }
