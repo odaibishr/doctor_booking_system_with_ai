@@ -17,3 +17,11 @@ Map<String, dynamic> ensureMap(dynamic value) {
   }
   return <String, dynamic>{};
 }
+
+List<T> parseList<T>(
+  dynamic value,
+  T Function(Map<String, dynamic> map) mapper,
+) {
+  if (value is! List) return <T>[];
+  return value.map((item) => mapper(ensureMap(item))).toList();
+}
