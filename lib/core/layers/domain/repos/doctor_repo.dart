@@ -27,4 +27,6 @@ abstract class DoctorRepo {
   Future<Either<Failure, List<Map<String, dynamic>>>> createMyDaysOff(
     List<int> daysIds,
   );
+
+  Future<Either<Failure, void>> deleteMyDayOff(int id);
 }
