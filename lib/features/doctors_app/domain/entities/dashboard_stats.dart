@@ -10,6 +10,7 @@ class DashboardStats {
   final int todayPatients;
   final EarningsData earnings;
   final int reviewsAvg;
+  final int reviewsCount;
   final int waitlistCount;
   final String? hospitalName;
   final List<DoctorSchedule> workingHours;
@@ -24,6 +25,7 @@ class DashboardStats {
     required this.todayPatients,
     required this.earnings,
     required this.reviewsAvg,
+    required this.reviewsCount,
     required this.waitlistCount,
     this.hospitalName,
     required this.workingHours,
