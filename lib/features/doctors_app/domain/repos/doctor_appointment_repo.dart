@@ -7,4 +7,6 @@ abstract class DoctorAppointmentRepo {
     String? status,
     String? date,
   });
+
+  Future<Either<Failure, List<DoctorAppointment>>> getTodayAppointments();
 }
