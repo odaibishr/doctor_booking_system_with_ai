@@ -1,6 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
-
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/models/doctor_model.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/models/schedule_capacity_model.dart';
@@ -19,7 +17,7 @@ abstract class DoctorRemoteDataSource {
   });
 
   Future<Doctor> getMyProfile();
-  
+  Future<Doctor> updateMyProfile(Map<String, dynamic> data);
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
@@ -105,11 +103,16 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
 
     return ScheduleCapacity.fromMap(response['data']);
   }
-  
+
   @override
   Future<Doctor> getMyProfile() async {
     final response = await dioConsumer.get('doctor/profile');
     return DoctorModel.fromMap(response['data']);
-    
+  }
+
+  @override
+  Future<Doctor> updateMyProfile(Map<String, dynamic> data) async {
+    final response = await dioConsumer.put('doctor/profile', data: data);
+    return DoctorModel.fromMap(response['data']);
   }
 }
