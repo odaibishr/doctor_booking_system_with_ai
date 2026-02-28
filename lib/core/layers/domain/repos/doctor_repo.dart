@@ -18,4 +18,8 @@ abstract class DoctorRepo {
   Future<Either<Failure, Doctor>> updateMyProfile(Map<String, dynamic> data);
   Future<Either<Failure, String>> updateMyProfileImage(File imageFile);
   Future<Either<Failure, DoctorSchedule>> getMySchedules();
+  Future<Either<Failure, DoctorSchedule>> updateMySchedule(
+    int id,
+    Map<String, dynamic> data,
+  );
 }
