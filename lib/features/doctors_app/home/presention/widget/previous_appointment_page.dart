@@ -4,6 +4,7 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presenti
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/appointments/doctor_appointments_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class PreviousAppointmentPage extends StatelessWidget {
   const PreviousAppointmentPage({super.key});
@@ -36,7 +37,15 @@ class PreviousAppointmentPage extends StatelessWidget {
                   patientImage: appointment.patientInfo?.profileImage ?? '',
                   time:
                       '${appointment.scheduleInfo?.startTime ?? ''} - ${appointment.scheduleInfo?.endTime ?? ''}',
-                  date: appointment.date,
+                  date: () {
+                    try {
+                      return DateFormat.yMMMMd(
+                        'ar',
+                      ).format(DateTime.parse(appointment.date));
+                    } catch (_) {
+                      return appointment.date;
+                    }
+                  }(),
                   bookingNumber: '${appointment.id}',
                   location: appointment.scheduleInfo?.dayName ?? '',
                   showActions: false,
