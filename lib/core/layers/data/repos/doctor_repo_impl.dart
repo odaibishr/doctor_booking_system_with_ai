@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/exceptions.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor_schedule.dart';
 import 'package:doctor_booking_system_with_ai/core/network/network_info.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/doctor_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/doctor_remote_data_source.dart';
@@ -177,6 +178,19 @@ class DoctorRepoImpl implements DoctorRepo {
         return Left(Failure('لايوجد اتصال بالانترنت'));
       }
       final result = await remoteDataSource.updateMyProfileImage(imageFile);
+      return Right(result);
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, DoctorSchedule>> getMySchedules() async {
+    try {
+      if (!await networkInfo.isConnected) {
+        return Left(Failure('لايوجد اتصال بالانترنت'));
+      }
+      final result = await remoteDataSource.getMySchedules();
       return Right(result);
     } catch (error) {
       return _handleError(error);
