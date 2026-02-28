@@ -8,6 +8,8 @@ abstract class DoctorAppointmentRemoteDataSource {
     String? status,
     String? date,
   });
+
+  Future<List<DoctorAppointment>> getTodayAppointments();
 }
 
 class DoctorAppointmentRemoteDataSourceImpl
@@ -29,6 +31,15 @@ class DoctorAppointmentRemoteDataSourceImpl
       },
     );
 
+    return parseList<DoctorAppointment>(
+      response['data'],
+      DoctorAppointmentModel.fromMap,
+    );
+  }
+
+  @override
+  Future<List<DoctorAppointment>> getTodayAppointments() async {
+    final response = await dioConsumer.get('doctor/my-appointments/today');
     return parseList<DoctorAppointment>(
       response['data'],
       DoctorAppointmentModel.fromMap,
