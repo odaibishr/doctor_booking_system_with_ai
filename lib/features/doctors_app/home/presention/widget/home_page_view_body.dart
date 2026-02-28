@@ -1,8 +1,11 @@
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/tap_bar.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/cancelled_appointment_page.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/next_appintment_page.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/previous_appointment_page.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/appointments/doctor_appointments_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePageViewBody extends StatefulWidget {
   const HomePageViewBody({super.key});
@@ -24,10 +27,27 @@ class _HomePageViewBodyState extends State<HomePageViewBody> {
         curve: Curves.easeInOut,
       );
     }
+    _fetchForTab(index);
   }
 
   void _onPageSwiped(int index) {
     setState(() => _selectedTab = index);
+    _fetchForTab(index);
+  }
+
+  void _fetchForTab(int index) {
+    final cubit = context.read<DoctorAppointmentsCubit>();
+    switch (index) {
+      case 0:
+        cubit.fetchUpcoming();
+        break;
+      case 1:
+        cubit.fetchHistory();
+        break;
+      case 2:
+        cubit.fetchToday();
+        break;
+    }
   }
 
   @override
@@ -62,7 +82,7 @@ class _HomePageViewBodyState extends State<HomePageViewBody> {
               children: const [
                 NextAppintmentPage(),
                 PreviousAppointmentPage(),
-                Center(child: Text('لا توجد حجوزات ملغاة')),
+                CancelledAppointmentPage(),
               ],
             ),
           ),

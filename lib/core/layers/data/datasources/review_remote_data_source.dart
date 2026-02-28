@@ -12,6 +12,7 @@ abstract class ReviewRemoteDataSource {
   });
   Future<({List<Review> reviews, double avgRating, int totalCount})>
   getMyReviews();
+  Future<void> toggleReviewActive(int reviewId);
 }
 
 class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
@@ -84,7 +85,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   @override
   Future<({double avgRating, List<Review> reviews, int totalCount})>
   getMyReviews() async {
-    final response = await dioConsumer.get('review/my-reviews');
+    final response = await dioConsumer.get('doctor/my-reviews');
     final data = _ensureMap(response['data'] ?? response);
     final reviewsList = <Review>[];
 
@@ -99,5 +100,10 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
       avgRating: double.tryParse('${data['average_rating']}') ?? 0.0,
       totalCount: int.tryParse('${data['total_count']}') ?? 0,
     );
+  }
+
+  @override
+  Future<void> toggleReviewActive(int reviewId) async {
+    await dioConsumer.put('doctor/my-reviews/$reviewId/toggle-active');
   }
 }

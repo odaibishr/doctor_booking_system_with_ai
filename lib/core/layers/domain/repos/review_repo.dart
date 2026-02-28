@@ -14,4 +14,5 @@ abstract class ReviewRepo {
     Either<Failure, ({List<Review> reviews, double avgRating, int totalCount})>
   >
   getMyReviews();
+  Future<Either<Failure, void>> toggleReviewActive(int reviewId);
 }

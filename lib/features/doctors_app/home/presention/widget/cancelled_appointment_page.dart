@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class NextAppintmentPage extends StatelessWidget {
-  const NextAppintmentPage({super.key});
+class CancelledAppointmentPage extends StatelessWidget {
+  const CancelledAppointmentPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class NextAppintmentPage extends StatelessWidget {
         if (state is DoctorAppointmentsLoaded) {
           final appointments = state.appointments;
           if (appointments.isEmpty) {
-            return const Center(child: Text('لا توجد حجوزات قادمة'));
+            return const Center(child: Text('لا توجد حجوزات ملغاة'));
           }
           return Padding(
             padding: const EdgeInsets.only(top: 20, left: 12, right: 12),
@@ -47,17 +47,8 @@ class NextAppintmentPage extends StatelessWidget {
                     }
                   }(),
                   bookingNumber: '${appointment.id}',
-                  location: appointment.scheduleInfo?.dayName ?? '',
-                  showActions: true,
-                  onConfirm: () {
-                    context
-                        .read<DoctorAppointmentsCubit>()
-                        .updateAppointmentStatus(
-                          id: appointment.id,
-                          status: 'confirmed',
-                        );
-                  },
-                  onReject: () => _showCancelDialog(context, appointment.id),
+                  location: appointment.cancellationReason ?? '',
+                  showActions: false,
                 );
               },
             ),
@@ -66,38 +57,6 @@ class NextAppintmentPage extends StatelessWidget {
 
         return const SizedBox.shrink();
       },
-    );
-  }
-
-  void _showCancelDialog(BuildContext context, int appointmentId) {
-    final controller = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('سبب الإلغاء'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(hintText: 'أدخل سبب الإلغاء'),
-          maxLines: 3,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('إلغاء'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(dialogContext);
-              context.read<DoctorAppointmentsCubit>().updateAppointmentStatus(
-                id: appointmentId,
-                status: 'cancelled',
-                cancellationReason: controller.text,
-              );
-            },
-            child: const Text('تأكيد الإلغاء'),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -17,7 +17,9 @@ class PatientInfoModel extends PatientInfo {
       name: (map['name'] ?? '').toString(),
       email: (map['email'] ?? '').toString(),
       phone: map['phone']?.toString(),
-      profileImage: map['profile_image']?.toString(),
+      profileImage:
+          map['profile_image_url']?.toString() ??
+          map['profile_image']?.toString(),
       gender: map['gender']?.toString(),
     );
   }

@@ -1,9 +1,11 @@
+import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/nav_item.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/presention/dashboard_view.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/home_page_view.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/profilee_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/custom_home_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomNavigation extends StatefulWidget {
   const CustomNavigation({super.key});
@@ -34,16 +36,25 @@ class _CustomNavigationState extends State<CustomNavigation> {
         : 0;
     final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
 
+    String doctorName = '';
+    String doctorImage = 'assets/images/my-photo.jpg';
+
+    final profileState = context.watch<ProfileCubit>().state;
+    if (profileState is ProfileSuccess) {
+      doctorName = profileState.profile.user.name;
+      if (profileState.profile.profileImage != null &&
+          profileState.profile.profileImage!.isNotEmpty) {
+        doctorImage = profileState.profile.profileImage!;
+      }
+    }
+
     return Scaffold(
       extendBody: true,
       appBar: safeIndex == 0
           ? AppBar(
               automaticallyImplyLeading: false,
               surfaceTintColor: Colors.transparent,
-              title: CustomHomeAppBar(
-                name: '',
-                userImage: 'assets/images/my-photo.jpg',
-              ),
+              title: CustomHomeAppBar(name: doctorName, userImage: doctorImage),
             )
           : null,
       body: _pages[safeIndex],

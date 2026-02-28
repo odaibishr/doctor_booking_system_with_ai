@@ -70,4 +70,14 @@ class ReviewRepoImpl implements ReviewRepo {
       return Left(Failure('فشل جلب المراجعات، يرجى المحاولة لاحقاً'));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> toggleReviewActive(int reviewId) async {
+    try {
+      await remoteDataSource.toggleReviewActive(reviewId);
+      return const Right(null);
+    } catch (error) {
+      return Left(Failure('فشل تغيير حالة المراجعة'));
+    }
+  }
 }
