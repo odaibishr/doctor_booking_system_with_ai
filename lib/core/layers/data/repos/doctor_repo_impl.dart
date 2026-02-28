@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -163,6 +164,19 @@ class DoctorRepoImpl implements DoctorRepo {
       }
 
       final result = await remoteDataSource.updateMyProfile(data);
+      return Right(result);
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> updateMyProfileImage(File imageFile) async {
+    try {
+      if (!await networkInfo.isConnected) {
+        return Left(Failure('لايوجد اتصال بالانترنت'));
+      }
+      final result = await remoteDataSource.updateMyProfileImage(imageFile);
       return Right(result);
     } catch (error) {
       return _handleError(error);
