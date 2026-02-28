@@ -27,6 +27,7 @@ abstract class DoctorRemoteDataSource {
   Future<DoctorSchedule> updateMySchedule(Map<String, dynamic> data, int id);
   Future<List<Map<String, dynamic>>> getMyDaysOff();
   Future<List<Map<String, dynamic>>> createMyDaysOff(List<int> daysId);
+  Future<void> deleteMyDayOff(int id);
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
@@ -187,5 +188,10 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
     if (data is! List) return [];
 
     return data.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+  }
+
+  @override
+  Future<void> deleteMyDayOff(int id) async {
+    await dioConsumer.delete('doctor/my-schedules/days-off/$id');
   }
 }
