@@ -243,4 +243,18 @@ class DoctorRepoImpl implements DoctorRepo {
       return _handleError(error);
     }
   }
+
+  @override
+  Future<Either<Failure, void>> deleteMyDayOff(int id) async {
+    try {
+      if (!await networkInfo.isConnected) {
+        return Left(Failure('لايوجد اتصال بالانترنت'));
+      }
+
+      await remoteDataSource.deleteMyDayOff(id);
+      return Right(null);
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
 }
