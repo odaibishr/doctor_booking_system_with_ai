@@ -1,8 +1,7 @@
+import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/tap_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/next_appintment_page.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/previous_appointment_page.dart';
-import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/top_button.dart';
-import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/custom_home_appbar.dart';
-import 'package:floating_bottom_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomePageViewBody extends StatefulWidget {
@@ -13,81 +12,62 @@ class HomePageViewBody extends StatefulWidget {
 }
 
 class _HomePageViewBodyState extends State<HomePageViewBody> {
-  int SelectedIndex = 0;
-  List<Widget>_pages=[
-    NextAppintmentPage(),
-    PreviousAppointmentPage()
-  ];
-  
+  int _selectedTab = 0;
+  final PageController _pageController = PageController();
+
+  void _onTabChanged(int index) {
+    setState(() => _selectedTab = index);
+    if (_pageController.hasClients) {
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  void _onPageSwiped(int index) {
+    setState(() => _selectedTab = index);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          padding: EdgeInsets.only(top: 25, bottom: 120),
-          width: MediaQuery.of(context).size.width,
-          color: Color(0xFF364989),
-
-        child: Column(children: [
-          Row(
-            children: [
-              Text('                             طبيبي',style: TextStyle(color: const Color.fromARGB(255, 253, 253, 253),fontSize: 24),),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+      child: Column(
+        children: [
+          const CustomAppBar(
+            userImage: 'assets/images/my-photo.jpg',
+            title: 'الحجوزات',
+            isBackButtonVisible: false,
+            isUserImageVisible: true,
           ),
-
-          Text('           الذكي',style: TextStyle(color: const Color.fromARGB(255, 253, 253, 253),fontSize: 24),)
-
-        ],),
-        ),
-        Positioned(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 110),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.9,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color:   Color(0xFFE5E7EB),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                ),
-              ),
-              child: Column(
-                children: [
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TopButton(
-                        Index: 0,
-                        OnTap: () {
-                          setState(() {
-                            SelectedIndex = 0;
-                          });
-                        },
-                        SelectedIndex: SelectedIndex,
-                        Title: 'الحجوزات القادمة',
-                      ),
-                      TopButton(
-                        Index: 1,
-                        OnTap: () {
-                          setState(() {
-                            SelectedIndex = 1;
-                          });
-                        },
-                        SelectedIndex: SelectedIndex,
-                        Title: 'الحجوزات السابقة',
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: _pages[SelectedIndex])
-                ],
-              ),
+          const SizedBox(height: 16),
+          TapBar(
+            tabItems: const ['القادمة', 'السابقة', 'الملغاة'],
+            selectedTab: _selectedTab,
+            onTabChanged: _onTabChanged,
+          ),
+          const SizedBox(height: 16),
+          Expanded(
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: _onPageSwiped,
+              children: const [
+                NextAppintmentPage(),
+                PreviousAppointmentPage(),
+                Center(child: Text('لا توجد حجوزات ملغاة')),
+              ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

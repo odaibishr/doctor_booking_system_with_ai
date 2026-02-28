@@ -6,6 +6,6 @@ class HomePageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(body: SafeArea(child: HomePageViewBody()),);
+    return const SafeArea(child: HomePageViewBody());
   }
 }

@@ -1,10 +1,8 @@
-import 'package:crystal_navigation_bar/crystal_navigation_bar.dart';
-import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
-import 'package:doctor_booking_system_with_ai/features/app/presentation/app_navigation.dart';
-import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/modern_nav_bar_painter.dart';
+import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/nav_item.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/presention/dashboard_view.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/home_page_view.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/profilee_view.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/custom_home_appbar.dart';
 import 'package:flutter/material.dart';
 
 class CustomNavigation extends StatefulWidget {
@@ -15,67 +13,83 @@ class CustomNavigation extends StatefulWidget {
 }
 
 class _CustomNavigationState extends State<CustomNavigation> {
-  final List<Widget> _pages = [ DashboardView(),HomePageView(), ProfileeView()];
-  int currentindex = 1;
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    const DashboardView(),
+    const HomePageView(),
+    const ProfileeView(),
+  ];
+
+  void _onItemTapped(int index) {
+    if (!mounted) return;
+    if (index < 0 || index >= _pages.length) return;
+    setState(() => _selectedIndex = index);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final safeIndex = (_selectedIndex >= 0 && _selectedIndex < _pages.length)
+        ? _selectedIndex
+        : 0;
+    final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
+
     return Scaffold(
-     
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: _pages[currentindex],),
-          Positioned(
-            bottom: 0,
-            left: 12,
-            right: 12,
-            child: CrystalNavigationBar(
-       currentIndex: currentindex,
-        height: 10,
-      // indicatorColor: Colors.blue,
-       unselectedItemColor: AppColors.gray300,
-       enablePaddingAnimation: EditableText.defaultStylusHandwritingEnabled,
-       curve: Curves.linear,
-       
-       borderWidth: 0,
-       outlineBorderColor: Colors.white,
-       backgroundColor: AppColors.primary,
-       onTap: (index){
-         setState(() {
-           currentindex=index;
-         });
-       },
-       items: [
-          CrystalNavigationBarItem(
-                  
-           icon: Icons.dashboard,
-           selectedColor: Colors.white,
-           
-         ),
-         CrystalNavigationBarItem(
-           icon: Icons.home,
-           selectedColor: Colors.white,
-                  
-           badge: Badge(
-             backgroundColor: AppColors.gray100,
-             label: Text(
-               "15",
-               style: TextStyle(color:AppColors.primaryColor),
-             ),
-           ),
-         ),
-         CrystalNavigationBarItem(
-           icon: Icons.person,
-           selectedColor: Colors.white,
-           
-         ),
-       ]
-                  ),)
-        
-        ],
-      ),
-       extendBody: true,
-      //bottomNavigationBar: 
+      extendBody: true,
+      appBar: safeIndex == 0
+          ? AppBar(
+              automaticallyImplyLeading: false,
+              surfaceTintColor: Colors.transparent,
+              title: CustomHomeAppBar(
+                name: '',
+                userImage: 'assets/images/my-photo.jpg',
+              ),
+            )
+          : null,
+      body: _pages[safeIndex],
+      bottomNavigationBar: isKeyboardVisible
+          ? null
+          : Container(
+              margin: const EdgeInsets.fromLTRB(20, 0, 20, 15),
+              height: 70,
+              decoration: BoxDecoration(
+                color: const Color(0xFF364989),
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF364989).withValues(alpha: 0.3),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    NavItem(
+                      icon: 'assets/icons/home.svg',
+                      index: 0,
+                      selectedIndex: _selectedIndex,
+                      onItemTapped: _onItemTapped,
+                    ),
+                    NavItem(
+                      icon: 'assets/icons/calendar.svg',
+                      index: 1,
+                      selectedIndex: _selectedIndex,
+                      onItemTapped: _onItemTapped,
+                    ),
+                    NavItem(
+                      icon: 'assets/icons/user.svg',
+                      index: 2,
+                      selectedIndex: _selectedIndex,
+                      onItemTapped: _onItemTapped,
+                    ),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

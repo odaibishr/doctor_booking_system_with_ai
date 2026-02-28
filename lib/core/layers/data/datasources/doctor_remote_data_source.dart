@@ -1,9 +1,12 @@
 import 'dart:developer';
-
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/models/doctor_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/doctor_schedule_model.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/models/schedule_capacity_model.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor_schedule.dart';
 
 abstract class DoctorRemoteDataSource {
   Future<List<Doctor>> getDoctors();
@@ -16,6 +19,15 @@ abstract class DoctorRemoteDataSource {
     required int scheduleId,
     required String date,
   });
+
+  Future<Doctor> getMyProfile();
+  Future<Doctor> updateMyProfile(Map<String, dynamic> data);
+  Future<String> updateMyProfileImage(File imageFile);
+  Future<DoctorSchedule> getMySchedules();
+  Future<DoctorSchedule> updateMySchedule(Map<String, dynamic> data, int id);
+  Future<List<Map<String, dynamic>>> getMyDaysOff();
+  Future<List<Map<String, dynamic>>> createMyDaysOff(List<int> daysId);
+  Future<void> deleteMyDayOff(int id);
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
@@ -100,5 +112,86 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
     );
 
     return ScheduleCapacity.fromMap(response['data']);
+  }
+
+  @override
+  Future<Doctor> getMyProfile() async {
+    final response = await dioConsumer.get('doctor/profile');
+    return DoctorModel.fromMap(response['data']);
+  }
+
+  @override
+  Future<Doctor> updateMyProfile(Map<String, dynamic> data) async {
+    final response = await dioConsumer.put('doctor/profile', data: data);
+    return DoctorModel.fromMap(response['data']);
+  }
+
+  @override
+  Future<String> updateMyProfileImage(File imageFile) async {
+    final formData = FormData.fromMap({
+      'profile_image': await MultipartFile.fromFile(
+        imageFile.path,
+        filename: imageFile.path.split(Platform.pathSeparator).last,
+      ),
+    });
+
+    final response = await dioConsumer.post(
+      'doctor/profile/image',
+      data: formData,
+    );
+
+    return (response['data']['profile_image'] ?? '').toString();
+  }
+
+  @override
+  Future<DoctorSchedule> getMySchedules() async {
+    final response = await dioConsumer.get('doctor/my-schedules');
+    final data = response['data'];
+    if (data is! List) {
+      return DoctorScheduleModel.fromMap(data as Map<String, dynamic>);
+    }
+
+    return DoctorScheduleModel.fromMap(data as Map<String, dynamic>);
+  }
+
+  @override
+  Future<DoctorSchedule> updateMySchedule(
+    Map<String, dynamic> data,
+    int id,
+  ) async {
+    final response = await dioConsumer.put(
+      'doctor/my-schedules/$id',
+      data: data,
+    );
+
+    return DoctorScheduleModel.fromMap(response['data']);
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getMyDaysOff() async {
+    final response = await dioConsumer.get('doctor/my-schedules/days-off');
+    final data = response['data'];
+
+    if (data is! List) return [];
+
+    return data.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> createMyDaysOff(List<int> daysId) async {
+    final response = await dioConsumer.post(
+      'doctor/my-schedules/days-off',
+      data: {'day_id': daysId},
+    );
+
+    final data = response['data'];
+    if (data is! List) return [];
+
+    return data.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+  }
+
+  @override
+  Future<void> deleteMyDayOff(int id) async {
+    await dioConsumer.delete('doctor/my-schedules/days-off/$id');
   }
 }

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor_schedule.dart';
 
 abstract class DoctorRepo {
   Future<Either<Failure, List<Doctor>>> getDoctors();
@@ -11,4 +14,19 @@ abstract class DoctorRepo {
   );
   Future<Either<Failure, bool>> toggleFavoriteDoctor(int doctorId);
   Future<Either<Failure, List<Doctor>>> getFavoriteDoctors();
+  Future<Either<Failure, Doctor>> getMyProfile();
+  Future<Either<Failure, Doctor>> updateMyProfile(Map<String, dynamic> data);
+  Future<Either<Failure, String>> updateMyProfileImage(File imageFile);
+  Future<Either<Failure, DoctorSchedule>> getMySchedules();
+  Future<Either<Failure, DoctorSchedule>> updateMySchedule(
+    int id,
+    Map<String, dynamic> data,
+  );
+
+  Future<Either<Failure, List<Map<String, dynamic>>>> getMyDaysOff();
+  Future<Either<Failure, List<Map<String, dynamic>>>> createMyDaysOff(
+    List<int> daysIds,
+  );
+
+  Future<Either<Failure, void>> deleteMyDayOff(int id);
 }

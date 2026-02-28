@@ -1,37 +1,69 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
 
 class DoctorCard extends StatelessWidget {
-  final double CardHeight;
-  final double Cardwidth;
-  final IconData CardIcon;
-  final String CardTitle;
-  final String CardContent;
+  final IconData cardIcon;
+  final String cardTitle;
+  final String cardContent;
+  final Color? iconColor;
+  final Color? iconBackgroundColor;
+
   const DoctorCard({
-    super.key, required this.CardHeight, required this.Cardwidth, required this.CardIcon, required this.CardTitle, required this.CardContent,
+    super.key,
+    required this.cardIcon,
+    required this.cardTitle,
+    required this.cardContent,
+    this.iconColor,
+    this.iconBackgroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 10,left: 2,right: 8),
-      height: CardHeight,
-      width: Cardwidth,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-      color: AppColors.gray100
-      ),
-    child: Column(children: [
-      Row(children: [
-        Icon(CardIcon,size: 25,),
-        Text(CardTitle,style: TextStyle(fontSize: 16,color: AppColors.primaryColor),)
+    final effectiveIconColor = iconColor ?? AppColors.primary;
+    final effectiveIconBg =
+        iconBackgroundColor ?? AppColors.primary.withValues(alpha: 0.1);
 
-      ],),
-      SizedBox(height: 20,)
-      ,Row(mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-        Text(CardContent,style: TextStyle(fontSize: 18,color: AppColors.primaryColor),)
-      ],)
-    ],),);
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        margin: const EdgeInsets.symmetric(horizontal: 6),
+        decoration: BoxDecoration(
+          color: context.cardBackgroundColor,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                color: effectiveIconBg,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(cardIcon, size: 22, color: effectiveIconColor),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              cardContent,
+              style: FontStyles.subTitle1.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              cardTitle,
+              style: FontStyles.body2.copyWith(color: AppColors.gray500),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

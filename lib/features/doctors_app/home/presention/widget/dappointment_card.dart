@@ -1,75 +1,59 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/appointment_action_buttons.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/patient_info_section.dart';
 import 'package:flutter/material.dart';
 
 class DAppointmentCard extends StatelessWidget {
   const DAppointmentCard({
     super.key,
+    this.patientName = 'احمد مختار',
+    this.patientImage = 'assets/images/profile_image.png',
+    this.time = '8:00 - 10:00',
+    this.date = '23 فبراير 2026',
+    this.bookingNumber = '1024',
+    this.location = 'مستشفى سيبلاس',
+    this.isReturning = false,
+    this.onConfirm,
+    this.onReject,
   });
+
+  final String patientName;
+  final String patientImage;
+  final String time;
+  final String date;
+  final String bookingNumber;
+  final String location;
+  final bool isReturning;
+  final VoidCallback? onConfirm;
+  final VoidCallback? onReject;
 
   @override
   Widget build(BuildContext context) {
-    return Container( width: MediaQuery.of(context).size.width,
-    height: MediaQuery.of(context).size.height/6,
-    padding: EdgeInsets.all(12),
-   margin: EdgeInsets.only(bottom: 10),
-             
-       decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(12),
-   color: const Color.fromARGB(255, 255, 255, 255)
-   
-            ),
-            child: Row(children: [
-    Container(
-      width:93,
-    height: 93,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(100))
+        color: context.cardBackgroundColor,
+        borderRadius: BorderRadius.circular(12),
       ),
-      child: Image.asset('assets/images/profile_image.png',
-             )),
-             SizedBox(width: 25,),
-             Column(crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-              SizedBox(height: 10,),
-    Row(
-      children: [
-        Icon(Icons.person),
-        SizedBox(width: 5,),
-        Text('احمد مختار ',style: TextStyle(color: AppColors.primaryColor),),
-      ],
-    ), 
-    SizedBox(height: 10,),
-       Row(
-      children: [
-        Icon(Icons.av_timer),
-        SizedBox(width: 5,),
-        Text('8:00-10:00',style: TextStyle(color: AppColors.primaryColor),),
-      ],
-    ),
-    SizedBox(height: 8,),
-    Row(
-      children: [
-      GestureDetector(
-        child: Container(padding: EdgeInsets.only(top: 7,bottom: 7,right: 35,left: 35),
-          child: Text('تأكيد',style: TextStyle(color: AppColors.white),),
-          decoration: BoxDecoration(
-            color:AppColors.primaryColor,
-            borderRadius: BorderRadius.all(Radius.circular(24)) 
+      child: Column(
+        children: [
+          PatientInfoSection(
+            patientName: patientName,
+            patientImage: patientImage,
+            time: time,
+            date: date,
+            bookingNumber: bookingNumber,
+            location: location,
+            isReturning: isReturning,
           ),
+          const SizedBox(height: 12),
+          AppointmentActionButtons(
+            onConfirm: onConfirm ?? () {},
+            onReject: onReject ?? () {},
           ),
+        ],
       ),
-      SizedBox(width: 5,),
-            GestureDetector(
-        child: Container(padding: EdgeInsets.only(top: 7,bottom: 7,right: 25,left: 25),
-          child: Text('رفض',style: TextStyle(color: AppColors.white),),
-          decoration: BoxDecoration(
-            color:AppColors.gray400,
-            borderRadius: BorderRadius.all(Radius.circular(24)) 
-          ),
-          ),
-      )
-    ],),
-             ],)
-            ],),);
+    );
   }
 }
