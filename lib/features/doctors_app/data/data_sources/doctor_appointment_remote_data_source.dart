@@ -86,7 +86,7 @@ class DoctorAppointmentRemoteDataSourceImpl
     required String status,
     String? cancellationReason,
   }) async {
-    final response = await dioConsumer.post(
+    final response = await dioConsumer.put(
       'doctor/my-appointments/$id/status',
       data: {
         'status': status,
