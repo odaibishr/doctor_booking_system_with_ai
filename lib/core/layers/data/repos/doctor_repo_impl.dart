@@ -152,4 +152,20 @@ class DoctorRepoImpl implements DoctorRepo {
       return _handleError(error);
     }
   }
+
+  @override
+  Future<Either<Failure, Doctor>> updateMyProfile(
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      if (!await networkInfo.isConnected) {
+        return Left(Failure('لايوجد اتصال بالانترنت'));
+      }
+
+      final result = await remoteDataSource.updateMyProfile(data);
+      return Right(result);
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
 }
