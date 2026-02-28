@@ -10,6 +10,8 @@ abstract class ReviewRemoteDataSource {
     required String comment,
     required bool isActive,
   });
+  Future<({List<Review> reviews, double avgRating, int totalCount})>
+  getMyReviews();
 }
 
 class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
@@ -77,5 +79,25 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
         : response;
 
     return ReviewModel.fromJson(_ensureMap(data));
+  }
+
+  @override
+  Future<({double avgRating, List<Review> reviews, int totalCount})>
+  getMyReviews() async {
+    final response = await dioConsumer.get('review/my-reviews');
+    final data = _ensureMap(response['data'] ?? response);
+    final reviewsList = <Review>[];
+
+    final rawReviews = _ensureList(data['reviews']);
+
+    for (final r in rawReviews.whereType<Map>()) {
+      reviewsList.add(ReviewModel.fromJson(_ensureMap(r)));
+    }
+
+    return (
+      reviews: reviewsList,
+      avgRating: double.tryParse('${data['average_rating']}') ?? 0.0,
+      totalCount: int.tryParse('${data['total_count']}') ?? 0,
+    );
   }
 }
