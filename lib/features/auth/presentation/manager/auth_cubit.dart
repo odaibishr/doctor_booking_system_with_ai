@@ -24,12 +24,20 @@ class AuthCubit extends Cubit<AuthState> {
   final CheckAuthSatusUsecase checkAuthSatusUsecase;
   final profile_logout.LogoutUseCase logoutUseCase;
   final GoogleSignInUseCase googleSignInUseCase;
+  
 
-  Future<void> signIn({required String email, required String password}) async {
+  String? fcmToken;
+  void setFcmToken(String? token)
+  {
+    fcmToken=token;
+    
+  }
+
+  Future<void> signIn({required String email, required String password,String? fcm_token}) async {
     emit(AuthLoading());
     try {
       final result = await signInUseCase(
-        SignInParams(email: email, password: password),
+        SignInParams(email: email, password: password,fcm_token: fcm_token),
       );
 
       result.fold((failure) => emit(AuthError(message: failure.errorMessage)), (

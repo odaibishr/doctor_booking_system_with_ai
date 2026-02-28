@@ -42,6 +42,8 @@ void main() async {
   String? token = await FirebaseMessaging.instance.getToken();
   debugPrint("Firebase Messaging Token: $token");
 
+  authCubit.setFcmToken(token);
+
   runApp(MyApp());
 }
 
