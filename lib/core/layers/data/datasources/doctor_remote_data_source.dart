@@ -24,6 +24,7 @@ abstract class DoctorRemoteDataSource {
   Future<Doctor> updateMyProfile(Map<String, dynamic> data);
   Future<String> updateMyProfileImage(File imageFile);
   Future<DoctorSchedule> getMySchedules();
+  Future<DoctorSchedule> updateMySchedule(Map<String, dynamic> data, int id);
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
@@ -148,5 +149,18 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
     }
 
     return DoctorScheduleModel.fromMap(data as Map<String, dynamic>);
+  }
+
+  @override
+  Future<DoctorSchedule> updateMySchedule(
+    Map<String, dynamic> data,
+    int id,
+  ) async {
+    final response = await dioConsumer.put(
+      'doctor/my-schedules/$id',
+      data: data,
+    );
+
+    return DoctorScheduleModel.fromMap(response['data']);
   }
 }
