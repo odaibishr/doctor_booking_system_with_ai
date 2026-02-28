@@ -94,6 +94,21 @@ import 'package:doctor_booking_system_with_ai/features/payment/data/repos/paymen
 import 'package:doctor_booking_system_with_ai/features/payment/domain/repos/payment_repo.dart';
 import 'package:doctor_booking_system_with_ai/features/payment/presentation/manager/payment_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/theme/theme_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/data/data_sources/doctor_dashboard_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/data/data_sources/doctor_appointment_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/data/repos/doctor_dashboard_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/data/repos/doctor_appointment_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/repos/doctor_dashboard_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/repos/doctor_appointment_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_dashboard_stats_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_today_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_upcoming_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_history_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/update_appointment_status_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_appointment_details_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/dashboard/doctor_dashboard_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/appointments/doctor_appointments_cubit.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -463,5 +478,66 @@ Future<void> init() async {
 
   serviceLocator.registerFactory<WaitlistCubit>(
     () => WaitlistCubit(serviceLocator()),
+  );
+
+  // Doctor App Feature - Data Sources
+  serviceLocator.registerLazySingleton<DoctorDashboardRemoteDataSource>(
+    () => DoctorDashboardRemoteDataSourceImpl(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<DoctorAppointmentRemoteDataSource>(
+    () => DoctorAppointmentRemoteDataSourceImpl(serviceLocator()),
+  );
+
+  // Doctor App Feature - Repos
+  serviceLocator.registerLazySingleton<DoctorDashboardRepo>(
+    () => DoctorDashboardRepoImpl(serviceLocator(), serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<DoctorAppointmentRepo>(
+    () => DoctorAppointmentRepoImpl(serviceLocator(), serviceLocator()),
+  );
+
+  // Doctor App Feature - UseCases
+  serviceLocator.registerLazySingleton<GetDashboardStatsUseCase>(
+    () => GetDashboardStatsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<GetTodayAppointmentsUseCase>(
+    () => GetTodayAppointmentsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<GetUpcomingAppointmentsUseCase>(
+    () => GetUpcomingAppointmentsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<GetHistoryAppointmentsUseCase>(
+    () => GetHistoryAppointmentsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<UpdateAppointmentStatusUseCase>(
+    () => UpdateAppointmentStatusUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<GetAppointmentDetailsUseCase>(
+    () => GetAppointmentDetailsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<GetAppointmentsUseCase>(
+    () => GetAppointmentsUseCase(serviceLocator()),
+  );
+
+  // Doctor App Feature - Cubits
+  serviceLocator.registerFactory<DoctorDashboardCubit>(
+    () => DoctorDashboardCubit(serviceLocator()),
+  );
+
+  serviceLocator.registerFactory<DoctorAppointmentsCubit>(
+    () => DoctorAppointmentsCubit(
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+    ),
   );
 }
