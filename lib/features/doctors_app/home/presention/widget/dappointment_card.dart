@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 class DAppointmentCard extends StatelessWidget {
   const DAppointmentCard({
     super.key,
-    this.patientName = 'احمد مختار',
-    this.patientImage = 'assets/images/profile_image.png',
-    this.time = '8:00 - 10:00',
-    this.date = '23 فبراير 2026',
-    this.bookingNumber = '1024',
-    this.location = 'مستشفى سيبلاس',
+    this.patientName = '',
+    this.patientImage = '',
+    this.time = '',
+    this.date = '',
+    this.bookingNumber = '',
+    this.location = '',
     this.isReturning = false,
+    this.showActions = true,
     this.onConfirm,
     this.onReject,
   });
@@ -24,6 +25,7 @@ class DAppointmentCard extends StatelessWidget {
   final String bookingNumber;
   final String location;
   final bool isReturning;
+  final bool showActions;
   final VoidCallback? onConfirm;
   final VoidCallback? onReject;
 
@@ -47,11 +49,13 @@ class DAppointmentCard extends StatelessWidget {
             location: location,
             isReturning: isReturning,
           ),
-          const SizedBox(height: 12),
-          AppointmentActionButtons(
-            onConfirm: onConfirm ?? () {},
-            onReject: onReject ?? () {},
-          ),
+          if (showActions) ...[
+            const SizedBox(height: 12),
+            AppointmentActionButtons(
+              onConfirm: onConfirm ?? () {},
+              onReject: onReject ?? () {},
+            ),
+          ],
         ],
       ),
     );
