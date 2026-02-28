@@ -9,4 +9,12 @@ abstract class DoctorAppointmentRepo {
   });
 
   Future<Either<Failure, List<DoctorAppointment>>> getTodayAppointments();
+  Future<Either<Failure, List<DoctorAppointment>>> getUpcomingAppointments();
+  Future<Either<Failure, List<DoctorAppointment>>> getHistoryAppointments();
+  Future<Either<Failure, DoctorAppointment>> getAppointmentDetails(int id);
+  Future<Either<Failure, DoctorAppointment>> updateAppointmentStatus({
+    required int id,
+    required String status,
+    String? cancellationReason,
+  });
 }
