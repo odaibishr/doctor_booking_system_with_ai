@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/models/doctor_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/doctor_schedule_model.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/models/schedule_capacity_model.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor_schedule.dart';
 
 abstract class DoctorRemoteDataSource {
   Future<List<Doctor>> getDoctors();
@@ -21,6 +23,7 @@ abstract class DoctorRemoteDataSource {
   Future<Doctor> getMyProfile();
   Future<Doctor> updateMyProfile(Map<String, dynamic> data);
   Future<String> updateMyProfileImage(File imageFile);
+  Future<DoctorSchedule> getMySchedules();
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
@@ -134,5 +137,16 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
     );
 
     return (response['data']['profile_image'] ?? '').toString();
+  }
+
+  @override
+  Future<DoctorSchedule> getMySchedules() async {
+    final response = await dioConsumer.get('doctor/my-schedules');
+    final data = response['data'];
+    if (data is! List) {
+      return DoctorScheduleModel.fromMap(data as Map<String, dynamic>);
+    }
+
+    return DoctorScheduleModel.fromMap(data as Map<String, dynamic>);
   }
 }
