@@ -12,4 +12,5 @@ abstract class DoctorRepo {
   Future<Either<Failure, bool>> toggleFavoriteDoctor(int doctorId);
   Future<Either<Failure, List<Doctor>>> getFavoriteDoctors();
   Future<Either<Failure, Doctor>> getMyProfile();
+  Future<Either<Failure, Doctor>> updateMyProfile(Map<String, dynamic> data);
 }
