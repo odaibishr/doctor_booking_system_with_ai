@@ -196,4 +196,21 @@ class DoctorRepoImpl implements DoctorRepo {
       return _handleError(error);
     }
   }
+
+  @override
+  Future<Either<Failure, DoctorSchedule>> updateMySchedule(
+    int id,
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      if (!await networkInfo.isConnected) {
+        return Left(Failure('لايوجد اتصال بالانترنت'));
+      }
+
+      final result = await remoteDataSource.updateMySchedule(data, id);
+      return Right(result);
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
 }
