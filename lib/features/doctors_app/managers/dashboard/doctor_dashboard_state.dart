@@ -8,3 +8,17 @@ sealed class DoctorDashboardState extends Equatable {
 }
 
 final class DoctorDashboardInitial extends DoctorDashboardState {}
+
+final class DoctorDashboardLoading extends DoctorDashboardState {}
+
+final class DoctorDashboardLoaded extends DoctorDashboardState {
+  final DashboardStats stats;
+
+  const DoctorDashboardLoaded(this.stats);
+}
+
+final class DoctorDashboardError extends DoctorDashboardState {
+  final String message;
+
+  const DoctorDashboardError(this.message);
+}
