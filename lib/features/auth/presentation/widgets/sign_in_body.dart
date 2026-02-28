@@ -31,11 +31,15 @@ class _SignInBodyState extends State<SignInBody> {
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
+    
     return CustomScrollView(
+      
       slivers: [
+        
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -122,11 +126,15 @@ class _SignInBodyState extends State<SignInBody> {
                       const SizedBox(height: 23.5),
                       MainButton(
                         text: 'تسجيل الدخول',
+
                         onTap: () {
+                          
                           if (_formKey.currentState!.validate()) {
+                            final token=context.read<AuthCubit>().fcmToken;
                             context.read<AuthCubit>().signIn(
                               email: emailController.text,
-                              password: passwordController.text,
+                              password: passwordController.text, 
+                              fcm_token: token     
                             );
                           }
                         },
