@@ -10,6 +10,14 @@ abstract class DoctorAppointmentRemoteDataSource {
   });
 
   Future<List<DoctorAppointment>> getTodayAppointments();
+  Future<List<DoctorAppointment>> getUpcomingAppointments();
+  Future<List<DoctorAppointment>> getHistoryAppointments();
+  Future<DoctorAppointment> getAppointmentDetails(int id);
+  Future<DoctorAppointment> updateAppointmentStatus({
+    required int id,
+    required String status,
+    String? cancellationReason,
+  });
 }
 
 class DoctorAppointmentRemoteDataSourceImpl
@@ -43,6 +51,51 @@ class DoctorAppointmentRemoteDataSourceImpl
     return parseList<DoctorAppointment>(
       response['data'],
       DoctorAppointmentModel.fromMap,
+    );
+  }
+
+  @override
+  Future<DoctorAppointment> getAppointmentDetails(int id) async {
+    final response = await dioConsumer.get('doctor/my-appointments/$id');
+    return DoctorAppointmentModel.fromMap(
+      response['data'] as Map<String, dynamic>,
+    );
+  }
+
+  @override
+  Future<List<DoctorAppointment>> getHistoryAppointments() async {
+    final response = await dioConsumer.get('doctor/my-appointments/history');
+    return parseList<DoctorAppointment>(
+      response['data'],
+      DoctorAppointmentModel.fromMap,
+    );
+  }
+
+  @override
+  Future<List<DoctorAppointment>> getUpcomingAppointments() async {
+    final response = await dioConsumer.get('doctor/my-appointments/upcoming');
+    return parseList<DoctorAppointment>(
+      response['data'],
+      DoctorAppointmentModel.fromMap,
+    );
+  }
+
+  @override
+  Future<DoctorAppointment> updateAppointmentStatus({
+    required int id,
+    required String status,
+    String? cancellationReason,
+  }) async {
+    final response = await dioConsumer.post(
+      'doctor/my-appointments/$id/status',
+      data: {
+        'status': status,
+        if (cancellationReason != null)
+          'cancellation_reason': cancellationReason,
+      },
+    );
+    return DoctorAppointmentModel.fromMap(
+      response['data'] as Map<String, dynamic>,
     );
   }
 }
