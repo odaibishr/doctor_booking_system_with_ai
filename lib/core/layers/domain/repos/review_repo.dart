@@ -10,4 +10,8 @@ abstract class ReviewRepo {
     required bool isActive,
   });
   Future<Either<Failure, List<Review>>> getDoctorReviews(int docotrId);
+  Future<
+    Either<Failure, ({List<Review> reviews, double avgRating, int totalCount})>
+  >
+  getMyReviews();
 }
