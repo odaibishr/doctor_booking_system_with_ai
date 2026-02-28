@@ -9,7 +9,6 @@ import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/widget/gender_textfield.dart';
@@ -114,33 +113,59 @@ class _EditDoctorInfoViewState extends State<EditDoctorInfoView> {
             }
           },
           builder: (context, state) {
-            return CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  title: const CustomAppBar(
-                    title: 'تعديل المعلومات',
-                    isBackButtonVisible: true,
-                    isUserImageVisible: false,
-                  ),
-                  pinned: true,
-                  backgroundColor: context.scaffoldBackgroundColor,
-                  surfaceTintColor: context.scaffoldBackgroundColor,
-                  automaticallyImplyLeading: false,
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: state is DoctorProfileUpdating
-                        ? const Padding(
-                            padding: EdgeInsets.only(top: 100),
-                            child: Center(
-                              child: CustomLoader(loaderSize: kLoaderSize),
-                            ),
-                          )
-                        : _buildForm(context),
+            return Scaffold(
+              bottomNavigationBar: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: FilledButton(
+                    onPressed: state is DoctorProfileUpdating
+                        ? null
+                        : () => _submit(context),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      'حفظ التعديلات',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
                 ),
-              ],
+              ),
+              body: CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    title: const CustomAppBar(
+                      title: 'تعديل المعلومات',
+                      isBackButtonVisible: true,
+                      isUserImageVisible: false,
+                    ),
+                    pinned: true,
+                    backgroundColor: context.scaffoldBackgroundColor,
+                    surfaceTintColor: context.scaffoldBackgroundColor,
+                    automaticallyImplyLeading: false,
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: state is DoctorProfileUpdating
+                          ? const Padding(
+                              padding: EdgeInsets.only(top: 100),
+                              child: Center(
+                                child: CustomLoader(loaderSize: kLoaderSize),
+                              ),
+                            )
+                          : _buildForm(context),
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),
@@ -251,60 +276,114 @@ class _EditDoctorInfoViewState extends State<EditDoctorInfoView> {
           Row(
             children: [
               Expanded(
-                child: MainInputField(
-                  hintText: 'سعر الكشف',
-                  leftIconPath: 'assets/icons/dollar-circle.svg',
-                  rightIconPath: 'assets/icons/dollar-circle.svg',
-                  isShowRightIcon: true,
-                  isShowLeftIcon: false,
-                  isNumber: true,
-                  controller: _priceController,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'سعر الكشف',
+                      style: FontStyles.body1.copyWith(
+                        color: context.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    MainInputField(
+                      hintText: 'مثال: 150',
+                      leftIconPath: 'assets/icons/dollar-circle.svg',
+                      rightIconPath: 'assets/icons/dollar-circle.svg',
+                      isShowRightIcon: true,
+                      isShowLeftIcon: false,
+                      isNumber: true,
+                      controller: _priceController,
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: MainInputField(
-                  hintText: 'سنوات الخبرة',
-                  leftIconPath: 'assets/icons/folder.svg',
-                  rightIconPath: 'assets/icons/folder.svg',
-                  isShowRightIcon: true,
-                  isShowLeftIcon: false,
-                  isNumber: true,
-                  controller: _experienceController,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: MainInputField(
-                  hintText: 'مدة كشف جديد (دقيقة)',
-                  leftIconPath: 'assets/icons/timer.svg',
-                  rightIconPath: 'assets/icons/timer.svg',
-                  isShowRightIcon: true,
-                  isShowLeftIcon: false,
-                  isNumber: true,
-                  controller: _newDurationController,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: MainInputField(
-                  hintText: 'مدة مراجعة (دقيقة)',
-                  leftIconPath: 'assets/icons/timer.svg',
-                  rightIconPath: 'assets/icons/timer.svg',
-                  isShowRightIcon: true,
-                  isShowLeftIcon: false,
-                  isNumber: true,
-                  controller: _returnDurationController,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'سنوات الخبرة',
+                      style: FontStyles.body1.copyWith(
+                        color: context.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    MainInputField(
+                      hintText: 'مثال: 5',
+                      leftIconPath: 'assets/icons/folder.svg',
+                      rightIconPath: 'assets/icons/folder.svg',
+                      isShowRightIcon: true,
+                      isShowLeftIcon: false,
+                      isNumber: true,
+                      controller: _experienceController,
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
           const SizedBox(height: 24),
           _sectionTitle('الخدمات'),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'مدة الموعد الجديد',
+                      style: FontStyles.body1.copyWith(
+                        color: context.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    MainInputField(
+                      hintText: 'بالدقائق',
+                      leftIconPath: 'assets/icons/timer.svg',
+                      rightIconPath: 'assets/icons/timer.svg',
+                      isShowRightIcon: true,
+                      isShowLeftIcon: false,
+                      isNumber: true,
+                      controller: _newDurationController,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'مدة مراجعة',
+                      style: FontStyles.body1.copyWith(
+                        color: context.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    MainInputField(
+                      hintText: 'بالدقائق',
+                      leftIconPath: 'assets/icons/timer.svg',
+                      rightIconPath: 'assets/icons/timer.svg',
+                      isShowRightIcon: true,
+                      isShowLeftIcon: false,
+                      isNumber: true,
+                      controller: _returnDurationController,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          _sectionTitle('الخدمات المقدمة'),
           const SizedBox(height: 12),
           _buildServicesChips(),
           const SizedBox(height: 12),
@@ -328,9 +407,9 @@ class _EditDoctorInfoViewState extends State<EditDoctorInfoView> {
               ),
             ],
           ),
-          const SizedBox(height: 32),
-          MainButton(text: 'حفظ التعديلات', onTap: () => _submit(context)),
-          const SizedBox(height: 40),
+          const SizedBox(
+            height: 100,
+          ), // Extra space for scrolling above bottom button
         ],
       ),
     );
@@ -406,7 +485,7 @@ class _EditDoctorInfoViewState extends State<EditDoctorInfoView> {
     required int? selectedId,
     required String Function(T) getName,
     required int Function(T) getId,
-    required ValueChanged<int> onSelected,
+    required void Function(int) onSelected,
   }) {
     String searchQuery = '';
 
@@ -482,7 +561,7 @@ class _EditDoctorInfoViewState extends State<EditDoctorInfoView> {
                           itemCount: filtered.length,
                           separatorBuilder: (_, __) => Divider(
                             height: 1,
-                            color: context.gray400Color.withValues(alpha: 0.2),
+                            color: context.gray400Color.withOpacity(0.2),
                           ),
                           itemBuilder: (_, index) {
                             final item = filtered[index];
