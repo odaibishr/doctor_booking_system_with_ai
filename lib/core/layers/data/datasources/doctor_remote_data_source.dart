@@ -26,6 +26,7 @@ abstract class DoctorRemoteDataSource {
   Future<DoctorSchedule> getMySchedules();
   Future<DoctorSchedule> updateMySchedule(Map<String, dynamic> data, int id);
   Future<List<Map<String, dynamic>>> getMyDaysOff();
+  Future<List<Map<String, dynamic>>> createMyDaysOff(List<int> daysId);
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
@@ -170,6 +171,19 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
     final response = await dioConsumer.get('doctor/my-schedules/days-off');
     final data = response['data'];
 
+    if (data is! List) return [];
+
+    return data.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> createMyDaysOff(List<int> daysId) async {
+    final response = await dioConsumer.post(
+      'doctor/my-schedules/days-off',
+      data: {'day_id': daysId},
+    );
+
+    final data = response['data'];
     if (data is! List) return [];
 
     return data.map((e) => Map<String, dynamic>.from(e as Map)).toList();
