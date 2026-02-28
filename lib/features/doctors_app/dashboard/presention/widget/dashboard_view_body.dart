@@ -3,6 +3,7 @@ import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/presention/widget/balance_card.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/presention/widget/choice_item.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/presention/widget/doctor_card.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/reviews/presention/doctor_reviews_view.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/dashboard/doctor_dashboard_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -94,6 +95,15 @@ class _DashboardViewBodyState extends State<DashboardViewBody> {
                                 cardTitle: 'مراجعات',
                                 cardContent: '${stats.reviewsCount}',
                                 iconColor: Colors.orange,
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const DoctorReviewsView(),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
