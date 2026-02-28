@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/location_info.dart';
@@ -36,7 +37,7 @@ class PatientInfoSection extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           clipBehavior: Clip.antiAlias,
-          child: Image.asset(patientImage, fit: BoxFit.cover),
+          child: _buildImage(),
         ),
         const SizedBox(width: 14),
         Expanded(
@@ -85,7 +86,8 @@ class PatientInfoSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 6),
-              LocationInfo(location: location, color: AppColors.gray500),
+              if (location.isNotEmpty)
+                LocationInfo(location: location, color: AppColors.gray500),
               const SizedBox(height: 6),
               Row(
                 children: [
@@ -101,6 +103,24 @@ class PatientInfoSection extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildImage() {
+    if (patientImage.isEmpty) {
+      return const Icon(Icons.person, size: 40, color: AppColors.gray500);
+    }
+    if (patientImage.startsWith('assets/')) {
+      return Image.asset(patientImage, fit: BoxFit.cover);
+    }
+    final url = patientImage.startsWith('http')
+        ? patientImage
+        : '${EndPoints.photoUrl}/$patientImage';
+    return Image.network(
+      url,
+      fit: BoxFit.cover,
+      errorBuilder: (_, __, ___) =>
+          const Icon(Icons.person, size: 40, color: AppColors.gray500),
     );
   }
 }
