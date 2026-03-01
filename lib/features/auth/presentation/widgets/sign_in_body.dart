@@ -73,7 +73,7 @@ class _SignInBodyState extends State<SignInBody> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
+                        height: MediaQuery.of(context).size.height * 0.01,
                       ),
                       Logo(),
                       SizedBox(
@@ -86,7 +86,7 @@ class _SignInBodyState extends State<SignInBody> {
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
+                        height: MediaQuery.of(context).size.height * 0.02,
                       ),
                       SubTitle(
                         text:
@@ -165,7 +165,7 @@ class _SignInBodyState extends State<SignInBody> {
                                       ).push(AppRouter.emailinputViewRoute);
                                     },
                                   ),
-                                  const SizedBox(height: 23.5),
+                                  const SizedBox(height: 20),
                                   MainButton(
                                     text: 'تسجيل الدخول',
 
@@ -183,9 +183,9 @@ class _SignInBodyState extends State<SignInBody> {
                                     },
                                   ),
 
-                                  const SizedBox(height: 23.5),
+                                  const SizedBox(height: 15),
                                   DividerCustom(),
-                                  const SizedBox(height: 18.5),
+                                  const SizedBox(height: 10),
                                   GoogleButton(
                                     onPressed: () {
                                       context
@@ -193,7 +193,7 @@ class _SignInBodyState extends State<SignInBody> {
                                           .signInWithGoogle();
                                     },
                                   ),
-                                  const SizedBox(height: 23.5),
+                                  const SizedBox(height: 18),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
