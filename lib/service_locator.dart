@@ -111,6 +111,11 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/dash
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/appointments/doctor_appointments_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/reviews/doctor_reviews_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_my_reviews_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/data/data_sources/doctor_profile_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/data/repos/doctor_profile_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/repos/doctor_profile_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/profile/doctor_profile_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/profile/doctor_schedule_cubit.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 final GetIt serviceLocator = GetIt.instance;
@@ -549,5 +554,21 @@ Future<void> init() async {
 
   serviceLocator.registerFactory<DoctorReviewsCubit>(
     () => DoctorReviewsCubit(serviceLocator(), serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<DoctorProfileRemoteDataSource>(
+    () => DoctorProfileRemoteDataSourceImpl(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<DoctorProfileRepo>(
+    () => DoctorProfileRepoImpl(serviceLocator()),
+  );
+
+  serviceLocator.registerFactory<DoctorProfileCubit>(
+    () => DoctorProfileCubit(serviceLocator()),
+  );
+
+  serviceLocator.registerFactory<DoctorScheduleCubit>(
+    () => DoctorScheduleCubit(serviceLocator()),
   );
 }
