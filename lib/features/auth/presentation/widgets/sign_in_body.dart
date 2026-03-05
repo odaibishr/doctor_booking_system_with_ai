@@ -17,7 +17,6 @@ import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/user_doctor_chooice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class SignInBody extends StatefulWidget {
@@ -29,12 +28,11 @@ class SignInBody extends StatefulWidget {
 
 class _SignInBodyState extends State<SignInBody> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   final TextEditingController emailController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
-  int index = 0;
   int selectedIndex = 0;
+
+  bool get _isDoctor => selectedIndex == 1;
 
   @override
   Widget build(BuildContext context) {
@@ -48,17 +46,24 @@ class _SignInBodyState extends State<SignInBody> {
                 if (state is AuthSuccess) {
                   context.read<ProfileCubit>().getProfile();
                   final user = state.user;
-                  if (user.phone == null ||
-                      user.phone!.isEmpty ||
-                      user.gender == null ||
-                      user.gender!.isEmpty) {
+
+                  if (user.role == 'doctor') {
                     GoRouter.of(
                       context,
-                    ).pushReplacement(AppRouter.createprofileViewRout);
+                    ).pushReplacement(AppRouter.customNavigationBarRoute);
                   } else {
-                    GoRouter.of(
-                      context,
-                    ).pushReplacement(AppRouter.appNavigationRoute);
+                    if (user.phone == null ||
+                        user.phone!.isEmpty ||
+                        user.gender == null ||
+                        user.gender!.isEmpty) {
+                      GoRouter.of(
+                        context,
+                      ).pushReplacement(AppRouter.createprofileViewRout);
+                    } else {
+                      GoRouter.of(
+                        context,
+                      ).pushReplacement(AppRouter.appNavigationRoute);
+                    }
                   }
                 } else if (state is AuthError) {
                   context.showErrorToast(state.message);
@@ -104,10 +109,9 @@ class _SignInBodyState extends State<SignInBody> {
                             imageWidth: 40,
                             image: 'assets/icons/userf.svg',
                             onTapFun: () {
-                             setState(() {
-                                index = 0;
-                              selectedIndex = index;
-                             });
+                              setState(() {
+                                selectedIndex = 0;
+                              });
                             },
                           ),
                           SizedBox(width: 30),
@@ -120,8 +124,7 @@ class _SignInBodyState extends State<SignInBody> {
                             image: 'assets/icons/doctor.svg',
                             onTapFun: () {
                               setState(() {
-                                index = 1;
-                              selectedIndex = index;
+                                selectedIndex = 1;
                               });
                             },
                           ),
@@ -130,151 +133,77 @@ class _SignInBodyState extends State<SignInBody> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.04,
                       ),
-                      (selectedIndex == 0)
-                          ? AnimatedContainer(
-                            duration: Duration(milliseconds: 20),
-                              child: Column(
-                                children: [
-                                  MainInputField(
-                                    hintText: 'الحساب الالكتروني',
-                                    leftIconPath: 'assets/icons/email.svg',
-                                    rightIconPath: 'assets/icons/email.svg',
-                                    isShowRightIcon: true,
-                                    isShowLeftIcon: false,
-                                    validator: emailValidator,
-                                    controller: emailController,
-                                    border: context.primaryColor,
-                                  ),
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height *
-                                        0.02,
-                                  ),
-                                  PasswordField(
-                                    hintText: 'كلمة المرور',
-                                    validator: passwordValidator,
-                                    controller: passwordController,
-                                  ),
-                                  const SizedBox(height: 17),
-
-                                  ForgetPasswordButton(
-                                    text: 'نسيت كلمة المرور؟',
-                                    ontap: () {
-                                      GoRouter.of(
-                                        context,
-                                      ).push(AppRouter.emailinputViewRoute);
-                                    },
-                                  ),
-                                  const SizedBox(height: 20),
-                                  MainButton(
-                                    text: 'تسجيل الدخول',
-
-                                    onTap: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        final token = context
-                                            .read<AuthCubit>()
-                                            .fcmToken;
-                                        context.read<AuthCubit>().signIn(
-                                          email: emailController.text,
-                                          password: passwordController.text,
-                                          fcm_token: token,
-                                        );
-                                      }
-                                    },
-                                  ),
-
-                                  const SizedBox(height: 15),
-                                  DividerCustom(),
-                                  const SizedBox(height: 10),
-                                  GoogleButton(
-                                    onPressed: () {
-                                      context
-                                          .read<AuthCubit>()
-                                          .signInWithGoogle();
-                                    },
-                                  ),
-                                  const SizedBox(height: 18),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'ليس لديك حساب؟',
-                                        style: FontStyles.body1.copyWith(
-                                          color: context.gray400Color,
-                                        ),
-                                      ),
-                                      ForgetPasswordButton(
-                                        text: 'نشاء حساب',
-                                        ontap: () {
-                                          GoRouter.of(
-                                            context,
-                                          ).push(AppRouter.signupViewRoute);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )
-                          : AnimatedContainer(
-                            duration: Duration(milliseconds: 20),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height *
-                                        0.02,
-                                  ),
-                                  MainInputField(
-                                    hintText: 'الحساب الالكتروني',
-                                    leftIconPath: 'assets/icons/email.svg',
-                                    rightIconPath: 'assets/icons/email.svg',
-                                    isShowRightIcon: true,
-                                    isShowLeftIcon: false,
-                                    validator: emailValidator,
-                                    controller: emailController,
-                                    border: context.primaryColor,
-                                  ),
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height *
-                                        0.02,
-                                  ),
-                                  PasswordField(
-                                    hintText: 'كلمة المرور',
-                                    validator: passwordValidator,
-                                    controller: passwordController,
-                                  ),
-                                  const SizedBox(height: 20),
-
-                                  ForgetPasswordButton(
-                                    text: 'نسيت كلمة المرور؟',
-                                    ontap: () {
-                                      GoRouter.of(
-                                        context,
-                                      ).push(AppRouter.emailinputViewRoute);
-                                    },
-                                  ),
-                                  const SizedBox(height: 45),
-                                  MainButton(
-                                    text: 'تسجيل الدخول',
-
-                                    onTap: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        final token = context
-                                            .read<AuthCubit>()
-                                            .fcmToken;
-                                        context.read<AuthCubit>().signIn(
-                                          email: emailController.text,
-                                          password: passwordController.text,
-                                          fcm_token: token,
-                                        );
-                                      }
-                                    },
-                                  ),
-                                ],
+                      MainInputField(
+                        hintText: 'الحساب الالكتروني',
+                        leftIconPath: 'assets/icons/email.svg',
+                        rightIconPath: 'assets/icons/email.svg',
+                        isShowRightIcon: true,
+                        isShowLeftIcon: false,
+                        validator: emailValidator,
+                        controller: emailController,
+                        border: context.primaryColor,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      PasswordField(
+                        hintText: 'كلمة المرور',
+                        validator: passwordValidator,
+                        controller: passwordController,
+                      ),
+                      const SizedBox(height: 17),
+                      ForgetPasswordButton(
+                        text: 'نسيت كلمة المرور؟',
+                        ontap: () {
+                          GoRouter.of(
+                            context,
+                          ).push(AppRouter.emailinputViewRoute);
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      MainButton(
+                        text: 'تسجيل الدخول',
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            final token = context.read<AuthCubit>().fcmToken;
+                            context.read<AuthCubit>().signIn(
+                              email: emailController.text,
+                              password: passwordController.text,
+                              fcm_token: token,
+                            );
+                          }
+                        },
+                      ),
+                      if (!_isDoctor) ...[
+                        const SizedBox(height: 15),
+                        DividerCustom(),
+                        const SizedBox(height: 10),
+                        GoogleButton(
+                          onPressed: () {
+                            context.read<AuthCubit>().signInWithGoogle();
+                          },
+                        ),
+                        const SizedBox(height: 18),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'ليس لديك حساب؟',
+                              style: FontStyles.body1.copyWith(
+                                color: context.gray400Color,
                               ),
                             ),
+                            ForgetPasswordButton(
+                              text: 'نشاء حساب',
+                              ontap: () {
+                                GoRouter.of(
+                                  context,
+                                ).push(AppRouter.signupViewRoute);
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
                     ],
                   ),
                 );
