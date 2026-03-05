@@ -33,13 +33,14 @@ class SafeUserAdapter extends TypeAdapter<User> {
       gender: fields[8]?.toString(),
       location: locationValue,
       locationId: locationIdValue,
+      role: fields[12]?.toString(),
     );
   }
 
   @override
   void write(BinaryWriter writer, User obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -61,7 +62,11 @@ class SafeUserAdapter extends TypeAdapter<User> {
       ..writeByte(9)
       ..write(obj.location)
       ..writeByte(10)
-      ..write(obj.locationId);
+      ..write(obj.locationId)
+      ..writeByte(11)
+      ..write(obj.fcm_token)
+      ..writeByte(12)
+      ..write(obj.role);
   }
 
   static Location? _asLocation(dynamic value) {
