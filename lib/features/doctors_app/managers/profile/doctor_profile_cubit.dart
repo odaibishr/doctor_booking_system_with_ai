@@ -26,6 +26,14 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
     );
   }
 
+  Future<void> updateImageOnly(File imageFile) async {
+    final result = await _repo.updateProfileImage(imageFile);
+    result.fold(
+      (failure) => emit(DoctorProfileError(failure.errorMessage)),
+      (_) {},
+    );
+  }
+
   Future<void> updateImage(File imageFile) async {
     final currentState = state;
     emit(DoctorProfileUpdating());
