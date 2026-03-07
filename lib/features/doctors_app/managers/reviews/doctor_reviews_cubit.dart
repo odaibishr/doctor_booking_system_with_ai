@@ -11,12 +11,16 @@ class DoctorReviewsCubit extends Cubit<DoctorReviewsState> {
   DoctorReviewsCubit(this._getMyReviewsUseCase, this._reviewRepo)
     : super(DoctorReviewsInitial());
 
+  void _safeEmit(DoctorReviewsState state) {
+    if (!isClosed) emit(state);
+  }
+
   Future<void> fetchMyReviews() async {
-    emit(DoctorReviewsLoading());
+    _safeEmit(DoctorReviewsLoading());
     final result = await _getMyReviewsUseCase();
     result.fold(
-      (failure) => emit(DoctorReviewsError(failure.errorMessage)),
-      (data) => emit(
+      (failure) => _safeEmit(DoctorReviewsError(failure.errorMessage)),
+      (data) => _safeEmit(
         DoctorReviewsLoaded(
           reviews: data.reviews,
           avgRating: data.avgRating,
@@ -45,7 +49,7 @@ class DoctorReviewsCubit extends Cubit<DoctorReviewsState> {
       return r;
     }).toList();
 
-    emit(
+    _safeEmit(
       DoctorReviewsLoaded(
         reviews: updatedReviews,
         avgRating: currentState.avgRating,
@@ -55,7 +59,7 @@ class DoctorReviewsCubit extends Cubit<DoctorReviewsState> {
 
     final result = await _reviewRepo.toggleReviewActive(reviewId);
     result.fold((failure) {
-      emit(
+      _safeEmit(
         DoctorReviewsLoaded(
           reviews: currentState.reviews,
           avgRating: currentState.avgRating,

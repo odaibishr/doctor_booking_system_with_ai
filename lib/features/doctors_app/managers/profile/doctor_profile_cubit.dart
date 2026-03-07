@@ -8,32 +8,44 @@ class DoctorProfileCubit extends Cubit<DoctorProfileState> {
 
   DoctorProfileCubit(this._repo) : super(DoctorProfileInitial());
 
+  void _safeEmit(DoctorProfileState state) {
+    if (!isClosed) emit(state);
+  }
+
   Future<void> fetchProfile() async {
-    emit(DoctorProfileLoading());
+    _safeEmit(DoctorProfileLoading());
     final result = await _repo.getMyProfile();
     result.fold(
-      (failure) => emit(DoctorProfileError(failure.errorMessage)),
-      (doctor) => emit(DoctorProfileLoaded(doctor)),
+      (failure) => _safeEmit(DoctorProfileError(failure.errorMessage)),
+      (doctor) => _safeEmit(DoctorProfileLoaded(doctor)),
     );
   }
 
   Future<void> updateProfile(Map<String, dynamic> data) async {
-    emit(DoctorProfileUpdating());
+    _safeEmit(DoctorProfileUpdating());
     final result = await _repo.updateProfile(data);
     result.fold(
-      (failure) => emit(DoctorProfileError(failure.errorMessage)),
-      (doctor) => emit(DoctorProfileLoaded(doctor)),
+      (failure) => _safeEmit(DoctorProfileError(failure.errorMessage)),
+      (doctor) => _safeEmit(DoctorProfileLoaded(doctor)),
+    );
+  }
+
+  Future<void> updateImageOnly(File imageFile) async {
+    final result = await _repo.updateProfileImage(imageFile);
+    result.fold(
+      (failure) => _safeEmit(DoctorProfileError(failure.errorMessage)),
+      (_) {},
     );
   }
 
   Future<void> updateImage(File imageFile) async {
     final currentState = state;
-    emit(DoctorProfileUpdating());
+    _safeEmit(DoctorProfileUpdating());
     final result = await _repo.updateProfileImage(imageFile);
     result.fold((failure) {
-      emit(DoctorProfileError(failure.errorMessage));
+      _safeEmit(DoctorProfileError(failure.errorMessage));
       if (currentState is DoctorProfileLoaded) {
-        emit(currentState);
+        _safeEmit(currentState);
       }
     }, (_) => fetchProfile());
   }

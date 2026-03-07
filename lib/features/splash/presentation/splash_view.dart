@@ -71,7 +71,12 @@ class _SplashViewState extends State<SplashView>
     if (!mounted) return;
 
     if (authCubit.state is AuthSuccess) {
-      GoRouter.of(context).go(AppRouter.appNavigationRoute);
+      final user = (authCubit.state as AuthSuccess).user;
+      if (user.role == 'doctor') {
+        GoRouter.of(context).go(AppRouter.customNavigationBarRoute);
+      } else {
+        GoRouter.of(context).go(AppRouter.appNavigationRoute);
+      }
     } else {
       GoRouter.of(context).go(AppRouter.signInViewRoute);
     }

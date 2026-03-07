@@ -636,13 +636,13 @@ class _EditDoctorInfoViewState extends State<EditDoctorInfoView> {
     });
   }
 
-  void _submit(BuildContext context) {
+  Future<void> _submit(BuildContext context) async {
     if (!_formKey.currentState!.validate()) return;
 
     final cubit = context.read<DoctorProfileCubit>();
 
     if (_selectedImage != null) {
-      cubit.updateImage(_selectedImage!);
+      await cubit.updateImageOnly(_selectedImage!);
     }
 
     final genderToSend = _selectedGender?.toLowerCase() == 'female'

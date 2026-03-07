@@ -17,6 +17,7 @@ class UserModel extends User {
     required super.location,
     required super.locationId,
     super.fcm_token,
+    super.role,
   });
 
   factory UserModel.empty() {
@@ -33,6 +34,7 @@ class UserModel extends User {
       location: LocationModel.empty(),
       locationId: 0,
       fcm_token: null,
+      role: null,
     );
   }
 
@@ -54,11 +56,13 @@ class UserModel extends User {
       profileImage: _normalizeNullableString(
         json['profile_image'] ?? json['profileImage'],
       ),
-      birthDate: json['birth_date']?.toString() ?? json['birthDate']?.toString(),
+      birthDate:
+          json['birth_date']?.toString() ?? json['birthDate']?.toString(),
       gender: json['gender']?.toString(),
       location: location,
       locationId: json['location_id'] ?? json['locationId'] ?? location.id,
       fcm_token: json['fcm_token']?.toString(),
+      role: json['role']?.toString(),
     );
   }
 
@@ -76,6 +80,7 @@ class UserModel extends User {
       'location': location,
       'location_id': locationId,
       'fcm_token': fcm_token,
+      'role': role,
     };
   }
 

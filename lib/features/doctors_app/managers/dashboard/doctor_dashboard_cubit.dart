@@ -11,20 +11,24 @@ class DoctorDashboardCubit extends Cubit<DoctorDashboardState> {
   DoctorDashboardCubit(this._getDashboardStatsUseCase)
     : super(DoctorDashboardInitial());
 
+  void _safeEmit(DoctorDashboardState state) {
+    if (!isClosed) emit(state);
+  }
+
   Future<void> fetchDashboard({String filter = 'all'}) async {
     if (isClosed) return;
 
-    emit(DoctorDashboardLoading());
+    _safeEmit(DoctorDashboardLoading());
     try {
       final result = await _getDashboardStatsUseCase.call(
         GetDashboardStatsParams(filter: filter),
       );
       result.fold(
-        (failure) => emit(DoctorDashboardError(failure.errorMessage)),
-        (stats) => emit(DoctorDashboardLoaded(stats)),
+        (failure) => _safeEmit(DoctorDashboardError(failure.errorMessage)),
+        (stats) => _safeEmit(DoctorDashboardLoaded(stats)),
       );
     } catch (e) {
-      emit(DoctorDashboardError(e.toString()));
+      _safeEmit(DoctorDashboardError(e.toString()));
     }
   }
 }
