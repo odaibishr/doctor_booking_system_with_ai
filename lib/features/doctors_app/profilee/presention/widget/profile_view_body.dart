@@ -75,7 +75,7 @@ class ProfileeViewBody extends StatelessWidget {
                       children: [
                         const SizedBox(height: 20),
                         _buildProfileHeader(context, doctor),
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 30),
                         MenuItem(
                           title: 'المعلومات الشخصية',
                           icon: 'assets/icons/user.svg',
@@ -148,7 +148,6 @@ class ProfileeViewBody extends StatelessWidget {
   }
 
   Widget _buildProfileHeader(BuildContext context, dynamic doctor) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     final imageUrl = doctor.profileImage;
     final hasImage = imageUrl != null && imageUrl.isNotEmpty;
     final resolvedUrl = hasImage
@@ -157,39 +156,85 @@ class ProfileeViewBody extends StatelessWidget {
               : '${EndPoints.photoUrl}/$imageUrl')
         : '';
 
-    return Column(
+    const double avatarRadius = 55;
+    const double overlapAmount = 30;
+
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.topCenter,
       children: [
-        CircleAvatar(
-          radius: 55,
-          backgroundColor: AppColors.primary.withValues(alpha: 0.1),
-          backgroundImage: hasImage
-              ? CachedNetworkImageProvider(resolvedUrl)
-              : null,
-          child: hasImage
-              ? null
-              : const Icon(Icons.person, size: 50, color: AppColors.primary),
-        ),
-        const SizedBox(height: 14),
-        Text(
-          doctor.name,
-          style: FontStyles.headLine4.copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-            color: isDark ? AppColors.textPrimaryDark : AppColors.black,
+        Container(
+          width: double.infinity,
+          margin: const EdgeInsets.only(top: avatarRadius - overlapAmount),
+          padding: EdgeInsets.only(
+            top: avatarRadius + overlapAmount + 10,
+            bottom: 20,
+            left: 16,
+            right: 16,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withValues(alpha: 0.06),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              color: context.gray200Color,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  doctor.name,
+                  style: FontStyles.subTitle1.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: context.blackColor,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    Text(
+                      doctor.specialty.name,
+                      style: FontStyles.subTitle3.copyWith(
+                        color: context.gray500Color,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Container(
+                      width: 1,
+                      height: 20,
+                      color: context.gray600Color,
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        doctor.hospital.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: FontStyles.subTitle3.copyWith(
+                          color: context.gray500Color,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-        const SizedBox(height: 6),
-        Text(
-          doctor.specialty.name,
-          style: FontStyles.subTitle2.copyWith(
-            color: isDark ? AppColors.textSecondaryDark : AppColors.gray400,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          doctor.hospital.name,
-          style: FontStyles.subTitle3.copyWith(
-            color: isDark ? AppColors.textSecondaryDark : AppColors.gray500,
+        Positioned(
+          top: 0,
+          child: CircleAvatar(
+            radius: avatarRadius,
+            backgroundColor: context.gray400Color,
+            backgroundImage: hasImage
+                ? CachedNetworkImageProvider(resolvedUrl)
+                : null,
+            child: hasImage
+                ? null
+                : const Icon(Icons.person, size: 50, color: AppColors.primary),
           ),
         ),
       ],
