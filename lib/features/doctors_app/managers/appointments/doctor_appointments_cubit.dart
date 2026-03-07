@@ -20,48 +20,52 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
     this._updateAppointmentStatusUseCase,
   ) : super(DoctorAppointmentsInitial());
 
+  void _safeEmit(DoctorAppointmentsState state) {
+    if (!isClosed) emit(state);
+  }
+
   Future<void> fetchUpcoming() async {
     if (isClosed) return;
 
-    emit(DoctorAppointmentsLoading());
+    _safeEmit(DoctorAppointmentsLoading());
     try {
       final result = await _getUpcomingAppointmentsUseCase.call();
       result.fold(
-        (failure) => emit(DoctorAppointmentsError(failure.errorMessage)),
-        (appointments) => emit(DoctorAppointmentsLoaded(appointments)),
+        (failure) => _safeEmit(DoctorAppointmentsError(failure.errorMessage)),
+        (appointments) => _safeEmit(DoctorAppointmentsLoaded(appointments)),
       );
     } catch (e) {
-      emit(DoctorAppointmentsError(e.toString()));
+      _safeEmit(DoctorAppointmentsError(e.toString()));
     }
   }
 
   Future<void> fetchHistory() async {
     if (isClosed) return;
 
-    emit(DoctorAppointmentsLoading());
+    _safeEmit(DoctorAppointmentsLoading());
     try {
       final result = await _getHistoryAppointmentsUseCase.call();
       result.fold(
-        (failure) => emit(DoctorAppointmentsError(failure.errorMessage)),
-        (appointments) => emit(DoctorAppointmentsLoaded(appointments)),
+        (failure) => _safeEmit(DoctorAppointmentsError(failure.errorMessage)),
+        (appointments) => _safeEmit(DoctorAppointmentsLoaded(appointments)),
       );
     } catch (e) {
-      emit(DoctorAppointmentsError(e.toString()));
+      _safeEmit(DoctorAppointmentsError(e.toString()));
     }
   }
 
   Future<void> fetchToday() async {
     if (isClosed) return;
 
-    emit(DoctorAppointmentsLoading());
+    _safeEmit(DoctorAppointmentsLoading());
     try {
       final result = await _getTodayAppointmentsUseCase.call();
       result.fold(
-        (failure) => emit(DoctorAppointmentsError(failure.errorMessage)),
-        (appointments) => emit(DoctorAppointmentsLoaded(appointments)),
+        (failure) => _safeEmit(DoctorAppointmentsError(failure.errorMessage)),
+        (appointments) => _safeEmit(DoctorAppointmentsLoaded(appointments)),
       );
     } catch (e) {
-      emit(DoctorAppointmentsError(e.toString()));
+      _safeEmit(DoctorAppointmentsError(e.toString()));
     }
   }
 
@@ -72,7 +76,7 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
   }) async {
     if (isClosed) return;
 
-    emit(DoctorAppointmentsLoading());
+    _safeEmit(DoctorAppointmentsLoading());
     try {
       final result = await _updateAppointmentStatusUseCase.call(
         UpdateAppointmentStatusUseCaseParams(
@@ -82,11 +86,11 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
         ),
       );
       result.fold(
-        (failure) => emit(DoctorAppointmentsError(failure.errorMessage)),
-        (appointment) => emit(DoctorAppointmentStatusUpdated(appointment)),
+        (failure) => _safeEmit(DoctorAppointmentsError(failure.errorMessage)),
+        (appointment) => _safeEmit(DoctorAppointmentStatusUpdated(appointment)),
       );
     } catch (e) {
-      emit(DoctorAppointmentsError(e.toString()));
+      _safeEmit(DoctorAppointmentsError(e.toString()));
     }
   }
 }
