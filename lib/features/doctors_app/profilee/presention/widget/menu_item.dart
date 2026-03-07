@@ -27,6 +27,7 @@ class MenuItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
+        height: 50,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: AppColors.getGray100(context),
@@ -34,13 +35,9 @@ class MenuItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
+            SizedBox(
               width: 36,
               height: 36,
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(10),
-              ),
               child: Center(
                 child: SvgPicture.asset(
                   icon,
@@ -55,13 +52,13 @@ class MenuItem extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: FontStyles.subTitle2.copyWith(
+                style: FontStyles.subTitle3.copyWith(
                   color: color,
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ),
-            Icon(Icons.arrow_forward_ios, color: color, size: 16),
+            Icon(Icons.arrow_forward_ios, color: color, size: 14),
           ],
         ),
       ),
