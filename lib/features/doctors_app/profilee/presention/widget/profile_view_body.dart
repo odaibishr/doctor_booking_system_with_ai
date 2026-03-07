@@ -176,27 +176,31 @@ class ProfileeViewBody extends StatelessWidget {
             right: 16,
           ),
           decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.06),
+            color: context.gray100Color,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            decoration: BoxDecoration(
-              color: context.gray200Color,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  doctor.name,
-                  style: FontStyles.subTitle1.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: context.blackColor,
-                  ),
+          child: Column(
+            children: [
+              const SizedBox(height: 14),
+              Text(
+                doctor.name,
+                style: FontStyles.subTitle1.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: context.blackColor,
                 ),
-                const SizedBox(height: 6),
-                Row(
+              ),
+              const SizedBox(height: 14),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
+                decoration: BoxDecoration(
+                  color: context.gray200Color,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Row(
                   children: [
                     Text(
                       doctor.specialty.name,
@@ -223,8 +227,8 @@ class ProfileeViewBody extends StatelessWidget {
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         Positioned(
