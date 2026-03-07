@@ -12,6 +12,7 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/prof
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/profile/doctor_profile_state.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/edit_doctor_info_view.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/doctor_schedule_view.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/widget/menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -75,8 +76,7 @@ class ProfileeViewBody extends StatelessWidget {
                         const SizedBox(height: 20),
                         _buildProfileHeader(context, doctor),
                         const SizedBox(height: 32),
-                        _buildMenuItem(
-                          context,
+                        MenuItem(
                           title: 'المعلومات الشخصية',
                           icon: 'assets/icons/user.svg',
                           onTap: () {
@@ -92,8 +92,7 @@ class ProfileeViewBody extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 12),
-                        _buildMenuItem(
-                          context,
+                        MenuItem(
                           title: 'جدول المواعيد والإجازات',
                           icon: 'assets/icons/calendar.svg',
                           onTap: () {
@@ -106,15 +105,13 @@ class ProfileeViewBody extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 12),
-                        _buildMenuItem(
-                          context,
+                        MenuItem(
                           title: 'المظهر',
                           icon: 'assets/icons/setting-2.svg',
                           onTap: () => ThemeModeSelector.show(context),
                         ),
                         const SizedBox(height: 12),
-                        _buildMenuItem(
-                          context,
+                        MenuItem(
                           title: 'تسجيل الخروج',
                           icon: 'assets/icons/login.svg',
                           isDestructive: true,
@@ -146,62 +143,6 @@ class ProfileeViewBody extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildMenuItem(
-    BuildContext context, {
-    required String title,
-    required String icon,
-    required VoidCallback onTap,
-    bool isDestructive = false,
-  }) {
-    final color = isDestructive
-        ? AppColors.error
-        : AppColors.getPrimary(context);
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        decoration: BoxDecoration(
-          color: AppColors.getGray100(context),
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: SvgPicture.asset(
-                  icon,
-                  width: 18,
-                  height: 18,
-                  fit: BoxFit.scaleDown,
-                  colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                title,
-                style: FontStyles.subTitle2.copyWith(
-                  color: color,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            Icon(Icons.arrow_forward_ios, color: color, size: 16),
-          ],
-        ),
       ),
     );
   }
