@@ -16,7 +16,8 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/pres
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:svg_flutter/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 
 class ProfileeViewBody extends StatelessWidget {
   const ProfileeViewBody({super.key});
@@ -31,7 +32,7 @@ class ProfileeViewBody extends StatelessWidget {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthLoggedOut) {
-          Navigator.of(context).popUntil((route) => route.isFirst);
+          GoRouter.of(context).go(AppRouter.signInViewRoute);
         } else if (state is AuthError) {
           context.showErrorToast(state.message);
         }
@@ -126,7 +127,9 @@ class ProfileeViewBody extends StatelessWidget {
                               icon: Icons.logout,
                               confirmColor: AppColors.error,
                             );
+
                             if (!context.mounted || !confirmed) return;
+
                             await authCubit.logout();
                             if (!context.mounted) return;
                             context.showSuccessToast('تم تسجيل الخروج بنجاح');
