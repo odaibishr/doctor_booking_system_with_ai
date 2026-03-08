@@ -19,20 +19,21 @@ class AppointmentActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      textDirection: TextDirection.rtl,
       children: [
         Expanded(
           child: GestureDetector(
             onTap: onConfirm,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 12),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: AppColors.primary,
+                color: context.primaryColor,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Text(
                 confirmText,
-                style: FontStyles.body2.copyWith(
+                style: FontStyles.subTitle3.copyWith(
                   color: AppColors.white,
                   fontWeight: FontWeight.w600,
                 ),
@@ -45,16 +46,16 @@ class AppointmentActionButtons extends StatelessWidget {
           child: GestureDetector(
             onTap: onReject,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 12),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: AppColors.gray200,
+                border: Border.all(color: AppColors.getGray300(context)),
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Text(
                 rejectText,
-                style: FontStyles.body2.copyWith(
-                  color: AppColors.gray600,
+                style: FontStyles.subTitle3.copyWith(
+                  color: context.textSecondaryColor,
                   fontWeight: FontWeight.w600,
                 ),
               ),

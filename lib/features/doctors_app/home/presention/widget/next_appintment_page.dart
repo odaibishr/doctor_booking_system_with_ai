@@ -26,47 +26,47 @@ class NextAppintmentPage extends StatelessWidget {
           if (appointments.isEmpty) {
             return const Center(child: Text('لا توجد حجوزات قادمة'));
           }
-          return Padding(
-            padding: const EdgeInsets.only(top: 20, left: 12, right: 12),
-            child: ListView.builder(
-              itemCount: appointments.length,
-              itemBuilder: (context, index) {
-                final appointment = appointments[index];
-                return DAppointmentCard(
-                  patientName: appointment.patientInfo?.name ?? 'مريض',
-                  patientImage: appointment.patientInfo?.profileImage ?? '',
-                  time:
-                      '${appointment.scheduleInfo?.startTime ?? ''} - ${appointment.scheduleInfo?.endTime ?? ''}',
-                  date: () {
-                    try {
-                      return DateFormat.yMMMMd(
-                        'ar',
-                      ).format(DateTime.parse(appointment.date));
-                    } catch (_) {
-                      return appointment.date;
-                    }
-                  }(),
-                  bookingNumber: '${appointment.id}',
-                  location: appointment.scheduleInfo?.dayName ?? '',
-                  showActions: true,
-                  onConfirm: () {
-                    context
-                        .read<DoctorAppointmentsCubit>()
-                        .updateAppointmentStatus(
-                          id: appointment.id,
-                          status: 'confirmed',
-                        );
-                  },
-                  onReject: () => _showCancelDialog(context, appointment.id),
-                );
-              },
-            ),
+          return ListView.builder(
+            padding: const EdgeInsets.only(top: 16, left: 14, right: 14),
+            itemCount: appointments.length,
+            itemBuilder: (context, index) {
+              final appointment = appointments[index];
+              final formattedDate = _formatDate(appointment.date);
+              return DAppointmentCard(
+                patientName: appointment.patientInfo?.name ?? 'مريض',
+                patientImage: appointment.patientInfo?.profileImage ?? '',
+                time:
+                    '${appointment.scheduleInfo?.startTime ?? ''} - ${appointment.scheduleInfo?.endTime ?? ''}',
+                date: formattedDate,
+                bookingNumber: '${appointment.id}',
+                isNew: index == 0,
+                cardType: AppointmentCardType.upcoming,
+                onConfirm: () {
+                  context
+                      .read<DoctorAppointmentsCubit>()
+                      .updateAppointmentStatus(
+                        id: appointment.id,
+                        status: 'confirmed',
+                      );
+                },
+                onReject: () => _showCancelDialog(context, appointment.id),
+              );
+            },
           );
         }
 
         return const SizedBox.shrink();
       },
     );
+  }
+
+  String _formatDate(String rawDate) {
+    try {
+      final parsed = DateTime.parse(rawDate);
+      return DateFormat('EEEE، d MMMM yyyy', 'ar').format(parsed);
+    } catch (_) {
+      return rawDate;
+    }
   }
 
   void _showCancelDialog(BuildContext context, int appointmentId) {

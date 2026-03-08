@@ -26,37 +26,47 @@ class CancelledAppointmentPage extends StatelessWidget {
           if (appointments.isEmpty) {
             return const Center(child: Text('لا توجد حجوزات ملغاة'));
           }
-          return Padding(
-            padding: const EdgeInsets.only(top: 20, left: 12, right: 12),
-            child: ListView.builder(
-              itemCount: appointments.length,
-              itemBuilder: (context, index) {
-                final appointment = appointments[index];
-                return DAppointmentCard(
-                  patientName: appointment.patientInfo?.name ?? 'مريض',
-                  patientImage: appointment.patientInfo?.profileImage ?? '',
-                  time:
-                      '${appointment.scheduleInfo?.startTime ?? ''} - ${appointment.scheduleInfo?.endTime ?? ''}',
-                  date: () {
-                    try {
-                      return DateFormat.yMMMMd(
-                        'ar',
-                      ).format(DateTime.parse(appointment.date));
-                    } catch (_) {
-                      return appointment.date;
-                    }
-                  }(),
-                  bookingNumber: '${appointment.id}',
-                  location: appointment.cancellationReason ?? '',
-                  showActions: false,
-                );
-              },
-            ),
+          return ListView.builder(
+            padding: const EdgeInsets.only(top: 16, left: 14, right: 14),
+            itemCount: appointments.length,
+            itemBuilder: (context, index) {
+              final appointment = appointments[index];
+              return DAppointmentCard(
+                patientName: appointment.patientInfo?.name ?? 'مريض',
+                patientImage: appointment.patientInfo?.profileImage ?? '',
+                time: appointment.scheduleInfo?.startTime ?? '',
+                date: _formatDate(appointment.date),
+                bookingNumber: 'BK-${appointment.id}#',
+                cardType: AppointmentCardType.cancelled,
+                cancellationDate: _formatCancellationDate(
+                  appointment.updatedAt,
+                ),
+                cancellationReason: appointment.cancellationReason,
+              );
+            },
           );
         }
 
         return const SizedBox.shrink();
       },
     );
+  }
+
+  String _formatDate(String rawDate) {
+    try {
+      final parsed = DateTime.parse(rawDate);
+      return DateFormat('EEEE، d MMMM yyyy', 'ar').format(parsed);
+    } catch (_) {
+      return rawDate;
+    }
+  }
+
+  String _formatCancellationDate(String rawDate) {
+    try {
+      final parsed = DateTime.parse(rawDate);
+      return DateFormat('d MMMM', 'ar').format(parsed);
+    } catch (_) {
+      return rawDate;
+    }
   }
 }
