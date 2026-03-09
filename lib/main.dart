@@ -1,6 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/theme/theme_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/theme/theme_state.dart';
+import 'package:doctor_booking_system_with_ai/core/services/fcm_service.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_theme.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
@@ -23,11 +24,16 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:toastification/toastification.dart';
 import 'package:doctor_booking_system_with_ai/core/cache/query_config.dart';
 
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await dotenv.load(fileName: ".env");
   await init();
 
@@ -39,10 +45,16 @@ void main() async {
   final themeCubit = serviceLocator<ThemeCubit>();
   await themeCubit.initialize();
 
-  String? token = await FirebaseMessaging.instance.getToken();
-  debugPrint("Firebase Messaging Token: $token");
+  final fcmService = serviceLocator<FcmService>();
+  await fcmService.initialize();
 
+  final token = await fcmService.getToken();
+  debugPrint("Firebase Messaging Token: $token");
   authCubit.setFcmToken(token);
+
+  if (token != null && authCubit.state is AuthSuccess) {
+    fcmService.updateTokenOnServer(token);
+  }
 
   runApp(MyApp());
 }
