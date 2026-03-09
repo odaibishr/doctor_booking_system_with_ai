@@ -117,6 +117,11 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/repos/
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/profile/doctor_profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/profile/doctor_schedule_cubit.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:doctor_booking_system_with_ai/core/services/fcm_service.dart';
+import 'package:doctor_booking_system_with_ai/features/notification/data/datasources/notification_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/features/notification/data/repos/notification_repo_impl.dart';
+import 'package:doctor_booking_system_with_ai/features/notification/domain/repos/notification_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/notification/presentation/manager/notification_cubit.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -456,6 +461,23 @@ Future<void> init() async {
 
   // Theme Cubit - manages app theme (light/dark/system)
   serviceLocator.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
+
+  // FCM & Notification Feature
+  serviceLocator.registerLazySingleton<FcmService>(
+    () => FcmService(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<NotificationRemoteDataSource>(
+    () => NotificationRemoteDataSourceImpl(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<NotificationRepo>(
+    () => NotificationRepoImpl(serviceLocator()),
+  );
+
+  serviceLocator.registerFactory<NotificationCubit>(
+    () => NotificationCubit(serviceLocator()),
+  );
 
   // Waitlist Feature
   serviceLocator.registerLazySingleton<WaitlistRemoteDataSource>(
