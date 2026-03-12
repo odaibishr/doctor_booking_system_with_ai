@@ -12,7 +12,7 @@ abstract class DoctorAppointmentLocalDataSource {
 class DoctorAppointmentLocalDataSourceImpl
     implements DoctorAppointmentLocalDataSource {
   final Box<List<DoctorAppointment>> box;
-  DoctorAppointmentLocalDataSourceImpl({required this.box});
+  DoctorAppointmentLocalDataSourceImpl(this.box);
   @override
   Future<void> cacheAppointments(
     String key,
