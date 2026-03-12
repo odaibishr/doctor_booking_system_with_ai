@@ -1,15 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/core/network/network_info.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/data/data_sources/doctor_appointment_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/data/data_sources/doctor_appointment_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/doctor_appointment.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/repos/doctor_appointment_repo.dart';
 
 class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   final DoctorAppointmentRemoteDataSource remoteDataSource;
+  final DoctorAppointmentLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
-  DoctorAppointmentRepoImpl(this.remoteDataSource, this.networkInfo);
+  DoctorAppointmentRepoImpl(this.remoteDataSource, this.localDataSource, this.networkInfo);
 
   @override
   Future<Either<Failure, List<DoctorAppointment>>> getAppointments({
@@ -18,12 +20,19 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   }) async {
     try {
       if (!await networkInfo.isConnected) {
-        return Left(Failure('لايوجد اتصال بالانترنت'));
+        final cachedAppointments = await localDataSource.getCachedAppointments('appointments');
+        if (cachedAppointments.isNotEmpty) {
+          return Right(cachedAppointments);
+        }
       }
 
       final result = await remoteDataSource.getAppointments(
         status: status,
         date: date,
+      );
+      await localDataSource.cacheAppointments(
+        'appointments',
+        result,
       );
       return Right(result);
     } catch (error) {
@@ -37,7 +46,10 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   ) async {
     try {
       if (!await networkInfo.isConnected) {
-        return Left(Failure('لايوجد اتصال بالانترنت'));
+        final cachedAppointment = await localDataSource.getCachedAppointments('appointments');
+        if (cachedAppointment.isNotEmpty) {
+          return Right(cachedAppointment.firstWhere((element) => element.id == id));
+        }
       }
 
       final result = await remoteDataSource.getAppointmentDetails(id);
