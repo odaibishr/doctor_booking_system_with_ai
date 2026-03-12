@@ -51,8 +51,10 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/specialty
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctor_details_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_specilaties_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/data/data_sources/doctor_appointment_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/data/data_sources/doctor_dashboard_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/dashboard_stats.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/doctor_appointment.dart';
 import 'package:doctor_booking_system_with_ai/features/favorite_doctor/domain/use_cases/get_favorite_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/favorite_doctor/presentation/manager/favorite_doctor_cubit/favorite_doctor_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
@@ -525,6 +527,13 @@ Future<void> init() async {
     () => DoctorAppointmentRemoteDataSourceImpl(serviceLocator()),
   );
 
+  final appointmentBox = Hive.box<List<DoctorAppointment>>(
+    kDoctorAppointmentBox,
+  );
+  serviceLocator.registerLazySingleton<DoctorAppointmentLocalDataSource>(
+    () => DoctorAppointmentLocalDataSourceImpl(appointmentBox),
+  );
+
   // Doctor App Feature - Repos
 
   serviceLocator.registerLazySingleton<DoctorDashboardRepo>(
@@ -536,7 +545,11 @@ Future<void> init() async {
   );
 
   serviceLocator.registerLazySingleton<DoctorAppointmentRepo>(
-    () => DoctorAppointmentRepoImpl(serviceLocator(), serviceLocator()),
+    () => DoctorAppointmentRepoImpl(
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+    ),
   );
 
   // Doctor App Feature - UseCases
