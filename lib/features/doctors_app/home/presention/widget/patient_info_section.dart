@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
@@ -157,10 +158,10 @@ class PatientInfoSection extends StatelessWidget {
     final url = patientImage.startsWith('http')
         ? patientImage
         : '${EndPoints.photoUrl}/$patientImage';
-    return Image.network(
-      url,
+    return CachedNetworkImage(
+      imageUrl: url,
       fit: BoxFit.cover,
-      errorBuilder: (_, __, ___) =>
+      errorWidget: (context, url, error) =>
           const Icon(Icons.person, size: 36, color: AppColors.gray400),
     );
   }
