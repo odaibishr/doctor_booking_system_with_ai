@@ -91,7 +91,7 @@ class HiveService {
     if (getCachedAuthData()?.role == 'doctor') {
       await Hive.openBox<DashboardStats>(kDashboardBox);
       await Hive.openBox<EarningsData>(kEarningsBox);
-      await Hive.openBox<DoctorAppointment>(kDoctorAppointmentBox);
+      await Hive.openBox<List<DoctorAppointment>>(kDoctorAppointmentBox);
     }
   }
 
