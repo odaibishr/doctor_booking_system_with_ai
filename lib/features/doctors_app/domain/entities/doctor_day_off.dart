@@ -1,9 +1,17 @@
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/day.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-class DoctorDayOff {
+part 'doctor_day_off.g.dart';
+
+@HiveType(typeId: 20)
+class DoctorDayOff extends HiveObject {
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final int doctorId;
+  @HiveField(2)
   final int dayId;
+  @HiveField(3)
   final Day? day;
 
   DoctorDayOff({
