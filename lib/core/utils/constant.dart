@@ -10,6 +10,8 @@ const String kReviewBox = 'review_box';
 const String kDashboardBox = 'dashboard_box';
 const String kEarningsBox = 'earnings_box';
 const String kDoctorAppointmentBox = 'doctor_appointment_box';
+const String kDoctorMySchedulesBox = 'doctor_my_schedules_box';
+const String kDoctorDaysOffBox = 'doctor_days_off_box';
 
 void drawNotchDetails(Canvas canvas, double width, double height) {
   final centerX = width / 2;
