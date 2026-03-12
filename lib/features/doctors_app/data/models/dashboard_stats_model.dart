@@ -1,5 +1,6 @@
 import 'package:doctor_booking_system_with_ai/core/layers/data/models/doctor_schedule_model.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor_schedule.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/day.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/parse_helpers.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/data/models/earnings_data_model.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/dashboard_stats.dart';
@@ -27,9 +28,24 @@ class DashboardStatsModel extends DashboardStats {
         : <String, dynamic>{};
     List<DoctorSchedule> schedules = [];
     if (map['working_hours'] is List) {
-      schedules = (map['working_hours'] as List)
-          .map((e) => DoctorScheduleModel.fromMap(e as Map<String, dynamic>))
-          .toList();
+      schedules = (map['working_hours'] as List).map((e) {
+        final model = DoctorScheduleModel.fromMap(e as Map<String, dynamic>);
+        return DoctorSchedule(
+          id: model.id,
+          doctorId: model.doctorId,
+          dayId: model.dayId,
+          startTime: model.startTime,
+          endTime: model.endTime,
+          day: model.day != null
+              ? Day(
+                  id: model.day!.id,
+                  dayName: model.day!.dayName,
+                  shortName: model.day!.shortName,
+                  dayNumber: model.day!.dayNumber,
+                )
+              : null,
+        );
+      }).toList();
     }
     List<Map<String, dynamic>> daysOffList = [];
     if (map['days_off'] is List) {

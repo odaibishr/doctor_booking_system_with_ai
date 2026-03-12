@@ -51,6 +51,8 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/specialty
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctor_details_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_specilaties_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/data/data_sources/doctor_dashboard_local_data_source.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/dashboard_stats.dart';
 import 'package:doctor_booking_system_with_ai/features/favorite_doctor/domain/use_cases/get_favorite_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/favorite_doctor/presentation/manager/favorite_doctor_cubit/favorite_doctor_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
@@ -514,13 +516,23 @@ Future<void> init() async {
     () => DoctorDashboardRemoteDataSourceImpl(serviceLocator()),
   );
 
+  final dashboardBox = Hive.box<DashboardStats>(kDashboardBox);
+  serviceLocator.registerLazySingleton<DoctorDashboardLocalDataSource>(
+    () => DoctorDashboardLocalDataSourceImpl(box: dashboardBox),
+  );
+
   serviceLocator.registerLazySingleton<DoctorAppointmentRemoteDataSource>(
     () => DoctorAppointmentRemoteDataSourceImpl(serviceLocator()),
   );
 
   // Doctor App Feature - Repos
+
   serviceLocator.registerLazySingleton<DoctorDashboardRepo>(
-    () => DoctorDashboardRepoImpl(serviceLocator(), serviceLocator()),
+    () => DoctorDashboardRepoImpl(
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+    ),
   );
 
   serviceLocator.registerLazySingleton<DoctorAppointmentRepo>(
