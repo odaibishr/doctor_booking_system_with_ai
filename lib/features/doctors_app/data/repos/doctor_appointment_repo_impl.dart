@@ -20,7 +20,7 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   }) async {
     try {
       if (!await networkInfo.isConnected) {
-        final cachedAppointments = await localDataSource.getCachedAppointments('appointments');
+        final cachedAppointments = await localDataSource.getCachedAppointments('all_appointments');
         if (cachedAppointments.isNotEmpty) {
           return Right(cachedAppointments);
         }
@@ -31,7 +31,7 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
         date: date,
       );
       await localDataSource.cacheAppointments(
-        'appointments',
+        'all_appointments',
         result,
       );
       return Right(result);
@@ -64,10 +64,17 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   getHistoryAppointments() async {
     try {
       if (!await networkInfo.isConnected) {
-        return Left(Failure('لايوجد اتصال بالانترنت'));
+        final cachedAppointments = await localDataSource.getCachedAppointments('appointments');
+        if (cachedAppointments.isNotEmpty) {
+          return Right(cachedAppointments);
+        }
       }
 
       final result = await remoteDataSource.getHistoryAppointments();
+      await localDataSource.cacheAppointments(
+        'history_appointments',
+        result,
+      );
       return Right(result);
     } catch (error) {
       return Left(Failure(error.toString()));
@@ -79,10 +86,17 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   getTodayAppointments() async {
     try {
       if (!await networkInfo.isConnected) {
-        return Left(Failure('لايوجد اتصال بالانترنت'));
+        final cachedAppointments = await localDataSource.getCachedAppointments('today_appointments');
+        if (cachedAppointments.isNotEmpty) {
+          return Right(cachedAppointments);
+        }
       }
 
       final result = await remoteDataSource.getTodayAppointments();
+      await localDataSource.cacheAppointments(
+        'today_appointments',
+        result,
+      );
       return Right(result);
     } catch (error) {
       return Left(Failure(error.toString()));
@@ -94,10 +108,17 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   getUpcomingAppointments() async {
     try {
       if (!await networkInfo.isConnected) {
-        return Left(Failure('لايوجد اتصال بالانترنت'));
+        final cachedAppointments = await localDataSource.getCachedAppointments('upcoming_appointments');
+        if (cachedAppointments.isNotEmpty) {
+          return Right(cachedAppointments);
+        }
       }
 
       final result = await remoteDataSource.getUpcomingAppointments();
+      await localDataSource.cacheAppointments(
+        'upcoming_appointments',
+        result,
+      );
       return Right(result);
     } catch (error) {
       return Left(Failure(error.toString()));
