@@ -7,6 +7,8 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specia
 import 'package:doctor_booking_system_with_ai/core/storage/adapters/safe_doctor_adapter.dart';
 import 'package:doctor_booking_system_with_ai/core/storage/adapters/safe_user_adapter.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/dashboard_stats.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/earnings_data.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/doctor_schedule.dart';
@@ -47,6 +49,12 @@ class HiveService {
     if (!Hive.isAdapterRegistered(7)) {
       Hive.registerAdapter(ReviewAdapter());
     }
+    if (!Hive.isAdapterRegistered(14)) {
+      Hive.registerAdapter(EarningsDataAdapter());
+    }
+    if (!Hive.isAdapterRegistered(15)) {
+      Hive.registerAdapter(DashboardStatsAdapter());
+    }
 
     _userBox = await Hive.openBox<User>(userBoxName);
     await Hive.openBox<Doctor>(kDoctorBox);
@@ -54,6 +62,10 @@ class HiveService {
     await Hive.openBox<Hospital>(kHospitalBox);
     await Hive.openBox<Booking>(kBookingHistoryBox);
     await Hive.openBox<Review>(kReviewBox);
+    if (getCachedAuthData()?.role == 'doctor') {
+      await Hive.openBox<DashboardStats>(kDashboardBox);
+      await Hive.openBox<EarningsData>(kEarningsBox);
+    }
   }
 
   static Future<void> cacheAuthData(User user) async {
