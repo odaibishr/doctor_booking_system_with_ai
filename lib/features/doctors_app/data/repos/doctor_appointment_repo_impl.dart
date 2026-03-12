@@ -11,7 +11,11 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   final DoctorAppointmentLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
-  DoctorAppointmentRepoImpl(this.remoteDataSource, this.localDataSource, this.networkInfo);
+  DoctorAppointmentRepoImpl(
+    this.remoteDataSource,
+    this.localDataSource,
+    this.networkInfo,
+  );
 
   @override
   Future<Either<Failure, List<DoctorAppointment>>> getAppointments({
@@ -20,22 +24,28 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   }) async {
     try {
       if (!await networkInfo.isConnected) {
-        final cachedAppointments = await localDataSource.getCachedAppointments('all_appointments');
+        final cachedAppointments = await localDataSource.getCachedAppointments(
+          'all_appointments',
+        );
         if (cachedAppointments.isNotEmpty) {
           return Right(cachedAppointments);
         }
+        return Left(Failure('لايوجد اتصال بالانترنت'));
       }
 
       final result = await remoteDataSource.getAppointments(
         status: status,
         date: date,
       );
-      await localDataSource.cacheAppointments(
-        'all_appointments',
-        result,
-      );
+      await localDataSource.cacheAppointments('all_appointments', result);
       return Right(result);
     } catch (error) {
+      final cachedAppointments = await localDataSource.getCachedAppointments(
+        'all_appointments',
+      );
+      if (cachedAppointments.isNotEmpty) {
+        return Right(cachedAppointments);
+      }
       return Left(Failure(error.toString()));
     }
   }
@@ -46,15 +56,36 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   ) async {
     try {
       if (!await networkInfo.isConnected) {
-        final cachedAppointment = await localDataSource.getCachedAppointments('appointments');
+        final cachedAppointment = await localDataSource.getCachedAppointments(
+          'all_appointments',
+        );
         if (cachedAppointment.isNotEmpty) {
-          return Right(cachedAppointment.firstWhere((element) => element.id == id));
+          try {
+            return Right(
+              cachedAppointment.firstWhere((element) => element.id == id),
+            );
+          } catch (_) {
+            return Left(
+              Failure('لايوجد تفاصيل للحجز في وضع عدم الإتصال بالانترنت'),
+            );
+          }
         }
+        return Left(Failure('لايوجد اتصال بالانترنت'));
       }
 
       final result = await remoteDataSource.getAppointmentDetails(id);
       return Right(result);
     } catch (error) {
+      final cachedAppointment = await localDataSource.getCachedAppointments(
+        'all_appointments',
+      );
+      if (cachedAppointment.isNotEmpty) {
+        try {
+          return Right(
+            cachedAppointment.firstWhere((element) => element.id == id),
+          );
+        } catch (_) {}
+      }
       return Left(Failure(error.toString()));
     }
   }
@@ -64,19 +95,25 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   getHistoryAppointments() async {
     try {
       if (!await networkInfo.isConnected) {
-        final cachedAppointments = await localDataSource.getCachedAppointments('appointments');
+        final cachedAppointments = await localDataSource.getCachedAppointments(
+          'history_appointments',
+        );
         if (cachedAppointments.isNotEmpty) {
           return Right(cachedAppointments);
         }
+        return Left(Failure('لايوجد اتصال بالانترنت'));
       }
 
       final result = await remoteDataSource.getHistoryAppointments();
-      await localDataSource.cacheAppointments(
-        'history_appointments',
-        result,
-      );
+      await localDataSource.cacheAppointments('history_appointments', result);
       return Right(result);
     } catch (error) {
+      final cachedAppointments = await localDataSource.getCachedAppointments(
+        'history_appointments',
+      );
+      if (cachedAppointments.isNotEmpty) {
+        return Right(cachedAppointments);
+      }
       return Left(Failure(error.toString()));
     }
   }
@@ -86,19 +123,25 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   getTodayAppointments() async {
     try {
       if (!await networkInfo.isConnected) {
-        final cachedAppointments = await localDataSource.getCachedAppointments('today_appointments');
+        final cachedAppointments = await localDataSource.getCachedAppointments(
+          'today_appointments',
+        );
         if (cachedAppointments.isNotEmpty) {
           return Right(cachedAppointments);
         }
+        return Left(Failure('لايوجد اتصال بالانترنت'));
       }
 
       final result = await remoteDataSource.getTodayAppointments();
-      await localDataSource.cacheAppointments(
-        'today_appointments',
-        result,
-      );
+      await localDataSource.cacheAppointments('today_appointments', result);
       return Right(result);
     } catch (error) {
+      final cachedAppointments = await localDataSource.getCachedAppointments(
+        'today_appointments',
+      );
+      if (cachedAppointments.isNotEmpty) {
+        return Right(cachedAppointments);
+      }
       return Left(Failure(error.toString()));
     }
   }
@@ -108,19 +151,25 @@ class DoctorAppointmentRepoImpl implements DoctorAppointmentRepo {
   getUpcomingAppointments() async {
     try {
       if (!await networkInfo.isConnected) {
-        final cachedAppointments = await localDataSource.getCachedAppointments('upcoming_appointments');
+        final cachedAppointments = await localDataSource.getCachedAppointments(
+          'upcoming_appointments',
+        );
         if (cachedAppointments.isNotEmpty) {
           return Right(cachedAppointments);
         }
+        return Left(Failure('لايوجد اتصال بالانترنت'));
       }
 
       final result = await remoteDataSource.getUpcomingAppointments();
-      await localDataSource.cacheAppointments(
-        'upcoming_appointments',
-        result,
-      );
+      await localDataSource.cacheAppointments('upcoming_appointments', result);
       return Right(result);
     } catch (error) {
+      final cachedAppointments = await localDataSource.getCachedAppointments(
+        'upcoming_appointments',
+      );
+      if (cachedAppointments.isNotEmpty) {
+        return Right(cachedAppointments);
+      }
       return Left(Failure(error.toString()));
     }
   }
