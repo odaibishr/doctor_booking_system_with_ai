@@ -7,6 +7,8 @@ const String kHospitalBox = 'hospitals_box';
 const String kProfileBox = 'profile_box';
 const String kBookingHistoryBox = 'booking_history_box';
 const String kReviewBox = 'review_box';
+const String kDashboardBox = 'dashboard_box';
+const String kEarningsBox = 'earnings_box';
 
 void drawNotchDetails(Canvas canvas, double width, double height) {
   final centerX = width / 2;
