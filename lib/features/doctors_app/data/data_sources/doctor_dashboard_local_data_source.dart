@@ -9,15 +9,17 @@ abstract class DoctorDashboardLocalDataSource {
 
 class DoctorDashboardLocalDataSourceImpl
     implements DoctorDashboardLocalDataSource {
+      final Box<DashboardStats> box;
+
+      DoctorDashboardLocalDataSourceImpl({required this.box});
+
   @override
   Future<DashboardStats?> getCachedDashboard() async {
-    final box = Hive.box<DashboardStats>(kDashboardBox);
     return box.get('current_dashboard_stats');
   }
 
   @override
   Future<void> saveDashboardData(DashboardStats dashboard) async {
-    final box = Hive.box<DashboardStats>(kDashboardBox);
     await box.put('current_dashboard_stats', dashboard);
   }
 }
