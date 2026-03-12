@@ -118,8 +118,11 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_my
 import 'package:doctor_booking_system_with_ai/features/doctors_app/data/data_sources/doctor_profile_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/data/repos/doctor_profile_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/repos/doctor_profile_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/data/data_sources/doctor_profile_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/profile/doctor_profile_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/profile/doctor_schedule_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor_schedule.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/doctor_day_off.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:doctor_booking_system_with_ai/core/services/fcm_service.dart';
 import 'package:doctor_booking_system_with_ai/features/notification/data/datasources/notification_remote_data_source.dart';
@@ -607,8 +610,26 @@ Future<void> init() async {
     () => DoctorProfileRemoteDataSourceImpl(serviceLocator()),
   );
 
+  final doctorProfileBox = Hive.box<Doctor>(kProfileBox);
+  final doctorSchedulesBox = Hive.box<List<DoctorSchedule>>(
+    kDoctorMySchedulesBox,
+  );
+  final doctorDaysOffBox = Hive.box<List<DoctorDayOff>>(kDoctorDaysOffBox);
+
+  serviceLocator.registerLazySingleton<DoctorProfileLocalDataSource>(
+    () => DoctorProfileLocalDataSourceImpl(
+      profileBox: doctorProfileBox,
+      schedulesBox: doctorSchedulesBox,
+      daysOffBox: doctorDaysOffBox,
+    ),
+  );
+
   serviceLocator.registerLazySingleton<DoctorProfileRepo>(
-    () => DoctorProfileRepoImpl(serviceLocator()),
+    () => DoctorProfileRepoImpl(
+      serviceLocator(),
+      serviceLocator(),
+      serviceLocator(),
+    ),
   );
 
   serviceLocator.registerFactory<DoctorProfileCubit>(

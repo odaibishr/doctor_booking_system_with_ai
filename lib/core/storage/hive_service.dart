@@ -11,14 +11,16 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entiti
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/appointment_transaction_info.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/dashboard_stats.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/doctor_appointment.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/doctor_day_off.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/earnings_data.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/patient_info.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
-import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/doctor_schedule.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/doctor_schedule.dart'
+    as history_schedule;
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking_transaction.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor_schedule.dart'
-    show DoctorScheduleAdapter;
+    show DoctorScheduleAdapter, DoctorSchedule;
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/day.dart'
     show DayAdapter;
 
@@ -55,7 +57,7 @@ class HiveService {
       Hive.registerAdapter(DoctorScheduleAdapter());
     }
     if (!Hive.isAdapterRegistered(12)) {
-      Hive.registerAdapter(BookingHistoryScheduleAdapter());
+      Hive.registerAdapter(history_schedule.BookingHistoryScheduleAdapter());
     }
     if (!Hive.isAdapterRegistered(13)) {
       Hive.registerAdapter(BookingTransactionAdapter());
@@ -81,6 +83,9 @@ class HiveService {
     if (!Hive.isAdapterRegistered(19)) {
       Hive.registerAdapter(DoctorAppointmentAdapter());
     }
+    if (!Hive.isAdapterRegistered(20)) {
+      Hive.registerAdapter(DoctorDayOffAdapter());
+    }
 
     _userBox = await Hive.openBox<User>(userBoxName);
     await Hive.openBox<Doctor>(kDoctorBox);
@@ -92,6 +97,9 @@ class HiveService {
       await Hive.openBox<DashboardStats>(kDashboardBox);
       await Hive.openBox<EarningsData>(kEarningsBox);
       await Hive.openBox<List<DoctorAppointment>>(kDoctorAppointmentBox);
+      await Hive.openBox<Doctor>(kProfileBox);
+      await Hive.openBox<List<DoctorSchedule>>(kDoctorMySchedulesBox);
+      await Hive.openBox<List<DoctorDayOff>>(kDoctorDaysOffBox);
     }
   }
 
