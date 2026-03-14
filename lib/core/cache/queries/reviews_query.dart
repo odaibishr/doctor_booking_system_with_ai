@@ -11,7 +11,17 @@ Query<Either<Failure, List<Review>>> doctorReviewsQuery(int doctorId) {
   return Query<Either<Failure, List<Review>>>(
     key: QueryKeys.doctorReviews(doctorId),
     queryFn: () => serviceLocator<ReviewRepo>().getDoctorReviews(doctorId),
-    config: AppQueryConfig.frequentUpdateConfig,
+    config: QueryConfig(
+      refetchDuration: AppQueryConfig.frequentUpdateConfig.refetchDuration,
+      cacheDuration: AppQueryConfig.frequentUpdateConfig.cacheDuration,
+      storageDeserializer: (dynamic data) {
+        if (data == null) return null;
+        if (data is List) {
+          return Right(data.cast<Review>());
+        }
+        return data;
+      },
+    ),
   );
 }
 
