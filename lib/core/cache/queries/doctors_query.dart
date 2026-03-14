@@ -11,7 +11,17 @@ Query<Either<Failure, List<Doctor>>> doctorsQuery() {
   return Query<Either<Failure, List<Doctor>>>(
     key: QueryKeys.doctors,
     queryFn: () => serviceLocator<DoctorRepo>().getDoctors(),
-    config: AppQueryConfig.defaultConfig,
+    config: QueryConfig(
+      refetchDuration: AppQueryConfig.defaultRefetchDuration,
+      cacheDuration: AppQueryConfig.defaultCacheDuration,
+      storageDeserializer: (dynamic data) {
+        if (data == null) return null;
+        if (data is List) {
+          return Right(data.cast<Doctor>());
+        }
+        return data;
+      },
+    ),
   );
 }
 
@@ -19,7 +29,15 @@ Query<Either<Failure, Doctor>> doctorDetailsQuery(int doctorId) {
   return Query<Either<Failure, Doctor>>(
     key: QueryKeys.doctorDetails(doctorId),
     queryFn: () => serviceLocator<DoctorRepo>().getDoctorDetails(doctorId),
-    config: AppQueryConfig.defaultConfig,
+    config: QueryConfig(
+      refetchDuration: AppQueryConfig.defaultConfig.refetchDuration,
+      cacheDuration: AppQueryConfig.defaultConfig.cacheDuration,
+      storageDeserializer: (dynamic data) {
+        if (data == null) return null;
+        if (data is Doctor) return Right(data);
+        return data;
+      },
+    ),
   );
 }
 
@@ -27,7 +45,15 @@ Query<Either<Failure, List<Doctor>>> favoriteDoctorsQuery() {
   return Query<Either<Failure, List<Doctor>>>(
     key: QueryKeys.favoriteDoctors,
     queryFn: () => serviceLocator<DoctorRepo>().getFavoriteDoctors(),
-    config: AppQueryConfig.frequentUpdateConfig,
+    config: QueryConfig(
+      refetchDuration: AppQueryConfig.frequentUpdateConfig.refetchDuration,
+      cacheDuration: AppQueryConfig.frequentUpdateConfig.cacheDuration,
+      storageDeserializer: (dynamic data) {
+        if (data == null) return null;
+        if (data is List) return Right(data.cast<Doctor>());
+        return data;
+      },
+    ),
   );
 }
 
