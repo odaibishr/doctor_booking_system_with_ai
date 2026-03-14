@@ -6,7 +6,7 @@ import 'package:doctor_booking_system_with_ai/core/errors/exceptions.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class AiChatRemoteDataSource {
-  Stream<String> sendMessage(String message);
+  Stream<String> sendMessage(List<Map<String, dynamic>> history);
 }
 
 class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
@@ -54,7 +54,7 @@ class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
 """;
 
   @override
-  Stream<String> sendMessage(String message) async* {
+  Stream<String> sendMessage(List<Map<String, dynamic>> history) async* {
     if (_apiKey.isEmpty) {
       throw ServerException(
         ErrorModel(
@@ -73,14 +73,26 @@ class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
       "AI Chat: API Key starts with: ${_apiKey.isNotEmpty ? _apiKey.substring(0, 5) : 'EMPTY'}...",
     );
 
+    final contents = history.map((msg) {
+      return {
+        "role": msg['role'] == 'user' ? 'user' : 'model',
+        "parts": [
+          {"text": msg['text'] ?? ''}
+        ]
+      };
+    }).toList();
+
+    // Add system-like instructions to the first message if needed, 
+    // or keep them in the prompt if Gemini 2.0 Flash handles it via contents.
+    // Here we prepend the system prompt to the first user message or as a separate system instruction if supported.
+    // For simplicity and compatibility, we'll prepend it to the first message's text.
+    if (contents.isNotEmpty && contents[0]['parts'] != null) {
+      final firstPart = (contents[0]['parts'] as List)[0];
+      firstPart['text'] = "$_systemPrompt\n\n${firstPart['text']}";
+    }
+
     final body = {
-      "contents": [
-        {
-          "parts": [
-            {"text": "$_systemPrompt\n\nسؤال المستخدم: $message"},
-          ],
-        },
-      ],
+      "contents": contents,
     };
 
     try {
