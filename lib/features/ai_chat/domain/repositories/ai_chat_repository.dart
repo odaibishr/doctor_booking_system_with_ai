@@ -1,3 +1,3 @@
 abstract class AiChatRepository {
-  Stream<String> sendMessage(String message);
+  Stream<String> sendMessage(List<Map<String, dynamic>> history);
 }
