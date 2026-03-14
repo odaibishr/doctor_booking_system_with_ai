@@ -9,8 +9,13 @@ class AiChatLoading extends AiChatState {}
 class AiChatSuccess extends AiChatState {
   final List<Map<String, dynamic>> messages;
   final Map<int, List<Doctor>> recommendedDoctors;
+  final bool isGenerating;
 
-  AiChatSuccess({required this.messages, this.recommendedDoctors = const {}});
+  AiChatSuccess({
+    required this.messages,
+    this.recommendedDoctors = const {},
+    this.isGenerating = false,
+  });
 }
 
 class AiChatFailure extends AiChatState {
