@@ -4,7 +4,10 @@ import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widg
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/defualt_text.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/image_bubble.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/recommended_doctors_widget.dart';
+import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/thinking_bubble.dart';
+import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/manager/ai_chat_cubit/ai_chat_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatMessageBuilder extends StatefulWidget {
   final ScrollController controller;
@@ -23,6 +26,8 @@ class ChatMessageBuilder extends StatefulWidget {
 }
 
 class _ChatMessageBuilderState extends State<ChatMessageBuilder> {
+  final Set<int> _finishedTypingIndices = {};
+
   @override
   Widget build(BuildContext context) {
     return (widget.messages.isNotEmpty)
@@ -41,13 +46,26 @@ class _ChatMessageBuilderState extends State<ChatMessageBuilder> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ChatBubble(
+                      (isDone == false && content.isEmpty && !isUser) 
+                      ? const ThinkingBubble()
+                      : ChatBubble(
                         isUser: isUser,
                         content: content,
-                        key: ValueKey(msg['content']),
+                        key: ValueKey(index), 
                         isDone: isDone,
+                        onFinished: () {
+                          if (mounted && !_finishedTypingIndices.contains(index)) {
+                            setState(() {
+                              _finishedTypingIndices.add(index);
+                            });
+                            if (index == widget.messages.length - 1) {
+                              context.read<AiChatCubit>().onTypingFinished();
+                            }
+                          }
+                        },
                       ),
                       if (!isUser &&
+                          _finishedTypingIndices.contains(index) &&
                           widget.recommendedDoctors.containsKey(index))
                         RecommendedDoctorsWidget(
                           doctors: widget.recommendedDoctors[index]!,

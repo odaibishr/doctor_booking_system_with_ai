@@ -6,7 +6,7 @@ import 'package:doctor_booking_system_with_ai/core/errors/exceptions.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class AiChatRemoteDataSource {
-  Stream<String> sendMessage(String message);
+  Stream<String> sendMessage(List<Map<String, dynamic>> history);
 }
 
 class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
@@ -27,11 +27,11 @@ class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
   AiChatRemoteDataSourceImpl({required this.dio});
 
   static const String _systemPrompt = """
-أنت اودي مساعد طبي ذكي  ومتفاعل.
+أنت اودي مساعد طبي ذكي ومتفاعل.
 مهمتك تقديم استشارة طبية أولية بطريقة واضحة ومباشرة وباللغة العربية الفصيحة.
 
 قواعد التنسيق المهمة:
-- ا تستخدم أي أيقونات أو رموز مثل: 🔹 🔸 ① ② 🚨 🤖 ✨ 💡 🌿 أو غيرها.
+- لا تستخدم أي أيقونات أو رموز.
 - لا تستخدم رموز * أو # في النص.
 - استخدم فقط الشرطة (-) للنقاط الفرعية.
 - اكتب النص بشكل بسيط وواضح بدون تنسيقات خاصة.
@@ -39,22 +39,23 @@ class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
 قواعد عملك عند ذكر الأعراض:
 1. اقرأ أعراض المستخدم بدقة.
 2. قدم تشخيصاً مبدئياً مختصراً.
-3. اذكر أهم النصائح العملية.
-4. اذكر أهم الحلول الطبيعية.
-5. حدد إذا كانت الحالة تحتاج مراجعة طبيب أم لا.
+3. اذكر أهم النصائح العملية والحلول الطبيعية.
+4. حدد إذا كانت الحالة تحتاج مراجعة طبيب أم لا.
 
-في نهاية كل رد، أضف سطرًا أخيرًا فقط بالشكل التالي:
-###SPECIALTY: <اسم_التخصص>
-
-- يجب أن يكون اسم التخصص كلمة واحدة فقط.
-- لا تضع أي نص بعد هذا السطر.
-- إذا لم يكن هناك تخصص واضح، استخدم: ###SPECIALTY: عام
-
-كن مختصراً وواضحاً.
+قواعد اقتراح الأطباء (مهم جداً):
+- لا تقترح تخصصات في كل رسالة.
+- أضف علامة التخصص فقط في الحالات التالية:
+    أ. عندما يطلب المستخدم صراحةً اقتراح أطباء (مثلاً: "اقترح لي دكتور"، "أريد حجز موعد").
+    ب. عندما تنصحه بمراجعة طبيب وتحدد تخصصاً معيناً يراه مناسباً لحالته.
+- التنسيق المطلوب للعلامة: ###SPECIALTY: اسم_التخصص
+- إذا كان هناك أكثر من تخصص مناسب، افصل بينهم بفاصلة: ###SPECIALTY: تخصص1, تخصص2
+- يجب أن يكون اسم التخصص متطابقاً مع التخصصات الطبية المعروفة (مثل: القلب، العيون، جلدية، أطفال، باطنية، مخ واعصاب، اسنان، عظام، نساء وتوليد).
+- لا تضع أي نص بعد علامة التخصص.
+- إذا كنت تدردش بشكل عام ولا توجود حاجة لاقتراح أطباء، لا تضف العلامة نهائياً.
 """;
 
   @override
-  Stream<String> sendMessage(String message) async* {
+  Stream<String> sendMessage(List<Map<String, dynamic>> history) async* {
     if (_apiKey.isEmpty) {
       throw ServerException(
         ErrorModel(
@@ -73,15 +74,25 @@ class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
       "AI Chat: API Key starts with: ${_apiKey.isNotEmpty ? _apiKey.substring(0, 5) : 'EMPTY'}...",
     );
 
-    final body = {
-      "contents": [
-        {
-          "parts": [
-            {"text": "$_systemPrompt\n\nسؤال المستخدم: $message"},
-          ],
-        },
-      ],
-    };
+    final contents = history.map((msg) {
+      return {
+        "role": msg['role'] == 'user' ? 'user' : 'model',
+        "parts": [
+          {"text": msg['text'] ?? ''},
+        ],
+      };
+    }).toList();
+
+    // Add system-like instructions to the first message if needed,
+    // or keep them in the prompt if Gemini 2.0 Flash handles it via contents.
+    // Here we prepend the system prompt to the first user message or as a separate system instruction if supported.
+    // For simplicity and compatibility, we'll prepend it to the first message's text.
+    if (contents.isNotEmpty && contents[0]['parts'] != null) {
+      final firstPart = (contents[0]['parts'] as List)[0];
+      firstPart['text'] = "$_systemPrompt\n\n${firstPart['text']}";
+    }
+
+    final body = {"contents": contents};
 
     try {
       final response = await dio.post(

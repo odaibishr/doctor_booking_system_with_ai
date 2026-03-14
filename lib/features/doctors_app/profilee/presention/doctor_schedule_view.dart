@@ -56,6 +56,7 @@ class _DoctorScheduleViewState extends State<DoctorScheduleView> {
                 FloatingActionButtonLocation.startFloat,
             floatingActionButton: state is DoctorScheduleLoaded
                 ? FloatingActionButton(
+                    heroTag: null,
                     onPressed: () => _openEditView(context, state),
                     backgroundColor: context.primaryColor,
                     shape: const CircleBorder(),

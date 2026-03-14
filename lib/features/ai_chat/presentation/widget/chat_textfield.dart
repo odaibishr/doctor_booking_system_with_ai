@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/manager/ai_chat_cubit/ai_chat_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/manager/ai_chat_cubit/ai_chat_state.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/chat_input_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 class ChatTextField extends StatefulWidget {
@@ -28,15 +31,38 @@ class _ChatTextFieldState extends State<ChatTextField> {
             onSend: widget.onSend,
           ),
         ),
-        IconButton(
-          color: context.primaryColor,
-          icon: SvgPicture.asset('assets/icons/send_icon.svg', width: 58),
-          onPressed: () {
-            if (_controller.text.trim().isNotEmpty) {
-              widget.onSend(text: _controller.text.trim());
-              _controller.clear();
-              _scrollController.jumpTo(0);
-            }
+        BlocBuilder<AiChatCubit, AiChatState>(
+          builder: (context, state) {
+            final isGenerating = (state is AiChatSuccess) && state.isGenerating;
+
+            return IconButton(
+              color: context.primaryColor,
+              icon: isGenerating
+                  ? Container(
+                      width: 58,
+                      height: 58,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: context.primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.stop_rounded,
+                        color: Colors.white,
+                        size: 34,
+                      ),
+                    )
+                  : SvgPicture.asset('assets/icons/send_icon.svg', width: 58),
+              onPressed: () {
+                if (isGenerating) {
+                  context.read<AiChatCubit>().stopGeneration();
+                } else if (_controller.text.trim().isNotEmpty) {
+                  widget.onSend(text: _controller.text.trim());
+                  _controller.clear();
+                  _scrollController.jumpTo(0);
+                }
+              },
+            );
           },
         ),
       ],

@@ -190,6 +190,7 @@ class _DoctorMapPageState extends State<DoctorMapPage> {
                     top: 20,
                     right: 20,
                     child: FloatingActionButton(
+                      heroTag: null,
                       mini: true,
                       backgroundColor: context.gray200Color,
                       child: Icon(

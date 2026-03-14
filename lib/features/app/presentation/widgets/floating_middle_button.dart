@@ -98,6 +98,7 @@ class _FloatingMiddleButtonState extends State<FloatingMiddleButton>
       height: 60,
       margin: const EdgeInsets.only(bottom: 5, right: 0),
       child: FloatingActionButton(
+        heroTag: null,
         shape: const CircleBorder(
           side: BorderSide(
             color: Colors.white,

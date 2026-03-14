@@ -7,7 +7,7 @@ class AiChatRepositoryImpl implements AiChatRepository {
   AiChatRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Stream<String> sendMessage(String message) {
-    return remoteDataSource.sendMessage(message);
+  Stream<String> sendMessage(List<Map<String, dynamic>> history) {
+    return remoteDataSource.sendMessage(history);
   }
 }
