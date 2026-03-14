@@ -78,12 +78,12 @@ class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
       return {
         "role": msg['role'] == 'user' ? 'user' : 'model',
         "parts": [
-          {"text": msg['text'] ?? ''}
-        ]
+          {"text": msg['text'] ?? ''},
+        ],
       };
     }).toList();
 
-    // Add system-like instructions to the first message if needed, 
+    // Add system-like instructions to the first message if needed,
     // or keep them in the prompt if Gemini 2.0 Flash handles it via contents.
     // Here we prepend the system prompt to the first user message or as a separate system instruction if supported.
     // For simplicity and compatibility, we'll prepend it to the first message's text.
@@ -92,9 +92,7 @@ class AiChatRemoteDataSourceImpl implements AiChatRemoteDataSource {
       firstPart['text'] = "$_systemPrompt\n\n${firstPart['text']}";
     }
 
-    final body = {
-      "contents": contents,
-    };
+    final body = {"contents": contents};
 
     try {
       final response = await dio.post(
