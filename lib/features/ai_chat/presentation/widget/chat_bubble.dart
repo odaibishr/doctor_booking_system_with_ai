@@ -71,6 +71,20 @@ class _ChatBubbleState extends State<ChatBubble> {
     }
   }
 
+  @override
+  void didUpdateWidget(covariant ChatBubble oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isDone && !oldWidget.isDone && !widget.isUser) {
+      _timer?.cancel();
+      _timer = null;
+      setState(() {
+        _visibleText = widget.content;
+        _currentIndex = widget.content.length;
+      });
+      _triggerFinished();
+    }
+  }
+
   void _triggerFinished() {
     if (widget.onFinished != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
