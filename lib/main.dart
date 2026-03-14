@@ -39,7 +39,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
   await init();
 
-  AppQueryConfig.init();
+  await AppQueryConfig.init();
 
   final authCubit = serviceLocator<AuthCubit>();
   await authCubit.checkAuthStatus();
