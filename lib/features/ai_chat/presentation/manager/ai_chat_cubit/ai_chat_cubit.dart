@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'package:doctor_booking_system_with_ai/core/errors/exceptions.dart';
@@ -21,6 +22,7 @@ class AiChatCubit extends Cubit<AiChatState> {
   final List<Map<String, dynamic>> _messages = [];
   final Map<int, List<Doctor>> _recommendedDoctors = {};
   List<Specialty> _specialties = [];
+  StreamSubscription? _chatSubscription;
 
   AiChatCubit({
     required this.aiChatRepository,
@@ -176,6 +178,7 @@ class AiChatCubit extends Cubit<AiChatState> {
       AiChatSuccess(
         messages: List.from(_messages),
         recommendedDoctors: Map.from(_recommendedDoctors),
+        isGenerating: true,
       ),
     );
 
@@ -197,7 +200,7 @@ class AiChatCubit extends Cubit<AiChatState> {
 
       final stream = aiChatRepository.sendMessage(history);
 
-      stream.listen(
+      _chatSubscription = stream.listen(
         (chunk) {
           final currentText = _messages[aiIndex]['text'] ?? '';
           _messages[aiIndex]['text'] = currentText + chunk;
@@ -205,10 +208,12 @@ class AiChatCubit extends Cubit<AiChatState> {
             AiChatSuccess(
               messages: List.from(_messages),
               recommendedDoctors: Map.from(_recommendedDoctors),
+              isGenerating: true,
             ),
           );
         },
         onError: (error) {
+          _chatSubscription = null;
           String errorMessage = error.toString();
           if (error is ServerException) {
             errorMessage = error.errorModel.errorMessage;
@@ -217,6 +222,7 @@ class AiChatCubit extends Cubit<AiChatState> {
           emit(AiChatFailure(errMessage: errorMessage));
         },
         onDone: () async {
+          _chatSubscription = null;
           log('========== STREAM DONE ==========');
           _messages[aiIndex]['isDone'] = true;
 
@@ -253,6 +259,7 @@ class AiChatCubit extends Cubit<AiChatState> {
             AiChatSuccess(
               messages: List.from(_messages),
               recommendedDoctors: Map.from(_recommendedDoctors),
+              isGenerating: true, // Keep it true until typing finishes
             ),
           );
         },
@@ -261,5 +268,44 @@ class AiChatCubit extends Cubit<AiChatState> {
       log('Error initiating stream: $e');
       emit(AiChatFailure(errMessage: e.toString()));
     }
+  }
+
+  void onTypingFinished() {
+    // Only stop generation state if the stream is already done
+    if (_chatSubscription == null) {
+      emit(
+        AiChatSuccess(
+          messages: List.from(_messages),
+          recommendedDoctors: Map.from(_recommendedDoctors),
+          isGenerating: false,
+        ),
+      );
+    }
+  }
+
+  void stopGeneration() {
+    if (_chatSubscription != null) {
+      _chatSubscription!.cancel();
+      _chatSubscription = null;
+      log('========== STREAM MANUALLY STOPPED ==========');
+      
+      if (_messages.isNotEmpty && _messages.last['role'] == 'ai') {
+        _messages.last['isDone'] = true;
+      }
+
+      emit(
+        AiChatSuccess(
+          messages: List.from(_messages),
+          recommendedDoctors: Map.from(_recommendedDoctors),
+          isGenerating: false,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _chatSubscription?.cancel();
+    return super.close();
   }
 }
