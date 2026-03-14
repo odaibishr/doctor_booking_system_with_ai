@@ -4,6 +4,7 @@ import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widg
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/defualt_text.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/image_bubble.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/recommended_doctors_widget.dart';
+import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/thinking_bubble.dart';
 import 'package:flutter/material.dart';
 
 class ChatMessageBuilder extends StatefulWidget {
@@ -41,13 +42,16 @@ class _ChatMessageBuilderState extends State<ChatMessageBuilder> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ChatBubble(
+                      (isDone == false && content.isEmpty && !isUser) 
+                      ? const ThinkingBubble()
+                      : ChatBubble(
                         isUser: isUser,
                         content: content,
-                        key: ValueKey(msg['content']),
+                        key: ValueKey(index), // Use index as key to allow text updates without full rebuild
                         isDone: isDone,
                       ),
                       if (!isUser &&
+                          isDone &&
                           widget.recommendedDoctors.containsKey(index))
                         RecommendedDoctorsWidget(
                           doctors: widget.recommendedDoctors[index]!,
