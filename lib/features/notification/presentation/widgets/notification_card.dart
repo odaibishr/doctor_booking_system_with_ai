@@ -93,30 +93,23 @@ class MedicalNotificationCard extends StatelessWidget {
 
   Widget _buildIcon(BuildContext context) {
     final IconData icon;
-    final Color color;
+    final Color color = context.primaryColor;
 
     switch (notification.type) {
       case 'appointment_created':
         icon = Icons.calendar_today;
-        color = Colors.blue;
       case 'appointment_confirmed':
         icon = Icons.check_circle;
-        color = Colors.green;
       case 'appointment_cancelled':
         icon = Icons.cancel;
-        color = Colors.red;
       case 'appointment_completed':
         icon = Icons.done_all;
-        color = Colors.teal;
       case 'appointment_reminder':
         icon = Icons.alarm;
-        color = Colors.orange;
       case 'waitlist_slot_available':
         icon = Icons.celebration;
-        color = Colors.purple;
       default:
         icon = Icons.notifications_active;
-        color = AppColors.getPrimary(context);
     }
 
     return Icon(icon, color: color, size: 22);
