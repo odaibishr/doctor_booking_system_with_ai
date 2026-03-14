@@ -11,7 +11,17 @@ Query<Either<Failure, List<Hospital>>> hospitalsQuery() {
   return Query<Either<Failure, List<Hospital>>>(
     key: QueryKeys.hospitals,
     queryFn: () => serviceLocator<HospitalRepo>().getHospitals(),
-    config: AppQueryConfig.rareUpdateConfig,
+    config: QueryConfig(
+      refetchDuration: AppQueryConfig.rareUpdateConfig.refetchDuration,
+      cacheDuration: AppQueryConfig.rareUpdateConfig.cacheDuration,
+      storageDeserializer: (dynamic data) {
+        if (data == null) return null;
+        if (data is List) {
+          return Right(data.cast<Hospital>());
+        }
+        return data;
+      },
+    ),
   );
 }
 
@@ -20,7 +30,17 @@ Query<Either<Failure, Hospital>> hospitalDetailsQuery(int hospitalId) {
     key: QueryKeys.hospitalDetails(hospitalId),
     queryFn: () =>
         serviceLocator<HospitalRepo>().getHospitalDetailes(hospitalId),
-    config: AppQueryConfig.defaultConfig,
+    config: QueryConfig(
+      refetchDuration: AppQueryConfig.defaultConfig.refetchDuration,
+      cacheDuration: AppQueryConfig.defaultConfig.cacheDuration,
+      storageDeserializer: (dynamic data) {
+        if (data == null) return null;
+        if (data is Hospital) {
+          return Right(data);
+        }
+        return data;
+      },
+    ),
   );
 }
 
