@@ -276,7 +276,12 @@ class AiChatCubit extends Cubit<AiChatState> {
     );
 
     try {
-      final stream = aiChatRepository.sendMessage(message!);
+      final history = _messages
+          .where((m) => m['text'] != null && (m['text'] as String).isNotEmpty)
+          .map((m) => {'role': m['role'], 'text': m['text']})
+          .toList();
+
+      final stream = aiChatRepository.sendMessage(history);
 
       stream.listen(
         (chunk) {
