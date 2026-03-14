@@ -22,30 +22,6 @@ class AiChatCubit extends Cubit<AiChatState> {
   final Map<int, List<Doctor>> _recommendedDoctors = {};
   List<Specialty> _specialties = [];
 
-  // قائمة الكلمات المفتاحية لكل تخصص
-  static const Map<String, List<String>> _specialtyKeywords = {
-    'مخ واعصاب': [
-      'أعصاب',
-      'اعصاب',
-      'عصب',
-      'مخ',
-      'دماغ',
-      'صداع',
-      'عصبي',
-      'طب_الأعصاب',
-      'طب الأعصاب',
-    ],
-    'القلب': ['قلب', 'قلبي', 'شرايين', 'ضغط الدم', 'نبض'],
-    'باطنية': ['باطنة', 'باطني', 'معدة', 'هضمي', 'كبد', 'أمعاء'],
-    'جراحة التجميل': ['تجميل', 'جراحة تجميلية', 'بشرة'],
-    'جراحة عظام': ['عظام', 'عظم', 'مفاصل', 'كسر', 'عمود فقري'],
-    'أسنان': ['أسنان', 'سن', 'ضرس', 'لثة', 'فم'],
-    'عيون': ['عيون', 'عين', 'نظر', 'رؤية', 'بصر'],
-    'جلدية': ['جلد', 'جلدي', 'بشرة', 'حساسية جلدية'],
-    'أطفال': ['أطفال', 'طفل', 'رضيع'],
-    'نساء وتوليد': ['نساء', 'توليد', 'حمل', 'رحم'],
-  };
-
   AiChatCubit({
     required this.aiChatRepository,
     required this.doctorRepo,
@@ -93,105 +69,43 @@ class AiChatCubit extends Cubit<AiChatState> {
         .trim();
   }
 
-  int? _extractSpecialtyId(String text) {
-    final normalizedText = _normalizeArabic(text);
-    log('Searching for specialty in text...');
-
-    // 1. البحث المباشر عن اسم التخصص في النص
-    for (final specialty in _specialties) {
-      final specialtyName = specialty.name;
-      final normalizedSpecialty = _normalizeArabic(specialtyName);
-      if (normalizedText.contains(normalizedSpecialty) ||
-          text.contains(specialtyName)) {
-        log(
-          '✅ Found exact specialty match: ${specialty.name} (ID: ${specialty.id})',
-        );
-        return specialty.id;
-      }
-    }
-
-    // 2. البحث عن الكلمات المفتاحية
-    for (final specialty in _specialties) {
-      final specialtyName = specialty.name;
-
-      // البحث في قائمة الكلمات المفتاحية المحددة مسبقاً
-      if (_specialtyKeywords.containsKey(specialtyName)) {
-        final keywords = _specialtyKeywords[specialtyName]!;
-        for (final keyword in keywords) {
-          final normalizedKeyword = _normalizeArabic(keyword);
-          if (normalizedText.contains(normalizedKeyword) ||
-              text.contains(keyword)) {
-            log(
-              '✅ Found keyword "$keyword" for specialty: $specialtyName (ID: ${specialty.id})',
-            );
-            return specialty.id;
-          }
-        }
-      }
-
-      // البحث عن كلمات من اسم التخصص نفسه
-      final specialtyWords = specialtyName.split(RegExp(r'\s+'));
-      for (final word in specialtyWords) {
-        if (word.length > 2) {
-          // إزالة واو العطف
-          String cleanWord = word;
-          if (word.startsWith('و') && word.length > 1) {
-            cleanWord = word.substring(1);
-          }
-
-          if (text.contains(word) || text.contains(cleanWord)) {
-            log(
-              '✅ Found word "$word" for specialty: $specialtyName (ID: ${specialty.id})',
-            );
-            return specialty.id;
-          }
-        }
-      }
-    }
-
-    // 3. البحث عن ###SPECIALTY marker
+  List<int> _extractSpecialtyIds(String text) {
+    final List<int> foundIds = [];
+    
+    // 1. البحث عن ###SPECIALTY marker (الأولوية القصوى)
     final markerRegex = RegExp(
       r'###SPECIALTY:\s*([^\n]+)',
       caseSensitive: false,
     );
     final match = markerRegex.firstMatch(text);
     if (match != null) {
-      final extractedName = match.group(1)?.trim().replaceAll('_', ' ') ?? '';
-      log('Found marker: "$extractedName"');
-
-      // البحث عن تطابق جزئي
-      for (final specialty in _specialties) {
-        final specialtyName = specialty.name;
-        final extractedWords = extractedName.split(RegExp(r'[\s_]+'));
-
-        for (final word in extractedWords) {
-          if (word.length > 2) {
-            if (specialtyName.contains(word) ||
-                _keywordMatchesSpecialty(word, specialtyName)) {
-              log(
-                '✅ Marker word "$word" matched specialty: $specialtyName (ID: ${specialty.id})',
-              );
-              return specialty.id;
+      final extractedContent = match.group(1)?.trim() ?? '';
+      log('Found specialty marker content: "$extractedContent"');
+      
+      // تقسيم التخصصات إذا كانت متعددة
+      final potentialSpecialties = extractedContent.split(RegExp(r'[,،]'));
+      
+      for (var specName in potentialSpecialties) {
+        final cleanSpecName = specName.trim().replaceAll('_', ' ');
+        final normalizedSpec = _normalizeArabic(cleanSpecName);
+        
+        for (final specialty in _specialties) {
+          final normalizedSpecialtyName = _normalizeArabic(specialty.name);
+          if (normalizedSpec.contains(normalizedSpecialtyName) || 
+              normalizedSpecialtyName.contains(normalizedSpec)) {
+            if (!foundIds.contains(specialty.id)) {
+              log('✅ Marker Match: ${specialty.name} (ID: ${specialty.id})');
+              foundIds.add(specialty.id);
             }
           }
         }
       }
     }
 
-    log('⚠️ No specialty found in text');
-    return null;
-  }
-
-  bool _keywordMatchesSpecialty(String keyword, String specialtyName) {
-    if (_specialtyKeywords.containsKey(specialtyName)) {
-      final keywords = _specialtyKeywords[specialtyName]!;
-      for (final k in keywords) {
-        if (k.contains(keyword) || keyword.contains(k)) {
-          return true;
-        }
-      }
-    }
-    return false;
+    // إذا لم نجد شيئاً في الـ marker، لا نقوم بالتخمين التلقائي إلا إذا كان النص قصيراً جداً أو يحتوي على كلمات مفتاحية قوية جداً
+    // ولكن بناءً على طلب المستخدم، سنعتمد أساساً على الـ marker أو طلبات صريحة.
+    
+    return foundIds;
   }
 
   List<Doctor> _fetchDoctorsBySpecialtyFromCache(int specialtyId) {
@@ -311,19 +225,25 @@ class AiChatCubit extends Cubit<AiChatState> {
             'Specialties available: ${_specialties.map((s) => s.name).toList()}',
           );
 
-          final specialtyId = _extractSpecialtyId(responseText);
-          log('Final extracted specialty ID: $specialtyId');
+          final specialtyIds = _extractSpecialtyIds(responseText);
+          log('Final extracted specialty IDs: $specialtyIds');
 
-          if (specialtyId != null) {
-            final doctors = _fetchDoctorsBySpecialtyFromCache(specialtyId);
-            log('Fetched ${doctors.length} doctors');
-            if (doctors.isNotEmpty) {
-              _recommendedDoctors[aiIndex] = doctors;
+          if (specialtyIds.isNotEmpty) {
+            List<Doctor> allRecommendedDoctors = [];
+            for (var id in specialtyIds) {
+              final doctors = _fetchDoctorsBySpecialtyFromCache(id);
+              allRecommendedDoctors.addAll(doctors);
+            }
+            
+            // إزالة التكرار إن وجد
+            final uniqueDoctors = { for (var d in allRecommendedDoctors) d.id : d }.values.toList();
+
+            log('Fetched ${uniqueDoctors.length} unique doctors from all specialties');
+            if (uniqueDoctors.isNotEmpty) {
+              _recommendedDoctors[aiIndex] = uniqueDoctors;
               log(
-                '✅ SUCCESS! Added ${doctors.length} doctors to index $aiIndex',
+                '✅ SUCCESS! Added ${uniqueDoctors.length} doctors to index $aiIndex',
               );
-            } else {
-              log('⚠️ No doctors found for this specialty');
             }
           }
 
