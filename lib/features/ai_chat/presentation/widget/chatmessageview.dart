@@ -24,6 +24,8 @@ class ChatMessageBuilder extends StatefulWidget {
 }
 
 class _ChatMessageBuilderState extends State<ChatMessageBuilder> {
+  final Set<int> _finishedTypingIndices = {};
+
   @override
   Widget build(BuildContext context) {
     return (widget.messages.isNotEmpty)
@@ -47,11 +49,18 @@ class _ChatMessageBuilderState extends State<ChatMessageBuilder> {
                       : ChatBubble(
                         isUser: isUser,
                         content: content,
-                        key: ValueKey(index), // Use index as key to allow text updates without full rebuild
+                        key: ValueKey(index), 
                         isDone: isDone,
+                        onFinished: () {
+                          if (mounted && !_finishedTypingIndices.contains(index)) {
+                            setState(() {
+                              _finishedTypingIndices.add(index);
+                            });
+                          }
+                        },
                       ),
                       if (!isUser &&
-                          isDone &&
+                          _finishedTypingIndices.contains(index) &&
                           widget.recommendedDoctors.containsKey(index))
                         RecommendedDoctorsWidget(
                           doctors: widget.recommendedDoctors[index]!,
