@@ -11,7 +11,17 @@ Query<Either<Failure, List<Specialty>>> specialtiesQuery() {
   return Query<Either<Failure, List<Specialty>>>(
     key: QueryKeys.specialties,
     queryFn: () => serviceLocator<SpecialtyRepo>().getSpecialties(),
-    config: AppQueryConfig.rareUpdateConfig,
+    config: QueryConfig(
+      refetchDuration: AppQueryConfig.rareUpdateConfig.refetchDuration,
+      cacheDuration: AppQueryConfig.rareUpdateConfig.cacheDuration,
+      storageDeserializer: (dynamic data) {
+        if (data == null) return null;
+        if (data is List) {
+          return Right(data.cast<Specialty>());
+        }
+        return data;
+      },
+    ),
   );
 }
 
@@ -19,7 +29,17 @@ Query<Either<Failure, List<Specialty>>> allSpecialtiesQuery() {
   return Query<Either<Failure, List<Specialty>>>(
     key: QueryKeys.allSpecialties,
     queryFn: () => serviceLocator<SpecialtyRepo>().getAllSpecialties(),
-    config: AppQueryConfig.rareUpdateConfig,
+    config: QueryConfig(
+      refetchDuration: AppQueryConfig.rareUpdateConfig.refetchDuration,
+      cacheDuration: AppQueryConfig.rareUpdateConfig.cacheDuration,
+      storageDeserializer: (dynamic data) {
+        if (data == null) return null;
+        if (data is List) {
+          return Right(data.cast<Specialty>());
+        }
+        return data;
+      },
+    ),
   );
 }
 
