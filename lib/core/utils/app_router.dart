@@ -45,6 +45,10 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/profil
 class AppRouter {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
+      
+  // Track the current route name globally with notification support
+  static final ValueNotifier<String> currentRouteName = ValueNotifier<String>('/');
+
   // ... existing routes
   static const String editProfileViewRoute = '/editProfileView';
   static const String splashRoute = '/';
@@ -82,6 +86,9 @@ class AppRouter {
 
   static GoRouter router = GoRouter(
     navigatorKey: navigatorKey,
+    observers: [
+      MyRouteObserver(),
+    ],
     routes: [
       // Splash - no transition needed
       GoRoute(
@@ -350,4 +357,27 @@ class AppRouter {
     ],
     initialLocation: splashRoute,
   );
+}
+
+class MyRouteObserver extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    if (route.settings.name != null) {
+      AppRouter.currentRouteName.value = route.settings.name!;
+    }
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    if (previousRoute?.settings.name != null) {
+      AppRouter.currentRouteName.value = previousRoute!.settings.name!;
+    }
+  }
+  
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    if (newRoute?.settings.name != null) {
+      AppRouter.currentRouteName.value = newRoute!.settings.name!;
+    }
+  }
 }

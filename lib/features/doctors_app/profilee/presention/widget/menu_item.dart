@@ -19,7 +19,7 @@ class MenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isDestructive ? AppColors.error : context.blackColor;
+    final color = isDestructive ? context.errorColor : context.gray500Color;
 
     return GestureDetector(
       onTap: onTap,
@@ -28,7 +28,7 @@ class MenuItem extends StatelessWidget {
         height: 50,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: AppColors.getGray200(context),
+          color: context.gray200Color,
           borderRadius: BorderRadius.circular(14),
         ),
         child: Row(

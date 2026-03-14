@@ -22,6 +22,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:toastification/toastification.dart';
+import 'package:doctor_booking_system_with_ai/core/manager/network/network_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/network_status_wrapper.dart';
 import 'package:doctor_booking_system_with_ai/core/cache/query_config.dart';
 
 @pragma('vm:entry-point')
@@ -45,15 +47,22 @@ void main() async {
   final themeCubit = serviceLocator<ThemeCubit>();
   await themeCubit.initialize();
 
-  final fcmService = serviceLocator<FcmService>();
-  await fcmService.initialize();
+  try {
+    final fcmService = serviceLocator<FcmService>();
+    await fcmService.initialize().timeout(const Duration(seconds: 3));
 
-  final token = await fcmService.getToken();
-  debugPrint("Firebase Messaging Token: $token");
-  authCubit.setFcmToken(token);
+    final token = await fcmService.getToken();
+    debugPrint("Firebase Messaging Token: $token");
+    authCubit.setFcmToken(token);
 
-  if (token != null && authCubit.state is AuthSuccess) {
-    fcmService.updateTokenOnServer(token);
+    if (token != null && authCubit.state is AuthSuccess) {
+      // Execute in background, don't await to avoid blocking
+      fcmService.updateTokenOnServer(token).catchError((e) {
+        debugPrint("Failed to update FCM token on server: $e");
+      });
+    }
+  } catch (e) {
+    debugPrint("FCM Initialization or token fetch failed/timed out: $e");
   }
 
   runApp(MyApp());
@@ -66,6 +75,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (_) => serviceLocator<NetworkCubit>()..checkConnection(),
+        ),
         BlocProvider(create: (_) => serviceLocator<AuthCubit>()),
         BlocProvider(
           create: (_) => serviceLocator<ProfileCubit>()..getProfile(),
@@ -92,6 +104,11 @@ class MyApp extends StatelessWidget {
             child: MaterialApp.router(
               title: 'Doctor Booking System',
               routerConfig: AppRouter.router,
+              builder: (context, child) {
+                return NetworkStatusWrapper(
+                  child: child ?? const SizedBox.shrink(),
+                );
+              },
               // Theme configuration with Dark Mode support
               theme: AppTheme.lightTheme,
               darkTheme: AppTheme.darkTheme,
