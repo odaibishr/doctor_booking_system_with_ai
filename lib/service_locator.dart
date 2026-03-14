@@ -1,5 +1,5 @@
 // core/service_locator.dart
-import 'package:data_connection_checker_tv/data_connection_checker.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/hospital_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/hospital_remote_data_source.dart';
@@ -17,6 +17,7 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_ho
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/toggle_favorite_doctor_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_service.dart';
+import 'package:doctor_booking_system_with_ai/core/manager/network/network_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/network/network_info.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/review/review_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/services/google_sign_in_service.dart';
@@ -145,12 +146,12 @@ Future<void> init() async {
   );
 
   // Network
-  serviceLocator.registerLazySingleton<DataConnectionChecker>(
-    () => DataConnectionChecker(),
+  serviceLocator.registerLazySingleton<Connectivity>(
+    () => Connectivity(),
   );
 
   serviceLocator.registerLazySingleton<NetworkInfo>(
-    () => NetworkInfoImpl(serviceLocator<DataConnectionChecker>()),
+    () => NetworkInfoImpl(serviceLocator<Connectivity>()),
   );
 
   // Data Sources
@@ -384,6 +385,10 @@ Future<void> init() async {
   );
 
   // Cubit
+  serviceLocator.registerLazySingleton<NetworkCubit>(
+    () => NetworkCubit(serviceLocator()),
+  );
+
   serviceLocator.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
       signInUseCase: serviceLocator(),
