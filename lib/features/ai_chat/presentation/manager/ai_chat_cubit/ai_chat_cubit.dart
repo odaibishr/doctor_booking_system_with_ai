@@ -179,7 +179,7 @@ class AiChatCubit extends Cubit<AiChatState> {
       ),
     );
 
-    _messages.add({'role': 'ai', 'text': ''});
+    _messages.add({'role': 'ai', 'text': '', 'isDone': false});
     int aiIndex = _messages.length - 1;
 
     emit(
