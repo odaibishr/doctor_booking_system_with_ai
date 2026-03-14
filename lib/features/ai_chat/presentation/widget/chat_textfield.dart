@@ -39,12 +39,18 @@ class _ChatTextFieldState extends State<ChatTextField> {
               color: context.primaryColor,
               icon: isGenerating
                   ? Container(
+                      width: 58,
+                      height: 58,
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.red.withValues(alpha: 0.1),
+                        color: context.primaryColor,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.stop_rounded, color: Colors.red, size: 30),
+                      child: Icon(
+                        Icons.stop_rounded,
+                        color: Colors.white,
+                        size: 34,
+                      ),
                     )
                   : SvgPicture.asset('assets/icons/send_icon.svg', width: 58),
               onPressed: () {
