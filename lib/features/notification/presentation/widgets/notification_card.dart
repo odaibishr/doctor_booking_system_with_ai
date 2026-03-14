@@ -1,6 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/features/notification/domain/entities/notification_entity.dart';
+import 'package:doctor_booking_system_with_ai/features/notification/presentation/widgets/notification_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -36,7 +37,7 @@ class MedicalNotificationCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                _buildIcon(context),
+                NotificationIcon(notification: notification),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
@@ -91,27 +92,5 @@ class MedicalNotificationCard extends StatelessWidget {
     );
   }
 
-  Widget _buildIcon(BuildContext context) {
-    final IconData icon;
-    final Color color = context.primaryColor;
-
-    switch (notification.type) {
-      case 'appointment_created':
-        icon = Icons.calendar_today;
-      case 'appointment_confirmed':
-        icon = Icons.check_circle;
-      case 'appointment_cancelled':
-        icon = Icons.cancel;
-      case 'appointment_completed':
-        icon = Icons.done_all;
-      case 'appointment_reminder':
-        icon = Icons.alarm;
-      case 'waitlist_slot_available':
-        icon = Icons.celebration;
-      default:
-        icon = Icons.notifications_active;
-    }
-
-    return Icon(icon, color: color, size: 22);
-  }
+ 
 }
