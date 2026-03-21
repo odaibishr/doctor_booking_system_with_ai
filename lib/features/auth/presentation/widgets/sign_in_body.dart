@@ -101,7 +101,7 @@ class _SignInBodyState extends State<SignInBody> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          user_doctor_chooice(
+                          UserDoctorChooice(
                             index: 0,
                             selectedIndex: selectedIndex,
                             title: 'مريض',
@@ -115,7 +115,7 @@ class _SignInBodyState extends State<SignInBody> {
                             },
                           ),
                           SizedBox(width: 30),
-                          user_doctor_chooice(
+                          UserDoctorChooice(
                             index: 1,
                             selectedIndex: selectedIndex,
                             title: 'طبيب',
