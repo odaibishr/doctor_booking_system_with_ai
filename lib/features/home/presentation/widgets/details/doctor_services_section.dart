@@ -37,7 +37,7 @@ class DoctorServicesSection extends StatelessWidget {
                             Text(
                               service,
                               style: FontStyles.body2.copyWith(
-                                color: AppColors.gray500,
+                                color: context.gray500Color,
                               ),
                             ),
                           ],
