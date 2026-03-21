@@ -26,35 +26,10 @@ class _NotificationViewBodyState extends State<NotificationViewBody> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: CustomAppBar(
-                  title: 'الإشعارات',
-                  isBackButtonVisible: true,
-                  isUserImageVisible: false,
-                ),
-              ),
-              BlocBuilder<NotificationCubit, NotificationState>(
-                builder: (context, state) {
-                  if (state is NotificationLoaded && state.unreadCount > 0) {
-                    return TextButton(
-                      onPressed: () {
-                        context.read<NotificationCubit>().markAllAsRead();
-                      },
-                      child: Text(
-                        'قراءة الكل',
-                        style: TextStyle(
-                          color: AppColors.getPrimary(context),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    );
-                  }
-                  return const SizedBox.shrink();
-                },
-              ),
-            ],
+          CustomAppBar(
+            title: 'الإشعارات',
+            isBackButtonVisible: true,
+            isUserImageVisible: false,
           ),
           const SizedBox(height: 20),
           Expanded(
@@ -134,13 +109,6 @@ class _NotificationViewBodyState extends State<NotificationViewBody> {
                           padding: const EdgeInsets.only(bottom: 12),
                           child: MedicalNotificationCard(
                             notification: notification,
-                            onTap: () {
-                              if (!notification.isRead) {
-                                context.read<NotificationCubit>().markAsRead(
-                                  notification.id,
-                                );
-                              }
-                            },
                           ),
                         );
                       },
