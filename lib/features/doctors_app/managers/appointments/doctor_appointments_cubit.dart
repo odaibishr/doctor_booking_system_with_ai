@@ -4,6 +4,7 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecas
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_today_appointments_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_upcoming_appointments_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/update_appointment_status_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_appointments_use_case.dart';
 import 'package:equatable/equatable.dart';
 
 part 'doctor_appointments_state.dart';
@@ -12,12 +13,14 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
   final GetTodayAppointmentsUseCase _getTodayAppointmentsUseCase;
   final GetUpcomingAppointmentsUseCase _getUpcomingAppointmentsUseCase;
   final GetHistoryAppointmentsUseCase _getHistoryAppointmentsUseCase;
+  final GetAppointmentsUseCase _getAppointmentsUseCase;
   final UpdateAppointmentStatusUseCase _updateAppointmentStatusUseCase;
   DoctorAppointmentsCubit(
     this._getTodayAppointmentsUseCase,
     this._getUpcomingAppointmentsUseCase,
     this._getHistoryAppointmentsUseCase,
     this._updateAppointmentStatusUseCase,
+    this._getAppointmentsUseCase,
   ) : super(DoctorAppointmentsInitial());
 
   void _safeEmit(DoctorAppointmentsState state) {
@@ -60,6 +63,23 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
     _safeEmit(DoctorAppointmentsLoading());
     try {
       final result = await _getTodayAppointmentsUseCase.call();
+      result.fold(
+        (failure) => _safeEmit(DoctorAppointmentsError(failure.errorMessage)),
+        (appointments) => _safeEmit(DoctorAppointmentsLoaded(appointments)),
+      );
+    } catch (e) {
+      _safeEmit(DoctorAppointmentsError(e.toString()));
+    }
+  }
+
+  Future<void> fetchAppointmentsByStatus(String status) async {
+    if (isClosed) return;
+
+    _safeEmit(DoctorAppointmentsLoading());
+    try {
+      final result = await _getAppointmentsUseCase.call(
+        GetAppointmentsUseCaseParams(status: status),
+      );
       result.fold(
         (failure) => _safeEmit(DoctorAppointmentsError(failure.errorMessage)),
         (appointments) => _safeEmit(DoctorAppointmentsLoaded(appointments)),
