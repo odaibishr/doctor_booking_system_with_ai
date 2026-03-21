@@ -12,7 +12,7 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/prof
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/profile/doctor_profile_state.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/edit_doctor_info_view.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/doctor_schedule_view.dart';
-import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/widget/menu_item.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/profile_menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -77,7 +77,7 @@ class ProfileeViewBody extends StatelessWidget {
                         const SizedBox(height: 20),
                         _buildProfileHeader(context, doctor),
                         const SizedBox(height: 30),
-                        MenuItem(
+                        ProfileMenuItem(
                           title: 'المعلومات الشخصية',
                           icon: 'assets/icons/user.svg',
                           onTap: () {
@@ -93,7 +93,7 @@ class ProfileeViewBody extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 12),
-                        MenuItem(
+                        ProfileMenuItem(
                           title: 'جدول المواعيد والإجازات',
                           icon: 'assets/icons/calendar.svg',
                           onTap: () {
@@ -106,13 +106,13 @@ class ProfileeViewBody extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 12),
-                        MenuItem(
+                        ProfileMenuItem(
                           title: 'المظهر',
                           icon: 'assets/icons/setting-2.svg',
                           onTap: () => ThemeModeSelector.show(context),
                         ),
                         const SizedBox(height: 12),
-                        MenuItem(
+                        ProfileMenuItem(
                           title: 'تسجيل الخروج',
                           icon: 'assets/icons/login.svg',
                           isDestructive: true,
