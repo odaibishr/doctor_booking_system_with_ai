@@ -53,7 +53,7 @@ class StatesItem extends StatelessWidget {
             text,
             style: FontStyles.body3.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.gray500,
+              color: context.gray500Color,
             ),
           ),
         ],
