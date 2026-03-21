@@ -39,17 +39,8 @@ class NextAppintmentPage extends StatelessWidget {
                     '${appointment.scheduleInfo?.startTime ?? ''} - ${appointment.scheduleInfo?.endTime ?? ''}',
                 date: formattedDate,
                 bookingNumber: '${appointment.id}',
-                isNew: index == 0,
-                cardType: AppointmentCardType.upcoming,
-                onConfirm: () {
-                  context
-                      .read<DoctorAppointmentsCubit>()
-                      .updateAppointmentStatus(
-                        id: appointment.id,
-                        status: 'confirmed',
-                      );
-                },
-                onReject: () => _showCancelDialog(context, appointment.id),
+                isNew: false,
+                cardType: AppointmentCardType.previous,
               );
             },
           );
@@ -69,35 +60,4 @@ class NextAppintmentPage extends StatelessWidget {
     }
   }
 
-  void _showCancelDialog(BuildContext context, int appointmentId) {
-    final controller = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('سبب الإلغاء'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(hintText: 'أدخل سبب الإلغاء'),
-          maxLines: 3,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('إلغاء'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(dialogContext);
-              context.read<DoctorAppointmentsCubit>().updateAppointmentStatus(
-                id: appointmentId,
-                status: 'cancelled',
-                cancellationReason: controller.text,
-              );
-            },
-            child: const Text('تأكيد الإلغاء'),
-          ),
-        ],
-      ),
-    );
-  }
 }
