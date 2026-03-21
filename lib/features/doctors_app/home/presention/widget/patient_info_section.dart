@@ -13,6 +13,7 @@ class PatientInfoSection extends StatelessWidget {
     this.isNew = false,
     this.isCancelled = false,
     this.isCompleted = false,
+    this.isConfirmed = false,
   });
 
   final String patientName;
@@ -21,6 +22,7 @@ class PatientInfoSection extends StatelessWidget {
   final bool isNew;
   final bool isCancelled;
   final bool isCompleted;
+  final bool isConfirmed;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class PatientInfoSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
                     child: Text(
@@ -89,6 +92,10 @@ class PatientInfoSection extends StatelessWidget {
         if (isCompleted) ...[
           const SizedBox(width: 8),
           _buildCompletedBadge(context),
+        ],
+        if (isConfirmed) ...[
+          const SizedBox(width: 8),
+          _buildConfirmedBadge(context),
         ],
       ],
     );
@@ -139,6 +146,31 @@ class PatientInfoSection extends StatelessWidget {
             'مكتمل',
             style: TextStyle(
               color: AppColors.getSuccess(context),
+              fontWeight: FontWeight.bold,
+              fontSize: 11,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConfirmedBadge(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: context.gray200Color,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.verified, color: context.gray500Color, size: 13),
+          const SizedBox(width: 3),
+          Text(
+            'مؤكد',
+            style: TextStyle(
+              color: context.gray500Color,
               fontWeight: FontWeight.bold,
               fontSize: 11,
             ),

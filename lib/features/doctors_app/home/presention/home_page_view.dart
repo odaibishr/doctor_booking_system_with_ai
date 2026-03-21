@@ -10,7 +10,7 @@ class HomePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => serviceLocator<DoctorAppointmentsCubit>()..fetchUpcoming(),
+      create: (_) => serviceLocator<DoctorAppointmentsCubit>(),
       child: const SafeArea(child: HomePageViewBody()),
     );
   }
