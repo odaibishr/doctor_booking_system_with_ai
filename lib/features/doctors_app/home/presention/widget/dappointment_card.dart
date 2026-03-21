@@ -65,7 +65,8 @@ class DAppointmentCard extends StatelessWidget {
               onConfirm: onConfirm ?? () {},
               onReject: onReject ?? () {},
             ),
-          ] else if (cardType == AppointmentCardType.previous || cardType == AppointmentCardType.confirmed) ...[
+          ] else if (cardType == AppointmentCardType.previous ||
+              cardType == AppointmentCardType.confirmed) ...[
             _buildPreviousContent(context),
           ] else if (cardType == AppointmentCardType.cancelled) ...[
             _buildCancelledContent(context),
@@ -86,40 +87,73 @@ class DAppointmentCard extends StatelessWidget {
         if (cancellationReason != null && cancellationReason!.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              textDirection: TextDirection.rtl,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.info_outline,
-                  size: 14,
-                  color: context.textTertiaryColor,
-                ),
-                const SizedBox(width: 4),
-                Flexible(
-                  child: Text(
-                    cancellationReason!,
-                    style: TextStyle(
-                      color: context.textTertiaryColor,
-                      fontSize: 12,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            size: 14,
+                            color: context.textTertiaryColor,
+                          ),
+                          const SizedBox(width: 4),
+                          Flexible(
+                            child: Text(
+                              'سبب الإلغاء',
+                              style: TextStyle(
+                                color: context.textTertiaryColor,
+                                fontSize: 12,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+                    if (cancellationDate != null) ...[
+                      const SizedBox(width: 8),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_today_outlined,
+                            size: 12,
+                            color: context.textTertiaryColor,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            'تم الإلغاء في $cancellationDate',
+                            style: TextStyle(
+                              color: context.textTertiaryColor,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
+                ),
+
+                const SizedBox(height: 4),
+                Text(
+                  cancellationReason!,
+                  style: TextStyle(
+                    color: context.textTertiaryColor,
+                    fontSize: 12,
                   ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                 ),
               ],
             ),
           ),
+        const SizedBox(height: 6),
         _buildDateTimeGrid(context),
-        if (cancellationDate != null) ...[
-          const SizedBox(height: 12),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'تم الإلغاء في $cancellationDate',
-              style: TextStyle(color: context.textTertiaryColor, fontSize: 11),
-            ),
-          ),
-        ],
       ],
     );
   }
