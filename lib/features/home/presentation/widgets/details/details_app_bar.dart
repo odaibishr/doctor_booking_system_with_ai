@@ -70,7 +70,7 @@ class _DetailsAppBarState extends State<DetailsAppBar> {
                 decoration: BoxDecoration(
                   color: Colors.transparent,
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.primary),
+                  border: Border.all(color: context.gray300Color),
                 ),
                 child: ClipOval(
                   child: Center(
@@ -80,7 +80,7 @@ class _DetailsAppBarState extends State<DetailsAppBar> {
                             height: 16,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              color: AppColors.primary,
+                              color: context.primaryColor,
                             ),
                           )
                         : Icon(
@@ -88,8 +88,8 @@ class _DetailsAppBarState extends State<DetailsAppBar> {
                                 ? Icons.favorite
                                 : Icons.favorite_border_outlined,
                             color: isFavorite
-                                ? AppColors.error
-                                : AppColors.primary,
+                                ? context.errorColor
+                                : context.gray600Color,
                           ),
                   ),
                 ),
