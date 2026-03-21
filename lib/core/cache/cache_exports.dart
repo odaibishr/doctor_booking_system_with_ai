@@ -5,3 +5,4 @@ export 'queries/specialties_query.dart';
 export 'queries/booking_query.dart';
 export 'queries/hospitals_query.dart';
 export 'queries/reviews_query.dart';
+export 'queries/doctor_appointments_query.dart';
