@@ -13,7 +13,7 @@ class QueryKeys {
 
   // doctor app keyes
   static const String doctorAppointments = 'doctor_appointments';
-  static const String doctorTodayApporintments = 'doctor_today_appointments';
+  static const String doctorTodayAppointments = 'doctor_today_appointments';
   static const String doctorUpcomingAppointments =
       'doctor_upcoming_appointments';
   static const String doctorHistoryAppointments = 'doctor_history_appointments';
