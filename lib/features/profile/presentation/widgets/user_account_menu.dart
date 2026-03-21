@@ -5,7 +5,7 @@ import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/confirm_action_dialog.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/theme_mode_selector.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
-import 'package:doctor_booking_system_with_ai/features/profile/presentation/widgets/user_account_menu_item.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/profile_menu_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -29,14 +29,14 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            UserAccountMenuItem(
+            ProfileMenuItem(
               title: 'تعديل الحساب الشخصي',
               icon: 'assets/icons/user.svg',
               onTap: () {
                 final state = context.read<ProfileCubit>().state;
                 if (state is ProfileSuccess) {
                   context.push(
-                    AppRouter.editProfileViewRoute, // Updated route
+                    AppRouter.editProfileViewRoute,
                     extra: state.profile,
                   );
                 }
@@ -44,40 +44,28 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
             ),
             const SizedBox(height: 14),
 
-            // Theme Mode Selector
-            UserAccountMenuItem(
+            ProfileMenuItem(
               title: 'المظهر',
               icon: 'assets/icons/setting-2.svg',
               onTap: () => ThemeModeSelector.show(context),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(width: 8),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: context.primaryColor,
-                    size: 15,
-                  ),
-                ],
-              ),
             ),
             const SizedBox(height: 14),
 
-            UserAccountMenuItem(
+            ProfileMenuItem(
               title: 'الإعدادات',
               icon: 'assets/icons/setting-2.svg',
               onTap: () => context.push(AppRouter.customNavigationBarRoute),
             ),
             const SizedBox(height: 14),
 
-            UserAccountMenuItem(
+            ProfileMenuItem(
               title: 'قوائم الانتظار',
               icon: 'assets/icons/timer.svg',
               onTap: () => context.push(AppRouter.myWaitlistsViewRoute),
             ),
             const SizedBox(height: 14),
 
-            UserAccountMenuItem(
+            ProfileMenuItem(
               title: 'الدعم والمساعدة',
               icon: 'assets/icons/warning-2.svg',
               onTap: () {
@@ -108,13 +96,13 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
                   firstChild: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      UserAccountMenuItem(
+                      ProfileMenuItem(
                         title: 'اللغة',
                         icon: 'assets/icons/country.svg',
                         onTap: () {},
                       ),
                       const SizedBox(height: 10),
-                      UserAccountMenuItem(
+                      ProfileMenuItem(
                         title: 'الإشعارات',
                         icon: 'assets/icons/notification.svg',
                         onTap: () {},
@@ -127,9 +115,10 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
             ),
             const SizedBox(height: 14),
 
-            UserAccountMenuItem(
+            ProfileMenuItem(
               title: 'تسجيل الخروج',
               icon: 'assets/icons/login.svg',
+              isDestructive: true,
               onTap: () async {
                 final authCubit = context.read<AuthCubit>();
                 final confirmed = await ConfirmActionDialog.show(
