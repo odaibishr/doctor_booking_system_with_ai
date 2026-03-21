@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -15,15 +16,18 @@ part 'booking_history_state.dart';
 class BookingHistoryCubit extends Cubit<BookingHistoryState> {
   final CancelAppointmentUseCase cancelAppointmentUseCase;
   final RescheduleAppointmentUseCase rescheduleAppointmentUseCase;
+
   Query<Either<Failure, List<Booking>>>? _bookingQuery;
+  StreamSubscription<QueryState<Either<Failure, List<Booking>>>>? _querySub;
 
   BookingHistoryCubit(
     this.cancelAppointmentUseCase,
     this.rescheduleAppointmentUseCase,
   ) : super(BookingHistoryInitial());
 
-  Future<void> fetchBookingHistory({bool forceRefresh = false}) async {
+  void fetchBookingHistory() {
     if (isClosed) return;
+
     _bookingQuery = bookingHistoryQuery();
 
     final currentData = _bookingQuery!.state.data;
@@ -35,28 +39,27 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
       if (!isClosed) emit(BookingHistoryLoading());
     }
 
-    if (forceRefresh) {
-      await _bookingQuery!.refetch();
-    } else {
-      await _bookingQuery!.result;
-    }
+    _querySub?.cancel();
+    _querySub = _bookingQuery!.stream.listen((queryState) {
+      if (isClosed) return;
 
-    if (isClosed) return;
+      if (queryState.status == QueryStatus.loading && queryState.data == null) {
+        emit(BookingHistoryLoading());
+        return;
+      }
 
-    final result = _bookingQuery!.state.data;
-    if (result != null) {
-      result.fold(
-        (failure) {
-          if (!isClosed) emit(BookingHistoryError(failure.errorMessage));
-        },
-        (bookings) {
-          log('Booking history updated: ${bookings.length}');
-          if (!isClosed) emit(BookingHistoryLoaded(bookings));
-        },
-      );
-    } else if (_bookingQuery!.state.status == QueryStatus.error) {
-      if (!isClosed) emit(BookingHistoryError('فشل في جلب البيانات'));
-    }
+      if (queryState.data != null) {
+        queryState.data!.fold(
+          (failure) => emit(BookingHistoryError(failure.errorMessage)),
+          (bookings) {
+            log('Booking history stream updated: ${bookings.length}');
+            emit(BookingHistoryLoaded(bookings));
+          },
+        );
+      } else if (queryState.status == QueryStatus.error) {
+        emit(BookingHistoryError('فشل في جلب البيانات'));
+      }
+    });
   }
 
   Future<void> cancelAppointment(int appointmentId, String reason) async {
@@ -70,13 +73,10 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
     if (isClosed) return;
 
     result.fold(
-      (failure) {
-        if (!isClosed) emit(CancelAppointmentError(failure.errorMessage));
-      },
+      (failure) => emit(CancelAppointmentError(failure.errorMessage)),
       (_) {
-        if (!isClosed) emit(CancelAppointmentSuccess());
+        emit(CancelAppointmentSuccess());
         invalidateBookingHistoryCache();
-        if (!isClosed) fetchBookingHistory(forceRefresh: true);
       },
     );
   }
@@ -100,23 +100,17 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
     if (isClosed) return;
 
     result.fold(
-      (failure) {
-        if (!isClosed) emit(RescheduleAppointmentError(failure.errorMessage));
-      },
+      (failure) => emit(RescheduleAppointmentError(failure.errorMessage)),
       (_) {
-        if (!isClosed) emit(RescheduleAppointmentSuccess());
+        emit(RescheduleAppointmentSuccess());
         invalidateBookingHistoryCache();
-        if (!isClosed) fetchBookingHistory(forceRefresh: true);
       },
     );
   }
 
-  void invalidateCache() {
-    invalidateBookingHistoryCache();
-  }
-
   @override
-  Future<void> close() {
+  Future<void> close() async {
+    await _querySub?.cancel();
     _bookingQuery = null;
     return super.close();
   }
