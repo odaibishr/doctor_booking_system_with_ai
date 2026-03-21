@@ -63,6 +63,10 @@ void invalidateDoctorAppointmentsCache() {
   AppQueryConfig.invalidateQuery(QueryKeys.doctorTodayAppointments);
   AppQueryConfig.invalidateQuery(QueryKeys.doctorUpcomingAppointments);
   AppQueryConfig.invalidateQuery(QueryKeys.doctorHistoryAppointments);
+  AppQueryConfig.invalidateQuery(QueryKeys.doctorAppointmentsByStatus('pending'));
+  AppQueryConfig.invalidateQuery(QueryKeys.doctorAppointmentsByStatus('confirmed'));
+  AppQueryConfig.invalidateQuery(QueryKeys.doctorAppointmentsByStatus('completed'));
+  AppQueryConfig.invalidateQuery(QueryKeys.doctorAppointmentsByStatus('cancelled'));
 }
 
 void invalidateDoctorAppointmentsByStatusCache(String status) {
