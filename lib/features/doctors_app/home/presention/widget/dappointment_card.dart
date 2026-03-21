@@ -5,7 +5,7 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presenti
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/patient_info_section.dart';
 import 'package:flutter/material.dart';
 
-enum AppointmentCardType { upcoming, previous, cancelled }
+enum AppointmentCardType { upcoming, confirmed, previous, cancelled }
 
 class DAppointmentCard extends StatelessWidget {
   const DAppointmentCard({
@@ -55,6 +55,7 @@ class DAppointmentCard extends StatelessWidget {
             isNew: isNew && cardType == AppointmentCardType.upcoming,
             isCancelled: cardType == AppointmentCardType.cancelled,
             isCompleted: cardType == AppointmentCardType.previous,
+            isConfirmed: cardType == AppointmentCardType.confirmed,
           ),
           const SizedBox(height: 14),
           if (cardType == AppointmentCardType.upcoming) ...[
@@ -64,7 +65,7 @@ class DAppointmentCard extends StatelessWidget {
               onConfirm: onConfirm ?? () {},
               onReject: onReject ?? () {},
             ),
-          ] else if (cardType == AppointmentCardType.previous) ...[
+          ] else if (cardType == AppointmentCardType.previous || cardType == AppointmentCardType.confirmed) ...[
             _buildPreviousContent(context),
           ] else if (cardType == AppointmentCardType.cancelled) ...[
             _buildCancelledContent(context),
