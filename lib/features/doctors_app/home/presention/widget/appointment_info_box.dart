@@ -23,29 +23,28 @@ class AppointmentInfoBox extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(
-            label,
-            style: TextStyle(color: context.textTertiaryColor, fontSize: 10),
-          ),
-          const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             textDirection: TextDirection.rtl,
             children: [
-              Icon(icon, size: 14, color: context.primaryColor),
+              Icon(icon, size: 14, color: context.textPrimaryColor),
               const SizedBox(width: 4),
-              Flexible(
-                child: Text(
-                  value,
-                  style: TextStyle(
-                    color: context.textPrimaryColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+              Text(
+                label,
+                style: TextStyle(
+                  color: context.textPrimaryColor,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: TextStyle(color: context.textTertiaryColor, fontSize: 11),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ],
       ),
