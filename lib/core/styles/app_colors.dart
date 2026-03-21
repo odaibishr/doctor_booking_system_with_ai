@@ -54,7 +54,7 @@ class AppColors {
   static Color getCardBackground(BuildContext context) =>
       isDark(context) ? gray100Dark : gray100;
   static Color getTextPrimary(BuildContext context) =>
-      isDark(context) ? textPrimaryDark :  gray100Dark;
+      isDark(context) ? textPrimaryDark : gray100Dark;
   static Color getTextSecondary(BuildContext context) =>
       isDark(context) ? textSecondaryDark : gray600;
   static Color getTextTertiary(BuildContext context) =>
@@ -89,8 +89,7 @@ class AppColors {
 extension ThemeColors on BuildContext {
   bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
 
-  Color get primaryColor =>
-      isDarkMode ? AppColors.primaryDark : AppColors.primary;
+  Color get primaryColor => isDarkMode ? AppColors.primary : AppColors.primary;
   Color get secondaryColor =>
       isDarkMode ? AppColors.secondaryDark : AppColors.secondary;
   Color get whiteColor => AppColors.white;
