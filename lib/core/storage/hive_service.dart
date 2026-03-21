@@ -93,14 +93,12 @@ class HiveService {
     await Hive.openBox<Hospital>(kHospitalBox);
     await Hive.openBox<Booking>(kBookingHistoryBox);
     await Hive.openBox<Review>(kReviewBox);
-    if (getCachedAuthData()?.role == 'doctor') {
-      await Hive.openBox<DashboardStats>(kDashboardBox);
-      await Hive.openBox<EarningsData>(kEarningsBox);
-      await Hive.openBox<List<DoctorAppointment>>(kDoctorAppointmentBox);
-      await Hive.openBox<Doctor>(kProfileBox);
-      await Hive.openBox<List<DoctorSchedule>>(kDoctorMySchedulesBox);
-      await Hive.openBox<List<DoctorDayOff>>(kDoctorDaysOffBox);
-    }
+    await Hive.openBox<DashboardStats>(kDashboardBox);
+    await Hive.openBox<EarningsData>(kEarningsBox);
+    await Hive.openBox<List<DoctorAppointment>>(kDoctorAppointmentBox);
+    await Hive.openBox<Doctor>(kProfileBox);
+    await Hive.openBox<List<DoctorSchedule>>(kDoctorMySchedulesBox);
+    await Hive.openBox<List<DoctorDayOff>>(kDoctorDaysOffBox);
   }
 
   static Future<void> cacheAuthData(User user) async {
