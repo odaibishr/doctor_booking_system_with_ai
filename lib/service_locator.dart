@@ -526,25 +526,19 @@ Future<void> init() async {
     () => DoctorDashboardRemoteDataSourceImpl(serviceLocator()),
   );
 
-  if (Hive.isBoxOpen(kDashboardBox)) {
-    final dashboardBox = Hive.box<DashboardStats>(kDashboardBox);
-    serviceLocator.registerLazySingleton<DoctorDashboardLocalDataSource>(
-      () => DoctorDashboardLocalDataSourceImpl(box: dashboardBox),
-    );
-  }
+  final dashboardBox = Hive.box<DashboardStats>(kDashboardBox);
+  serviceLocator.registerLazySingleton<DoctorDashboardLocalDataSource>(
+    () => DoctorDashboardLocalDataSourceImpl(box: dashboardBox),
+  );
 
   serviceLocator.registerLazySingleton<DoctorAppointmentRemoteDataSource>(
     () => DoctorAppointmentRemoteDataSourceImpl(serviceLocator()),
   );
 
-  if (Hive.isBoxOpen(kDoctorAppointmentBox)) {
-    final appointmentBox = Hive.box<List<DoctorAppointment>>(
-      kDoctorAppointmentBox,
-    );
-    serviceLocator.registerLazySingleton<DoctorAppointmentLocalDataSource>(
-      () => DoctorAppointmentLocalDataSourceImpl(appointmentBox),
-    );
-  }
+  final appointmentBox = Hive.box<List<DoctorAppointment>>(kDoctorAppointmentBox);
+  serviceLocator.registerLazySingleton<DoctorAppointmentLocalDataSource>(
+    () => DoctorAppointmentLocalDataSourceImpl(appointmentBox),
+  );
 
   // Doctor App Feature - Repos
 
@@ -620,23 +614,17 @@ Future<void> init() async {
     () => DoctorProfileRemoteDataSourceImpl(serviceLocator()),
   );
 
-  if (Hive.isBoxOpen(kProfileBox) &&
-      Hive.isBoxOpen(kDoctorMySchedulesBox) &&
-      Hive.isBoxOpen(kDoctorDaysOffBox)) {
-    final doctorProfileBox = Hive.box<Doctor>(kProfileBox);
-    final doctorSchedulesBox = Hive.box<List<DoctorSchedule>>(
-      kDoctorMySchedulesBox,
-    );
-    final doctorDaysOffBox = Hive.box<List<DoctorDayOff>>(kDoctorDaysOffBox);
+  final doctorProfileBox = Hive.box<Doctor>(kProfileBox);
+  final doctorSchedulesBox = Hive.box<List<DoctorSchedule>>(kDoctorMySchedulesBox);
+  final doctorDaysOffBox = Hive.box<List<DoctorDayOff>>(kDoctorDaysOffBox);
 
-    serviceLocator.registerLazySingleton<DoctorProfileLocalDataSource>(
-      () => DoctorProfileLocalDataSourceImpl(
-        profileBox: doctorProfileBox,
-        schedulesBox: doctorSchedulesBox,
-        daysOffBox: doctorDaysOffBox,
-      ),
-    );
-  }
+  serviceLocator.registerLazySingleton<DoctorProfileLocalDataSource>(
+    () => DoctorProfileLocalDataSourceImpl(
+      profileBox: doctorProfileBox,
+      schedulesBox: doctorSchedulesBox,
+      daysOffBox: doctorDaysOffBox,
+    ),
+  );
 
   serviceLocator.registerLazySingleton<DoctorProfileRepo>(
     () => DoctorProfileRepoImpl(
