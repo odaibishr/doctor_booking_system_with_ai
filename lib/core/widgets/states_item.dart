@@ -27,7 +27,7 @@ class StatesItem extends StatelessWidget {
             width: 42,
             height: 42,
             decoration: BoxDecoration(
-              color: context.gray300Color,
+              color: context.cardBackgroundColor,
               shape: BoxShape.circle,
             ),
             child: SvgPicture.asset(
