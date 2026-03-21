@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class FcmService {
@@ -90,16 +89,17 @@ class FcmService {
   }
 
   void _handleForegroundMessage(RemoteMessage message) {
-    log('FCM foreground: ${message.notification?.title}');
-    debugPrint('FCM data: ${message.data}');
+    log('FCM foreground data: ${message.data}');
 
-    final notification = message.notification;
-    if (notification != null) {
+    final title = message.data['title'] as String?;
+    final body = message.data['body'] as String?;
+
+    if (title != null && body != null) {
       try {
         _localNotifications.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
+          message.hashCode,
+          title,
+          body,
           NotificationDetails(
             android: AndroidNotificationDetails(
               _channel.id,
@@ -107,6 +107,7 @@ class FcmService {
               channelDescription: _channel.description,
               importance: Importance.high,
               priority: Priority.high,
+              icon: '@mipmap/launcher_icon',
             ),
           ),
         );
