@@ -46,6 +46,7 @@ class PatientInfoSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
                     child: Text(
@@ -158,22 +159,18 @@ class PatientInfoSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: context.primaryColor.withAlpha(25),
+        color: context.gray200Color,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.verified,
-            color: context.primaryColor,
-            size: 13,
-          ),
+          Icon(Icons.verified, color: context.gray500Color, size: 13),
           const SizedBox(width: 3),
           Text(
             'مؤكد',
             style: TextStyle(
-              color: context.primaryColor,
+              color: context.gray500Color,
               fontWeight: FontWeight.bold,
               fontSize: 11,
             ),
