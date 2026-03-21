@@ -23,7 +23,7 @@ class DoctorServicesSection extends StatelessWidget {
                     child: Text(
                       'لم يتم اضافة خدمات',
                       style: FontStyles.body2.copyWith(
-                        color: AppColors.gray500,
+                        color: context.gray500Color,
                       ),
                     ),
                   )
