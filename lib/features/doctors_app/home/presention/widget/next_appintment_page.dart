@@ -40,7 +40,7 @@ class NextAppintmentPage extends StatelessWidget {
                 date: formattedDate,
                 bookingNumber: '${appointment.id}',
                 isNew: false,
-                cardType: AppointmentCardType.previous,
+                cardType: AppointmentCardType.confirmed,
               );
             },
           );
