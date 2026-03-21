@@ -10,4 +10,14 @@ class QueryKeys {
   static String doctorDetails(int id) => 'doctor_details_$id';
   static String doctorReviews(int id) => 'doctor_reviews_$id';
   static String hospitalDetails(int id) => 'hospital_details_$id';
+
+  // doctor app keyes
+  static const String doctorAppointments = 'doctor_appointments';
+  static const String doctorTodayApporintments = 'doctor_today_appointments';
+  static const String doctorUpcomingAppointments =
+      'doctor_upcoming_appointments';
+  static const String doctorHistoryAppointments = 'doctor_history_appointments';
+  static const String doctorDashboard = 'doctor_dashboard';
+  static String doctorAppointmentsByStatus(String status) =>
+      'doctor_appointments_$status';
 }
