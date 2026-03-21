@@ -4,19 +4,30 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/pre
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/home_page_view.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/profilee_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/custom_home_appbar.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/bottom_navigationbar/manager/navigation_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CustomNavigation extends StatefulWidget {
+class CustomNavigation extends StatelessWidget {
   const CustomNavigation({super.key});
 
   @override
-  State<CustomNavigation> createState() => _CustomNavigationState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => NavigationCubit(),
+      child: const CustomNavigationContent(),
+    );
+  }
 }
 
-class _CustomNavigationState extends State<CustomNavigation> {
-  int _selectedIndex = 0;
+class CustomNavigationContent extends StatefulWidget {
+  const CustomNavigationContent({super.key});
 
+  @override
+  State<CustomNavigationContent> createState() => _CustomNavigationContentState();
+}
+
+class _CustomNavigationContentState extends State<CustomNavigationContent> {
   final List<Widget> _pages = [
     const DashboardView(),
     const HomePageView(),
@@ -26,81 +37,85 @@ class _CustomNavigationState extends State<CustomNavigation> {
   void _onItemTapped(int index) {
     if (!mounted) return;
     if (index < 0 || index >= _pages.length) return;
-    setState(() => _selectedIndex = index);
+    context.read<NavigationCubit>().changeIndex(index);
   }
 
   @override
   Widget build(BuildContext context) {
-    final safeIndex = (_selectedIndex >= 0 && _selectedIndex < _pages.length)
-        ? _selectedIndex
-        : 0;
-    final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
+    return BlocBuilder<NavigationCubit, int>(
+      builder: (context, selectedIndex) {
+        final safeIndex = (selectedIndex >= 0 && selectedIndex < _pages.length)
+            ? selectedIndex
+            : 0;
+        final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
 
-    String doctorName = '';
-    String doctorImage = 'assets/images/my-photo.jpg';
+        String doctorName = '';
+        String doctorImage = 'assets/images/my-photo.jpg';
 
-    final profileState = context.watch<ProfileCubit>().state;
-    if (profileState is ProfileSuccess) {
-      doctorName = profileState.profile.user.name;
-      if (profileState.profile.profileImage != null &&
-          profileState.profile.profileImage!.isNotEmpty) {
-        doctorImage = profileState.profile.profileImage!;
-      }
-    }
+        final profileState = context.watch<ProfileCubit>().state;
+        if (profileState is ProfileSuccess) {
+          doctorName = profileState.profile.user.name;
+          if (profileState.profile.profileImage != null &&
+              profileState.profile.profileImage!.isNotEmpty) {
+            doctorImage = profileState.profile.profileImage!;
+          }
+        }
 
-    return Scaffold(
-      extendBody: true,
-      appBar: safeIndex == 0
-          ? AppBar(
-              automaticallyImplyLeading: false,
-              surfaceTintColor: Colors.transparent,
-              title: CustomHomeAppBar(name: doctorName, userImage: doctorImage),
-            )
-          : null,
-      body: _pages[safeIndex],
-      bottomNavigationBar: isKeyboardVisible
-          ? null
-          : Container(
-              margin: const EdgeInsets.fromLTRB(20, 0, 20, 15),
-              height: 70,
-              decoration: BoxDecoration(
-                color: const Color(0xFF364989),
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF364989).withValues(alpha: 0.3),
-                    blurRadius: 15,
-                    offset: const Offset(0, 5),
+        return Scaffold(
+          extendBody: true,
+          appBar: safeIndex == 0
+              ? AppBar(
+                  automaticallyImplyLeading: false,
+                  surfaceTintColor: Colors.transparent,
+                  title: CustomHomeAppBar(name: doctorName, userImage: doctorImage),
+                )
+              : null,
+          body: _pages[safeIndex],
+          bottomNavigationBar: isKeyboardVisible
+              ? null
+              : Container(
+                  margin: const EdgeInsets.fromLTRB(20, 0, 20, 15),
+                  height: 70,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF364989),
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF364989).withValues(alpha: 0.3),
+                        blurRadius: 15,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    NavItem(
-                      icon: 'assets/icons/home.svg',
-                      index: 0,
-                      selectedIndex: _selectedIndex,
-                      onItemTapped: _onItemTapped,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        NavItem(
+                          icon: 'assets/icons/home.svg',
+                          index: 0,
+                          selectedIndex: safeIndex,
+                          onItemTapped: _onItemTapped,
+                        ),
+                        NavItem(
+                          icon: 'assets/icons/calendar.svg',
+                          index: 1,
+                          selectedIndex: safeIndex,
+                          onItemTapped: _onItemTapped,
+                        ),
+                        NavItem(
+                          icon: 'assets/icons/user.svg',
+                          index: 2,
+                          selectedIndex: safeIndex,
+                          onItemTapped: _onItemTapped,
+                        ),
+                      ],
                     ),
-                    NavItem(
-                      icon: 'assets/icons/calendar.svg',
-                      index: 1,
-                      selectedIndex: _selectedIndex,
-                      onItemTapped: _onItemTapped,
-                    ),
-                    NavItem(
-                      icon: 'assets/icons/user.svg',
-                      index: 2,
-                      selectedIndex: _selectedIndex,
-                      onItemTapped: _onItemTapped,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
+        );
+      },
     );
   }
 }

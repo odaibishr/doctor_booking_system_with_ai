@@ -3,6 +3,7 @@ import 'package:doctor_booking_system_with_ai/core/widgets/tap_bar.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/cancelled_appointment_page.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/next_appintment_page.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/previous_appointment_page.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/widget/waitlist_appointment_page.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/appointments/doctor_appointments_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,13 +40,16 @@ class _HomePageViewBodyState extends State<HomePageViewBody> {
     final cubit = context.read<DoctorAppointmentsCubit>();
     switch (index) {
       case 0:
-        cubit.fetchUpcoming();
+        cubit.fetchAppointmentsByStatus('pending');
         break;
       case 1:
-        cubit.fetchHistory();
+        cubit.fetchAppointmentsByStatus('confirmed');
         break;
       case 2:
-        cubit.fetchToday();
+        cubit.fetchAppointmentsByStatus('completed');
+        break;
+      case 3:
+        cubit.fetchAppointmentsByStatus('cancelled');
         break;
     }
   }
@@ -70,7 +74,7 @@ class _HomePageViewBodyState extends State<HomePageViewBody> {
           ),
           const SizedBox(height: 16),
           TapBar(
-            tabItems: const ['القادمة', 'السابقة', 'الملغاة'],
+            tabItems: const ['قائمة الانتظار', 'القادمة', 'المكتملة', 'الملغاة'],
             selectedTab: _selectedTab,
             onTabChanged: _onTabChanged,
           ),
@@ -80,6 +84,7 @@ class _HomePageViewBodyState extends State<HomePageViewBody> {
               controller: _pageController,
               onPageChanged: _onPageSwiped,
               children: const [
+                WaitlistAppointmentPage(),
                 NextAppintmentPage(),
                 PreviousAppointmentPage(),
                 CancelledAppointmentPage(),

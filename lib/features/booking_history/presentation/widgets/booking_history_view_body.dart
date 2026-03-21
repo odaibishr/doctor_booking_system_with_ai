@@ -64,7 +64,7 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
             delay: const Duration(milliseconds: 200),
             animationType: AnimationType.fadeSlideUp,
             child: TapBar(
-              tabItems: ['القادمة', 'المكتملة', 'الملغاة'],
+              tabItems: const ['قائمة الانتظار', 'القادمة', 'المكتملة', 'الملغاة'],
               selectedTab: _selectedTab,
               onTabChanged: _onTabChanged,
             ),
@@ -98,6 +98,12 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
                       controller: _pageController,
                       onPageChanged: _onPageSwiped,
                       children: [
+                        BookingCardsListView(
+                          bookings:
+                              groupedBookings[AppointmentStatus.waiting] ??
+                              const <Booking>[],
+                          status: AppointmentStatus.waiting,
+                        ),
                         BookingCardsListView(
                           bookings:
                               groupedBookings[AppointmentStatus.upcoming] ??
@@ -134,6 +140,7 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
     List<Booking> bookings,
   ) {
     final grouped = {
+      AppointmentStatus.waiting: <Booking>[],
       AppointmentStatus.upcoming: <Booking>[],
       AppointmentStatus.completed: <Booking>[],
       AppointmentStatus.cancelled: <Booking>[],
@@ -156,6 +163,10 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
 
     if (booking.isCompleted || normalizedStatus == 'completed') {
       return AppointmentStatus.completed;
+    }
+
+    if (normalizedStatus == 'pending' || normalizedStatus == 'waiting') {
+      return AppointmentStatus.waiting;
     }
 
     return AppointmentStatus.upcoming;

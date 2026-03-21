@@ -18,6 +18,7 @@ class AppointmentCardFactory {
     required Booking booking,
   }) {
     switch (status) {
+      case AppointmentStatus.waiting:
       case AppointmentStatus.upcoming:
         return [
           Expanded(

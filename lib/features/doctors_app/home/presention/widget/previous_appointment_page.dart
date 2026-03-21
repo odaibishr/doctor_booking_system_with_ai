@@ -24,7 +24,7 @@ class PreviousAppointmentPage extends StatelessWidget {
         if (state is DoctorAppointmentsLoaded) {
           final appointments = state.appointments;
           if (appointments.isEmpty) {
-            return const Center(child: Text('لا توجد حجوزات سابقة'));
+            return const Center(child: Text('لا توجد حجوزات مكتملة'));
           }
           return ListView.builder(
             padding: const EdgeInsets.only(top: 16, left: 14, right: 14),

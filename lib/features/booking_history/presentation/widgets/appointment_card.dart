@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
-enum AppointmentStatus { upcoming, completed, cancelled }
+enum AppointmentStatus { waiting, upcoming, completed, cancelled }
 
 class AppointmentCard extends StatelessWidget {
   const AppointmentCard({

@@ -5,6 +5,7 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/pre
 import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/presention/widget/doctor_card.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/reviews/presention/doctor_reviews_view.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/dashboard/doctor_dashboard_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/bottom_navigationbar/manager/navigation_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -117,10 +118,13 @@ class _DashboardViewBodyState extends State<DashboardViewBody> {
                                 iconColor: Colors.teal,
                               ),
                               DoctorCard(
-                                cardIcon: Icons.cancel_outlined,
-                                cardTitle: 'حجوزات ملغية',
-                                cardContent: '${stats.cancelledAppointments}',
-                                iconColor: Colors.red,
+                                cardIcon: Icons.pending_actions_outlined,
+                                cardTitle: 'حجوزات غير مؤكدة',
+                                cardContent: '${stats.waitlistCount}',
+                                iconColor: Colors.orange,
+                                onTap: () {
+                                  context.read<NavigationCubit>().changeIndex(1);
+                                },
                               ),
                             ],
                           ),

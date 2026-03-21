@@ -22,12 +22,14 @@ class ChoiceItem extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : AppColors.gray100,
+          color: isSelected
+              ? context.primaryColor
+              : context.cardBackgroundColor,
           borderRadius: BorderRadius.circular(20),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.2),
+                    color: context.primaryColor.withValues(alpha: 0.2),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -37,7 +39,7 @@ class ChoiceItem extends StatelessWidget {
         child: Text(
           title,
           style: FontStyles.body2.copyWith(
-            color: isSelected ? Colors.white : AppColors.gray600,
+            color: isSelected ? Colors.white : context.gray600Color,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
         ),

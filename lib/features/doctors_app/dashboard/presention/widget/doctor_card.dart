@@ -64,12 +64,17 @@ class DoctorCard extends StatelessWidget {
                     cardContent,
                     style: FontStyles.subTitle1.copyWith(
                       fontWeight: FontWeight.bold,
+                      fontSize: 22,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     cardTitle,
-                    style: FontStyles.body2.copyWith(color: AppColors.gray600),
+                    style: FontStyles.body2.copyWith(
+                      color: AppColors.gray600,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
                   ),
                 ],
               ),
