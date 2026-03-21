@@ -24,16 +24,24 @@ class TapBar extends StatelessWidget {
           bottom: BorderSide(color: context.gray200Color, width: 1.0),
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          for (int i = 0; i < tabItems.length; i++)
-            TabItem(
-              text: tabItems[i],
-              isSelected: selectedTab == i,
-              onTap: () => onTabChanged(i),
-            ),
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minWidth: MediaQuery.of(context).size.width,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              for (int i = 0; i < tabItems.length; i++)
+                TabItem(
+                  text: tabItems[i],
+                  isSelected: selectedTab == i,
+                  onTap: () => onTabChanged(i),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
