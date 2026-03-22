@@ -36,8 +36,9 @@ class DoctorServicesSection extends StatelessWidget {
                             const SizedBox(width: 7),
                             Text(
                               service,
-                              style: FontStyles.body2.copyWith(
-                                color: context.gray500Color,
+                              style: FontStyles.body1.copyWith(
+                                color: context.textTertiaryColor,
+                                height: 1.5,
                               ),
                             ),
                           ],

@@ -59,13 +59,17 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
       final double uLat = state.userLat!;
       final double uLng = state.userLng!;
-      final double dLat = event.doctor.location.lat;
-      final double dLng = event.doctor.location.lng;
+      final targetLocation = event.doctor.hospital.location ?? event.doctor.location;
+      final double dLat = targetLocation.lat;
+      final double dLng = targetLocation.lng;
 
       // 3. API Call
       final url =
           'https://router.project-osrm.org/route/v1/driving/$uLng,$uLat;$dLng,$dLat?overview=full&geometries=polyline';
-      final response = await dio.get(url).timeout(const Duration(seconds: 10));
+      final response = await dio.get(
+        url,
+        options: Options(validateStatus: (status) => true),
+      ).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200 && response.data != null) {
         final data = response.data;
@@ -147,8 +151,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
           final Map<String, int> overlapTracker = {};
           final List<Doctor> processedDoctors = doctors.map((doctor) {
-            double lat = doctor.location.lat;
-            double lng = doctor.location.lng;
+            final targetLocation = doctor.hospital.location ?? doctor.location;
+            double lat = targetLocation.lat;
+            double lng = targetLocation.lng;
 
             // 1. Handle default/missing location
             if (lat == 0.0 && lng == 0.0) {
@@ -175,24 +180,26 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             }
 
             // Update doctor object (local copy for map)
-            doctor.location.lat = lat;
-            doctor.location.lng = lng;
+            targetLocation.lat = lat;
+            targetLocation.lng = lng;
             return doctor;
           }).toList();
 
           if (state.userLat != null && state.userLng != null) {
             processedDoctors.sort((a, b) {
+              final targetA = a.hospital.location ?? a.location;
+              final targetB = b.hospital.location ?? b.location;
               final dA = Geolocator.distanceBetween(
                 state.userLat!,
                 state.userLng!,
-                a.location.lat,
-                a.location.lng,
+                targetA.lat,
+                targetA.lng,
               );
               final dB = Geolocator.distanceBetween(
                 state.userLat!,
                 state.userLng!,
-                b.location.lat,
-                b.location.lng,
+                targetB.lat,
+                targetB.lng,
               );
               return dA.compareTo(dB);
             });
@@ -240,17 +247,19 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     if (state.status == MapStatus.loaded) {
       final List<Doctor> sortedDoctors = List.from(state.doctors);
       sortedDoctors.sort((a, b) {
+        final targetA = a.hospital.location ?? a.location;
+        final targetB = b.hospital.location ?? b.location;
         final double distanceA = Geolocator.distanceBetween(
           event.lat,
           event.lng,
-          a.location.lat,
-          a.location.lng,
+          targetA.lat,
+          targetA.lng,
         );
         final double distanceB = Geolocator.distanceBetween(
           event.lat,
           event.lng,
-          b.location.lat,
-          b.location.lng,
+          targetB.lat,
+          targetB.lng,
         );
         return distanceA.compareTo(distanceB);
       });

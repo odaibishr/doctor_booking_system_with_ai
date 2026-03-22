@@ -24,14 +24,14 @@ class TopDoctor extends StatelessWidget {
             height: 12,
             fit: BoxFit.scaleDown,
             colorFilter: ColorFilter.mode(
-              context.primaryColor,
+              context.gray500Color,
               BlendMode.srcIn,
             ),
           ),
           const SizedBox(width: 5),
           Text(
             'افضل الدكاترة',
-            style: FontStyles.body2.copyWith(color: context.primaryColor),
+            style: FontStyles.body2.copyWith(color: context.gray500Color),
           ),
         ],
       ),

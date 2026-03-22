@@ -28,15 +28,14 @@ class HospitalHeaderSection extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.gray100,
             borderRadius: BorderRadius.circular(12),
-            image:
-                hasValidImage
-                    ? DecorationImage(
-                        image: CachedNetworkImageProvider(
-                          '${EndPoints.photoUrl}/$image',
-                        ),
-                        fit: BoxFit.cover,
-                      )
-                    : null,
+            image: hasValidImage
+                ? DecorationImage(
+                    image: CachedNetworkImageProvider(
+                      '${EndPoints.photoUrl}/$image',
+                    ),
+                    fit: BoxFit.cover,
+                  )
+                : null,
           ),
         ),
         const SizedBox(height: 16),
@@ -50,7 +49,10 @@ class HospitalHeaderSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6),
-        LocationInfo(location: hospitalLocation, color: AppColors.gray500),
+        LocationInfo(
+          location: hospitalLocation,
+          color: context.textTertiaryColor,
+        ),
       ],
     );
   }

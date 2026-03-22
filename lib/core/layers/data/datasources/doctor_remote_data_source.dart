@@ -11,7 +11,14 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor
 abstract class DoctorRemoteDataSource {
   Future<List<Doctor>> getDoctors();
   Future<Doctor> getDoctorDetails(int id);
-  Future<List<Doctor>> searchDoctors(String query, int? specialtyId);
+  Future<List<Doctor>> searchDoctors(
+    String query,
+    int? specialtyId, {
+    String? gender,
+    double? minPrice,
+    double? maxPrice,
+    int? hospitalId,
+  });
   Future<bool> toggleFavoriteDoctor(int doctorId);
   Future<List<Doctor>> getFavoriteDoctors();
   Future<ScheduleCapacity> getScheduleCapacity({
@@ -57,21 +64,32 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
   }
 
   @override
-  Future<List<Doctor>> searchDoctors(String query, int? specialtyId) async {
-    log("sending Query: $query $specialtyId");
+  Future<List<Doctor>> searchDoctors(
+    String query,
+    int? specialtyId, {
+    String? gender,
+    double? minPrice,
+    double? maxPrice,
+    int? hospitalId,
+  }) async {
+    log("sending Query: $query specialty:$specialtyId gender:$gender price:$minPrice-$maxPrice hospital:$hospitalId");
     final response = await dioConsumer.get(
       'doctor/getSearchDoctors',
-      queryParameters: {'query': query, 'specialty_id': specialtyId},
+      queryParameters: {
+        'query': query,
+        'specialty_id': specialtyId,
+        if (gender != null) 'gender': gender,
+        if (minPrice != null) 'min_price': minPrice,
+        if (maxPrice != null) 'max_price': maxPrice,
+        if (hospitalId != null) 'hospital_id': hospitalId,
+      },
     );
-
-    log("Response from server: ${response.toString()}");
 
     final doctors = <Doctor>[];
     for (var doctor in response['data']) {
       doctors.add(DoctorModel.fromMap(doctor));
     }
 
-    log("sending Query: $query $specialtyId");
     return doctors;
   }
 

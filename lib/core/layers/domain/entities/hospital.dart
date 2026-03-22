@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/location.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'hospital.g.dart';
@@ -35,6 +36,9 @@ class Hospital {
   @HiveField(9)
   String? description;
 
+  @HiveField(10)
+  Location? location;
+
   Hospital({
     required this.id,
     required this.name,
@@ -46,5 +50,6 @@ class Hospital {
     required this.locationId,
     this.doctors,
     this.description,
+    this.location,
   });
 }

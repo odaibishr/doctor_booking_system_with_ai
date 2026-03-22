@@ -68,8 +68,12 @@ class DoctorRepoImpl implements DoctorRepo {
   @override
   Future<Either<Failure, List<Doctor>>> searchDoctors(
     String query,
-    int? specialtyId,
-  ) async {
+    int? specialtyId, {
+    String? gender,
+    double? minPrice,
+    double? maxPrice,
+    int? hospitalId,
+  }) async {
     try {
       if (!await networkInfo.isConnected) {
         final cachedDoctors = await localDataSource.getCachedDoctors();
@@ -87,7 +91,14 @@ class DoctorRepoImpl implements DoctorRepo {
         return Right(foundDoctors);
       }
 
-      final result = await remoteDataSource.searchDoctors(query, specialtyId);
+      final result = await remoteDataSource.searchDoctors(
+        query,
+        specialtyId,
+        gender: gender,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        hospitalId: hospitalId,
+      );
       if (result.isEmpty) return Left(_noDoctorsFailure());
       return Right(result);
     } catch (e) {

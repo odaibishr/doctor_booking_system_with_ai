@@ -79,7 +79,7 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                       child: DoctorHeaderSection(
                         doctorName: 'د. ${doctor!.name}',
                         doctorSpecializatioin: doctor!.specialty.name,
-                        doctorLocation: doctor!.location.name,
+                        doctorLocation: doctor!.hospital.name,
                         doctorImage:
                             '${EndPoints.photoUrl}/${doctor!.profileImage}',
                       ),
@@ -103,7 +103,7 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                         'نبذة عن الطبيب',
                         style: FontStyles.subTitle2.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: textColor,
+                          color: context.textPrimaryColor,
                         ),
                       ),
                     ),
@@ -115,8 +115,9 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
                       animationType: AnimationType.fade,
                       child: Text(
                         doctor!.aboutus,
-                        style: FontStyles.body2.copyWith(
-                          color: secondaryTextColor,
+                        style: FontStyles.body1.copyWith(
+                          color: context.textTertiaryColor,
+                          height: 1.5,
                         ),
                       ),
                     ),

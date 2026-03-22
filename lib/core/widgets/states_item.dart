@@ -45,7 +45,10 @@ class StatesItem extends StatelessWidget {
           number != null
               ? Text(
                   number!,
-                  style: FontStyles.body3.copyWith(fontWeight: FontWeight.bold),
+                  style: FontStyles.body3.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: context.textTertiaryColor,
+                  ),
                 )
               : const SizedBox(),
           const SizedBox(height: 2),
@@ -53,7 +56,7 @@ class StatesItem extends StatelessWidget {
             text,
             style: FontStyles.body3.copyWith(
               fontWeight: FontWeight.bold,
-              color: context.gray500Color,
+              color: context.textPrimaryColor,
             ),
           ),
         ],

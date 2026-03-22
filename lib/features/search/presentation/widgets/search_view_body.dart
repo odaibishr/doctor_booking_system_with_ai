@@ -1,7 +1,5 @@
-import 'dart:developer';
-
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
-import 'package:doctor_booking_system_with_ai/features/search/presentation/manager/search_doctors_bloc/search_doctors_bloc.dart';
+import 'package:doctor_booking_system_with_ai/features/search/presentation/manager/search_doctors_cubit/search_doctors_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/search_doctor_list_view.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/search_section.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/search_view_skelton.dart';
@@ -22,10 +20,7 @@ class _SearchViewBodyState extends State<SearchViewBody> {
   @override
   void initState() {
     super.initState();
-    log('widget.specialtyQuery: ${widget.specialtyQuery}');
-    context.read<SearchDoctorsBloc>().add(
-      SearchDoctorsQueryChanged(query: "", specialtyId: widget.specialtyQuery),
-    );
+    context.read<SearchDoctorsCubit>().updateSearch('', widget.specialtyQuery);
   }
 
   @override
@@ -56,9 +51,9 @@ class _SearchViewBodyState extends State<SearchViewBody> {
               SearchSection(specialtyId: widget.specialtyQuery),
               const SizedBox(height: 16),
               Expanded(
-                child: BlocBuilder<SearchDoctorsBloc, SearchDoctorsState>(
+                child: BlocBuilder<SearchDoctorsCubit, SearchDoctorsState>(
                   builder: (context, state) {
-                    if (state is SearchDoctorsLoading) {
+                    if (state is SearchDoctorloading) {
                       return const SearchViewSkeleton();
                     } else if (state is SearchDoctorsError) {
                       return Center(

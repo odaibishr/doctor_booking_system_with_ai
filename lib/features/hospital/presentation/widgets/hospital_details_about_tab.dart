@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_about.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
@@ -32,7 +33,9 @@ class HospitalDetailsAboutTab extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             hospital.description ?? 'لايوجد وصف',
-            style: FontStyles.subTitle3,
+            style: FontStyles.subTitle3.copyWith(
+              color: context.textTertiaryColor,
+            ),
             textAlign: TextAlign.start,
           ),
           const SizedBox(height: 20),

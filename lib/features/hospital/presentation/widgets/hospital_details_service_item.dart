@@ -18,7 +18,7 @@ class HospitalDetailsServiceItem extends StatelessWidget {
       // height: 50,
       child: Text(
         service,
-        style: FontStyles.subTitle2,
+        style: FontStyles.subTitle2.copyWith(color: context.textSecondaryColor),
         textAlign: TextAlign.center,
       ),
     );

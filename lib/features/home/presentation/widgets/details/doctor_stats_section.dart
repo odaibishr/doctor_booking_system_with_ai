@@ -52,18 +52,20 @@ class _DoctorStatsSectionState extends State<DoctorStatsSection> {
       ).timeout(const Duration(seconds: 4));
 
       if (mounted) {
+        final targetLocation = widget.doctor.hospital.location ?? widget.doctor.location;
+
         double dist = Geolocator.distanceBetween(
           position.latitude,
           position.longitude,
-          widget.doctor.location.lat,
-          widget.doctor.location.lng,
+          targetLocation.lat,
+          targetLocation.lng,
         );
         setState(() {
           if (dist < 1000) {
             distance = '${dist.toStringAsFixed(0)}m';
           } else {
             distance = '${(dist / 1000).toStringAsFixed(1)}km';
-          }
+          } 
         });
       }
     } catch (e) {

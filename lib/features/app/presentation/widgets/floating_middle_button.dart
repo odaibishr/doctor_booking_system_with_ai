@@ -1,12 +1,8 @@
 import 'package:doctor_booking_system_with_ai/features/app/presentation/widgets/model_nav_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:svg_flutter/svg.dart';
 
 class FloatingMiddleButton extends StatefulWidget {
-  const FloatingMiddleButton({super.key});
-
-  @override
   State<FloatingMiddleButton> createState() => _FloatingMiddleButtonState();
 }
 
@@ -59,7 +55,7 @@ class _FloatingMiddleButtonState extends State<FloatingMiddleButton>
                         ? 400
                         : MediaQuery.of(context).size.width * 0.9)) /
                 2,
-            top: position.dy - 130,
+            top: position.dy - 80,
             child: Material(
               color: Colors.transparent,
               child: FadeTransition(
@@ -117,11 +113,12 @@ class _FloatingMiddleButtonState extends State<FloatingMiddleButton>
             shape: BoxShape.circle,
             color: const Color(0xFF364989),
           ),
-          child: SvgPicture.asset(
-            'assets/icons/wanchain.svg',
-            width: 30,
-            height: 30,
-            fit: BoxFit.scaleDown,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Image.asset(
+              'assets/icons/logo-icon.png',
+              fit: BoxFit.contain,
+            ),
           ),
         ),
       ),

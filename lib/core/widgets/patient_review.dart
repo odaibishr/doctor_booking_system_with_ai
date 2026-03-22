@@ -22,7 +22,7 @@ class PatientReview extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       decoration: BoxDecoration(
-        color: context.gray100Color,
+        color: context.cardBackgroundColor,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: context.gray300Color),
       ),
@@ -45,7 +45,7 @@ class PatientReview extends StatelessWidget {
                         name,
                         style: FontStyles.body2.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: context.blackColor,
+                          color: context.textPrimaryColor,
                         ),
                       ),
                     ),
@@ -78,7 +78,9 @@ class PatientReview extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   review ?? '',
-                  style: FontStyles.body3.copyWith(color: context.gray600Color),
+                  style: FontStyles.body3.copyWith(
+                    color: context.textTertiaryColor,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),

@@ -23,7 +23,7 @@ class LocationInfo extends StatelessWidget {
         Flexible(
           child: Text(
             location,
-            style: FontStyles.body3.copyWith(color: color),
+            style: FontStyles.body2.copyWith(color: color),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

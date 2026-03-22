@@ -1,4 +1,4 @@
-import 'package:doctor_booking_system_with_ai/features/search/presentation/manager/search_doctors_bloc/search_doctors_bloc.dart';
+import 'package:doctor_booking_system_with_ai/features/search/presentation/manager/search_doctors_cubit/search_doctors_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_input_field.dart';
 import 'package:doctor_booking_system_with_ai/features/search/presentation/widgets/filter_search.dart';
@@ -25,11 +25,9 @@ class _SearchSectionState extends State<SearchSection> {
             isShowRightIcon: true,
             isShowLeftIcon: false,
             onChanged: (value) {
-              context.read<SearchDoctorsBloc>().add(
-                SearchDoctorsQueryChanged(
-                  query: value,
-                  specialtyId: widget.specialtyId,
-                ),
+              context.read<SearchDoctorsCubit>().updateSearch(
+                value,
+                widget.specialtyId,
               );
             },
           ),
