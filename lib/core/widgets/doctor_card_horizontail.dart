@@ -61,7 +61,9 @@ class DoctorCardHorizontail extends StatelessWidget {
                                 width: 24,
                                 height: 24,
                                 colorFilter: ColorFilter.mode(
-                                  context.gray500Color,
+                                  doctor.isFavorite == 1
+                                      ? context.errorColor
+                                      : context.gray500Color,
                                   BlendMode.srcIn,
                                 ),
                                 fit: BoxFit.scaleDown,
