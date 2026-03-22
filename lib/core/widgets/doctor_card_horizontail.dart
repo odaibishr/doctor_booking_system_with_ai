@@ -60,6 +60,10 @@ class DoctorCardHorizontail extends StatelessWidget {
                                     : 'assets/icons/heart-unfilled.svg',
                                 width: 24,
                                 height: 24,
+                                colorFilter: ColorFilter.mode(
+                                  context.gray500Color,
+                                  BlendMode.srcIn,
+                                ),
                                 fit: BoxFit.scaleDown,
                               ),
                             ],
@@ -74,7 +78,7 @@ class DoctorCardHorizontail extends StatelessWidget {
                                 'د. ${doctor.name}',
                                 style: FontStyles.subTitle3.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: context.primaryColor,
+                                  color: context.textTertiaryColor,
                                 ),
                               ),
                               SvgPicture.asset(
@@ -90,7 +94,7 @@ class DoctorCardHorizontail extends StatelessWidget {
                             'د. ${doctor.name}',
                             style: FontStyles.subTitle3.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: context.primaryColor,
+                              color: context.textPrimaryColor,
                             ),
                           ),
                         const SizedBox(height: 7),
@@ -110,7 +114,7 @@ class DoctorCardHorizontail extends StatelessWidget {
                                 '${doctor.price} ريال',
                                 style: FontStyles.body2.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: context.primaryColor,
+                                  color: context.textTertiaryColor,
                                 ),
                               ),
                             ],
