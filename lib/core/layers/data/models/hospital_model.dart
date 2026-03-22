@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/models/doctor_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/location_model.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/location.dart';
 
 class HospitalModel extends Hospital {
   HospitalModel({
@@ -16,6 +18,7 @@ class HospitalModel extends Hospital {
     required super.locationId,
     required super.doctors,
     required super.description,
+    super.location,
   });
 
   factory HospitalModel.fromMap(Map<String, dynamic> data) => HospitalModel(
@@ -35,6 +38,9 @@ class HospitalModel extends Hospital {
             .toList() ??
         <Doctor>[],
     description: data['description'] ?? '',
+    location: data['location'] != null
+        ? LocationModel.fromMap(data['location'] as Map<String, dynamic>)
+        : null,
   );
 
   Map<String, dynamic> toMap() => {
@@ -48,6 +54,7 @@ class HospitalModel extends Hospital {
     'location_id': locationId,
     'doctors': doctors,
     'description': description,
+    'location': location != null ? (location as LocationModel).toMap() : null,
   };
 
   /// `dart:convert`
@@ -75,6 +82,7 @@ class HospitalModel extends Hospital {
     DateTime? updatedAt,
     List<Doctor>? doctors,
     String? description,
+    Location? location,
   }) {
     return HospitalModel(
       id: id ?? this.id,
@@ -87,6 +95,7 @@ class HospitalModel extends Hospital {
       locationId: locationId ?? this.locationId,
       doctors: doctors ?? this.doctors,
       description: description ?? this.description,
+      location: location ?? this.location,
     );
   }
 
@@ -101,5 +110,6 @@ class HospitalModel extends Hospital {
     locationId: 0,
     doctors: [],
     description: '',
+    location: null,
   );
 }
