@@ -30,13 +30,14 @@ class SearchQuery {
 class SearchDoctorsCubit extends Cubit<SearchDoctorsState> {
   final SearchDoctorsUseCase searchDoctorsUseCase;
   final GetDoctorsUseCase getDoctorsUseCase;
+  
   final _searchSubject = BehaviorSubject<SearchQuery>();
   late final StreamSubscription<void> _subscription;
+  
   SearchDoctorsCubit(this.searchDoctorsUseCase, this.getDoctorsUseCase)
     : super(SearchDoctorsInitial()) {
     _subscription = _searchSubject.stream
         .debounceTime(const Duration(milliseconds: 300))
-        .distinctUnique()
         .switchMap((searchQuery) => _performSearch(searchQuery))
         .listen((_) {});
   }
