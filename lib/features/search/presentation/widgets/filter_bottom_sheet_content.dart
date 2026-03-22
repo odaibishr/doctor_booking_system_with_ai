@@ -21,8 +21,8 @@ class _FilterBottomSheetContentState extends State<FilterBottomSheetContent> {
   String? _selectedGender;
   int? _selectedSpecialtyId;
   final double _minPrice = 0;
-  final double _maxPrice = 500;
-  RangeValues _priceRange = const RangeValues(0, 500);
+  final double _maxPrice = 15000;
+  RangeValues _priceRange = const RangeValues(0, 15000);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class _FilterBottomSheetContentState extends State<FilterBottomSheetContent> {
                   child: Text(
                     'إعادة تعيين',
                     style: FontStyles.body1.copyWith(
-                      color: context.primaryColor,
+                      color: AppColors.primaryDark,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -70,41 +70,45 @@ class _FilterBottomSheetContentState extends State<FilterBottomSheetContent> {
               ],
             ),
             const SizedBox(height: 20),
-            
+
             GenderFilterSection(
               selectedGender: _selectedGender,
-              onGenderChanged: (value) => setState(() => _selectedGender = value),
+              onGenderChanged: (value) =>
+                  setState(() => _selectedGender = value),
             ),
-            
+
             const SizedBox(height: 20),
-            
+
             SpecialtyFilterSection(
               selectedSpecialtyId: _selectedSpecialtyId,
-              onSpecialtyChanged: (value) => setState(() => _selectedSpecialtyId = value),
+              onSpecialtyChanged: (value) =>
+                  setState(() => _selectedSpecialtyId = value),
             ),
-            
+
             const SizedBox(height: 20),
-            
+
             PriceRangeFilterSection(
               priceRange: _priceRange,
               minPrice: _minPrice,
               maxPrice: _maxPrice,
-              onPriceRangeChanged: (values) => setState(() => _priceRange = values),
+              onPriceRangeChanged: (values) =>
+                  setState(() => _priceRange = values),
             ),
-            
+
             const SizedBox(height: 24),
             MainButton(
               text: 'تطبيق الفلاتر',
               onTap: () {
                 context.read<SearchDoctorsCubit>().applyFilters(
-                      gender: _selectedGender,
-                      specialtyId: _selectedSpecialtyId,
-                      minPrice: _priceRange.start > _minPrice
-                          ? _priceRange.start
-                          : null,
-                      maxPrice:
-                          _priceRange.end < _maxPrice ? _priceRange.end : null,
-                    );
+                  gender: _selectedGender,
+                  specialtyId: _selectedSpecialtyId,
+                  minPrice: _priceRange.start > _minPrice
+                      ? _priceRange.start
+                      : null,
+                  maxPrice: _priceRange.end < _maxPrice
+                      ? _priceRange.end
+                      : null,
+                );
                 Navigator.pop(context);
               },
             ),
@@ -123,4 +127,3 @@ class _FilterBottomSheetContentState extends State<FilterBottomSheetContent> {
     });
   }
 }
-
