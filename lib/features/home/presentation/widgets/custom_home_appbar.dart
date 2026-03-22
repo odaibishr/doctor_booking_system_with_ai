@@ -99,23 +99,53 @@ class CustomHomeAppBar extends StatelessWidget {
           },
         ),
 
-        GestureDetector(
-          onTap: () =>
-              GoRouter.of(context).push(AppRouter.notificationViewRoute),
-          child: Container(
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              shape: BoxShape.circle,
+        Row(
+          children: [
+            GestureDetector(
+              onTap: () => GoRouter.of(context).push(AppRouter.aichatViewRoute),
+              child: Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: context.primaryColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: SvgPicture.asset(
+                  'assets/icons/ai-assistant.svg',
+                  colorFilter: ColorFilter.mode(
+                    context.whiteColor,
+                    BlendMode.srcIn,
+                  ),
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
             ),
-            child: SvgPicture.asset(
-              'assets/icons/notification.svg',
-              width: 20,
-              height: 20,
-              fit: BoxFit.scaleDown,
+            const SizedBox(width: 10),
+            GestureDetector(
+              onTap: () =>
+                  GoRouter.of(context).push(AppRouter.notificationViewRoute),
+              child: Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: context.primaryColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: SvgPicture.asset(
+                  'assets/icons/notification.svg',
+                  width: 20,
+                  height: 20,
+                  colorFilter: ColorFilter.mode(
+                    context.whiteColor,
+                    BlendMode.srcIn,
+                  ),
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ],
     );
