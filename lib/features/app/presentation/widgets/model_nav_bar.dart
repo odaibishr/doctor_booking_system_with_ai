@@ -15,25 +15,17 @@ class ModelNavBar extends StatelessWidget {
     final width = isDesktop ? 400.0 : MediaQuery.of(context).size.width * 0.9;
     return Container(
       width: width,
-      height: 120,
+      height: 70,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: ShapeDecoration(
         color: const Color(0xFF364989),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),
       child: Column(
-        spacing: 15,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           RowModelNavBar(
             items: [
-              NavBarModelItem(
-                iconPath: 'assets/icons/wanchain.svg',
-                label: 'اودي',
-                onTap: () {
-                  onClose?.call();
-                  GoRouter.of(context).push(AppRouter.aichatViewRoute);
-                },
-              ),
               NavBarModelItem(
                 iconPath: 'assets/icons/heart-filled.svg',
                 label: 'المفضلة',
@@ -42,24 +34,12 @@ class ModelNavBar extends StatelessWidget {
                   GoRouter.of(context).push(AppRouter.favoritedoctorViewRoute);
                 },
               ),
-            ],
-          ),
-          RowModelNavBar(
-            items: [
               NavBarModelItem(
                 iconPath: 'assets/icons/map.svg',
                 label: 'الموقع',
                 onTap: () {
                   onClose?.call();
                   GoRouter.of(context).push(AppRouter.doctorMapViewRoute);
-                },
-              ),
-              NavBarModelItem(
-                iconPath: 'assets/icons/card-receive.svg',
-                label: 'الحجوزات',
-                onTap: () {
-                  onClose?.call();
-                  GoRouter.of(context).push(AppRouter.bookingHistoryViewRoute);
                 },
               ),
             ],
