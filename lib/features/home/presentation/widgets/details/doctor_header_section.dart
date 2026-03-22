@@ -31,7 +31,7 @@ class DoctorHeaderSection extends StatelessWidget {
             right: 10,
           ),
           decoration: BoxDecoration(
-            color: AppColors.getPrimary(context),
+            color: context.primaryColor,
             borderRadius: BorderRadius.circular(12),
           ),
           child: CachedNetworkImage(
