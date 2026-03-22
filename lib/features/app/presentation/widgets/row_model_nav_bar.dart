@@ -8,13 +8,11 @@ class RowModelNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: items
-            .map((item) => Expanded(child: item))
-            .toList(growable: false),
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: items
+          .map((item) => Expanded(child: item))
+          .toList(growable: false),
     );
   }
 }
