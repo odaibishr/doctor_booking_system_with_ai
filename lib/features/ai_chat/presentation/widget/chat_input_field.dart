@@ -55,6 +55,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
                   scrollDirection: Axis.vertical,
                   child: TextField(
                     controller: widget.controller,
+                    cursorColor: AppColors.white,
                     style: FontStyles.body1.copyWith(color: AppColors.white),
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
