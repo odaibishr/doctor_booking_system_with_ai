@@ -89,10 +89,11 @@ class FcmService {
   }
 
   void _handleForegroundMessage(RemoteMessage message) {
-    log('FCM foreground data: ${message.data}');
+    log('FCM foreground message: ${message.notification?.title} | ${message.data}');
 
-    final title = message.data['title'] as String?;
-    final body = message.data['body'] as String?;
+    final title =
+        message.notification?.title ?? message.data['title'] as String?;
+    final body = message.notification?.body ?? message.data['body'] as String?;
 
     if (title != null && body != null) {
       try {
