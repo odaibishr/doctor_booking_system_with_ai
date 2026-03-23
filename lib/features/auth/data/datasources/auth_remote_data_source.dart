@@ -10,6 +10,7 @@ abstract class AuthRemoteDataSource {
     String email,
     String password,
     String passwordConfirmation,
+    String? fcm_token,
   );
   Future<void> logout(String token);
   Future<UserModel> signInWithGoogle({
@@ -54,6 +55,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     String email,
     String password,
     String passwordConfirmation,
+    String? fcm_token,
   ) async {
     final response = await dioConsumer.post(
       'register',
@@ -62,6 +64,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'email': email,
         'password': password,
         'password_confirmation': passwordConfirmation,
+        'fcm_token': fcm_token,
       },
     );
 
