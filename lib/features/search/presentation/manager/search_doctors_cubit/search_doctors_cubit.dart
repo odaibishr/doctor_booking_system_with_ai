@@ -67,6 +67,7 @@ class SearchDoctorsCubit extends Cubit<SearchDoctorsState> {
   }
 
   void updateSearch(String query, [int? specialtyId]) {
+    emit(SearchDoctorloading());
     _currentQuery = query;
     _currentSpecialtyId = specialtyId ?? _currentSpecialtyId;
     _searchSubject.add(SearchQuery(
@@ -82,6 +83,7 @@ class SearchDoctorsCubit extends Cubit<SearchDoctorsState> {
     int? hospitalId,
     int? specialtyId,
   }) {
+    emit(SearchDoctorloading());
     _currentSpecialtyId = specialtyId;
     _searchSubject.add(SearchQuery(
       query: _currentQuery,
