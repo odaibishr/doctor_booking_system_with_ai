@@ -1,4 +1,4 @@
-﻿import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
@@ -219,6 +219,9 @@ class _SignInBodyState extends State<SignInBody> {
   String? passwordValidator(value) {
     if (value == null || value.isEmpty) {
       return 'الرجاء ادخال كلمة المرور ';
+    }
+    if (value.length < 8) {
+      return 'كلمة المرور يجب أن تكون 8 أحرف على الأقل';
     }
     return null;
   }
