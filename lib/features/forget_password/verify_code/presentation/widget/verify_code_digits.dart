@@ -86,7 +86,7 @@ class _AnimatedOtpInputState extends State<AnimatedOtpInput> {
           width: 60,
           height: 60,
           decoration: BoxDecoration(
-            color: AppColors.gray100,
+            color: context.cardBackgroundColor,
             borderRadius: BorderRadius.circular(15),
           ),
           alignment: Alignment.center,
