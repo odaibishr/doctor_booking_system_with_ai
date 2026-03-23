@@ -15,10 +15,8 @@ class CustomHomeAppBar extends StatelessWidget {
   const CustomHomeAppBar({
     super.key,
     required this.name,
-    required this.userImage,
   });
   final String name;
-  final String userImage;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +55,7 @@ class CustomHomeAppBar extends StatelessWidget {
                       ),
                       child: ClipOval(
                         child: (!hasValidImage)
-                            ? Image.asset(userImage, fit: BoxFit.cover)
+                            ? const Icon(Icons.person, color: Colors.white)
                             : isLocalFile
                             ? Image.file(
                                 File(
@@ -70,14 +68,12 @@ class CustomHomeAppBar extends StatelessWidget {
                                 ),
                                 fit: BoxFit.cover,
                               )
-                            : hasValidImage
-                            ? CachedNetworkImage(
+                            : CachedNetworkImage(
                                 imageUrl: '${EndPoints.photoUrl}/$profileImage',
                                 fit: BoxFit.cover,
                                 errorWidget: (context, url, error) =>
-                                    Image.asset(userImage, fit: BoxFit.cover),
-                              )
-                            : Image.asset(userImage, fit: BoxFit.cover),
+                                    const Icon(Icons.person, color: Colors.white),
+                              ),
                       ),
                     ),
                     const SizedBox(width: 5),
