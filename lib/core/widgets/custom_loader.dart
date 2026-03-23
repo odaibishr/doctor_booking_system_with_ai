@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomLoader extends StatelessWidget {
@@ -8,10 +9,13 @@ class CustomLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      width: double.infinity,
+      alignment: Alignment.center,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
             'assets/animated-icon/loading-logo.gif',
@@ -22,12 +26,9 @@ class CustomLoader extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             'جاري التحميل...',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: context.primaryColor,
-              fontFamily: 'JF-Flat',
-              letterSpacing: 0.5,
+            style: FontStyles.subTitle2.copyWith(
+              color: context.textPrimaryColor,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],
