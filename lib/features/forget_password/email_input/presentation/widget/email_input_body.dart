@@ -22,6 +22,7 @@ class EmailInputBody extends StatelessWidget {
             isBackButtonVisible: true,
             isUserImageVisible: false,
           ),
+          automaticallyImplyLeading: false,
         ),
         SliverToBoxAdapter(
           child: Padding(
@@ -52,7 +53,9 @@ class EmailInputBody extends StatelessWidget {
                     onTap: () {
                       if (formKey.currentState!.validate()) {
                         //TODO:here the main Button !
-                        GoRouter.of(context).push(AppRouter.verifyCodeViewRoute);
+                        GoRouter.of(
+                          context,
+                        ).push(AppRouter.verifyCodeViewRoute);
                       }
                     },
                   ),
