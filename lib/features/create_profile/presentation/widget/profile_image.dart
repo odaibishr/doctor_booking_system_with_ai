@@ -1,4 +1,4 @@
-﻿// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 import 'dart:io';
 
@@ -47,7 +47,7 @@ class _ProfileImageState extends State<ProfileImage> {
           name: '',
           userImage: _selectedImage != null
               ? _selectedImage!.path
-              : (widget.imageUrl ?? 'assets/images/profile_image.png'),
+              : (widget.imageUrl ?? ''),
           phoneNumber: '',
         ),
         Positioned(
