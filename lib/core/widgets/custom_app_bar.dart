@@ -14,13 +14,11 @@ import 'dart:io' show File;
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({
     super.key,
-    this.userImage,
     required this.title,
     required this.isBackButtonVisible,
     required this.isUserImageVisible,
     this.isHeartIconVisible = false,
   });
-  final String? userImage;
   final String title;
   final bool isBackButtonVisible;
   final bool isUserImageVisible;
@@ -49,12 +47,8 @@ class CustomAppBar extends StatelessWidget {
                     log('starting profile image');
                     if (state is ProfileFailure) {
                       log('failure profile image');
-                      return ClipOval(
-                        child: Image.asset(
-                          userImage!,
-                          scale: 1,
-                          fit: BoxFit.cover,
-                        ),
+                      return const ClipOval(
+                        child: Icon(Icons.person, color: Colors.white),
                       );
                     }
                     if (state is ProfileSuccess) {
@@ -64,12 +58,8 @@ class CustomAppBar extends StatelessWidget {
                       final profileImage = state.profile.profileImage ?? '';
                       if (profileImage.trim().isEmpty ||
                           profileImage.trim().toLowerCase() == 'null') {
-                        return ClipOval(
-                          child: Image.asset(
-                            userImage!,
-                            scale: 1,
-                            fit: BoxFit.cover,
-                          ),
+                        return const ClipOval(
+                          child: Icon(Icons.person, color: Colors.white),
                         );
                       }
                       if (!kIsWeb &&
@@ -94,15 +84,13 @@ class CustomAppBar extends StatelessWidget {
                               : '${EndPoints.photoUrl}/$profileImage',
                           scale: 1,
                           fit: BoxFit.cover,
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.person, color: Colors.white),
                         ),
                       );
                     }
-                    return ClipOval(
-                      child: Image.asset(
-                        userImage!,
-                        scale: 1,
-                        fit: BoxFit.cover,
-                      ),
+                    return const ClipOval(
+                      child: Icon(Icons.person, color: Colors.white),
                     );
                   },
                 ),
