@@ -1,4 +1,4 @@
-﻿import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
@@ -121,12 +121,14 @@ class _SignUpBodyState extends State<SignUpBody> {
                         text: 'إنشاء حساب',
                         onTap: () {
                           if (formKey.currentState!.validate()) {
+                            final token = context.read<AuthCubit>().fcmToken;
                             BlocProvider.of<AuthCubit>(context).signUp(
                               name: nameController.text,
                               email: emailController.text,
                               password: passwordController.text,
                               passwordConfirmation:
                                   confirmPasswordController.text,
+                              fcm_token: token,
                             );
                           }
                         },
