@@ -48,7 +48,6 @@ class _HomePageViewBodyState extends State<HomePageViewBody> {
       child: Column(
         children: [
           const CustomAppBar(
-            userImage: 'assets/images/my-photo.jpg',
             title: 'الحجوزات',
             isBackButtonVisible: false,
             isUserImageVisible: true,
