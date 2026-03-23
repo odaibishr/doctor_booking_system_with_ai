@@ -9,30 +9,38 @@ class CustomLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      alignment: Alignment.center,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/animated-icon/loading-logo.gif',
-            width: loaderSize,
-            height: loaderSize,
-            filterQuality: FilterQuality.high,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final bool isUnconstrained = constraints.maxHeight == double.infinity;
+        return Container(
+          width: double.infinity,
+          height: isUnconstrained
+              ? MediaQuery.sizeOf(context).height * 0.7
+              : null,
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/animated-icon/loading-logo.gif',
+                width: loaderSize,
+                height: loaderSize,
+                filterQuality: FilterQuality.high,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'جاري التحميل...',
+                style: FontStyles.subTitle2.copyWith(
+                  color: context.textPrimaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 8),
-          Text(
-            'جاري التحميل...',
-            style: FontStyles.subTitle2.copyWith(
-              color: context.textPrimaryColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
