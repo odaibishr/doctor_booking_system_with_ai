@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+﻿// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 import 'dart:io';
 
@@ -32,10 +32,6 @@ class _ProfileImageState extends State<ProfileImage> {
         log("Selected image path: ${_selectedImage?.path}");
         widget.onImageSelected(_selectedImage);
       });
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('تم اختيار الصورة بنجاح ✅')));
     }
   }
 
