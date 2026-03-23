@@ -13,6 +13,7 @@ abstract class AuthRepo {
     String email,
     String password,
     String passwordConfirmation,
+    String? fcm_token,
   );
 
   Future<Either<Failure, User>> logout();
