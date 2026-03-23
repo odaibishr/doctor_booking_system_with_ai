@@ -42,7 +42,6 @@ class _SearchViewBodyState extends State<SearchViewBody> {
             children: [
               const SizedBox(height: 10),
               CustomAppBar(
-                userImage: 'assets/images/my-photo.jpg',
                 title: 'كل الأطباء',
                 isBackButtonVisible: false,
                 isUserImageVisible: false,
