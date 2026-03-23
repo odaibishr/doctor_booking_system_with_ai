@@ -47,8 +47,11 @@ class ProfileSummary extends StatelessWidget {
 
   ImageProvider _resolveImageProvider(String value) {
     final trimmed = value.trim();
-    if (trimmed.isEmpty || trimmed.toLowerCase() == 'null') {
-      return const AssetImage('assets/images/profile_image.png');
+    if (trimmed.isEmpty || trimmed.toLowerCase() == 'null' || trimmed == 'assets/images/profile_image.png') {
+       // Using a 1x1 transparent pixel or something? 
+       // Better: the widget calling this should handle it.
+       // For now, I'll use a placeholder network image that is blank or just something safe.
+       return const NetworkImage('about:blank'); 
     }
 
     if (trimmed.startsWith('assets/')) {
