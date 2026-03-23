@@ -38,7 +38,14 @@ class UserModel extends User {
     );
   }
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
+  factory UserModel.fromJson(dynamic jsonRaw) {
+    if (jsonRaw == null) {
+      return UserModel.empty();
+    }
+    final Map<String, dynamic> json = jsonRaw is Map 
+        ? jsonRaw.map((k, v) => MapEntry(k.toString(), v)) 
+        : <String, dynamic>{};
+
     final locationJson = json['location'];
     final Location location = locationJson is Map
         ? LocationModel.fromMap(
