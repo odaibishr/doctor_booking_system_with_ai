@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+
 import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/models/porfile_model.dart';
@@ -27,7 +28,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   @override
   Future<Profile> getProfile() async {
     final response = await dioConsumer.get('patients');
-    return ProfileModel.fromJson(response['data']);
+    return ProfileModel.fromJson(response);
   }
 
   @override
@@ -59,16 +60,15 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       );
     }
 
-    final formData = FormData.fromMap(data);
 
     final response = await dioConsumer.post(
       '/patients',
-      data: formData,
-      options: Options(contentType: 'multipart/form-data'),
+      data: data,
+      isFormData: true,
     );
 
     log("Create Profile response remote: $response");
 
-    return ProfileModel.fromJson(response['data']);
+    return ProfileModel.fromJson(response);
   }
 }
