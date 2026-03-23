@@ -89,6 +89,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
     required String passwordConfirmation,
+    String? fcm_token,
   }) async {
     emit(AuthLoading());
     try {
@@ -98,6 +99,7 @@ class AuthCubit extends Cubit<AuthState> {
           email: email,
           password: password,
           passwordConfirmation: passwordConfirmation,
+          fcmToken: fcm_token,
         ),
       );
 
