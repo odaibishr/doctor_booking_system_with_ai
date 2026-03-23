@@ -194,7 +194,7 @@ class _SignInBodyState extends State<SignInBody> {
                               ),
                             ),
                             ForgetPasswordButton(
-                              text: 'نشاء حساب',
+                              text: ' إنشاء حساب',
                               ontap: () {
                                 GoRouter.of(
                                   context,
@@ -204,6 +204,7 @@ class _SignInBodyState extends State<SignInBody> {
                           ],
                         ),
                       ],
+                      const SizedBox(height: 20),
                     ],
                   ),
                 );
