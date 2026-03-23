@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:doctor_booking_system_with_ai/core/cache/cache_exports.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -96,6 +97,10 @@ class FcmService {
     final body = message.notification?.body ?? message.data['body'] as String?;
 
     if (title != null && body != null) {
+      // Invalidate cache to ensure UI gets fresh data on next access/refresh
+      invalidateDoctorAppointmentsCache();
+      invalidateDoctorDashboardCache();
+
       try {
         _localNotifications.show(
           message.hashCode,
