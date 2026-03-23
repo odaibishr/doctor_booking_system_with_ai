@@ -415,7 +415,7 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<SpecialtyCubit>(() => SpecialtyCubit());
 
-  serviceLocator.registerLazySingleton<SearchDoctorsCubit>(
+  serviceLocator.registerFactory<SearchDoctorsCubit>(
     () => SearchDoctorsCubit(
       serviceLocator<SearchDoctorsUseCase>(),
       serviceLocator<GetDoctorsUseCase>(),

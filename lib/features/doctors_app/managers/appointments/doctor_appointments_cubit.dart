@@ -51,8 +51,6 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
       );
     });
 
-    // مهم جداً: استدعاء result يضمن أن الـ cached_query سيقوم بإعادة جلب البيانات 
-    // من السيرفر إذا كانت الحالة stale (مرفوضة) حتى لو كان الـ cache يحتوي بيانات قديمة.
     query.result;
   }
 
@@ -72,7 +70,13 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
   }) async {
     if (isClosed) return;
 
-    _safeEmit(DoctorAppointmentsLoading());
+    // Optimistic UI Update: Remove from current list immediately
+    if (state is DoctorAppointmentsLoaded) {
+      final appointments = (state as DoctorAppointmentsLoaded).appointments;
+      final updatedList = appointments.where((a) => a.id != id).toList();
+      _safeEmit(DoctorAppointmentsLoaded(updatedList));
+    }
+
     final result = await _updateAppointmentStatusUseCase.call(
       UpdateAppointmentStatusUseCaseParams(
         id: id,
@@ -86,35 +90,6 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
       (appointment) {
         _safeEmit(DoctorAppointmentStatusUpdated(appointment));
 
-        // Optimistic UI Update: Remove from Pending
-        CachedQuery.instance.updateQuery(
-          key: QueryKeys.doctorAppointmentsByStatus('pending'),
-          updateFn: (dynamic oldData) {
-            if (oldData is Right<Failure, List<DoctorAppointment>>) {
-              final list = oldData.getOrElse(() => []);
-              return Right<Failure, List<DoctorAppointment>>(
-                list.where((req) => req.id != appointment.id).toList(),
-              );
-            }
-            return oldData;
-          },
-        );
-
-        // Optimistic UI Update: Add to Target Status (e.g., 'confirmed' or 'cancelled')
-        final targetStatus = appointment.status;
-        CachedQuery.instance.updateQuery(
-          key: QueryKeys.doctorAppointmentsByStatus(targetStatus),
-          updateFn: (dynamic oldData) {
-            if (oldData is Right<Failure, List<DoctorAppointment>>) {
-              final list = oldData.getOrElse(() => []);
-              if (!list.any((r) => r.id == appointment.id)) {
-                return Right<Failure, List<DoctorAppointment>>([appointment, ...list]);
-              }
-            }
-            return oldData;
-          },
-        );
-        
         invalidateDoctorAppointmentsCache();
         invalidateDoctorDashboardCache();
       },

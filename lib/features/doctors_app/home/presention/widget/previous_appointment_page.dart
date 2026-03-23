@@ -23,23 +23,34 @@ class PreviousAppointmentPage extends StatelessWidget {
 
         if (state is DoctorAppointmentsLoaded) {
           final appointments = state.appointments;
-          if (appointments.isEmpty) {
-            return const Center(child: Text('لا توجد حجوزات مكتملة'));
-          }
-          return ListView.builder(
-            padding: const EdgeInsets.only(top: 16, left: 14, right: 14),
-            itemCount: appointments.length,
-            itemBuilder: (context, index) {
-              final appointment = appointments[index];
-              return DAppointmentCard(
-                patientName: appointment.patientInfo?.name ?? 'مريض',
-                patientImage: appointment.patientInfo?.profileImage ?? '',
-                time: appointment.scheduleInfo?.startTime ?? '',
-                date: _formatDate(appointment.date),
-                bookingNumber: 'BK-${appointment.id}#',
-                cardType: AppointmentCardType.previous,
-              );
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<DoctorAppointmentsCubit>().fetchHistory();
             },
+            child: appointments.isEmpty
+                ? const Center(
+                  child: SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: Text('لا توجد حجوزات مكتملة'),
+                  ),
+                )
+                : ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(top: 16, left: 14, right: 14),
+                  itemCount: appointments.length,
+                  itemBuilder: (context, index) {
+                    final appointment = appointments[index];
+                    return DAppointmentCard(
+                      patientName: appointment.patientInfo?.name ?? 'مريض',
+                      patientImage:
+                          appointment.patientInfo?.profileImage ?? '',
+                      time: appointment.scheduleInfo?.startTime ?? '',
+                      date: _formatDate(appointment.date),
+                      bookingNumber: 'BK-${appointment.id}#',
+                      cardType: AppointmentCardType.previous,
+                    );
+                  },
+                ),
           );
         }
 

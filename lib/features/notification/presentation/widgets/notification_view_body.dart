@@ -1,10 +1,11 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/features/notification/presentation/manager/notification_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/notification/presentation/widgets/notification_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class NotificationViewBody extends StatefulWidget {
   const NotificationViewBody({super.key});
@@ -36,12 +37,7 @@ class _NotificationViewBodyState extends State<NotificationViewBody> {
             child: BlocBuilder<NotificationCubit, NotificationState>(
               builder: (context, state) {
                 if (state is NotificationLoading) {
-                  return Center(
-                    child: LoadingAnimationWidget.staggeredDotsWave(
-                      color: AppColors.getPrimary(context),
-                      size: 40,
-                    ),
-                  );
+                  return Center(child: CustomLoader(loaderSize: kLoaderSize));
                 }
 
                 if (state is NotificationError) {

@@ -59,6 +59,7 @@ class AuthRepoImpl implements AuthRepo {
     String email,
     String password,
     String passwordConfirmation,
+    String? fcm_token,
   ) async {
     try {
       log("Attempting to sign up with email: $email");
@@ -67,6 +68,7 @@ class AuthRepoImpl implements AuthRepo {
         email,
         password,
         passwordConfirmation,
+        fcm_token,
       );
       log("Sign up result: ${result.email}");
       await authLocalDataSource.cacheAuthData(result);

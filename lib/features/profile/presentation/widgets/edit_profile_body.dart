@@ -50,19 +50,44 @@ class _EditProfileBodyState extends State<EditProfileBody> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          title: CustomAppBar(
-            title: 'تعديل الملف الشخصي',
-            isBackButtonVisible: true,
-            isUserImageVisible: false,
-          ),
-          backgroundColor: context.scaffoldBackgroundColor,
-          surfaceTintColor: context.scaffoldBackgroundColor,
-          automaticallyImplyLeading: false,
-          pinned: true,
+    return Scaffold(
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            return MainButton(
+              text: 'تحديث المعلومات',
+              onTap: () {
+                if (_formKey.currentState!.validate()) {
+                  BlocProvider.of<ProfileCubit>(context).createProfile(
+                    name: nameController.text,
+                    email: emailController.text,
+                    password: passwordController.text,
+                    phone: phoneController.text,
+                    birthDate: birthDateController.text,
+                    gender: selectedGender ?? 'male',
+                    locationId: 1,
+                    imageFile: selectedImage,
+                  );
+                }
+              },
+            );
+          },
         ),
+      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: CustomAppBar(
+              title: 'تعديل الملف الشخصي',
+              isBackButtonVisible: true,
+              isUserImageVisible: false,
+            ),
+            backgroundColor: context.scaffoldBackgroundColor,
+            surfaceTintColor: context.scaffoldBackgroundColor,
+            automaticallyImplyLeading: false,
+            pinned: true,
+          ),
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -154,25 +179,7 @@ class _EditProfileBodyState extends State<EditProfileBody> {
                         },
                       ),
                       SizedBox(height: 25),
-                      MainButton(
-                        text: 'تحديث المعلومات',
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            BlocProvider.of<ProfileCubit>(
-                              context,
-                            ).createProfile(
-                              name: nameController.text,
-                              email: emailController.text,
-                              password: passwordController.text,
-                              phone: phoneController.text,
-                              birthDate: birthDateController.text,
-                              gender: selectedGender ?? 'male',
-                              locationId: 1,
-                              imageFile: selectedImage,
-                            );
-                          }
-                        },
-                      ),
+                      const SizedBox(height: 25),
                     ],
                   ),
                 );
@@ -181,6 +188,7 @@ class _EditProfileBodyState extends State<EditProfileBody> {
           ),
         ),
       ],
-    );
-  }
+    ),
+  );
+}
 }

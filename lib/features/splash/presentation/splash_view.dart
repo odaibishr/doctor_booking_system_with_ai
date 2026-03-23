@@ -24,7 +24,7 @@ class _SplashViewState extends State<SplashView>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 3000),
+      duration: const Duration(milliseconds: 4500),
       vsync: this,
     );
 
@@ -62,7 +62,7 @@ class _SplashViewState extends State<SplashView>
 
   void _startAnimation() async {
     await _animationController.forward();
-
+    
     if (!mounted) return;
 
     final authCubit = context.read<AuthCubit>();
@@ -101,14 +101,14 @@ class _SplashViewState extends State<SplashView>
               children: [
                 SlideTransition(
                   position: _animationSlide,
-                  child: Opacity(
-                    opacity: _animationOpacity.value,
+                  child: FadeTransition(
+                    opacity: _animationOpacity,
                     child: Transform.scale(
                       scale: _animationScale.value * _pulseAnimation.value,
                       child: Image.asset(
-                        'assets/icons/logo-transparent.png',
-                        width: 170,
-                        height: 170,
+                        'assets/animated-icon/splash-animated-logo.gif',
+                        width: 250,
+                        height: 250,
                         filterQuality: FilterQuality.high,
                       ),
                     ),

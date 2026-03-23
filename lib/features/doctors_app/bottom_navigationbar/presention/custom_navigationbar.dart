@@ -50,15 +50,10 @@ class _CustomNavigationContentState extends State<CustomNavigationContent> {
         final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
 
         String doctorName = '';
-        String doctorImage = 'assets/images/my-photo.jpg';
 
         final profileState = context.watch<ProfileCubit>().state;
         if (profileState is ProfileSuccess) {
           doctorName = profileState.profile.user.name;
-          if (profileState.profile.profileImage != null &&
-              profileState.profile.profileImage!.isNotEmpty) {
-            doctorImage = profileState.profile.profileImage!;
-          }
         }
 
         return Scaffold(
@@ -67,7 +62,7 @@ class _CustomNavigationContentState extends State<CustomNavigationContent> {
               ? AppBar(
                   automaticallyImplyLeading: false,
                   surfaceTintColor: Colors.transparent,
-                  title: CustomHomeAppBar(name: doctorName, userImage: doctorImage),
+                  title: CustomHomeAppBar(name: doctorName),
                 )
               : null,
           body: _pages[safeIndex],

@@ -47,7 +47,9 @@ class DoctorProfileRemoteDataSourceImpl
   Future<String> updateProfileImage(File imageFile) async {
     final response = await dioConsumer.post(
       'doctor/profile/image',
-      data: {'profile_image': await _multipartFile(imageFile)},
+      data: {
+        'profile_image': await _multipartFile(imageFile),
+      },
       isFormData: true,
     );
     final data = ensureMap(response['data'] ?? response);

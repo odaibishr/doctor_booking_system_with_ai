@@ -158,7 +158,6 @@ class _HomeViewBodyState extends State<HomeViewBody>
             SliverAppBar(
               title: const CustomHomeAppBar(
                 name: 'مرحبًا عدي',
-                userImage: 'assets/images/my-photo.jpg',
               ),
               pinned: true,
               automaticallyImplyLeading: false,

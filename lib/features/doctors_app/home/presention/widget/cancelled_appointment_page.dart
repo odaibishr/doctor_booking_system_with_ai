@@ -23,27 +23,40 @@ class CancelledAppointmentPage extends StatelessWidget {
 
         if (state is DoctorAppointmentsLoaded) {
           final appointments = state.appointments;
-          if (appointments.isEmpty) {
-            return const Center(child: Text('لا توجد حجوزات ملغاة'));
-          }
-          return ListView.builder(
-            padding: const EdgeInsets.only(top: 16, left: 14, right: 14),
-            itemCount: appointments.length,
-            itemBuilder: (context, index) {
-              final appointment = appointments[index];
-              return DAppointmentCard(
-                patientName: appointment.patientInfo?.name ?? 'مريض',
-                patientImage: appointment.patientInfo?.profileImage ?? '',
-                time: appointment.scheduleInfo?.startTime ?? '',
-                date: _formatDate(appointment.date),
-                bookingNumber: 'BK-${appointment.id}#',
-                cardType: AppointmentCardType.cancelled,
-                cancellationDate: _formatCancellationDate(
-                  appointment.updatedAt,
-                ),
-                cancellationReason: appointment.cancellationReason,
-              );
+          return RefreshIndicator(
+            onRefresh: () async {
+              context
+                  .read<DoctorAppointmentsCubit>()
+                  .fetchAppointmentsByStatus('cancelled');
             },
+            child: appointments.isEmpty
+                ? const Center(
+                  child: SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: Text('لا توجد حجوزات ملغاة'),
+                  ),
+                )
+                : ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(top: 16, left: 14, right: 14),
+                  itemCount: appointments.length,
+                  itemBuilder: (context, index) {
+                    final appointment = appointments[index];
+                    return DAppointmentCard(
+                      patientName: appointment.patientInfo?.name ?? 'مريض',
+                      patientImage:
+                          appointment.patientInfo?.profileImage ?? '',
+                      time: appointment.scheduleInfo?.startTime ?? '',
+                      date: _formatDate(appointment.date),
+                      bookingNumber: 'BK-${appointment.id}#',
+                      cardType: AppointmentCardType.cancelled,
+                      cancellationDate: _formatCancellationDate(
+                        appointment.updatedAt,
+                      ),
+                      cancellationReason: appointment.cancellationReason,
+                    );
+                  },
+                ),
           );
         }
 

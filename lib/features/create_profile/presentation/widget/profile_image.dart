@@ -32,10 +32,6 @@ class _ProfileImageState extends State<ProfileImage> {
         log("Selected image path: ${_selectedImage?.path}");
         widget.onImageSelected(_selectedImage);
       });
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('تم اختيار الصورة بنجاح ✅')));
     }
   }
 
@@ -47,7 +43,7 @@ class _ProfileImageState extends State<ProfileImage> {
           name: '',
           userImage: _selectedImage != null
               ? _selectedImage!.path
-              : (widget.imageUrl ?? 'assets/images/profile_image.png'),
+              : (widget.imageUrl ?? ''),
           phoneNumber: '',
         ),
         Positioned(

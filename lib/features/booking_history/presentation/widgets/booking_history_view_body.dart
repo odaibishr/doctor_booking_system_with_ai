@@ -53,7 +53,6 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
             delay: const Duration(milliseconds: 100),
             animationType: AnimationType.fadeSlideDown,
             child: CustomAppBar(
-              userImage: 'assets/images/my-photo.jpg',
               title: 'سجل الحجوزات',
               isBackButtonVisible: false,
               isUserImageVisible: true,

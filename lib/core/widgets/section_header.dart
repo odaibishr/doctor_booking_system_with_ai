@@ -20,11 +20,14 @@ class SectionHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          title,
-          style: FontStyles.subTitle1.copyWith(
-            fontWeight: FontWeight.bold,
-            color: AppColors.getTextPrimary(context),
+        GestureDetector(
+          onTap: onTap,
+          child: Text(
+            title,
+            style: FontStyles.subTitle1.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.getTextPrimary(context),
+            ),
           ),
         ),
         TextButton(

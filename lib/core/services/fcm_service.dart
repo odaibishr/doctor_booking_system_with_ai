@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:doctor_booking_system_with_ai/core/cache/cache_exports.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -89,12 +90,17 @@ class FcmService {
   }
 
   void _handleForegroundMessage(RemoteMessage message) {
-    log('FCM foreground data: ${message.data}');
+    log('FCM foreground message: ${message.notification?.title} | ${message.data}');
 
-    final title = message.data['title'] as String?;
-    final body = message.data['body'] as String?;
+    final title =
+        message.notification?.title ?? message.data['title'] as String?;
+    final body = message.notification?.body ?? message.data['body'] as String?;
 
     if (title != null && body != null) {
+      // Invalidate cache to ensure UI gets fresh data on next access/refresh
+      invalidateDoctorAppointmentsCache();
+      invalidateDoctorDashboardCache();
+
       try {
         _localNotifications.show(
           message.hashCode,

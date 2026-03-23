@@ -16,6 +16,7 @@ class SignUpUsecase extends Usecase<User, SignUpParams> {
       params.email,
       params.password,
       params.passwordConfirmation,
+      params.fcmToken,
     );
   }
 }
@@ -26,10 +27,13 @@ class SignUpParams {
   final String password;
   final String passwordConfirmation;
 
+  final String? fcmToken;
+ 
   SignUpParams({
     required this.name,
     required this.email,
     required this.password,
     required this.passwordConfirmation,
+    this.fcmToken,
   });
 }

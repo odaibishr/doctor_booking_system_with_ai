@@ -1,6 +1,6 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class CustomLoader extends StatelessWidget {
   const CustomLoader({super.key, required this.loaderSize});
@@ -9,14 +9,38 @@ class CustomLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: Center(
-        child: LoadingAnimationWidget.staggeredDotsWave(
-          color: AppColors.primary,
-          size: loaderSize,
-        ),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final bool isUnconstrained = constraints.maxHeight == double.infinity;
+        return Container(
+          width: double.infinity,
+          height: isUnconstrained
+              ? MediaQuery.sizeOf(context).height * 0.7
+              : null,
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/animated-icon/loading-logo.gif',
+                width: loaderSize,
+                height: loaderSize,
+                filterQuality: FilterQuality.high,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'جاري التحميل...',
+                style: FontStyles.subTitle2.copyWith(
+                  color: context.textPrimaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

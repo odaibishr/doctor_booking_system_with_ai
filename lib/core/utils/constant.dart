@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const double kLoaderSize = 50;
+const double kLoaderSize = 150;
 const String kDoctorBox = 'doctors_box';
 const String kSpecialtyBox = 'specialties_box';
 const String kHospitalBox = 'hospitals_box';

@@ -23,35 +23,48 @@ class WaitlistAppointmentPage extends StatelessWidget {
 
         if (state is DoctorAppointmentsLoaded) {
           final appointments = state.appointments;
-          if (appointments.isEmpty) {
-            return const Center(child: Text('لا توجد حجوزات في قائمة الانتظار'));
-          }
-          return ListView.builder(
-            padding: const EdgeInsets.only(top: 16, left: 14, right: 14),
-            itemCount: appointments.length,
-            itemBuilder: (context, index) {
-              final appointment = appointments[index];
-              final formattedDate = _formatDate(appointment.date);
-              return DAppointmentCard(
-                patientName: appointment.patientInfo?.name ?? 'مريض',
-                patientImage: appointment.patientInfo?.profileImage ?? '',
-                time:
-                    '${appointment.scheduleInfo?.startTime ?? ''} - ${appointment.scheduleInfo?.endTime ?? ''}',
-                date: formattedDate,
-                bookingNumber: '${appointment.id}',
-                isNew: index == 0,
-                cardType: AppointmentCardType.upcoming,
-                onConfirm: () {
-                  context
-                      .read<DoctorAppointmentsCubit>()
-                      .updateAppointmentStatus(
-                        id: appointment.id,
-                        status: 'confirmed',
-                      );
-                },
-                onReject: () => _showCancelDialog(context, appointment.id),
-              );
+          return RefreshIndicator(
+            onRefresh: () async {
+              context
+                  .read<DoctorAppointmentsCubit>()
+                  .fetchAppointmentsByStatus('pending');
             },
+            child: appointments.isEmpty
+                ? const Center(
+                  child: SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: Text('لا توجد حجوزات في قائمة الانتظار'),
+                  ),
+                )
+                : ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(top: 16, left: 14, right: 14),
+                  itemCount: appointments.length,
+                  itemBuilder: (context, index) {
+                    final appointment = appointments[index];
+                    final formattedDate = _formatDate(appointment.date);
+                    return DAppointmentCard(
+                      patientName: appointment.patientInfo?.name ?? 'مريض',
+                      patientImage: appointment.patientInfo?.profileImage ?? '',
+                      time:
+                          '${appointment.scheduleInfo?.startTime ?? ''} - ${appointment.scheduleInfo?.endTime ?? ''}',
+                      date: formattedDate,
+                      bookingNumber: '${appointment.id}',
+                      isNew: index == 0,
+                      cardType: AppointmentCardType.upcoming,
+                      onConfirm: () {
+                        context
+                            .read<DoctorAppointmentsCubit>()
+                            .updateAppointmentStatus(
+                              id: appointment.id,
+                              status: 'confirmed',
+                            );
+                      },
+                      onReject:
+                          () => _showCancelDialog(context, appointment.id),
+                    );
+                  },
+                ),
           );
         }
 

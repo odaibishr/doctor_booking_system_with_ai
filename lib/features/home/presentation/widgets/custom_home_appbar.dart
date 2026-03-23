@@ -12,13 +12,8 @@ import 'package:flutter/foundation.dart';
 import 'dart:io' show File;
 
 class CustomHomeAppBar extends StatelessWidget {
-  const CustomHomeAppBar({
-    super.key,
-    required this.name,
-    required this.userImage,
-  });
+  const CustomHomeAppBar({super.key, required this.name});
   final String name;
-  final String userImage;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +52,7 @@ class CustomHomeAppBar extends StatelessWidget {
                       ),
                       child: ClipOval(
                         child: (!hasValidImage)
-                            ? Image.asset(userImage, fit: BoxFit.cover)
+                            ? const Icon(Icons.person, color: Colors.white)
                             : isLocalFile
                             ? Image.file(
                                 File(
@@ -70,14 +65,15 @@ class CustomHomeAppBar extends StatelessWidget {
                                 ),
                                 fit: BoxFit.cover,
                               )
-                            : hasValidImage
-                            ? CachedNetworkImage(
+                            : CachedNetworkImage(
                                 imageUrl: '${EndPoints.photoUrl}/$profileImage',
                                 fit: BoxFit.cover,
                                 errorWidget: (context, url, error) =>
-                                    Image.asset(userImage, fit: BoxFit.cover),
-                              )
-                            : Image.asset(userImage, fit: BoxFit.cover),
+                                    const Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                    ),
+                              ),
                       ),
                     ),
                     const SizedBox(width: 5),
@@ -104,20 +100,16 @@ class CustomHomeAppBar extends StatelessWidget {
             GestureDetector(
               onTap: () => GoRouter.of(context).push(AppRouter.aichatViewRoute),
               child: Container(
-                width: 38,
-                height: 38,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                   color: context.primaryColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: SvgPicture.asset(
-                  'assets/icons/ai-assistant.svg',
-                  colorFilter: ColorFilter.mode(
-                    context.whiteColor,
-                    BlendMode.srcIn,
-                  ),
-                  width: 20,
-                  height: 20,
+                child: Image.asset(
+                  'assets/icons/ai-assistant.png',
+                  width: 15,
+                  height: 15,
                   fit: BoxFit.scaleDown,
                 ),
               ),
@@ -127,16 +119,16 @@ class CustomHomeAppBar extends StatelessWidget {
               onTap: () =>
                   GoRouter.of(context).push(AppRouter.notificationViewRoute),
               child: Container(
-                width: 38,
-                height: 38,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                   color: context.primaryColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: SvgPicture.asset(
                   'assets/icons/notification.svg',
-                  width: 20,
-                  height: 20,
+                  width: 25,
+                  height: 25,
                   colorFilter: ColorFilter.mode(
                     context.whiteColor,
                     BlendMode.srcIn,

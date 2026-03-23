@@ -1,4 +1,4 @@
-﻿import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
+import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
@@ -27,14 +27,24 @@ class SignUpBody extends StatefulWidget {
 }
 
 class _SignUpBodyState extends State<SignUpBody> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    TextEditingController nameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController confirmPasswordController = TextEditingController();
-
     return CustomScrollView(
       slivers: [
         AppBar2(), //this is AppBar
@@ -57,7 +67,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                   return const CustomLoader(loaderSize: kLoaderSize);
                 }
                 return Form(
-                  key: formKey,
+                  key: _formKey,
                   child: Column(
                     children: [
                       Logo(), //LOgo
@@ -77,7 +87,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                         rightIconPath: 'assets/icons/user.svg',
                         isShowRightIcon: true,
                         isShowLeftIcon: false,
-                        controller: nameController,
+                        controller: _nameController,
                         validator: nameValidator,
                         border: context.primaryColor,
                       ),
@@ -91,7 +101,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                         rightIconPath: 'assets/icons/user.svg',
                         isShowRightIcon: true,
                         isShowLeftIcon: false,
-                        controller: emailController,
+                        controller: _emailController,
                         validator: emailValidator,
                         border: context.primaryColor,
                       ),
@@ -102,7 +112,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                       PasswordField(
                         //Password textfield
                         hintText: 'كلمة المرور',
-                        controller: passwordController,
+                        controller: _passwordController,
                         validator: passwordValidator,
                       ),
                       SizedBox(
@@ -111,7 +121,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                       PasswordField(
                         //Confirm Password textfield
                         hintText: 'تأكيد كلمة المرور',
-                        controller: confirmPasswordController,
+                        controller: _confirmPasswordController,
                         validator: confirmPasswordValidator,
                       ),
                       SizedBox(
@@ -120,13 +130,15 @@ class _SignUpBodyState extends State<SignUpBody> {
                       MainButton(
                         text: 'إنشاء حساب',
                         onTap: () {
-                          if (formKey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate()) {
+                            final token = context.read<AuthCubit>().fcmToken;
                             BlocProvider.of<AuthCubit>(context).signUp(
-                              name: nameController.text,
-                              email: emailController.text,
-                              password: passwordController.text,
+                              name: _nameController.text,
+                              email: _emailController.text,
+                              password: _passwordController.text,
                               passwordConfirmation:
-                                  confirmPasswordController.text,
+                                  _confirmPasswordController.text,
+                              fcm_token: token,
                             );
                           }
                         },
@@ -166,12 +178,18 @@ class _SignUpBodyState extends State<SignUpBody> {
     if (value == null || value.isEmpty) {
       return 'الرجاء تأكيد كلمة المرور ';
     }
+    if (value != _passwordController.text) {
+      return 'كلمة المرور غير متطابقة';
+    }
     return null;
   }
 
   String? passwordValidator(value) {
     if (value == null || value.isEmpty) {
       return 'الرجاء إدخال كلمة المرور ';
+    }
+    if (value.length < 8) {
+      return 'كلمة المرور يجب أن تكون 8 أحرف على الأقل';
     }
     return null;
   }

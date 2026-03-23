@@ -29,6 +29,7 @@ class DioConsumer extends ApiConsumer {
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
+          options.headers['Accept'] = 'application/json';
           return handler.next(options);
         },
       ),
@@ -96,7 +97,7 @@ class DioConsumer extends ApiConsumer {
             options:
                 options ??
                 Options(
-                  validateStatus: (status) => status! < 500,
+                  validateStatus: (status) => status! < 300,
                   responseType: ResponseType.plain,
                   headers: {
                     'Accept': 'application/json',
@@ -113,8 +114,11 @@ class DioConsumer extends ApiConsumer {
             options:
                 options ??
                 Options(
-                  validateStatus: (status) => status! < 500,
+                  validateStatus: (status) => status! < 300,
                   responseType: ResponseType.plain,
+                  headers: {
+                    'Accept': 'application/json',
+                  },
                 ),
           );
           break;
@@ -126,8 +130,11 @@ class DioConsumer extends ApiConsumer {
             options:
                 options ??
                 Options(
-                  validateStatus: (status) => status! < 500,
+                  validateStatus: (status) => status! < 300,
                   responseType: ResponseType.plain,
+                  headers: {
+                    'Accept': 'application/json',
+                  },
                 ),
           );
           break;
@@ -140,7 +147,7 @@ class DioConsumer extends ApiConsumer {
             options:
                 options ??
                 Options(
-                  validateStatus: (status) => status! < 500,
+                  validateStatus: (status) => status! < 300,
                   responseType: ResponseType.plain,
                   headers: {
                     'Accept': 'application/json',
@@ -158,7 +165,7 @@ class DioConsumer extends ApiConsumer {
             options:
                 options ??
                 Options(
-                  validateStatus: (status) => status! < 500,
+                  validateStatus: (status) => status! < 300,
                   responseType: ResponseType.plain,
                   headers: {
                     'Accept': 'application/json',

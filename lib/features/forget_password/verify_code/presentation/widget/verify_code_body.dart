@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
@@ -30,6 +31,7 @@ class _VerifyCodeBodyState extends State<VerifyCodeBody> {
             isBackButtonVisible: true,
             isUserImageVisible: false,
           ),
+          automaticallyImplyLeading: false,
         ),
         SliverToBoxAdapter(
           child: Padding(
@@ -61,9 +63,7 @@ class _VerifyCodeBodyState extends State<VerifyCodeBody> {
                   text: 'تأكيد',
                   onTap: () {
                     if (otpCode.length == 5) {
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(SnackBar(content: Text('تم إدخال الرمز')));
+                      context.showSuccessToast('تم إدخال الرمز بنجاح');
                       GoRouter.of(
                         context,
                       ).push(AppRouter.createNewPasswordViewRoute);

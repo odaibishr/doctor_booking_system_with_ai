@@ -36,7 +36,6 @@ class ProfileViewBody extends StatelessWidget {
         slivers: [
           SliverAppBar(
             title: CustomAppBar(
-              userImage: 'assets/images/my-photo.jpg',
               title: 'الملف الشخصي',
               isBackButtonVisible: false,
               isUserImageVisible: false,
