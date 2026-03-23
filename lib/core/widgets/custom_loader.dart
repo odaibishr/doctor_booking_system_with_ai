@@ -1,6 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class CustomLoader extends StatelessWidget {
   const CustomLoader({super.key, required this.loaderSize});
@@ -9,13 +8,29 @@ class CustomLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: Center(
-        child: LoadingAnimationWidget.staggeredDotsWave(
-          color: AppColors.primary,
-          size: loaderSize,
-        ),
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/animated-icon/loading-logo.gif',
+            width: loaderSize,
+            height: loaderSize,
+            filterQuality: FilterQuality.high,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'جاري التحميل...',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: context.primaryColor,
+              fontFamily: 'JF-Flat',
+              letterSpacing: 0.5,
+            ),
+          ),
+        ],
       ),
     );
   }
