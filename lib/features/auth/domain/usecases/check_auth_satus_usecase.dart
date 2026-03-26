@@ -15,4 +15,4 @@ class CheckAuthSatusUsecase extends Usecase<User?, NoParams> {
   }
 }
 
-class NoParams {}
+
