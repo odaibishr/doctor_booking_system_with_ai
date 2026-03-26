@@ -6,14 +6,17 @@ import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/main_button.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/subtitle.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/title.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/forget_password_button.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/widgets/logo.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/verify_code/presentation/widget/verify_code_digits.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class VerifyCodeBody extends StatefulWidget {
-  const VerifyCodeBody({super.key});
+  final String email;
+  const VerifyCodeBody({super.key, required this.email});
 
   @override
   State<VerifyCodeBody> createState() => _VerifyCodeBodyState();
@@ -21,80 +24,96 @@ class VerifyCodeBody extends StatefulWidget {
 
 class _VerifyCodeBodyState extends State<VerifyCodeBody> {
   String otpCode = '';
+
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          title: CustomAppBar(
-            title: '',
-            isBackButtonVisible: true,
-            isUserImageVisible: false,
-          ),
-          automaticallyImplyLeading: false,
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 17),
-            child: Column(
-              children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.09),
-                Logo(),
-                MainTitle(title: 'التأكد من رمز التحقق'),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-                SubTitle(
-                  text:
-                      'أدخل الرمز الذي أرسلناه لك للتو على بريدك الإلكتروني المسجل',
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: AnimatedOtpInput(
-                    length: 5,
-                    onCompleted: (value) {
-                      setState(() {
-                        otpCode = value;
-                      });
-                    },
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                MainButton(
-                  text: 'تأكيد',
-                  onTap: () {
-                    if (otpCode.length == 5) {
-                      context.showSuccessToast('تم إدخال الرمز بنجاح');
-                      GoRouter.of(
-                        context,
-                      ).push(AppRouter.createNewPasswordViewRoute);
-                    }
-                  },
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is VerifyOtpSuccess) {
+          context.showSuccessToast(state.message);
+          context.push(
+            AppRouter.createNewPasswordViewRoute,
+            extra: {'email': widget.email, 'otp': otpCode},
+          );
+        } else if (state is VerifyOtpFailure) {
+          context.showErrorToast(state.message);
+        }
+      },
+      builder: (context, state) {
+        return CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: CustomAppBar(
+                title: '',
+                isBackButtonVisible: true,
+                isUserImageVisible: false,
+              ),
+              automaticallyImplyLeading: false,
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 17),
+                child: Column(
                   children: [
-                    Text(
-                      'لم تحصل على الرمز ؟  ',
-                      style: FontStyles.body1.copyWith(
-                        color: AppColors.gray500,
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.09),
+                    Logo(),
+                    MainTitle(title: 'التأكد من رمز التحقق'),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                    SubTitle(
+                      text:
+                          'أدخل الرمز الذي أرسلناه لك للتو على بريدك الإلكتروني المسجل: ${widget.email}',
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: AnimatedOtpInput(
+                        length: 5,
+                        onCompleted: (value) {
+                          setState(() {
+                            otpCode = value;
+                          });
+                        },
                       ),
                     ),
-                    ForgetPasswordButton(
-                      text: 'إعادة الإرسال ',
-                      ontap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('اعادة ارسال الرمز')),
-                        );
-                      },
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                    state is VerifyOtpLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : MainButton(
+                            text: 'تأكيد',
+                            onTap: () {
+                              if (otpCode.length == 5) {
+                                context.read<AuthCubit>().verifyOtp(widget.email, otpCode);
+                              } else {
+                                context.showErrorToast('الرجاء إدخال الرمز كاملاً (5 أرقام)');
+                              }
+                            },
+                          ),
+
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'لم تحصل على الرمز ؟  ',
+                          style: FontStyles.body1.copyWith(
+                            color: AppColors.gray500,
+                          ),
+                        ),
+                        ForgetPasswordButton(
+                          text: 'إعادة الإرسال ',
+                          ontap: () {
+                            context.read<AuthCubit>().forgotPassword(widget.email);
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
