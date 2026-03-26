@@ -28,5 +28,8 @@ abstract class AuthRepo {
     required String password,
     required String passwordConfirmation,
   });
+
+  Future<Either<Failure, User>> signInWithGoogle();
 }
+
 
