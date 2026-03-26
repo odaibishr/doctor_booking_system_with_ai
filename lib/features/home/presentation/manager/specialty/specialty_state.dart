@@ -4,7 +4,7 @@ sealed class SpecialtyState {}
 
 final class SpecialtyInitial extends SpecialtyState {}
 
-final class SpcialtyLoading extends SpecialtyState {}
+final class SpecialtyLoading extends SpecialtyState {}
 
 final class SpecialtyLoaded extends SpecialtyState {
   final List<Specialty> specialties;
