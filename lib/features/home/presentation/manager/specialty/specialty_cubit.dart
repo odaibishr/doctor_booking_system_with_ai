@@ -32,7 +32,7 @@ class SpecialtyCubit extends Cubit<SpecialtyState> {
       return;
     }
 
-    emit(SpcialtyLoading());
+    emit(SpecialtyLoading());
 
     final queryState = await _specialtiesQuery!.result;
     final result = queryState.data;
@@ -66,7 +66,7 @@ class SpecialtyCubit extends Cubit<SpecialtyState> {
       return;
     }
 
-    emit(SpcialtyLoading());
+    emit(SpecialtyLoading());
 
     final queryState = await _allSpecialtiesQuery!.result;
     final result = queryState.data;
