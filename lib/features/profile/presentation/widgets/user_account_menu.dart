@@ -54,7 +54,7 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
             ProfileMenuItem(
               title: 'الإعدادات',
               icon: 'assets/icons/setting-2.svg',
-              onTap: () => context.push(AppRouter.customNavigationBarRoute),
+              onTap: () {},
             ),
             const SizedBox(height: 14),
 
