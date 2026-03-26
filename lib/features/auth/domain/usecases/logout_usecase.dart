@@ -15,4 +15,4 @@ class LogoutUsecase extends Usecase<User, NoParams> {
   }
 }
 
-class NoParams {}
+
