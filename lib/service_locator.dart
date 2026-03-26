@@ -90,7 +90,11 @@ import 'package:doctor_booking_system_with_ai/features/auth/domain/repos/auth_re
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/check_auth_satus_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_up_usecase.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/forgot_password_usecase.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/verify_otp_usecase.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/reset_password_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
+
 import 'package:doctor_booking_system_with_ai/features/appointment/data/data_sources/appointment_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/data/repos/appointment_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/features/appointment/domain/repos/appoinment_repo.dart';
@@ -312,6 +316,19 @@ Future<void> init() async {
     () => CheckAuthSatusUsecase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<ForgotPasswordUseCase>(
+    () => ForgotPasswordUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<VerifyOtpUseCase>(
+    () => VerifyOtpUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<ResetPasswordUseCase>(
+    () => ResetPasswordUseCase(serviceLocator()),
+  );
+
+
   serviceLocator.registerLazySingleton<CreateProfileUseCase>(
     () => CreateProfileUseCase(serviceLocator()),
   );
@@ -396,8 +413,12 @@ Future<void> init() async {
       checkAuthSatusUsecase: serviceLocator(),
       logoutUseCase: serviceLocator(),
       googleSignInUseCase: serviceLocator(),
+      forgotPasswordUseCase: serviceLocator(),
+      verifyOtpUseCase: serviceLocator(),
+      resetPasswordUseCase: serviceLocator(),
     ),
   );
+
 
   serviceLocator.registerLazySingleton<ProfileCubit>(
     () => ProfileCubit(
