@@ -1,8 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
-import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/specialty/specialty_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/custom_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/category_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,7 +52,22 @@ class _CategoryListViewState extends State<CategoryListView> {
             ),
           );
         } else {
-          return const CustomLoader(loaderSize: kLoaderSize);
+          return SizedBox(
+            height: Responsive.isDesktop(context) ? 130 : 90,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) => const SizedBox(width: 16),
+              itemBuilder: (context, index) => Column(
+                children: [
+                   CustomShimmer.circular(width: 50, height: 50),
+                   SizedBox(height: 8),
+                   CustomShimmer.rectangular(width: 40, height: 10),
+                ],
+              ),
+            ),
+          );
         }
       },
     );
