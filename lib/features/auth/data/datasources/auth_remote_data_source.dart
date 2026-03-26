@@ -17,7 +17,16 @@ abstract class AuthRemoteDataSource {
     required String idToken,
     String? fcmToken,
   });
+  Future<String> forgotPassword(String email);
+  Future<String> verifyOtp(String email, String otp);
+  Future<String> resetPassword({
+    required String email,
+    required String otp,
+    required String password,
+    required String passwordConfirmation,
+  });
 }
+
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final DioConsumer dioConsumer;
@@ -113,4 +122,42 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     return UserModel.fromJson({...userJson, 'token': token});
   }
+
+  @override
+  Future<String> forgotPassword(String email) async {
+    final response = await dioConsumer.post(
+      'password/forgot',
+      data: {'email': email},
+    );
+    return response['message'];
+  }
+
+  @override
+  Future<String> verifyOtp(String email, String otp) async {
+    final response = await dioConsumer.post(
+      'password/verify-otp',
+      data: {'email': email, 'otp': otp},
+    );
+    return response['message'];
+  }
+
+  @override
+  Future<String> resetPassword({
+    required String email,
+    required String otp,
+    required String password,
+    required String passwordConfirmation,
+  }) async {
+    final response = await dioConsumer.post(
+      'password/reset',
+      data: {
+        'email': email,
+        'otp': otp,
+        'password': password,
+        'password_confirmation': passwordConfirmation,
+      },
+    );
+    return response['message'];
+  }
 }
+
