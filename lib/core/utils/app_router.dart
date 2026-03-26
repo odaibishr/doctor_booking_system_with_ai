@@ -196,17 +196,27 @@ class AppRouter {
       GoRoute(
         path: verifyCodeViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.fadeThrough(
-          child: const VerifyCodeView(),
+          child: VerifyCodeView(email: state.extra as String),
           name: verifyCodeViewRoute,
         ),
       ),
+
+
       GoRoute(
         path: createNewPasswordViewRoute,
-        pageBuilder: (context, state) => PageTransitionBuilder.fadeThrough(
-          child: const CreateNewPasswordView(),
-          name: createNewPasswordViewRoute,
-        ),
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, String>;
+          return PageTransitionBuilder.fadeThrough(
+            child: CreateNewPasswordView(
+              email: extra['email']!,
+              otp: extra['otp']!,
+            ),
+            name: createNewPasswordViewRoute,
+          );
+        },
       ),
+
+
       // Appointment - slide up for modal-like behavior
       GoRoute(
         path: appointmentViewRoute,

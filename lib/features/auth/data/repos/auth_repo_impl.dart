@@ -114,4 +114,45 @@ class AuthRepoImpl implements AuthRepo {
       return Left(Failure('فشل تسجيل الدخول بواسطة جوجل'));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> forgotPassword(String email) async {
+    try {
+      final message = await authRemoteDataSource.forgotPassword(email);
+      return Right(message);
+    } catch (e) {
+      return Left(Failure('فشل إرسال رمز التحقق، يرجى المحاولة مرة أخرى'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> verifyOtp(String email, String otp) async {
+    try {
+      final message = await authRemoteDataSource.verifyOtp(email, otp);
+      return Right(message);
+    } catch (e) {
+      return Left(Failure('الرمز غير صحيح أو منتهي الصلاحية'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> resetPassword({
+    required String email,
+    required String otp,
+    required String password,
+    required String passwordConfirmation,
+  }) async {
+    try {
+      final message = await authRemoteDataSource.resetPassword(
+        email: email,
+        otp: otp,
+        password: password,
+        passwordConfirmation: passwordConfirmation,
+      );
+      return Right(message);
+    } catch (e) {
+      return Left(Failure('فشل إعادة تعيين كلمة المرور، يرجى المحاولة مرة أخرى'));
+    }
+  }
 }
+

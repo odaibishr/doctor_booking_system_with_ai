@@ -2,10 +2,11 @@ import 'package:doctor_booking_system_with_ai/features/forget_password/verify_co
 import 'package:flutter/material.dart';
 
 class VerifyCodeView extends StatelessWidget {
-  const VerifyCodeView({super.key});
+  final String email;
+  const VerifyCodeView({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(child: VerifyCodeBody()));
+    return Scaffold(body: SafeArea(child: VerifyCodeBody(email: email)));
   }
 }
