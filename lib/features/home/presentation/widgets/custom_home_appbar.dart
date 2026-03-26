@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:svg_flutter/svg.dart';
 import 'package:flutter/foundation.dart';
+import 'package:doctor_booking_system_with_ai/core/widgets/custom_shimmer.dart';
 import 'dart:io' show File;
 
 class CustomHomeAppBar extends StatelessWidget {
@@ -91,7 +92,13 @@ class CustomHomeAppBar extends StatelessWidget {
                 ),
               );
             }
-            return const CircularProgressIndicator();
+            return Row(
+              children: [
+                const CustomShimmer.circular(width: 38, height: 38),
+                const SizedBox(width: 5),
+                const CustomShimmer.rectangular(width: 100, height: 16),
+              ],
+            );
           },
         ),
 
