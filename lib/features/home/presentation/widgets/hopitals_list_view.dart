@@ -2,8 +2,7 @@ import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cub
 import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
-import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/doctor_card_skeleton.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/widgets/hospital_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +48,16 @@ class _HopitalsListViewState extends State<HopitalsListView> {
             ),
           );
         } else {
-          return const CustomLoader(loaderSize: kLoaderSize);
+          return SizedBox(
+            height: Responsive.isDesktop(context) ? 240 : 180,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: 3,
+              physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) => const SizedBox(width: 16),
+              itemBuilder: (context, index) => const DoctorCardSkeleton(),
+            ),
+          );
         }
       },
     );
