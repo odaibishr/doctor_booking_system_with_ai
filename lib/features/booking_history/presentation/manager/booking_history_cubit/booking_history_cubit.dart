@@ -9,6 +9,7 @@ import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/usecases/cancel_appointment_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/usecases/reschedule_appointment_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/services/pusher_service.dart';
 import 'package:flutter/foundation.dart';
 
 part 'booking_history_state.dart';
@@ -16,14 +17,19 @@ part 'booking_history_state.dart';
 class BookingHistoryCubit extends Cubit<BookingHistoryState> {
   final CancelAppointmentUseCase cancelAppointmentUseCase;
   final RescheduleAppointmentUseCase rescheduleAppointmentUseCase;
+  final PusherService pusherService;
 
   Query<Either<Failure, List<Booking>>>? _bookingQuery;
   StreamSubscription<QueryState<Either<Failure, List<Booking>>>>? _querySub;
+  StreamSubscription? _pusherSub;
 
   BookingHistoryCubit(
     this.cancelAppointmentUseCase,
     this.rescheduleAppointmentUseCase,
-  ) : super(BookingHistoryInitial());
+    this.pusherService,
+  ) : super(BookingHistoryInitial()) {
+    _listenToPusher();
+  }
 
   void fetchBookingHistory() {
     if (isClosed) return;
@@ -108,9 +114,19 @@ class BookingHistoryCubit extends Cubit<BookingHistoryState> {
     );
   }
 
+  void _listenToPusher() {
+    _pusherSub?.cancel();
+    _pusherSub = pusherService.eventStream.listen((event) {
+      log('BookingHistoryCubit received Pusher event: $event');
+      // Invalidate cache to trigger a refresh
+      invalidateBookingHistoryCache();
+    });
+  }
+
   @override
   Future<void> close() async {
     await _querySub?.cancel();
+    await _pusherSub?.cancel();
     _bookingQuery = null;
     return super.close();
   }
