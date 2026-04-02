@@ -1,4 +1,5 @@
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
+import 'package:doctor_booking_system_with_ai/core/utils/parse_helpers.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/data/models/booking_model.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 
@@ -25,7 +26,9 @@ class BookingHistoryRemoteDataSourceImpl
 
     if (response['data'] != null && response['data'] is List) {
       for (final booking in response['data']) {
-        bookings.add(BookingModel.fromMap(booking as Map<String, dynamic>));
+        if (booking != null) {
+          bookings.add(BookingModel.fromMap(ensureMap(booking)));
+        }
       }
     }
 
