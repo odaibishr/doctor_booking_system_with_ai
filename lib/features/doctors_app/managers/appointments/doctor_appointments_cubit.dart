@@ -8,6 +8,7 @@ import 'package:doctor_booking_system_with_ai/core/cache/cache_exports.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/doctor_appointment.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/update_appointment_status_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/services/fcm_service.dart';
 import 'package:doctor_booking_system_with_ai/core/services/pusher_service.dart';
 import 'package:equatable/equatable.dart';
 
@@ -16,17 +17,21 @@ part 'doctor_appointments_state.dart';
 class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
   final UpdateAppointmentStatusUseCase _updateAppointmentStatusUseCase;
   final PusherService _pusherService;
+  final FcmService _fcmService;
 
   Query<Either<Failure, List<DoctorAppointment>>>? _activeQuery;
   StreamSubscription<QueryState<Either<Failure, List<DoctorAppointment>>>>?
-  _querySub;
+      _querySub;
   StreamSubscription? _pusherSub;
+  StreamSubscription? _fcmSub;
 
   DoctorAppointmentsCubit(
     this._updateAppointmentStatusUseCase,
     this._pusherService,
+    this._fcmService,
   ) : super(DoctorAppointmentsInitial()) {
     _listenToPusher();
+    _listenToFcm();
   }
 
   void _safeEmit(DoctorAppointmentsState state) {
@@ -108,15 +113,24 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
     _pusherSub?.cancel();
     _pusherSub = _pusherService.eventStream.listen((event) {
       log('DoctorAppointmentsCubit: REAL-TIME EVENT RECEIVED! $event');
-      // Invalidate cache and REFETCH- [x] Fix Real-Time Sync in Doctor App
-      // [x] Update `DoctorAppointmentsState` with proper `props` overrides
-      // [x] Update `DoctorDashboardState` with proper `props` overrides
-      // [x] Verify `PusherService` event handling for doctors
-      // [x] Add explicit logs for real-time events in Cubits
       invalidateDoctorAppointmentsCache();
       invalidateDoctorDashboardCache();
-      
+
       _activeQuery?.refetch();
+    });
+  }
+
+  void _listenToFcm() {
+    _fcmSub?.cancel();
+    _fcmSub = _fcmService.eventStream.listen((data) {
+      log('DoctorAppointmentsCubit: REAL-TIME FCM EVENT RECEIVED! $data');
+      final type = data['type']?.toString();
+      if (type == 'appointment_created' || type == 'appointment_updated') {
+        log('DoctorAppointmentsCubit: Triggering refetch from FCM...');
+        invalidateDoctorAppointmentsCache();
+        invalidateDoctorDashboardCache();
+        _activeQuery?.refetch();
+      }
     });
   }
 
@@ -124,6 +138,7 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
   Future<void> close() async {
     await _querySub?.cancel();
     await _pusherSub?.cancel();
+    await _fcmSub?.cancel();
     _activeQuery = null;
     return super.close();
   }
