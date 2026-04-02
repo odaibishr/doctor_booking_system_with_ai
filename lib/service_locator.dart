@@ -596,7 +596,7 @@ Future<void> init() async {
 
   // Doctor App Feature - Cubits
   serviceLocator.registerFactory<DoctorDashboardCubit>(
-    () => DoctorDashboardCubit(),
+    () => DoctorDashboardCubit(serviceLocator()),
   );
 
   serviceLocator.registerFactory<DoctorAppointmentsCubit>(
