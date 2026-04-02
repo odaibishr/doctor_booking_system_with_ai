@@ -36,13 +36,20 @@ class PusherService {
         apiKey: apiKey,
         cluster: cluster,
         onEvent: (event) {
-          log("Pusher Event: ${event.eventName} with data: ${event.data}");
-          if (event.eventName == 'appointment.updated') {
+          log("[PUSHER] Event Received: ${event.eventName} on channel ${event.channelName}");
+          log("[PUSHER] Data: ${event.data}");
+          
+          // Accept both prefixed and non-prefixed names
+          final isAppointmentEvent = event.eventName == 'appointment.updated' || 
+                                     event.eventName == 'appointment.created' ||
+                                     event.eventName.endsWith('.AppointmentStatusUpdated');
+
+          if (isAppointmentEvent) {
             try {
               final data = jsonDecode(event.data);
               _eventController.add(data);
             } catch (e) {
-              log("Pusher JSON Parse Error: $e");
+              log("[PUSHER] JSON Parse Error: $e");
             }
           }
         },
@@ -73,13 +80,15 @@ class PusherService {
         },
       );
 
+      log('[PUSHER] Subscribing to private-user.$userId');
       await pusher.subscribe(channelName: "private-user.$userId");
       if (doctorId != null && doctorId.isNotEmpty) {
+        log('[PUSHER] Subscribing to private-doctor.$doctorId');
         await pusher.subscribe(channelName: "private-doctor.$doctorId");
       }
       await pusher.connect();
     } catch (error) {
-      log('Error initializing Pusher: $error');
+      log('[PUSHER] Error initializing Pusher: $error');
     }
   }
 
