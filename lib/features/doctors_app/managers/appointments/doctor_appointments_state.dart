@@ -15,12 +15,18 @@ final class DoctorAppointmentsLoaded extends DoctorAppointmentsState {
   final List<DoctorAppointment> appointments;
 
   const DoctorAppointmentsLoaded(this.appointments);
+
+  @override
+  List<Object> get props => [appointments];
 }
 
 final class DoctorAppointmentsError extends DoctorAppointmentsState {
   final String message;
 
   const DoctorAppointmentsError(this.message);
+
+  @override
+  List<Object> get props => [message];
 }
 
 final class DoctorAppointmentStatusUpdating extends DoctorAppointmentsState {}
@@ -29,6 +35,9 @@ final class DoctorAppointmentStatusUpdated extends DoctorAppointmentsState {
   final DoctorAppointment appointment;
 
   const DoctorAppointmentStatusUpdated(this.appointment);
+
+  @override
+  List<Object> get props => [appointment];
 }
 
 final class DoctorAppointmentStatusUpdatedError
@@ -36,4 +45,7 @@ final class DoctorAppointmentStatusUpdatedError
   final String message;
 
   const DoctorAppointmentStatusUpdatedError(this.message);
+
+  @override
+  List<Object> get props => [message];
 }
