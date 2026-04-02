@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:cached_query_flutter/cached_query_flutter.dart';
@@ -7,19 +8,26 @@ import 'package:doctor_booking_system_with_ai/core/cache/cache_exports.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/doctor_appointment.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/update_appointment_status_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/services/pusher_service.dart';
 import 'package:equatable/equatable.dart';
 
 part 'doctor_appointments_state.dart';
 
 class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
   final UpdateAppointmentStatusUseCase _updateAppointmentStatusUseCase;
+  final PusherService _pusherService;
 
   Query<Either<Failure, List<DoctorAppointment>>>? _activeQuery;
   StreamSubscription<QueryState<Either<Failure, List<DoctorAppointment>>>>?
   _querySub;
+  StreamSubscription? _pusherSub;
 
-  DoctorAppointmentsCubit(this._updateAppointmentStatusUseCase)
-    : super(DoctorAppointmentsInitial());
+  DoctorAppointmentsCubit(
+    this._updateAppointmentStatusUseCase,
+    this._pusherService,
+  ) : super(DoctorAppointmentsInitial()) {
+    _listenToPusher();
+  }
 
   void _safeEmit(DoctorAppointmentsState state) {
     if (!isClosed) emit(state);
@@ -96,9 +104,20 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
     );
   }
 
+  void _listenToPusher() {
+    _pusherSub?.cancel();
+    _pusherSub = _pusherService.eventStream.listen((event) {
+      log('DoctorAppointmentsCubit received Pusher event: $event');
+      // Invalidate cache to trigger a refresh
+      invalidateDoctorAppointmentsCache();
+      invalidateDoctorDashboardCache();
+    });
+  }
+
   @override
   Future<void> close() async {
     await _querySub?.cancel();
+    await _pusherSub?.cancel();
     _activeQuery = null;
     return super.close();
   }
