@@ -107,10 +107,16 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
   void _listenToPusher() {
     _pusherSub?.cancel();
     _pusherSub = _pusherService.eventStream.listen((event) {
-      log('DoctorAppointmentsCubit received Pusher event: $event');
-      // Invalidate cache to trigger a refresh
+      log('DoctorAppointmentsCubit: REAL-TIME EVENT RECEIVED! $event');
+      // Invalidate cache and REFETCH- [x] Fix Real-Time Sync in Doctor App
+      // [x] Update `DoctorAppointmentsState` with proper `props` overrides
+      // [x] Update `DoctorDashboardState` with proper `props` overrides
+      // [x] Verify `PusherService` event handling for doctors
+      // [x] Add explicit logs for real-time events in Cubits
       invalidateDoctorAppointmentsCache();
       invalidateDoctorDashboardCache();
+      
+      _activeQuery?.refetch();
     });
   }
 
