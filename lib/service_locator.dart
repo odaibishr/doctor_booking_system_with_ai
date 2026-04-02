@@ -130,6 +130,7 @@ import 'package:doctor_booking_system_with_ai/features/notification/data/datasou
 import 'package:doctor_booking_system_with_ai/features/notification/data/repos/notification_repo_impl.dart';
 import 'package:doctor_booking_system_with_ai/features/notification/domain/repos/notification_repo.dart';
 import 'package:doctor_booking_system_with_ai/features/notification/presentation/manager/notification_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/services/pusher_service.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -143,6 +144,10 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<NotificationService>(
     () => NotificationService(AppRouter.navigatorKey),
+  );
+
+  serviceLocator.registerLazySingleton<PusherService>(
+    () => PusherService(),
   );
 
   // Network
@@ -396,6 +401,7 @@ Future<void> init() async {
       checkAuthSatusUsecase: serviceLocator(),
       logoutUseCase: serviceLocator(),
       googleSignInUseCase: serviceLocator(),
+      pusherService: serviceLocator(),
     ),
   );
 
@@ -449,6 +455,7 @@ Future<void> init() async {
     () => BookingHistoryCubit(
       serviceLocator<CancelAppointmentUseCase>(),
       serviceLocator<RescheduleAppointmentUseCase>(),
+      serviceLocator<PusherService>(),
     ),
   );
 
@@ -594,6 +601,7 @@ Future<void> init() async {
 
   serviceLocator.registerFactory<DoctorAppointmentsCubit>(
     () => DoctorAppointmentsCubit(
+      serviceLocator(),
       serviceLocator(),
     ),
   );
