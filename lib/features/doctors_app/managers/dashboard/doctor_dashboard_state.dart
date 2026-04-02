@@ -15,10 +15,16 @@ final class DoctorDashboardLoaded extends DoctorDashboardState {
   final DashboardStats stats;
 
   const DoctorDashboardLoaded(this.stats);
+
+  @override
+  List<Object> get props => [stats];
 }
 
 final class DoctorDashboardError extends DoctorDashboardState {
   final String message;
 
   const DoctorDashboardError(this.message);
+
+  @override
+  List<Object> get props => [message];
 }

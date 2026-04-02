@@ -7,37 +7,42 @@ import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/profile/domain/use_cases/logout_use_case.dart'
     as profile_logout;
+import 'package:doctor_booking_system_with_ai/core/services/pusher_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
+  final SignInUseCase signInUseCase;
+  final SignUpUsecase signUpUsecase;
+  final CheckAuthSatusUsecase checkAuthSatusUsecase;
+  final profile_logout.LogoutUseCase logoutUseCase;
+  final GoogleSignInUseCase googleSignInUseCase;
+  final PusherService pusherService;
+
   AuthCubit({
     required this.signInUseCase,
     required this.signUpUsecase,
     required this.checkAuthSatusUsecase,
     required this.logoutUseCase,
     required this.googleSignInUseCase,
+    required this.pusherService,
   }) : super(AuthInitial());
 
-  final SignInUseCase signInUseCase;
-  final SignUpUsecase signUpUsecase;
-  final CheckAuthSatusUsecase checkAuthSatusUsecase;
-  final profile_logout.LogoutUseCase logoutUseCase;
-  final GoogleSignInUseCase googleSignInUseCase;
-  
-
   String? fcmToken;
-  void setFcmToken(String? token)
-  {
-    fcmToken=token;
-    
+  void setFcmToken(String? token) {
+    fcmToken = token;
   }
 
-  Future<void> signIn({required String email, required String password,String? fcm_token}) async {
+  Future<void> signIn({
+    required String email,
+    required String password,
+    String? fcm_token,
+  }) async {
     emit(AuthLoading());
     try {
       final result = await signInUseCase(
-        SignInParams(email: email, password: password,fcm_token: fcm_token),
+        SignInParams(email: email, password: password, fcm_token: fcm_token),
       );
 
       result.fold((failure) => emit(AuthError(message: failure.errorMessage)), (
@@ -45,6 +50,7 @@ class AuthCubit extends Cubit<AuthState> {
       ) async {
         if (user.token.isNotEmpty) {
           await HiveService.cacheAuthData(user);
+          await _initPusher(user);
           emit(AuthSuccess(user: user));
         }
       });
@@ -62,6 +68,7 @@ class AuthCubit extends Cubit<AuthState> {
       ) async {
         if (user.token.isNotEmpty) {
           await HiveService.cacheAuthData(user);
+          await _initPusher(user);
           emit(AuthSuccess(user: user));
         }
       });
@@ -75,6 +82,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       final cachedUser = HiveService.getCachedAuthData();
       if (cachedUser != null && cachedUser.token.isNotEmpty) {
+        await _initPusher(cachedUser);
         emit(AuthSuccess(user: cachedUser));
       } else {
         emit(AuthError(message: "لم يتم العثور على مستخدم مسجل الدخول"));
@@ -105,10 +113,11 @@ class AuthCubit extends Cubit<AuthState> {
 
       result.fold((failure) => emit(AuthError(message: failure.errorMessage)), (
         user,
-      ) {
+      ) async {
         if (user.token.isEmpty) {
           emit(AuthError(message: "تم استلام رمز غير صالح"));
         } else {
+          await _initPusher(user);
           emit(AuthSuccess(user: user));
         }
       });
@@ -123,10 +132,23 @@ class AuthCubit extends Cubit<AuthState> {
       final result = await logoutUseCase();
       result.fold(
         (failure) => emit(AuthError(message: failure.errorMessage)),
-        (_) => emit(AuthLoggedOut()),
+        (_) {
+          pusherService.disconnect();
+          emit(AuthLoggedOut());
+        },
       );
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
+  }
+
+  Future<void> _initPusher(User user) async {
+    await pusherService.init(
+      apiKey: dotenv.env['PUSHER_APP_KEY'] ?? '',
+      cluster: dotenv.env['PUSHER_APP_CLUSTER'] ?? 'mt1',
+      userId: user.id.toString(),
+      doctorId: user.doctorId?.toString(),
+      token: user.token,
+    );
   }
 }

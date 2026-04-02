@@ -45,6 +45,9 @@ class User extends HiveObject {
   @HiveField(12)
   final String? role;
 
+  @HiveField(13)
+  final int? doctorId;
+
   User({
     this.phone,
     this.address,
@@ -59,6 +62,7 @@ class User extends HiveObject {
     required this.locationId,
     this.fcm_token,
     this.role,
+    this.doctorId,
   });
 
   User copyWith({
@@ -75,6 +79,7 @@ class User extends HiveObject {
     int? locationId,
     String? fcm_token,
     String? role,
+    int? doctorId,
   }) {
     return User(
       id: id ?? this.id,
@@ -90,6 +95,7 @@ class User extends HiveObject {
       locationId: locationId ?? this.locationId,
       fcm_token: fcm_token ?? this.fcm_token,
       role: role ?? this.role,
+      doctorId: doctorId ?? this.doctorId,
     );
   }
 }

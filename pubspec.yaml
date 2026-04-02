@@ -83,6 +83,7 @@ dependencies:
   flutter_local_notifications: ^18.0.1
   connectivity_plus: ^6.1.5
   rxdart: ^0.28.0
+  pusher_channels_flutter: ^2.6.0
 
 dev_dependencies:
   flutter_test:

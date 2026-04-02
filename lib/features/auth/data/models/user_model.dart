@@ -18,6 +18,7 @@ class UserModel extends User {
     required super.locationId,
     super.fcm_token,
     super.role,
+    super.doctorId,
   });
 
   factory UserModel.empty() {
@@ -35,6 +36,7 @@ class UserModel extends User {
       locationId: 0,
       fcm_token: null,
       role: null,
+      doctorId: null,
     );
   }
 
@@ -70,6 +72,7 @@ class UserModel extends User {
       locationId: json['location_id'] ?? json['locationId'] ?? location.id,
       fcm_token: json['fcm_token']?.toString(),
       role: json['role']?.toString(),
+      doctorId: json['doctor_id'] as int? ?? json['doctoralId'] as int?,
     );
   }
 
@@ -88,6 +91,7 @@ class UserModel extends User {
       'location_id': locationId,
       'fcm_token': fcm_token,
       'role': role,
+      'doctor_id': doctorId,
     };
   }
 

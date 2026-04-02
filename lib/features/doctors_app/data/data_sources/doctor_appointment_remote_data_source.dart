@@ -58,7 +58,7 @@ class DoctorAppointmentRemoteDataSourceImpl
   Future<DoctorAppointment> getAppointmentDetails(int id) async {
     final response = await dioConsumer.get('doctor/my-appointments/$id');
     return DoctorAppointmentModel.fromMap(
-      response['data'] as Map<String, dynamic>,
+      ensureMap(response['data']),
     );
   }
 
@@ -95,7 +95,7 @@ class DoctorAppointmentRemoteDataSourceImpl
       },
     );
     return DoctorAppointmentModel.fromMap(
-      response['data'] as Map<String, dynamic>,
+      ensureMap(response['data']),
     );
   }
 }

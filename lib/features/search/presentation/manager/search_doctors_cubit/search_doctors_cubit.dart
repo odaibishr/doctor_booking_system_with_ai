@@ -63,10 +63,13 @@ class SearchDoctorsCubit extends Cubit<SearchDoctorsState> {
     _subscription = _searchSubject.stream
         .debounceTime(const Duration(milliseconds: 300))
         .switchMap((searchQuery) => _performSearch(searchQuery))
-        .listen((_) {});
+        .listen((state) {
+      if (!isClosed) emit(state);
+    });
   }
 
   void updateSearch(String query, [int? specialtyId]) {
+    if (isClosed) return;
     emit(SearchDoctorloading());
     _currentQuery = query;
     _currentSpecialtyId = specialtyId ?? _currentSpecialtyId;
@@ -83,6 +86,7 @@ class SearchDoctorsCubit extends Cubit<SearchDoctorsState> {
     int? hospitalId,
     int? specialtyId,
   }) {
+    if (isClosed) return;
     emit(SearchDoctorloading());
     _currentSpecialtyId = specialtyId;
     _searchSubject.add(SearchQuery(
@@ -95,8 +99,8 @@ class SearchDoctorsCubit extends Cubit<SearchDoctorsState> {
     ));
   }
 
-  Stream<void> _performSearch(SearchQuery searchQuery) async* {
-    emit(SearchDoctorloading());
+  Stream<SearchDoctorsState> _performSearch(SearchQuery searchQuery) async* {
+    yield SearchDoctorloading();
 
     final bool hasFilters = searchQuery.gender != null ||
         searchQuery.minPrice != null ||
@@ -107,9 +111,9 @@ class SearchDoctorsCubit extends Cubit<SearchDoctorsState> {
         searchQuery.specialtyId == null &&
         !hasFilters) {
       final result = await getDoctorsUseCase(NoParams());
-      result.fold(
-        (failure) => emit(SearchDoctorsError(failure.errorMessage)),
-        (doctors) => emit(SearchDoctorsLoaded(doctors)),
+      yield result.fold(
+        (failure) => SearchDoctorsError(failure.errorMessage),
+        (doctors) => SearchDoctorsLoaded(doctors),
       );
     } else {
       final result = await searchDoctorsUseCase(
@@ -122,9 +126,9 @@ class SearchDoctorsCubit extends Cubit<SearchDoctorsState> {
           hospitalId: searchQuery.hospitalId,
         ),
       );
-      result.fold(
-        (failure) => emit(SearchDoctorsError(failure.errorMessage)),
-        (doctors) => emit(SearchDoctorsLoaded(doctors)),
+      yield result.fold(
+        (failure) => SearchDoctorsError(failure.errorMessage),
+        (doctors) => SearchDoctorsLoaded(doctors),
       );
     }
   }

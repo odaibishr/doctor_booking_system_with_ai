@@ -1,3 +1,4 @@
+import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
@@ -63,29 +64,56 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
             delay: const Duration(milliseconds: 200),
             animationType: AnimationType.fadeSlideUp,
             child: TapBar(
-              tabItems: const ['قائمة الانتظار', 'القادمة', 'المكتملة', 'الملغاة'],
+              tabItems: const [
+                'قائمة الانتظار',
+                'القادمة',
+                'المكتملة',
+                'الملغاة',
+              ],
               selectedTab: _selectedTab,
               onTabChanged: _onTabChanged,
             ),
           ),
           const SizedBox(height: 16),
           Expanded(
-            child: BlocBuilder<BookingHistoryCubit, BookingHistoryState>(
-              builder: (context, state) {
-                if (state is BookingHistoryLoading) {
-                  return const BookingHistorySkeleton();
+            child: BlocListener<BookingHistoryCubit, BookingHistoryState>(
+              listenWhen: (previous, current) =>
+                  current is CancelAppointmentSuccess ||
+                  current is CancelAppointmentError ||
+                  current is RescheduleAppointmentSuccess ||
+                  current is RescheduleAppointmentError,
+              listener: (context, state) {
+                if (state is CancelAppointmentSuccess) {
+                  context.showSuccessToast('تم إلغاء الموعد بنجاح');
+                } else if (state is CancelAppointmentError) {
+                  context.showErrorToast(state.message);
+                } else if (state is RescheduleAppointmentSuccess) {
+                  context.showSuccessToast('تم إعادة جدولة الموعد بنجاح');
+                } else if (state is RescheduleAppointmentError) {
+                  context.showErrorToast(state.message);
                 }
+              },
+              child: BlocBuilder<BookingHistoryCubit, BookingHistoryState>(
+                builder: (context, state) {
+                  if (state is BookingHistoryLoading &&
+                      state.bookings.isEmpty) {
+                    return const BookingHistorySkeleton();
+                  }
 
-                if (state is BookingHistoryError) {
-                  return Center(
-                    child: Text(
-                      state.message,
-                      style: TextStyle(color: context.errorColor),
-                    ),
-                  );
-                }
+                  if (state is BookingHistoryError && state.bookings.isEmpty) {
+                    return Center(
+                      child: Text(
+                        state.message,
+                        style: TextStyle(color: context.errorColor),
+                      ),
+                    );
+                  }
 
-                if (state is BookingHistoryLoaded) {
+                  if (state.bookings.isEmpty &&
+                      state is! BookingHistoryLoading) {
+                    return const Center(child: Text('لا توجد حجوزات حالياً'));
+                  }
+
                   final groupedBookings = _groupBookingsByStatus(
                     state.bookings,
                   );
@@ -124,10 +152,8 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
                       ],
                     ),
                   );
-                }
-
-                return const SizedBox.shrink();
-              },
+                },
+              ),
             ),
           ),
         ],
