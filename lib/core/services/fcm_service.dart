@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:doctor_booking_system_with_ai/core/cache/cache_exports.dart';
@@ -9,6 +10,10 @@ class FcmService {
   final DioConsumer _dioConsumer;
   final FlutterLocalNotificationsPlugin _localNotifications =
       FlutterLocalNotificationsPlugin();
+
+  final _eventController = StreamController<Map<String, dynamic>>.broadcast();
+
+  Stream<Map<String, dynamic>> get eventStream => _eventController.stream;
 
   static const _channel = AndroidNotificationChannel(
     'high_importance_channel',
@@ -100,6 +105,9 @@ class FcmService {
       // Invalidate cache to ensure UI gets fresh data on next access/refresh
       invalidateDoctorAppointmentsCache();
       invalidateDoctorDashboardCache();
+
+      // Emit event to stream to trigger real-time UI updates
+      _eventController.add(message.data);
 
       try {
         _localNotifications.show(
