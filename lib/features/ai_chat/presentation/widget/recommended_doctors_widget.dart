@@ -23,7 +23,7 @@ class RecommendedDoctorsWidget extends StatelessWidget {
               'الأطباء المقترحين',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: context.whiteColor,
+                color: context.blackColor,
                 fontSize: 16,
               ),
             ),
