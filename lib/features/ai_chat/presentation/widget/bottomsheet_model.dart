@@ -45,12 +45,7 @@ class _BottomSheetModelState extends State<BottomSheetModel> {
       }
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('حدث خطأ أثناء محاولة إرفاق الصورة'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        context.showErrorToast('حدث خطاء اثناء محاولة رفع الصورة');
       }
     }
   }
