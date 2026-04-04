@@ -16,11 +16,13 @@ class BottomSheetItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
+
     return GestureDetector(
       onTap: ontap,
       child: Container(
         height: 100,
-        width: 110,
+        width: width / 3.5,
         decoration: BoxDecoration(
           color: AppColors.primary,
           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -33,7 +35,7 @@ class BottomSheetItems extends StatelessWidget {
               SizedBox(height: 15),
               Text(
                 title,
-                style: FontStyles.subTitle3.copyWith(color: context.blackColor),
+                style: FontStyles.subTitle3.copyWith(color: context.whiteColor),
               ),
             ],
           ),
