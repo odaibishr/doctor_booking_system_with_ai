@@ -26,15 +26,35 @@ class BottomSheetModel extends StatefulWidget {
 
 class _BottomSheetModelState extends State<BottomSheetModel> {
 Future<void> _pickImage(ImageSource source) async {
-  final XFile? pickedFile =
-      await widget._picker.pickImage(source: source, imageQuality: 70);
+  try {
+    final XFile? pickedFile =
+        await widget._picker.pickImage(source: source, imageQuality: 70);
 
-  if (pickedFile == null) return;
+    if (pickedFile == null) return;
 
-  final File file = File(pickedFile.path);
+    final File file = File(pickedFile.path);
 
-  // أرسل الصورة فقط
-  widget.onSend(image: file);
+    // أرسل الصورة فقط
+    widget.onSend(image: file);
+  } on PlatformException catch (e) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('الكاميرا غير متوفرة في هذا الجهاز'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  } catch (e) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('حدث خطأ أثناء محاولة إرفاق الصورة'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 }
 
 Future<void> _openLink(String url) async {
