@@ -15,7 +15,7 @@ class BottomSheetModel extends StatefulWidget {
     required ImagePicker picker,
     required this.widget,
     required this.onSend,
-  }) : _picker = picker;
+  }) : _picker = picker;ء 
 
   final ImagePicker _picker;
   final UploadButton widget;
