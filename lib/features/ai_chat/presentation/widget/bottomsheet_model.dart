@@ -1,5 +1,6 @@
-
 import 'dart:io';
+import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
+import 'package:flutter/services.dart';
 
 import 'package:doctor_booking_system_with_ai/features/ai_chat/data/data_sources/ai_image_service.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/bottomsheet_items.dart';
@@ -8,12 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class BottomSheetModel extends StatefulWidget {
   const BottomSheetModel({
     super.key,
     required ImagePicker picker,
-    required this.widget, required this.onSend,
+    required this.widget,
+    required this.onSend,
   }) : _picker = picker;
 
   final ImagePicker _picker;
@@ -25,48 +26,42 @@ class BottomSheetModel extends StatefulWidget {
 }
 
 class _BottomSheetModelState extends State<BottomSheetModel> {
-Future<void> _pickImage(ImageSource source) async {
-  try {
-    final XFile? pickedFile =
-        await widget._picker.pickImage(source: source, imageQuality: 70);
-
-    if (pickedFile == null) return;
-
-    final File file = File(pickedFile.path);
-
-    // أرسل الصورة فقط
-    widget.onSend(image: file);
-  } on PlatformException catch (e) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('الكاميرا غير متوفرة في هذا الجهاز'),
-          backgroundColor: Colors.red,
-        ),
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final XFile? pickedFile = await widget._picker.pickImage(
+        source: source,
+        imageQuality: 70,
       );
-    }
-  } catch (e) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('حدث خطأ أثناء محاولة إرفاق الصورة'),
-          backgroundColor: Colors.red,
-        ),
-      );
+
+      if (pickedFile == null) return;
+
+      final File file = File(pickedFile.path);
+
+      // أرسل الصورة فقط
+      widget.onSend(image: file);
+    } on PlatformException catch (_) {
+      if (mounted) {
+        context.showErrorToast('الكاميرا غير متوفرة في هذا الجهاز');
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('حدث خطأ أثناء محاولة إرفاق الصورة'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
-}
 
-Future<void> _openLink(String url) async {
-  final Uri uri = Uri.parse(url);
+  Future<void> _openLink(String url) async {
+    final Uri uri = Uri.parse(url);
 
-  if (!await launchUrl(
-    uri,
-    mode: LaunchMode.externalApplication,
-  )) {
-    throw 'Could not launch $url';
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $url';
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +88,8 @@ Future<void> _openLink(String url) async {
                 title: 'الكاميرا',
                 ontap: () async {
                   // _openLink('https://huggingface.co/spaces/Aosldofdos/XrayModel');
-                   _pickImage(ImageSource.camera);
-                   Navigator.pop(context);
+                  _pickImage(ImageSource.camera);
+                  Navigator.pop(context);
                   // final XFile? photo = await _picker.pickImage(
                   //   source: ImageSource.camera,
                   // );
@@ -108,7 +103,7 @@ Future<void> _openLink(String url) async {
                 title: 'المعرض',
                 ontap: () async {
                   // _openLink('https://huggingface.co/spaces/Aosldofdos/XrayModel');
-                   _pickImage(ImageSource.gallery);
+                  _pickImage(ImageSource.gallery);
                   Navigator.pop(context);
                   // final XFile? image = await _picker.pickImage(
                   //   source: ImageSource.gallery,
