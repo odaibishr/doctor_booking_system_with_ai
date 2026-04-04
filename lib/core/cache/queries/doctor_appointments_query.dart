@@ -58,6 +58,56 @@ Query<Either<Failure, DashboardStats>> doctorDashboardQuery(String filter) {
   );
 }
 
+// Invalidation & Optimistic functions
+void updateAppointmentOptimisticallyInCache(DoctorAppointment updatedAppointment) {
+  final statusKeys = [
+    QueryKeys.doctorAppointmentsByStatus('pending'),
+    QueryKeys.doctorAppointmentsByStatus('confirmed'),
+    QueryKeys.doctorAppointmentsByStatus('completed'),
+    QueryKeys.doctorAppointmentsByStatus('cancelled'),
+    QueryKeys.doctorHistoryAppointments,
+    QueryKeys.doctorUpcomingAppointments,
+    QueryKeys.doctorTodayAppointments,
+  ];
+
+  for (final key in statusKeys) {
+    final query = CachedQuery.instance.getQuery(key) as Query<Either<Failure, List<DoctorAppointment>>>?;
+    if (query != null) {
+      query.update((oldData) {
+        if (oldData == null) return null;
+        
+        return oldData.map((list) {
+          final newList = List<DoctorAppointment>.from(list);
+          
+          bool shouldBeInThisList = false;
+          if (key == QueryKeys.doctorHistoryAppointments) {
+            shouldBeInThisList = updatedAppointment.status == 'completed' || updatedAppointment.status == 'cancelled';
+          } else if (key == QueryKeys.doctorUpcomingAppointments) {
+            shouldBeInThisList = updatedAppointment.status == 'confirmed' || updatedAppointment.status == 'pending';
+          } else if (key == QueryKeys.doctorTodayAppointments) {
+            shouldBeInThisList = updatedAppointment.status == 'confirmed' || updatedAppointment.status == 'pending';
+          } else if (key == QueryKeys.doctorAppointmentsByStatus(updatedAppointment.status)) {
+            shouldBeInThisList = true;
+          }
+
+          if (shouldBeInThisList) {
+            final index = newList.indexWhere((a) => a.id == updatedAppointment.id);
+            if (index == -1) {
+              newList.insert(0, updatedAppointment);
+            } else {
+              newList[index] = updatedAppointment;
+            }
+          } else {
+            newList.removeWhere((a) => a.id == updatedAppointment.id);
+          }
+          return newList;
+        });
+      });
+    }
+  }
+}
+
+
 // Invalidation functions
 void invalidateDoctorAppointmentsCache() {
   AppQueryConfig.invalidateQuery(QueryKeys.doctorTodayAppointments);
