@@ -126,9 +126,23 @@ class AiChatCubit extends Cubit<AiChatState> {
     return filteredDoctors;
   }
 
+  List<Doctor> _findDoctorsByKeywords(List<String> keywords) {
+    final List<Doctor> found = [];
+    for (final keyword in keywords) {
+      final normalizedKeyword = _normalizeArabic(keyword);
+      for (final specialty in _specialties) {
+        final normalizedName = _normalizeArabic(specialty.name);
+        if (normalizedName.contains(normalizedKeyword) ||
+            normalizedKeyword.contains(normalizedName)) {
+          found.addAll(_fetchDoctorsBySpecialtyFromCache(specialty.id));
+        }
+      }
+    }
+    return {for (var d in found) d.id: d}.values.toList();
+  }
+
   Future<void> sendMessage({String? message, File? image}) async {
-    final doctorss;
-    if (_specialties.isEmpty) {
+      if (_specialties.isEmpty) {
       await _loadSpecialties();
     }
 
@@ -136,7 +150,6 @@ class AiChatCubit extends Cubit<AiChatState> {
     if (image != null) {
       _messages.add({'role': 'user', 'image': image, 'isDone': true});
 
-      int aiIndex = _messages.length - 1;
       emit(
         AiChatSuccess(
           messages: List.from(_messages),
@@ -147,15 +160,30 @@ class AiChatCubit extends Cubit<AiChatState> {
       try {
         final result = await ImageAiService().analyzeImage(image);
 
-    const int chestspecialityid=3;
-    final doctorss=_fetchDoctorsBySpecialtyFromCache(chestspecialityid);
-    if(doctorss.isNotEmpty)
-    {
-      _recommendedDoctors[aiIndex]=doctorss;
-    }       
-
-
         _messages.add({'role': 'ai', 'text': result, 'isDone': true});
+        final int aiIndex = _messages.length - 1;
+
+        final specialtyIds = _extractSpecialtyIds(result);
+        log('Image analysis - extracted specialty IDs: $specialtyIds');
+
+        if (specialtyIds.isNotEmpty) {
+          List<Doctor> allDoctors = [];
+          for (var id in specialtyIds) {
+            allDoctors.addAll(_fetchDoctorsBySpecialtyFromCache(id));
+          }
+          final uniqueDoctors = {for (var d in allDoctors) d.id: d}.values.toList();
+          if (uniqueDoctors.isNotEmpty) {
+            _recommendedDoctors[aiIndex] = uniqueDoctors;
+            log('✅ Image: Added ${uniqueDoctors.length} doctors at index $aiIndex');
+          }
+        } else {
+          // Fallback: image analysis is for chest X-rays, try matching chest specialty
+          final chestDoctors = _findDoctorsByKeywords(['صدر', 'باطن', 'صدريه', 'باطنيه']);
+          if (chestDoctors.isNotEmpty) {
+            _recommendedDoctors[aiIndex] = chestDoctors;
+            log('✅ Image fallback: Added ${chestDoctors.length} chest doctors at index $aiIndex');
+          }
+        }
 
         emit(
           AiChatSuccess(
@@ -167,7 +195,7 @@ class AiChatCubit extends Cubit<AiChatState> {
         emit(AiChatFailure(errMessage: e.toString()));
       }
 
-      return; // 🔥 مهم جدا — أوقف هنا ولا تكمل منطق النص
+      return;
     }
 
     // ================= TEXT =================
