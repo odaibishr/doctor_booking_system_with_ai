@@ -83,13 +83,6 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
   }) async {
     if (isClosed) return;
 
-    // Optimistic UI Update: Remove from current list immediately
-    if (state is DoctorAppointmentsLoaded) {
-      final appointments = (state as DoctorAppointmentsLoaded).appointments;
-      final updatedList = appointments.where((a) => a.id != id).toList();
-      _safeEmit(DoctorAppointmentsLoaded(updatedList));
-    }
-
     final result = await _updateAppointmentStatusUseCase.call(
       UpdateAppointmentStatusUseCaseParams(
         id: id,
@@ -102,6 +95,9 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
       (failure) => _safeEmit(DoctorAppointmentsError(failure.errorMessage)),
       (appointment) {
         _safeEmit(DoctorAppointmentStatusUpdated(appointment));
+
+        // Optimistic UI Update across all cached queries instantly
+        updateAppointmentOptimisticallyInCache(appointment);
 
         invalidateDoctorAppointmentsCache();
         invalidateDoctorDashboardCache();
