@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
-import 'package:doctor_booking_system_with_ai/core/widgets/custom_loader.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/data/data_sources/ai_image_service.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/manager/ai_chat_cubit/ai_chat_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/manager/ai_chat_cubit/ai_chat_state.dart';
@@ -18,7 +17,6 @@ class AiChatBody extends StatefulWidget {
 }
 
 class _AiChatBodyState extends State<AiChatBody> {
-  bool IsLoading=false;
   final ScrollController _scrollController = ScrollController();
   List<Map<String, dynamic>> _messages = [];
 
@@ -40,10 +38,8 @@ class _AiChatBodyState extends State<AiChatBody> {
     }
 
     // ====== إذا كانت صورة ======
-    if (image !=null) {
-      IsLoading=true;
-    context.read<AiChatCubit>().sendMessage(image: image);
-   IsLoading=false;
+    if (image != null) {
+      context.read<AiChatCubit>().sendMessage(image: image);
     }
   }
 
@@ -100,45 +96,40 @@ class _AiChatBodyState extends State<AiChatBody> {
                   //   controller: _scrollController,
                   //   recommendedDoctors: state.recommendedDoctors,
                   // );
-                  return (IsLoading)?CustomLoader(loaderSize: 25):ChatMessageBuilder(
-  messages: state.messages.map((m) {
+                  return ChatMessageBuilder(
+                    messages: state.messages.map((m) {
+                      // ✅ إذا كانت صورة
+                      if (m['image'] != null) {
+                        return {
+                          'type': 'image',
+                          'isUser': m['role'] == 'user',
+                          'content': m['image'], // مهم جدًا
+                          'isDone': m['isDone'] ?? true,
+                        };
+                      }
 
-    // ✅ إذا كانت صورة
-    if (m['image'] != null) {
+                      // ✅ إذا كان نص
+                      String content = m['text'] ?? '';
+                      content = content
+                          .replaceAll(
+                            RegExp(
+                              r'###SPECIALTY:\s*[^\n]+\n?',
+                              caseSensitive: false,
+                            ),
+                            '',
+                          )
+                          .trim();
 
-          return{
-        'type': 'image',
-        'isUser': m['role'] == 'user',
-        'content': m['image'], // مهم جدًا
-        'isDone': m['isDone'] ?? true,
-      };
-        
-      
-    }
-
-    // ✅ إذا كان نص
-    String content = m['text'] ?? '';
-    content = content
-        .replaceAll(
-          RegExp(
-            r'###SPECIALTY:\s*[^\n]+\n?',
-            caseSensitive: false,
-          ),
-          '',
-        )
-        .trim();
-
-    return {
-      'type': 'text',
-      'isUser': m['role'] == 'user',
-      'content': content,
-      'isDone': m['isDone'] ?? true,
-    };
-
-  }).toList(),
-  controller: _scrollController,
-  recommendedDoctors: state.recommendedDoctors,
-);
+                      return {
+                        'type': 'text',
+                        'isUser': m['role'] == 'user',
+                        'content': content,
+                        'isDone': m['isDone'] ?? true,
+                      };
+                    }).toList(),
+                    controller: _scrollController,
+                    recommendedDoctors: state.recommendedDoctors,
+                  );
                 }
 
                 return const SizedBox.shrink();

@@ -142,26 +142,31 @@ class AiChatCubit extends Cubit<AiChatState> {
   }
 
   Future<void> sendMessage({String? message, File? image}) async {
-      if (_specialties.isEmpty) {
+    if (_specialties.isEmpty) {
       await _loadSpecialties();
     }
 
     // ================= IMAGE =================
     if (image != null) {
       _messages.add({'role': 'user', 'image': image, 'isDone': true});
+      _messages.add({'role': 'ai', 'text': '', 'isDone': false});
+      final int aiIndex = _messages.length - 1;
 
       emit(
         AiChatSuccess(
           messages: List.from(_messages),
           recommendedDoctors: Map.from(_recommendedDoctors),
+          isGenerating: true,
         ),
       );
 
       try {
         final result = await ImageAiService().analyzeImage(image);
 
-        _messages.add({'role': 'ai', 'text': result, 'isDone': true});
-        final int aiIndex = _messages.length - 1;
+        if (_messages.length > aiIndex && _messages[aiIndex]['role'] == 'ai') {
+          _messages[aiIndex]['text'] = result;
+          _messages[aiIndex]['isDone'] = true;
+        }
 
         final specialtyIds = _extractSpecialtyIds(result);
         log('Image analysis - extracted specialty IDs: $specialtyIds');
@@ -189,9 +194,13 @@ class AiChatCubit extends Cubit<AiChatState> {
           AiChatSuccess(
             messages: List.from(_messages),
             recommendedDoctors: Map.from(_recommendedDoctors),
+            isGenerating: true, // Keep it true until typing finishes
           ),
         );
       } catch (e) {
+        if (_messages.length > aiIndex && _messages[aiIndex]['role'] == 'ai') {
+          _messages.removeAt(aiIndex);
+        }
         emit(AiChatFailure(errMessage: e.toString()));
       }
 
@@ -316,19 +325,19 @@ class AiChatCubit extends Cubit<AiChatState> {
       _chatSubscription!.cancel();
       _chatSubscription = null;
       log('========== STREAM MANUALLY STOPPED ==========');
-      
-      if (_messages.isNotEmpty && _messages.last['role'] == 'ai') {
-        _messages.last['isDone'] = true;
-      }
-
-      emit(
-        AiChatSuccess(
-          messages: List.from(_messages),
-          recommendedDoctors: Map.from(_recommendedDoctors),
-          isGenerating: false,
-        ),
-      );
     }
+      
+    if (_messages.isNotEmpty && _messages.last['role'] == 'ai') {
+      _messages.last['isDone'] = true;
+    }
+
+    emit(
+      AiChatSuccess(
+        messages: List.from(_messages),
+        recommendedDoctors: Map.from(_recommendedDoctors),
+        isGenerating: false,
+      ),
+    );
   }
 
   @override
