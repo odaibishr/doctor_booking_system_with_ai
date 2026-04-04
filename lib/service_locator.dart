@@ -131,6 +131,7 @@ import 'package:doctor_booking_system_with_ai/features/notification/data/repos/n
 import 'package:doctor_booking_system_with_ai/features/notification/domain/repos/notification_repo.dart';
 import 'package:doctor_booking_system_with_ai/features/notification/presentation/manager/notification_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/services/pusher_service.dart';
+import 'package:doctor_booking_system_with_ai/core/services/appointment_refresh_service.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
@@ -148,6 +149,13 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<PusherService>(
     () => PusherService(),
+  );
+
+  serviceLocator.registerLazySingleton<AppointmentRefreshService>(
+    () => AppointmentRefreshService(
+      serviceLocator<PusherService>(),
+      serviceLocator<FcmService>(),
+    ),
   );
 
   // Network
