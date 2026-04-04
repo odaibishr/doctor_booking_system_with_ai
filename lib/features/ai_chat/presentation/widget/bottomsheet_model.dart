@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_extensions.dart';
 import 'package:flutter/services.dart';
 
-import 'package:doctor_booking_system_with_ai/features/ai_chat/data/data_sources/ai_image_service.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/bottomsheet_items.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/upload_button.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class BottomSheetModel extends StatefulWidget {
     required ImagePicker picker,
     required this.widget,
     required this.onSend,
-  }) : _picker = picker;ء 
+  }) : _picker = picker;
 
   final ImagePicker _picker;
   final UploadButton widget;
