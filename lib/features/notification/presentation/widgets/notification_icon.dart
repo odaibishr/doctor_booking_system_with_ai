@@ -22,8 +22,6 @@ class NotificationIcon extends StatelessWidget {
         icon = Icons.done_all;
       case 'appointment_reminder':
         icon = Icons.alarm;
-      case 'waitlist_slot_available':
-        icon = Icons.celebration;
       default:
         icon = Icons.notifications_active;
     }

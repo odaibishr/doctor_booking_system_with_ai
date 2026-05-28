@@ -24,8 +24,6 @@ class MedicalNotificationCard extends StatelessWidget {
         return Icons.done_all;
       case 'appointment_reminder':
         return Icons.alarm;
-      case 'waitlist_slot_available':
-        return Icons.celebration_outlined;
       default:
         return Icons.notifications_outlined;
     }

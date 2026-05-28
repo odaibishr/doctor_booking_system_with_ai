@@ -24,8 +24,6 @@ class DashboardStats {
   final int reviewsAvg;
   @HiveField(8)
   final int reviewsCount;
-  @HiveField(9)
-  final int waitlistCount;
   @HiveField(10)
   final String? hospitalName;
   @HiveField(11)
@@ -43,7 +41,6 @@ class DashboardStats {
     required this.earnings,
     required this.reviewsAvg,
     required this.reviewsCount,
-    required this.waitlistCount,
     this.hospitalName,
     required this.workingHours,
     required this.daysOff,

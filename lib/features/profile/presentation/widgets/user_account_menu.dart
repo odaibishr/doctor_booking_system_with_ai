@@ -56,13 +56,8 @@ class _UserAccountMenuState extends State<UserAccountMenu> {
               icon: 'assets/icons/setting-2.svg',
               onTap: () {},
             ),
-            const SizedBox(height: 14),
 
-            ProfileMenuItem(
-              title: 'قوائم الانتظار',
-              icon: 'assets/icons/timer.svg',
-              onTap: () => context.push(AppRouter.myWaitlistsViewRoute),
-            ),
+
             const SizedBox(height: 14),
 
             ProfileMenuItem(

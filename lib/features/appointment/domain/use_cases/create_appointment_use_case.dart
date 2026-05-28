@@ -20,8 +20,6 @@ class CreateAppointmentUseCase
       transactionId: params.transactionId,
       date: params.date,
       paymentMode: params.paymentMode,
-      status: params.status,
-      isCompleted: params.isCompleted,
     );
   }
 }
@@ -32,8 +30,6 @@ class CreateAppointmentUseCaseParams {
   final String? transactionId;
   final String date;
   final String paymentMode;
-  final String? status;
-  final bool? isCompleted;
 
   CreateAppointmentUseCaseParams({
     required this.doctorId,
@@ -41,7 +37,5 @@ class CreateAppointmentUseCaseParams {
     this.transactionId,
     required this.date,
     required this.paymentMode,
-    this.status,
-    this.isCompleted,
   });
 }

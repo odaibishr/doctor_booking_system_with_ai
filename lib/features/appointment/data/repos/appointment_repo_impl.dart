@@ -18,8 +18,6 @@ class AppointmentRepoImpl implements AppoinmentRepo {
     String? transactionId,
     required String date,
     required String paymentMode,
-    String? status,
-    bool? isCompleted,
   }) async {
     try {
       final appointment = await remoteDataSource.createAppointment(
@@ -28,8 +26,6 @@ class AppointmentRepoImpl implements AppoinmentRepo {
         transactionId: transactionId,
         date: date,
         paymentMode: paymentMode,
-        status: status,
-        isCompleted: isCompleted,
       );
       return Right(appointment);
     } catch (e) {
@@ -41,7 +37,7 @@ class AppointmentRepoImpl implements AppoinmentRepo {
             return Left(ServerFailure(e2.errorModel.errorMessage));
           }
           if (e.response?.statusCode == 409) {
-            return Left(ServerFailure('لديك موعد محجوز بالفعل في هذا التوقيت'));
+            return Left(ServerFailure('هذا الموعد محجوز بالكامل. يرجى اختيار موعد آخر.'));
           }
           return Left(ServerFailure('فشل حجز الموعد، يرجى المحاولة مرة أخرى'));
         }

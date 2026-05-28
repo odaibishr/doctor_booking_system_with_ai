@@ -9,7 +9,5 @@ abstract class AppoinmentRepo {
     String? transactionId,
     required String date,
     required String paymentMode,
-    String? status,
-    bool? isCompleted,
   });
 }

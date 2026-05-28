@@ -45,8 +45,6 @@ class PaymentCubit extends Cubit<PaymentState> {
         date: date,
         paymentMode: _selectedPaymentMode,
         transactionId: transactionId,
-        status:
-            'pending', // Status is internal, likely doesn't need translation unless displayed directly
       ),
     );
 

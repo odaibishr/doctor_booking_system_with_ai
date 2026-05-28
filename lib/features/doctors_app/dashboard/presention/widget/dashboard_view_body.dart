@@ -119,8 +119,8 @@ class _DashboardViewBodyState extends State<DashboardViewBody> {
                               ),
                               DoctorCard(
                                 cardIcon: Icons.pending_actions_outlined,
-                                cardTitle: 'حجوزات غير مؤكدة',
-                                cardContent: '${stats.waitlistCount}',
+                                cardTitle: 'المواعيد القادمة',
+                                cardContent: '${stats.upcomingAppointments}',
                                 iconColor: Colors.orange,
                                 onTap: () {
                                   context.read<NavigationCubit>().changeIndex(1);

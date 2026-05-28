@@ -26,7 +26,6 @@ class DashboardStatsAdapter extends TypeAdapter<DashboardStats> {
       earnings: fields[6] as EarningsData,
       reviewsAvg: fields[7] as int,
       reviewsCount: fields[8] as int,
-      waitlistCount: fields[9] as int,
       hospitalName: fields[10] as String?,
       workingHours: (fields[11] as List).cast<DoctorSchedule>(),
       daysOff: (fields[12] as List)
@@ -38,7 +37,7 @@ class DashboardStatsAdapter extends TypeAdapter<DashboardStats> {
   @override
   void write(BinaryWriter writer, DashboardStats obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.todayAppointments)
       ..writeByte(1)
@@ -57,8 +56,6 @@ class DashboardStatsAdapter extends TypeAdapter<DashboardStats> {
       ..write(obj.reviewsAvg)
       ..writeByte(8)
       ..write(obj.reviewsCount)
-      ..writeByte(9)
-      ..write(obj.waitlistCount)
       ..writeByte(10)
       ..write(obj.hospitalName)
       ..writeByte(11)

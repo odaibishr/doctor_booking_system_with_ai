@@ -9,8 +9,6 @@ abstract class AppointmentRemoteDataSource {
     String? transactionId,
     required String date,
     required String paymentMode,
-    String? status,
-    bool? isCompleted,
   });
 }
 
@@ -26,8 +24,6 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
     String? transactionId,
     required String date,
     required String paymentMode,
-    String? status,
-    bool? isCompleted,
   }) async {
     final response = await dioConsumer.post(
       'appointment/createAppointment',
@@ -37,8 +33,6 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
         'transaction_id': transactionId,
         'date': date,
         'payment_mode': paymentMode,
-        'status': status ?? 'pending',
-        'is_completed': isCompleted ?? false,
       },
     );
     return AppointmentModel.fromMap(response['data']);
