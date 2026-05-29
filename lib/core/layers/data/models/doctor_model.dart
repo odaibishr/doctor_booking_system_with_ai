@@ -27,9 +27,7 @@ class DoctorModel extends Doctor {
   });
 
   factory DoctorModel.fromMap(dynamic dataRaw) {
-    if (dataRaw == null) {
-      dataRaw = <String, dynamic>{};
-    }
+    dataRaw ??= <String, dynamic>{};
     final Map<String, dynamic> data = ensureMap(dataRaw);
     final userMapRaw = data['user'];
     final userMap = userMapRaw is Map
