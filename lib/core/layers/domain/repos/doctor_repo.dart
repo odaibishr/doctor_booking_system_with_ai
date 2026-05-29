@@ -7,6 +7,8 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor
 
 abstract class DoctorRepo {
   Future<Either<Failure, List<Doctor>>> getDoctors();
+  Stream<Either<Failure, List<Doctor>>> watchDoctors();
+  Future<void> refreshDoctors();
   Future<Either<Failure, Doctor>> getDoctorDetails(int id);
   Future<Either<Failure, List<Doctor>>> searchDoctors(
     String query,
@@ -33,4 +35,8 @@ abstract class DoctorRepo {
   );
 
   Future<Either<Failure, void>> deleteMyDayOff(int id);
+  Stream<Either<Failure, Doctor>> watchDoctorDetails(int id);
+  Future<Either<Failure, void>> refreshDoctorDetails(int id);
+  Stream<Either<Failure, List<Doctor>>> watchFavoriteDoctors();
+  Future<Either<Failure, void>> refreshFavoriteDoctors();
 }
