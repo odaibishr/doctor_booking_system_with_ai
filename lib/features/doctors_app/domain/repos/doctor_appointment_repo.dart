@@ -17,4 +17,13 @@ abstract class DoctorAppointmentRepo {
     required String status,
     String? cancellationReason,
   });
+
+  Stream<Either<Failure, List<DoctorAppointment>>> watchTodayAppointments();
+  Future<Either<Failure, void>> refreshTodayAppointments();
+  Stream<Either<Failure, List<DoctorAppointment>>> watchUpcomingAppointments();
+  Future<Either<Failure, void>> refreshUpcomingAppointments();
+  Stream<Either<Failure, List<DoctorAppointment>>> watchHistoryAppointments();
+  Future<Either<Failure, void>> refreshHistoryAppointments();
+  Stream<Either<Failure, List<DoctorAppointment>>> watchAppointmentsByStatus(String status);
+  Future<Either<Failure, void>> refreshAppointmentsByStatus(String status);
 }
