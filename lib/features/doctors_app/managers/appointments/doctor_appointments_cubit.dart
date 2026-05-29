@@ -2,12 +2,18 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:dartz/dartz.dart';
-import 'package:doctor_booking_system_with_ai/core/cache/cache_exports.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/doctor_appointment.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/update_appointment_status_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/watch_today_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/refresh_today_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/watch_upcoming_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/refresh_upcoming_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/watch_history_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/refresh_history_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/watch_appointments_by_status_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/refresh_appointments_by_status_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/services/fcm_service.dart';
 import 'package:doctor_booking_system_with_ai/core/services/pusher_service.dart';
 import 'package:equatable/equatable.dart';
@@ -16,20 +22,47 @@ part 'doctor_appointments_state.dart';
 
 class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
   final UpdateAppointmentStatusUseCase _updateAppointmentStatusUseCase;
+  final WatchTodayAppointmentsUseCase _watchTodayAppointmentsUseCase;
+  final RefreshTodayAppointmentsUseCase _refreshTodayAppointmentsUseCase;
+  final WatchUpcomingAppointmentsUseCase _watchUpcomingAppointmentsUseCase;
+  final RefreshUpcomingAppointmentsUseCase _refreshUpcomingAppointmentsUseCase;
+  final WatchHistoryAppointmentsUseCase _watchHistoryAppointmentsUseCase;
+  final RefreshHistoryAppointmentsUseCase _refreshHistoryAppointmentsUseCase;
+  final WatchAppointmentsByStatusUseCase _watchAppointmentsByStatusUseCase;
+  final RefreshAppointmentsByStatusUseCase _refreshAppointmentsByStatusUseCase;
   final PusherService _pusherService;
   final FcmService _fcmService;
 
-  Query<Either<Failure, List<DoctorAppointment>>>? _activeQuery;
-  StreamSubscription<QueryState<Either<Failure, List<DoctorAppointment>>>>?
-      _querySub;
+  StreamSubscription<Either<Failure, List<DoctorAppointment>>>? _appointmentsSub;
   StreamSubscription? _pusherSub;
   StreamSubscription? _fcmSub;
+  
+  Future<Either<Failure, void>> Function()? _activeRefresh;
 
-  DoctorAppointmentsCubit(
-    this._updateAppointmentStatusUseCase,
-    this._pusherService,
-    this._fcmService,
-  ) : super(DoctorAppointmentsInitial()) {
+  DoctorAppointmentsCubit({
+    required UpdateAppointmentStatusUseCase updateAppointmentStatusUseCase,
+    required WatchTodayAppointmentsUseCase watchTodayAppointmentsUseCase,
+    required RefreshTodayAppointmentsUseCase refreshTodayAppointmentsUseCase,
+    required WatchUpcomingAppointmentsUseCase watchUpcomingAppointmentsUseCase,
+    required RefreshUpcomingAppointmentsUseCase refreshUpcomingAppointmentsUseCase,
+    required WatchHistoryAppointmentsUseCase watchHistoryAppointmentsUseCase,
+    required RefreshHistoryAppointmentsUseCase refreshHistoryAppointmentsUseCase,
+    required WatchAppointmentsByStatusUseCase watchAppointmentsByStatusUseCase,
+    required RefreshAppointmentsByStatusUseCase refreshAppointmentsByStatusUseCase,
+    required PusherService pusherService,
+    required FcmService fcmService,
+  })  : _updateAppointmentStatusUseCase = updateAppointmentStatusUseCase,
+        _watchTodayAppointmentsUseCase = watchTodayAppointmentsUseCase,
+        _refreshTodayAppointmentsUseCase = refreshTodayAppointmentsUseCase,
+        _watchUpcomingAppointmentsUseCase = watchUpcomingAppointmentsUseCase,
+        _refreshUpcomingAppointmentsUseCase = refreshUpcomingAppointmentsUseCase,
+        _watchHistoryAppointmentsUseCase = watchHistoryAppointmentsUseCase,
+        _refreshHistoryAppointmentsUseCase = refreshHistoryAppointmentsUseCase,
+        _watchAppointmentsByStatusUseCase = watchAppointmentsByStatusUseCase,
+        _refreshAppointmentsByStatusUseCase = refreshAppointmentsByStatusUseCase,
+        _pusherService = pusherService,
+        _fcmService = fcmService,
+        super(DoctorAppointmentsInitial()) {
     _listenToPusher();
     _listenToFcm();
   }
@@ -38,43 +71,57 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
     if (!isClosed) emit(state);
   }
 
-  void _listenToQuery(Query<Either<Failure, List<DoctorAppointment>>> query) {
-    _querySub?.cancel();
-    _activeQuery = query;
+  void _listenToStream(
+    Stream<Either<Failure, List<DoctorAppointment>>> stream,
+    Future<Either<Failure, void>> Function() refreshFn,
+  ) {
+    _appointmentsSub?.cancel();
+    _activeRefresh = refreshFn;
 
-    final currentData = query.state.data;
-    if (currentData != null) {
-      currentData.fold(
-        (f) => _safeEmit(DoctorAppointmentsError(f.errorMessage)),
-        (list) => _safeEmit(DoctorAppointmentsLoaded(list)),
-      );
-    } else {
-      _safeEmit(DoctorAppointmentsLoading());
-    }
+    // Check if the stream has a listener before emitting loading to match original Behavior
+    _safeEmit(DoctorAppointmentsLoading());
 
-    _querySub = query.stream.listen((queryState) {
-      if (isClosed) return;
-      if (queryState.status == QueryStatus.loading && queryState.data == null) {
-        _safeEmit(DoctorAppointmentsLoading());
-        return;
-      }
-      queryState.data?.fold(
-        (f) => _safeEmit(DoctorAppointmentsError(f.errorMessage)),
-        (list) => _safeEmit(DoctorAppointmentsLoaded(list)),
-      );
-    });
-
-    query.result;
+    _appointmentsSub = stream.listen(
+      (result) {
+        if (isClosed) return;
+        result.fold(
+          (failure) => _safeEmit(DoctorAppointmentsError(failure.errorMessage)),
+          (list) => _safeEmit(DoctorAppointmentsLoaded(list)),
+        );
+      },
+      onError: (error) {
+        _safeEmit(DoctorAppointmentsError(error.toString()));
+      },
+    );
   }
 
-  void fetchToday() => _listenToQuery(doctorTodayAppointmentsQuery());
+  void fetchToday() {
+    _listenToStream(
+      _watchTodayAppointmentsUseCase(),
+      () => _refreshTodayAppointmentsUseCase(),
+    );
+  }
 
-  void fetchUpcoming() => _listenToQuery(doctorUpcomingAppointmentsQuery());
+  void fetchUpcoming() {
+    _listenToStream(
+      _watchUpcomingAppointmentsUseCase(),
+      () => _refreshUpcomingAppointmentsUseCase(),
+    );
+  }
 
-  void fetchHistory() => _listenToQuery(doctorHistoryAppointmentsQuery());
+  void fetchHistory() {
+    _listenToStream(
+      _watchHistoryAppointmentsUseCase(),
+      () => _refreshHistoryAppointmentsUseCase(),
+    );
+  }
 
-  void fetchAppointmentsByStatus(String status) =>
-      _listenToQuery(doctorAppointmentsByStatusQuery(status));
+  void fetchAppointmentsByStatus(String status) {
+    _listenToStream(
+      _watchAppointmentsByStatusUseCase(status),
+      () => _refreshAppointmentsByStatusUseCase(status),
+    );
+  }
 
   Future<void> updateAppointmentStatus({
     required int id,
@@ -91,16 +138,13 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
       ),
     );
 
+    if (isClosed) return;
+
     result.fold(
       (failure) => _safeEmit(DoctorAppointmentsError(failure.errorMessage)),
       (appointment) {
         _safeEmit(DoctorAppointmentStatusUpdated(appointment));
-
-        // Optimistic UI Update across all cached queries instantly
-        updateAppointmentOptimisticallyInCache(appointment);
-
-        invalidateDoctorAppointmentsCache();
-        invalidateDoctorDashboardCache();
+        _activeRefresh?.call();
       },
     );
   }
@@ -109,10 +153,7 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
     _pusherSub?.cancel();
     _pusherSub = _pusherService.eventStream.listen((event) {
       log('DoctorAppointmentsCubit: REAL-TIME EVENT RECEIVED! $event');
-      invalidateDoctorAppointmentsCache();
-      invalidateDoctorDashboardCache();
-
-      _activeQuery?.refetch();
+      _activeRefresh?.call();
     });
   }
 
@@ -123,19 +164,17 @@ class DoctorAppointmentsCubit extends Cubit<DoctorAppointmentsState> {
       final type = data['type']?.toString();
       if (type == 'appointment_created' || type == 'appointment_updated') {
         log('DoctorAppointmentsCubit: Triggering refetch from FCM...');
-        invalidateDoctorAppointmentsCache();
-        invalidateDoctorDashboardCache();
-        _activeQuery?.refetch();
+        _activeRefresh?.call();
       }
     });
   }
 
   @override
   Future<void> close() async {
-    await _querySub?.cancel();
+    await _appointmentsSub?.cancel();
     await _pusherSub?.cancel();
     await _fcmSub?.cancel();
-    _activeQuery = null;
+    _activeRefresh = null;
     return super.close();
   }
 }
