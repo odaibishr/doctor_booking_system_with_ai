@@ -239,7 +239,7 @@ class _ReviewCard extends StatelessWidget {
                     Switch.adaptive(
                       value: isActive,
                       onChanged: (_) => onToggle(),
-                      activeColor: AppColors.primary,
+                      activeThumbColor: AppColors.primary,
                     ),
                     Text(
                       isActive ? 'نشطة' : 'مخفية',
