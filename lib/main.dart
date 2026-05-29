@@ -1,6 +1,7 @@
 import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/theme/theme_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/theme/theme_state.dart';
+import 'package:doctor_booking_system_with_ai/core/services/appointment_refresh_service.dart';
 import 'package:doctor_booking_system_with_ai/core/services/fcm_service.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_theme.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
@@ -62,6 +63,14 @@ void main() async {
     }
   } catch (e) {
     debugPrint("FCM Initialization or token fetch failed/timed out: $e");
+  }
+
+  // Initialize and start the AppointmentRefreshService to listen to FCM & Pusher triggers
+  try {
+    final refreshService = serviceLocator<AppointmentRefreshService>();
+    refreshService.startListening();
+  } catch (e) {
+    debugPrint("Failed to start AppointmentRefreshService: $e");
   }
 
   runApp(MyApp());
