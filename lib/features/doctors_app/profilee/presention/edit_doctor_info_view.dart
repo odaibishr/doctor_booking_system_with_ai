@@ -561,7 +561,7 @@ class _EditDoctorInfoViewState extends State<EditDoctorInfoView> {
                           itemCount: filtered.length,
                           separatorBuilder: (_, __) => Divider(
                             height: 1,
-                            color: context.gray400Color.withOpacity(0.2),
+                             color: context.gray400Color.withValues(alpha: 0.2),
                           ),
                           itemBuilder: (_, index) {
                             final item = filtered[index];
