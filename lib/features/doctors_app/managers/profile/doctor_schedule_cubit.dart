@@ -1,11 +1,30 @@
 import 'package:bloc/bloc.dart';
-import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/repos/doctor_profile_repo.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_schedules_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/update_schedule_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_days_off_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/create_day_off_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/delete_day_off_use_case.dart';
 import 'doctor_schedule_state.dart';
 
 class DoctorScheduleCubit extends Cubit<DoctorScheduleState> {
-  final DoctorProfileRepo _repo;
+  final GetSchedulesUseCase _getSchedulesUseCase;
+  final UpdateScheduleUseCase _updateScheduleUseCase;
+  final GetDaysOffUseCase _getDaysOffUseCase;
+  final CreateDayOffUseCase _createDayOffUseCase;
+  final DeleteDayOffUseCase _deleteDayOffUseCase;
 
-  DoctorScheduleCubit(this._repo) : super(DoctorScheduleInitial());
+  DoctorScheduleCubit({
+    required GetSchedulesUseCase getSchedulesUseCase,
+    required UpdateScheduleUseCase updateScheduleUseCase,
+    required GetDaysOffUseCase getDaysOffUseCase,
+    required CreateDayOffUseCase createDayOffUseCase,
+    required DeleteDayOffUseCase deleteDayOffUseCase,
+  })  : _getSchedulesUseCase = getSchedulesUseCase,
+        _updateScheduleUseCase = updateScheduleUseCase,
+        _getDaysOffUseCase = getDaysOffUseCase,
+        _createDayOffUseCase = createDayOffUseCase,
+        _deleteDayOffUseCase = deleteDayOffUseCase,
+        super(DoctorScheduleInitial());
 
   void _safeEmit(DoctorScheduleState state) {
     if (!isClosed) emit(state);
@@ -13,8 +32,8 @@ class DoctorScheduleCubit extends Cubit<DoctorScheduleState> {
 
   Future<void> fetchAll() async {
     _safeEmit(DoctorScheduleLoading());
-    final schedulesResult = await _repo.getSchedules();
-    final daysOffResult = await _repo.getDaysOff();
+    final schedulesResult = await _getSchedulesUseCase();
+    final daysOffResult = await _getDaysOffUseCase();
 
     schedulesResult.fold(
       (failure) => _safeEmit(DoctorScheduleError(failure.errorMessage)),
@@ -37,7 +56,11 @@ class DoctorScheduleCubit extends Cubit<DoctorScheduleState> {
     final currentState = state;
     if (currentState is! DoctorScheduleLoaded) return;
 
-    final result = await _repo.updateSchedule(id, startTime, endTime);
+    final result = await _updateScheduleUseCase(
+      id: id,
+      startTime: startTime,
+      endTime: endTime,
+    );
     result.fold(
       (failure) => _safeEmit(DoctorScheduleError(failure.errorMessage)),
       (updated) {
@@ -58,7 +81,7 @@ class DoctorScheduleCubit extends Cubit<DoctorScheduleState> {
     final currentState = state;
     if (currentState is! DoctorScheduleLoaded) return;
 
-    final result = await _repo.createDayOff(dayIds);
+    final result = await _createDayOffUseCase(dayIds);
     result.fold(
       (failure) => _safeEmit(DoctorScheduleError(failure.errorMessage)),
       (_) => fetchAll(),
@@ -69,7 +92,7 @@ class DoctorScheduleCubit extends Cubit<DoctorScheduleState> {
     final currentState = state;
     if (currentState is! DoctorScheduleLoaded) return;
 
-    final result = await _repo.deleteDayOff(id);
+    final result = await _deleteDayOffUseCase(id);
     result.fold(
       (failure) => _safeEmit(DoctorScheduleError(failure.errorMessage)),
       (_) {
@@ -91,23 +114,23 @@ class DoctorScheduleCubit extends Cubit<DoctorScheduleState> {
 
     for (final change in changes) {
       if (change.isActive && change.scheduleId != null) {
-        await _repo.updateSchedule(
-          change.scheduleId!,
-          change.startTime,
-          change.endTime,
+        await _updateScheduleUseCase(
+          id: change.scheduleId!,
+          startTime: change.startTime,
+          endTime: change.endTime,
         );
       }
 
       if (!change.isActive &&
           !change.wasOriginallyDayOff &&
           change.hadSchedule) {
-        await _repo.createDayOff([change.dayId]);
+        await _createDayOffUseCase([change.dayId]);
       }
 
       if (change.isActive &&
           change.wasOriginallyDayOff &&
           change.dayOffId != null) {
-        await _repo.deleteDayOff(change.dayOffId!);
+        await _deleteDayOffUseCase(change.dayOffId!);
       }
     }
 
