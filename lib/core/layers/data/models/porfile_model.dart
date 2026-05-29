@@ -12,9 +12,7 @@ class ProfileModel extends Profile {
   });
 
   factory ProfileModel.fromJson(dynamic jsonRaw) {
-    if (jsonRaw == null) {
-      jsonRaw = <String, dynamic>{};
-    }
+    jsonRaw ??= <String, dynamic>{};
     final Map<String, dynamic> json = _ensureMap(jsonRaw);
     final dynamic userJsonRaw = json['user'] ?? json['data'];
     final Map<String, dynamic> userJson = _ensureMap(
