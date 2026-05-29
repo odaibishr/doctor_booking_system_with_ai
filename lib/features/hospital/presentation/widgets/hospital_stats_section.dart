@@ -26,8 +26,8 @@ class HospitalStatsSection extends StatelessWidget {
   }
 
   void _shareHospital() {
-    Share.share(
-      'مستشفى ${hospital.name}\nالعنوان: ${hospital.address}\nللتواصل: ${hospital.phone}',
+    SharePlus.instance.share(
+      ShareParams(text: 'مستشفى ${hospital.name}\nالعنوان: ${hospital.address}\nللتواصل: ${hospital.phone}'),
     );
   }
 
