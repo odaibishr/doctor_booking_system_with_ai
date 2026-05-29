@@ -16,7 +16,7 @@ class UserModel extends User {
     super.gender,
     required super.location,
     required super.locationId,
-    super.fcm_token,
+    super.fcmToken,
     super.role,
     super.doctorId,
   });
@@ -34,7 +34,7 @@ class UserModel extends User {
       gender: null,
       location: LocationModel.empty(),
       locationId: 0,
-      fcm_token: null,
+      fcmToken: null,
       role: null,
       doctorId: null,
     );
@@ -70,7 +70,7 @@ class UserModel extends User {
       gender: json['gender']?.toString(),
       location: location,
       locationId: json['location_id'] ?? json['locationId'] ?? location.id,
-      fcm_token: json['fcm_token']?.toString(),
+      fcmToken: json['fcm_token']?.toString(),
       role: json['role']?.toString(),
       doctorId: json['doctor_id'] as int? ?? json['doctoralId'] as int?,
     );
@@ -89,7 +89,7 @@ class UserModel extends User {
       'gender': gender,
       'location': location,
       'location_id': locationId,
-      'fcm_token': fcm_token,
+      'fcm_token': fcmToken,
       'role': role,
       'doctor_id': doctorId,
     };
