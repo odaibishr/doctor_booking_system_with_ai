@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/datasources/auth_local_data_source.dart';
@@ -31,7 +32,7 @@ class LogoutRepoImpl implements LogoutRepo {
         } catch (e) {
           // Log only, don't stop the local logout process
           // This ensures the user can always sign out of the app even if the server is down or errors out
-          print("Server logout failed: $e, proceeding with local logout.");
+          log("Server logout failed: $e, proceeding with local logout.");
         }
       }
 
