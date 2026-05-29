@@ -64,7 +64,7 @@ class SafeUserAdapter extends TypeAdapter<User> {
       ..writeByte(10)
       ..write(obj.locationId)
       ..writeByte(11)
-      ..write(obj.fcm_token)
+      ..write(obj.fcmToken)
       ..writeByte(12)
       ..write(obj.role);
   }
