@@ -4,6 +4,8 @@ import 'package:doctor_booking_system_with_ai/features/booking_history/domain/en
 
 abstract class BookingHistoryRepo {
   Future<Either<Failure, List<Booking>>> getBookingHistory();
+  Stream<Either<Failure, List<Booking>>> watchBookingHistory();
+  Future<Either<Failure, void>> refreshBookingHistory();
   Future<Either<Failure, void>> cancelAppointment(
     int appointmentId,
     String reason,
