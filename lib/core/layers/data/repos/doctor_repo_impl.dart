@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:doctor_booking_system_with_ai/core/cache/query_config.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/exceptions.dart';
@@ -10,6 +12,8 @@ import 'package:doctor_booking_system_with_ai/core/network/network_info.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/doctor_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/doctor_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
+import 'package:cached_query_flutter/cached_query_flutter.dart';
+import 'package:doctor_booking_system_with_ai/core/cache/queries/doctors_query.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/doctor_repo.dart';
 
 class DoctorRepoImpl implements DoctorRepo {
@@ -47,6 +51,29 @@ class DoctorRepoImpl implements DoctorRepo {
     } catch (e) {
       return _handleError(e);
     }
+  }
+
+  @override
+  Stream<Either<Failure, List<Doctor>>> watchDoctors() {
+    final query = doctorsQuery();
+
+    if (query.state.status == QueryStatus.initial && query.state.data == null) {
+      query.result;
+    } else {
+      final age = DateTime.now().difference(query.state.timeCreated);
+      if (age > const Duration(minutes: 5)) {
+        query.refetch();
+      }
+    }
+
+    return query.stream
+        .where((state) => state.data != null)
+        .map((state) => state.data!);
+  }
+
+  @override
+  Future<void> refreshDoctors() async {
+    await doctorsQuery().refetch();
   }
 
   @override
@@ -266,6 +293,90 @@ class DoctorRepoImpl implements DoctorRepo {
       return Right(null);
     } catch (error) {
       return _handleError(error);
+    }
+  }
+
+  @override
+  Stream<Either<Failure, Doctor>> watchDoctorDetails(int id) {
+    final query = doctorDetailsQuery(id);
+    final controller = StreamController<Either<Failure, Doctor>>.broadcast();
+
+    if (query.state.data != null) {
+      controller.add(query.state.data!);
+    }
+
+    final subscription = query.stream.listen((state) {
+      if (state.data != null) {
+        controller.add(state.data!);
+      }
+    });
+
+    final isStale = query.state.status == QueryStatus.initial ||
+        DateTime.now().difference(query.state.timeCreated) >
+            AppQueryConfig.defaultRefetchDuration;
+
+    if (isStale) {
+      query.refetch();
+    }
+
+    controller.onCancel = () {
+      subscription.cancel();
+      controller.close();
+    };
+
+    return controller.stream;
+  }
+
+  @override
+  Future<Either<Failure, void>> refreshDoctorDetails(int id) async {
+    try {
+      final query = doctorDetailsQuery(id);
+      await query.refetch();
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Stream<Either<Failure, List<Doctor>>> watchFavoriteDoctors() {
+    final query = favoriteDoctorsQuery();
+    final controller = StreamController<Either<Failure, List<Doctor>>>.broadcast();
+
+    if (query.state.data != null) {
+      controller.add(query.state.data!);
+    }
+
+    final subscription = query.stream.listen((state) {
+      if (state.data != null) {
+        controller.add(state.data!);
+      }
+    });
+
+    final isStale = query.state.status == QueryStatus.initial ||
+        DateTime.now().difference(query.state.timeCreated) >
+            AppQueryConfig.defaultRefetchDuration;
+
+    if (isStale) {
+      query.refetch();
+    }
+
+    controller.onCancel = () {
+      subscription.cancel();
+      controller.close();
+    };
+
+    return controller.stream;
+  }
+
+  @override
+  Future<Either<Failure, void>> refreshFavoriteDoctors() async {
+    try {
+      final query = favoriteDoctorsQuery();
+      await query.refetch();
+      return const Right(null);
+    } catch (e) {
+      return Left(Failure(e.toString()));
     }
   }
 }
