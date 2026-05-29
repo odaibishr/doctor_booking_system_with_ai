@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:doctor_booking_system_with_ai/core/cache/cache_exports.dart';
 import 'package:doctor_booking_system_with_ai/core/services/fcm_service.dart';
 import 'package:doctor_booking_system_with_ai/core/services/pusher_service.dart';
 
@@ -20,7 +21,7 @@ class AppointmentRefreshService {
     _pusherSub?.cancel();
     _pusherSub = _pusherService.eventStream.listen((event) {
       log('[AppointmentRefreshService] Pusher event received: $event');
-      _refreshController.add(null);
+      _onAppointmentEvent();
     });
 
     _fcmSub?.cancel();
@@ -28,13 +29,21 @@ class AppointmentRefreshService {
       final type = data['type']?.toString();
       if (type == 'appointment_created' || type == 'appointment_updated') {
         log('[AppointmentRefreshService] FCM event received: $data');
-        _refreshController.add(null);
+        _onAppointmentEvent();
       }
     });
   }
 
-  void triggerRefresh() {
+  void _onAppointmentEvent() {
+    log('[AppointmentRefreshService] Invalidating appointment and booking caches...');
+    invalidateBookingHistoryCache();
+    invalidateDoctorAppointmentsCache();
+    invalidateDoctorDashboardCache();
     _refreshController.add(null);
+  }
+
+  void triggerRefresh() {
+    _onAppointmentEvent();
   }
 
   void dispose() {
@@ -43,3 +52,4 @@ class AppointmentRefreshService {
     _refreshController.close();
   }
 }
+
