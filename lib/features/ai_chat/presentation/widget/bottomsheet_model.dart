@@ -6,7 +6,6 @@ import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widg
 import 'package:doctor_booking_system_with_ai/features/ai_chat/presentation/widget/upload_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class BottomSheetModel extends StatefulWidget {
   const BottomSheetModel({
@@ -46,14 +45,6 @@ class _BottomSheetModelState extends State<BottomSheetModel> {
       if (mounted) {
         context.showErrorToast('حدث خطاء اثناء محاولة رفع الصورة');
       }
-    }
-  }
-
-  Future<void> _openLink(String url) async {
-    final Uri uri = Uri.parse(url);
-
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      throw 'Could not launch $url';
     }
   }
 
