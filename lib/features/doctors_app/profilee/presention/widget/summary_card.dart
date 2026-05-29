@@ -9,6 +9,7 @@ class SummaryCard extends StatelessWidget {
   final Color color;
 
   const SummaryCard({
+    super.key,
     required this.icon,
     required this.label,
     required this.value,
