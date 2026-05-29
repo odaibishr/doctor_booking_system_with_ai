@@ -138,7 +138,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                               password: _passwordController.text,
                               passwordConfirmation:
                                   _confirmPasswordController.text,
-                              fcm_token: token,
+                              fcmToken: token,
                             );
                           }
                         },
