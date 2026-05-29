@@ -3,6 +3,9 @@ import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
 import 'package:flutter/material.dart';
 
 class FloatingMiddleButton extends StatefulWidget {
+  const FloatingMiddleButton({super.key});
+
+  @override
   State<FloatingMiddleButton> createState() => _FloatingMiddleButtonState();
 }
 
