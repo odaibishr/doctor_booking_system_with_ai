@@ -2,21 +2,29 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:cached_query_flutter/cached_query_flutter.dart';
 import 'package:dartz/dartz.dart';
-import 'package:doctor_booking_system_with_ai/core/cache/cache_exports.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/review.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/create_review_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/watch_doctor_reviews_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/refresh_doctor_reviews_use_case.dart';
 import 'package:flutter/foundation.dart';
 
 part 'review_state.dart';
 
 class ReviewCubit extends Cubit<ReviewState> {
-  ReviewCubit(this._createReviewUseCase) : super(ReviewInitial());
+  ReviewCubit({
+    required CreateReviewUseCase createReviewUseCase,
+    required this.watchDoctorReviewsUseCase,
+    required this.refreshDoctorReviewsUseCase,
+  }) : _createReviewUseCase = createReviewUseCase,
+       super(ReviewInitial());
 
   final CreateReviewUseCase _createReviewUseCase;
-  Query<Either<Failure, List<Review>>>? _reviewsQuery;
+  final WatchDoctorReviewsUseCase watchDoctorReviewsUseCase;
+  final RefreshDoctorReviewsUseCase refreshDoctorReviewsUseCase;
+
+  StreamSubscription<Either<Failure, List<Review>>>? _reviewsSub;
   int? _currentDoctorId;
 
   Future<void> createReview({
@@ -64,65 +72,43 @@ class ReviewCubit extends Cubit<ReviewState> {
     if (isClosed) return;
 
     _currentDoctorId = doctorId;
-    _reviewsQuery = doctorReviewsQuery(doctorId);
 
-    final cachedData = _reviewsQuery!.state.data;
-    if (cachedData != null && !forceRefresh) {
-      cachedData.fold((failure) => emit(ReviewFailure(failure.errorMessage)), (
-        reviews,
-      ) {
-        log('Loaded reviews from cache: ${reviews.length}');
-        emit(ReviewLoaded(reviews));
-      });
-
-      _refetchIfStale(doctorId);
+    if (forceRefresh) {
+      await refreshDoctorReviewsUseCase(doctorId);
       return;
     }
 
     emit(ReviewLoading());
-
-    final queryState = await _reviewsQuery!.result;
-    final result = queryState.data;
-    if (result == null) {
-      emit(ReviewFailure('Failed to fetch reviews'));
-      return;
-    }
-    result.fold((failure) => emit(ReviewFailure(failure.errorMessage)), (
-      reviews,
-    ) {
-      log('Fetched reviews from API: ${reviews.length}');
-      emit(ReviewLoaded(reviews));
-    });
-  }
-
-  Future<void> _refetchIfStale(int doctorId) async {
-    if (_reviewsQuery == null) return;
-
-    final state = _reviewsQuery!.state;
-    final isStale =
-        state.status == QueryStatus.success &&
-        DateTime.now().difference(state.timeCreated) >
-            AppQueryConfig.defaultRefetchDuration;
-
-    if (isStale) {
-      log('Background refetch: reviews data is stale');
-      await _reviewsQuery!.refetch();
-      final result = _reviewsQuery!.state.data;
-      if (result != null && !isClosed) {
-        result.fold((_) {}, (reviews) => emit(ReviewLoaded(reviews)));
-      }
-    }
+    _reviewsSub?.cancel();
+    _reviewsSub = watchDoctorReviewsUseCase(doctorId).listen(
+      (result) {
+        if (!isClosed) {
+          result.fold(
+            (failure) => emit(ReviewFailure(failure.errorMessage)),
+            (reviews) {
+              log('Loaded reviews from stream: ${reviews.length}');
+              emit(ReviewLoaded(reviews));
+            },
+          );
+        }
+      },
+      onError: (e) {
+        if (!isClosed) {
+          emit(ReviewFailure(e.toString()));
+        }
+      },
+    );
   }
 
   void invalidateCache() {
     if (_currentDoctorId != null) {
-      invalidateDoctorReviewsCache(_currentDoctorId!);
+      refreshDoctorReviewsUseCase(_currentDoctorId!);
     }
   }
 
   @override
   Future<void> close() {
-    _reviewsQuery = null;
+    _reviewsSub?.cancel();
     return super.close();
   }
 }
