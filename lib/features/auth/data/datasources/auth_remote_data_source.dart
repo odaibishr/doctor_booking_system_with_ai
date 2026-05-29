@@ -4,13 +4,13 @@ import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dar
 import '../models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserModel> signIn(String email, String password, String? fcm_token);
+  Future<UserModel> signIn(String email, String password, String? fcmToken);
   Future<UserModel> signUp(
     String name,
     String email,
     String password,
     String passwordConfirmation,
-    String? fcm_token,
+    String? fcmToken,
   );
   Future<void> logout(String token);
   Future<UserModel> signInWithGoogle({
@@ -28,11 +28,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<UserModel> signIn(
     String email,
     String password,
-    String? fcm_token,
+    String? fcmToken,
   ) async {
     final response = await dioConsumer.post(
       'login',
-      data: {'email': email, 'password': password, 'fcm_token': fcm_token},
+      data: {'email': email, 'password': password, 'fcm_token': fcmToken},
     );
 
     log("Full response: $response");
@@ -55,7 +55,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     String email,
     String password,
     String passwordConfirmation,
-    String? fcm_token,
+    String? fcmToken,
   ) async {
     final response = await dioConsumer.post(
       'register',
@@ -64,7 +64,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'email': email,
         'password': password,
         'password_confirmation': passwordConfirmation,
-        'fcm_token': fcm_token,
+        'fcm_token': fcmToken,
       },
     );
 

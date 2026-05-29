@@ -169,7 +169,7 @@ class _SignInBodyState extends State<SignInBody> {
                             context.read<AuthCubit>().signIn(
                               email: emailController.text,
                               password: passwordController.text,
-                              fcm_token: token,
+                              fcmToken: token,
                             );
                           }
                         },

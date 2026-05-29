@@ -13,7 +13,21 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/hospital_
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/review_repo.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/create_review_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctor_reviews_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/watch_doctor_reviews_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/refresh_doctor_reviews_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_hospitals_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/watch_hospitals_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/refresh_hospitals_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/watch_specialties_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/watch_doctor_details_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/refresh_doctor_details_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/favorite_doctor/domain/use_cases/watch_favorite_doctors_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/favorite_doctor/domain/use_cases/refresh_favorite_doctors_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/domain/usecases/watch_booking_history_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/booking_history/domain/usecases/refresh_booking_history_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/refresh_specialties_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/watch_all_specialties_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/refresh_all_specialties_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/toggle_favorite_doctor_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/notifications/notification_service.dart';
@@ -51,6 +65,8 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/doctor_re
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/specialty_repo.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctor_details_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctors_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/watch_doctors_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/refresh_doctors_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_specilaties_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/data/data_sources/doctor_appointment_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/data/data_sources/doctor_dashboard_local_data_source.dart';
@@ -108,6 +124,24 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecas
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/update_appointment_status_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_appointment_details_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/watch_today_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/refresh_today_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/watch_upcoming_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/refresh_upcoming_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/watch_history_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/refresh_history_appointments_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/watch_appointments_by_status_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/refresh_appointments_by_status_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/watch_dashboard_stats_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/refresh_dashboard_stats_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_my_profile_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/update_profile_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/update_profile_image_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_schedules_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/update_schedule_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/get_days_off_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/create_day_off_use_case.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/usecases/delete_day_off_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/dashboard/doctor_dashboard_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/appointments/doctor_appointments_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/managers/reviews/doctor_reviews_cubit.dart';
@@ -329,6 +363,14 @@ Future<void> init() async {
     () => GetDoctorsUseCase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<WatchDoctorsUseCase>(
+    () => WatchDoctorsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<RefreshDoctorsUseCase>(
+    () => RefreshDoctorsUseCase(serviceLocator()),
+  );
+
   serviceLocator.registerLazySingleton<GetSpecilatiesUseCase>(
     () => GetSpecilatiesUseCase(serviceLocator()),
   );
@@ -339,6 +381,14 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<GetBookingHistoryUseCase>(
     () => GetBookingHistoryUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<WatchBookingHistoryUseCase>(
+    () => WatchBookingHistoryUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<RefreshBookingHistoryUseCase>(
+    () => RefreshBookingHistoryUseCase(serviceLocator()),
   );
 
   serviceLocator.registerLazySingleton<SearchDoctorsUseCase>(
@@ -353,8 +403,48 @@ Future<void> init() async {
     () => GetFavoriteDoctorsUseCase(serviceLocator()),
   );
 
+  serviceLocator.registerLazySingleton<WatchDoctorDetailsUseCase>(
+    () => WatchDoctorDetailsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<RefreshDoctorDetailsUseCase>(
+    () => RefreshDoctorDetailsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<WatchFavoriteDoctorsUseCase>(
+    () => WatchFavoriteDoctorsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<RefreshFavoriteDoctorsUseCase>(
+    () => RefreshFavoriteDoctorsUseCase(serviceLocator()),
+  );
+
   serviceLocator.registerLazySingleton<GetHospitalsUseCase>(
     () => GetHospitalsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<WatchHospitalsUseCase>(
+    () => WatchHospitalsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<RefreshHospitalsUseCase>(
+    () => RefreshHospitalsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<WatchSpecialtiesUseCase>(
+    () => WatchSpecialtiesUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<RefreshSpecialtiesUseCase>(
+    () => RefreshSpecialtiesUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<WatchAllSpecialtiesUseCase>(
+    () => WatchAllSpecialtiesUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<RefreshAllSpecialtiesUseCase>(
+    () => RefreshAllSpecialtiesUseCase(serviceLocator()),
   );
 
   serviceLocator.registerLazySingleton<GetHospitalDetailsUseCase>(
@@ -367,6 +457,14 @@ Future<void> init() async {
 
   serviceLocator.registerLazySingleton<GetDoctorReviewsUseCase>(
     () => GetDoctorReviewsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<WatchDoctorReviewsUseCase>(
+    () => WatchDoctorReviewsUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton<RefreshDoctorReviewsUseCase>(
+    () => RefreshDoctorReviewsUseCase(serviceLocator()),
   );
 
   serviceLocator.registerLazySingleton<GetProfileUseCase>(
@@ -417,13 +515,28 @@ Future<void> init() async {
     ),
   );
 
-  serviceLocator.registerLazySingleton<DoctorCubit>(() => DoctorCubit());
-
-  serviceLocator.registerLazySingleton<DoctorDetailsCubit>(
-    () => DoctorDetailsCubit(),
+  serviceLocator.registerLazySingleton<DoctorCubit>(
+    () => DoctorCubit(
+      watchDoctorsUseCase: serviceLocator(),
+      refreshDoctorsUseCase: serviceLocator(),
+    ),
   );
 
-  serviceLocator.registerLazySingleton<SpecialtyCubit>(() => SpecialtyCubit());
+  serviceLocator.registerLazySingleton<DoctorDetailsCubit>(
+    () => DoctorDetailsCubit(
+      watchDoctorDetailsUseCase: serviceLocator(),
+      refreshDoctorDetailsUseCase: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerLazySingleton<SpecialtyCubit>(
+    () => SpecialtyCubit(
+      watchSpecialtiesUseCase: serviceLocator(),
+      refreshSpecialtiesUseCase: serviceLocator(),
+      watchAllSpecialtiesUseCase: serviceLocator(),
+      refreshAllSpecialtiesUseCase: serviceLocator(),
+    ),
+  );
 
   serviceLocator.registerFactory<SearchDoctorsCubit>(
     () => SearchDoctorsCubit(
@@ -437,7 +550,10 @@ Future<void> init() async {
   );
 
   serviceLocator.registerLazySingleton<FavoriteDoctorCubit>(
-    () => FavoriteDoctorCubit(),
+    () => FavoriteDoctorCubit(
+      watchFavoriteDoctorsUseCase: serviceLocator(),
+      refreshFavoriteDoctorsUseCase: serviceLocator(),
+    ),
   );
 
   serviceLocator.registerLazySingleton<ToggleFavoriteCubit>(
@@ -449,7 +565,12 @@ Future<void> init() async {
     ),
   );
 
-  serviceLocator.registerLazySingleton<HospitalCubit>(() => HospitalCubit());
+  serviceLocator.registerLazySingleton<HospitalCubit>(
+    () => HospitalCubit(
+      watchHospitalsUseCase: serviceLocator(),
+      refreshHospitalsUseCase: serviceLocator(),
+    ),
+  );
 
   serviceLocator.registerFactory<HospitalDetailesCubit>(
     () => HospitalDetailesCubit(serviceLocator<GetHospitalDetailsUseCase>()),
@@ -457,14 +578,20 @@ Future<void> init() async {
 
   serviceLocator.registerFactory<BookingHistoryCubit>(
     () => BookingHistoryCubit(
-      serviceLocator<CancelAppointmentUseCase>(),
-      serviceLocator<RescheduleAppointmentUseCase>(),
-      serviceLocator<PusherService>(),
+      cancelAppointmentUseCase: serviceLocator(),
+      rescheduleAppointmentUseCase: serviceLocator(),
+      watchBookingHistoryUseCase: serviceLocator(),
+      refreshBookingHistoryUseCase: serviceLocator(),
+      pusherService: serviceLocator(),
     ),
   );
 
   serviceLocator.registerFactory<ReviewCubit>(
-    () => ReviewCubit(serviceLocator<CreateReviewUseCase>()),
+    () => ReviewCubit(
+      createReviewUseCase: serviceLocator(),
+      watchDoctorReviewsUseCase: serviceLocator(),
+      refreshDoctorReviewsUseCase: serviceLocator(),
+    ),
   );
 
   serviceLocator.registerFactory<AiChatCubit>(
@@ -570,16 +697,61 @@ Future<void> init() async {
     () => GetAppointmentsUseCase(serviceLocator()),
   );
 
+  // Doctor App Feature - Watch and Refresh UseCases
+  serviceLocator.registerLazySingleton<WatchTodayAppointmentsUseCase>(
+    () => WatchTodayAppointmentsUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<RefreshTodayAppointmentsUseCase>(
+    () => RefreshTodayAppointmentsUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<WatchUpcomingAppointmentsUseCase>(
+    () => WatchUpcomingAppointmentsUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<RefreshUpcomingAppointmentsUseCase>(
+    () => RefreshUpcomingAppointmentsUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<WatchHistoryAppointmentsUseCase>(
+    () => WatchHistoryAppointmentsUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<RefreshHistoryAppointmentsUseCase>(
+    () => RefreshHistoryAppointmentsUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<WatchAppointmentsByStatusUseCase>(
+    () => WatchAppointmentsByStatusUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<RefreshAppointmentsByStatusUseCase>(
+    () => RefreshAppointmentsByStatusUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<WatchDashboardStatsUseCase>(
+    () => WatchDashboardStatsUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<RefreshDashboardStatsUseCase>(
+    () => RefreshDashboardStatsUseCase(serviceLocator()),
+  );
+
   // Doctor App Feature - Cubits
   serviceLocator.registerFactory<DoctorDashboardCubit>(
-    () => DoctorDashboardCubit(serviceLocator(), serviceLocator()),
+    () => DoctorDashboardCubit(
+      watchDashboardStatsUseCase: serviceLocator(),
+      refreshDashboardStatsUseCase: serviceLocator(),
+      pusherService: serviceLocator(),
+      fcmService: serviceLocator(),
+    ),
   );
 
   serviceLocator.registerFactory<DoctorAppointmentsCubit>(
     () => DoctorAppointmentsCubit(
-      serviceLocator(),
-      serviceLocator(),
-      serviceLocator(),
+      updateAppointmentStatusUseCase: serviceLocator(),
+      watchTodayAppointmentsUseCase: serviceLocator(),
+      refreshTodayAppointmentsUseCase: serviceLocator(),
+      watchUpcomingAppointmentsUseCase: serviceLocator(),
+      refreshUpcomingAppointmentsUseCase: serviceLocator(),
+      watchHistoryAppointmentsUseCase: serviceLocator(),
+      refreshHistoryAppointmentsUseCase: serviceLocator(),
+      watchAppointmentsByStatusUseCase: serviceLocator(),
+      refreshAppointmentsByStatusUseCase: serviceLocator(),
+      pusherService: serviceLocator(),
+      fcmService: serviceLocator(),
     ),
   );
 
@@ -615,11 +787,48 @@ Future<void> init() async {
     ),
   );
 
+  // Doctor App Feature - Profile & Schedule UseCases
+  serviceLocator.registerLazySingleton<GetMyProfileUseCase>(
+    () => GetMyProfileUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<UpdateProfileUseCase>(
+    () => UpdateProfileUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<UpdateProfileImageUseCase>(
+    () => UpdateProfileImageUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<GetSchedulesUseCase>(
+    () => GetSchedulesUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<UpdateScheduleUseCase>(
+    () => UpdateScheduleUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<GetDaysOffUseCase>(
+    () => GetDaysOffUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<CreateDayOffUseCase>(
+    () => CreateDayOffUseCase(serviceLocator()),
+  );
+  serviceLocator.registerLazySingleton<DeleteDayOffUseCase>(
+    () => DeleteDayOffUseCase(serviceLocator()),
+  );
+
+  // Doctor App Feature - Profile & Schedule Cubits
   serviceLocator.registerFactory<DoctorProfileCubit>(
-    () => DoctorProfileCubit(serviceLocator()),
+    () => DoctorProfileCubit(
+      getMyProfileUseCase: serviceLocator(),
+      updateProfileUseCase: serviceLocator(),
+      updateProfileImageUseCase: serviceLocator(),
+    ),
   );
 
   serviceLocator.registerFactory<DoctorScheduleCubit>(
-    () => DoctorScheduleCubit(serviceLocator()),
+    () => DoctorScheduleCubit(
+      getSchedulesUseCase: serviceLocator(),
+      updateScheduleUseCase: serviceLocator(),
+      getDaysOffUseCase: serviceLocator(),
+      createDayOffUseCase: serviceLocator(),
+      deleteDayOffUseCase: serviceLocator(),
+    ),
   );
 }

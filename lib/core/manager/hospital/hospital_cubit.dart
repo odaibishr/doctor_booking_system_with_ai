@@ -1,78 +1,57 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:cached_query_flutter/cached_query_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:dartz/dartz.dart';
-import 'package:doctor_booking_system_with_ai/core/cache/cache_exports.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
-import 'package:flutter/foundation.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/watch_hospitals_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/refresh_hospitals_use_case.dart';
 
 part 'hospital_state.dart';
 
 class HospitalCubit extends Cubit<HospitalState> {
-  Query<Either<Failure, List<Hospital>>>? _hospitalsQuery;
+  final WatchHospitalsUseCase watchHospitalsUseCase;
+  final RefreshHospitalsUseCase refreshHospitalsUseCase;
+  StreamSubscription<Either<Failure, List<Hospital>>>? _hospitalsSub;
 
-  HospitalCubit() : super(HospitalInitial());
+  HospitalCubit({
+    required this.watchHospitalsUseCase,
+    required this.refreshHospitalsUseCase,
+  }) : super(HospitalInitial());
 
   Future<void> getHospitals({bool forceRefresh = false}) async {
-    _hospitalsQuery = hospitalsQuery();
-
-    final cachedData = _hospitalsQuery!.state.data;
-    if (cachedData != null && !forceRefresh) {
-      cachedData.fold((failure) => emit(HospitalError(failure.errorMessage)), (
-        hospitals,
-      ) {
-        log('Loaded hospitals from cache: ${hospitals.length}');
-        emit(HospitalLoadded(hospitals));
-      });
-
-      _refetchIfStale();
+    if (forceRefresh) {
+      await refreshHospitalsUseCase();
       return;
     }
 
     emit(HospitalLoading());
-
-    final queryState = await _hospitalsQuery!.result;
-    final result = queryState.data;
-    if (result == null) {
-      emit(HospitalError('Failed to fetch hospitals'));
-      return;
-    }
-    result.fold((failure) => emit(HospitalError(failure.errorMessage)), (
-      hospitals,
-    ) {
-      log('Fetched hospitals from API: ${hospitals.length}');
-      emit(HospitalLoadded(hospitals));
-    });
-  }
-
-  Future<void> _refetchIfStale() async {
-    if (_hospitalsQuery == null) return;
-
-    final state = _hospitalsQuery!.state;
-    final isStale =
-        state.status == QueryStatus.success &&
-        DateTime.now().difference(state.timeCreated) >
-            AppQueryConfig.defaultRefetchDuration;
-
-    if (isStale) {
-      log('Background refetch: hospitals data is stale');
-      await _hospitalsQuery!.refetch();
-      final result = _hospitalsQuery!.state.data;
-      if (result != null && !isClosed) {
-        result.fold((_) {}, (hospitals) => emit(HospitalLoadded(hospitals)));
-      }
-    }
-  }
-
-  void invalidateCache() {
-    invalidateHospitalsCache();
+    _hospitalsSub?.cancel();
+    _hospitalsSub = watchHospitalsUseCase().listen(
+      (result) {
+        if (!isClosed) {
+          result.fold(
+            (failure) => emit(HospitalError(failure.errorMessage)),
+            (hospitals) {
+              log('Hospitals list state stream updated: ${hospitals.length}');
+              emit(HospitalLoadded(hospitals));
+            },
+          );
+        }
+      },
+      onError: (e) {
+        if (!isClosed) {
+          emit(HospitalError(e.toString()));
+        }
+      },
+    );
   }
 
   @override
   Future<void> close() {
-    _hospitalsQuery = null;
+    _hospitalsSub?.cancel();
     return super.close();
   }
 }

@@ -35,14 +35,14 @@ class AuthRepoImpl implements AuthRepo {
   Future<Either<Failure, User>> signIn(
     String email,
     String password,
-    String? fcm_token,
+    String? fcmToken,
   ) async {
     try {
       log("Attempting to sign in with email: $email");
       final result = await authRemoteDataSource.signIn(
         email,
         password,
-        fcm_token,
+        fcmToken,
       );
       await authLocalDataSource.cacheAuthData(result);
       log("Sign in successful for user: ${result.email}");
@@ -59,7 +59,7 @@ class AuthRepoImpl implements AuthRepo {
     String email,
     String password,
     String passwordConfirmation,
-    String? fcm_token,
+    String? fcmToken,
   ) async {
     try {
       log("Attempting to sign up with email: $email");
@@ -68,7 +68,7 @@ class AuthRepoImpl implements AuthRepo {
         email,
         password,
         passwordConfirmation,
-        fcm_token,
+        fcmToken,
       );
       log("Sign up result: ${result.email}");
       await authLocalDataSource.cacheAuthData(result);

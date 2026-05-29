@@ -1,4 +1,4 @@
-﻿import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
+import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart';
@@ -36,10 +36,6 @@ class _DetailsViewBodyState extends State<DetailsViewBody> {
     final backgroundColor = isDark
         ? AppColors.scaffoldBackgroundDark
         : AppColors.white;
-    final textColor = isDark ? AppColors.textPrimaryDark : AppColors.black;
-    final secondaryTextColor = isDark
-        ? AppColors.textSecondaryDark
-        : AppColors.gray500;
 
     return BlocBuilder<DoctorDetailsCubit, DoctorDetailsState>(
       builder: (context, state) {

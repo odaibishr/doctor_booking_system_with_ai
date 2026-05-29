@@ -40,7 +40,7 @@ class User extends HiveObject {
   @HiveField(10)
   final int locationId;
   @HiveField(11)
-  final String? fcm_token;
+  final String? fcmToken;
 
   @HiveField(12)
   final String? role;
@@ -60,7 +60,7 @@ class User extends HiveObject {
     required this.email,
     required this.token,
     required this.locationId,
-    this.fcm_token,
+    this.fcmToken,
     this.role,
     this.doctorId,
   });
@@ -77,7 +77,7 @@ class User extends HiveObject {
     String? gender,
     Location? location,
     int? locationId,
-    String? fcm_token,
+    String? fcmToken,
     String? role,
     int? doctorId,
   }) {
@@ -93,7 +93,7 @@ class User extends HiveObject {
       gender: gender ?? this.gender,
       location: location ?? this.location,
       locationId: locationId ?? this.locationId,
-      fcm_token: fcm_token ?? this.fcm_token,
+      fcmToken: fcmToken ?? this.fcmToken,
       role: role ?? this.role,
       doctorId: doctorId ?? this.doctorId,
     );

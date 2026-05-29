@@ -28,7 +28,7 @@ class UserAdapter extends TypeAdapter<User> {
       email: fields[2] as String,
       token: fields[3] as String,
       locationId: fields[10] as int,
-      fcm_token: fields[11] as String?,
+      fcmToken: fields[11] as String?,
       role: fields[12] as String?,
       doctorId: fields[13] as int?,
     );
@@ -61,7 +61,7 @@ class UserAdapter extends TypeAdapter<User> {
       ..writeByte(10)
       ..write(obj.locationId)
       ..writeByte(11)
-      ..write(obj.fcm_token)
+      ..write(obj.fcmToken)
       ..writeByte(12)
       ..write(obj.role)
       ..writeByte(13)

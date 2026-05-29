@@ -10,6 +10,8 @@ abstract class ReviewRepo {
     required bool isActive,
   });
   Future<Either<Failure, List<Review>>> getDoctorReviews(int docotrId);
+  Stream<Either<Failure, List<Review>>> watchDoctorReviews(int doctorId);
+  Future<Either<Failure, void>> refreshDoctorReviews(int doctorId);
   Future<
     Either<Failure, ({List<Review> reviews, double avgRating, int totalCount})>
   >

@@ -6,4 +6,7 @@ abstract class DoctorDashboardRepo {
   Future<Either<Failure, DashboardStats>> getDashboardStats({
     String filter = 'all',
   });
+
+  Stream<Either<Failure, DashboardStats>> watchDashboardStats(String filter);
+  Future<Either<Failure, void>> refreshDashboardStats(String filter);
 }

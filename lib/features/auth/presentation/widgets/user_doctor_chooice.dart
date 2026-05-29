@@ -1,5 +1,4 @@
 import 'package:doctor_booking_system_with_ai/core/styles/app_colors.dart';
-import 'package:doctor_booking_system_with_ai/core/utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:svg_flutter/svg.dart';

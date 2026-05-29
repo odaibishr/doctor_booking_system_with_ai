@@ -37,12 +37,12 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signIn({
     required String email,
     required String password,
-    String? fcm_token,
+    String? fcmToken,
   }) async {
     emit(AuthLoading());
     try {
       final result = await signInUseCase(
-        SignInParams(email: email, password: password, fcm_token: fcm_token),
+        SignInParams(email: email, password: password, fcmToken: fcmToken),
       );
 
       result.fold((failure) => emit(AuthError(message: failure.errorMessage)), (
@@ -97,7 +97,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
     required String passwordConfirmation,
-    String? fcm_token,
+    String? fcmToken,
   }) async {
     emit(AuthLoading());
     try {
@@ -107,7 +107,7 @@ class AuthCubit extends Cubit<AuthState> {
           email: email,
           password: password,
           passwordConfirmation: passwordConfirmation,
-          fcmToken: fcm_token,
+          fcmToken: fcmToken,
         ),
       );
 

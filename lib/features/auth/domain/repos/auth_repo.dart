@@ -6,14 +6,14 @@ abstract class AuthRepo {
   Future<Either<Failure, User>> signIn(
     String email,
     String password,
-    String? fcm_token,
+    String? fcmToken,
   );
   Future<Either<Failure, User>> signUp(
     String name,
     String email,
     String password,
     String passwordConfirmation,
-    String? fcm_token,
+    String? fcmToken,
   );
 
   Future<Either<Failure, User>> logout();
