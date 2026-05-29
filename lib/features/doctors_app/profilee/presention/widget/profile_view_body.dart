@@ -88,6 +88,7 @@ class ProfileeViewBody extends StatelessWidget {
                                     EditDoctorInfoView(doctor: doctor),
                               ),
                             ).then((_) {
+                              if (!context.mounted) return;
                               context.read<DoctorProfileCubit>().fetchProfile();
                             });
                           },
