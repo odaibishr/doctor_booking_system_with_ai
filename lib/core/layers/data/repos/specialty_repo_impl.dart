@@ -8,12 +8,12 @@ import 'package:doctor_booking_system_with_ai/core/cache/query_config.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/core/network/network_info.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/specialty_local_data_source.dart';
-import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/specilaty_remote_data_source.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/specialty_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specialty.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/specialty_repo.dart';
 
 class SpecialtyRepoImpl implements SpecialtyRepo {
-  final SpecilatyRemoteDataSource remoteDataSource;
+  final SpecialtyRemoteDataSource remoteDataSource;
   final SpecialtyLocalDataSource localDataSource;
   final NetworkInfo _networkInfo;
 

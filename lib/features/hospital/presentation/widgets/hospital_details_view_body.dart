@@ -2,7 +2,7 @@ import 'package:doctor_booking_system_with_ai/core/styles/font_styles.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/animated_widgets.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/custom_app_bar.dart';
 import 'package:doctor_booking_system_with_ai/core/widgets/tap_bar.dart';
-import 'package:doctor_booking_system_with_ai/features/hospital/presentation/manager/hospital_detailes/hospital_detailes_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/hospital/presentation/manager/hospital_details/hospital_details_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/widgets/hospital_details_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +25,7 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
   @override
   void initState() {
     super.initState();
-    context.read<HospitalDetailesCubit>().getHospitalDetailes(
+    context.read<HospitalDetailsCubit>().getHospitalDetails(
       widget.hospitalId,
     );
   }
@@ -38,10 +38,10 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HospitalDetailesCubit, HospitalDetailesState>(
+    return BlocBuilder<HospitalDetailsCubit, HospitalDetailsState>(
       builder: (context, state) {
-        if (state is HospitalDetailesLoading ||
-            state is HospitalDetailesInitial) {
+        if (state is HospitalDetailsLoading ||
+            state is HospitalDetailsInitial) {
           return const Scaffold(
             body: SafeArea(
               child: Padding(
@@ -52,7 +52,7 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
           );
         }
 
-        if (state is HospitalDetailesError) {
+        if (state is HospitalDetailsError) {
           return Scaffold(
             body: Center(
               child: Padding(
@@ -70,8 +70,8 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
                     const SizedBox(height: 12),
                     ElevatedButton(
                       onPressed: () => context
-                          .read<HospitalDetailesCubit>()
-                          .getHospitalDetailes(widget.hospitalId),
+                          .read<HospitalDetailsCubit>()
+                          .getHospitalDetails(widget.hospitalId),
                       child: const Text('Retry'),
                     ),
                   ],
@@ -81,7 +81,7 @@ class _HospitalDetailsViewBodyState extends State<HospitalDetailsViewBody> {
           );
         }
 
-        if (state is HospitalDetailesLoaded) {
+        if (state is HospitalDetailsLoaded) {
           final hospital = state.hospital;
 
           return Scaffold(

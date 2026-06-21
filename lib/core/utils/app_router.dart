@@ -9,16 +9,21 @@ import 'package:doctor_booking_system_with_ai/features/booking_history/presentat
 import 'package:doctor_booking_system_with_ai/features/booking_history/presentation/reschedule_appointment_view.dart';
 import 'package:doctor_booking_system_with_ai/features/categories/presentation/category_view.dart';
 import 'package:doctor_booking_system_with_ai/features/create_profile/presentation/create_profile_view.dart';
-import 'package:doctor_booking_system_with_ai/features/doctors_app/bottom_navigationbar/presention/custom_navigationbar.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/bottom_navigationbar/presentation/custom_navigationbar.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/dashboard/presention/dashboard_view.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/home/presention/home_page_view.dart';
-import 'package:doctor_booking_system_with_ai/features/doctors_app/profilee/presention/profilee_view.dart';
+import 'package:doctor_booking_system_with_ai/features/doctors_app/profile/presentation/profile_view.dart';
 import 'package:doctor_booking_system_with_ai/features/favorite_doctor/presentation/favorite_doctor_view.dart';
+import 'package:doctor_booking_system_with_ai/features/favorite_doctor/presentation/manager/favorite_doctor_cubit/favorite_doctor_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/create_new_password/presentation/create_new_password_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/email_input/presentation/email_input_view.dart';
 import 'package:doctor_booking_system_with_ai/features/forget_password/verify_code/presentation/verify_code_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/details_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/home_view.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor_details/doctor_details_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/specialty/specialty_cubit.dart';
+import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/toggle_favorite/toggle_favorite_cubit.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/hospital_details_view.dart';
 import 'package:doctor_booking_system_with_ai/features/hospital/presentation/all_hospitals_view.dart';
 import 'package:doctor_booking_system_with_ai/features/notification/presentation/notification_view.dart';
@@ -29,7 +34,9 @@ import 'package:doctor_booking_system_with_ai/features/profile/presentation/prof
 import 'package:doctor_booking_system_with_ai/features/search/presentation/search_view.dart';
 import 'package:doctor_booking_system_with_ai/features/splash/presentation/splash_view.dart';
 import 'package:doctor_booking_system_with_ai/features/home/presentation/top_doctors_view.dart';
-import 'package:doctor_booking_system_with_ai/features/map/doctor_map_view.dart';
+import 'package:doctor_booking_system_with_ai/features/map/presentation/doctor_map_view.dart';
+import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cubit.dart';
+import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
 
 import 'package:doctor_booking_system_with_ai/service_locator.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
@@ -61,7 +68,7 @@ class AppRouter {
   static const String hospitalDetailsViewRoute = '/hospitalDetailsView';
   static const String signInViewRoute = '/signInView';
   static const String signupViewRoute = '/signupView';
-  static const String createprofileViewRout = '/createprofileView';
+  static const String createprofileViewRoute = '/createprofileView';
   static const String emailinputViewRoute = '/emailinputView';
   static const String verifyCodeViewRoute = '/verifycodeView';
   static const String createNewPasswordViewRoute = '/createnewpasswordView';
@@ -69,7 +76,7 @@ class AppRouter {
   static const String aichatViewRoute = '/aichatView';
   static const String categoryViewRoute = '/categoryView';
   static const String paymentViewRoute = '/paymentView';
-  static const String favoritedoctorViewRoute = '/favoritedoctorView';
+  static const String favoriteDoctorViewRoute = '/favoritedoctorView';
   static const String addcardViewRoute = '/addcardView';
   static const String notificationViewRoute = '/notificationView';
   static const String topDoctorsViewRoute = '/topDoctorsView';
@@ -79,7 +86,7 @@ class AppRouter {
   static const String allHospitalsViewRoute = '/allHospitalsView';
   static const String customNavigationBarRoute='/customNavigationBarView';
   static const String homePageViewRoute='/homePageView';
-  static const String profileeViewRoute='/profileeView';
+  static const String doctorProfileViewRoute='/doctorProfileView';
   static const String dashBoardViewRoute='/dashBoardView';
 
   static GoRouter router = GoRouter(
@@ -97,7 +104,26 @@ class AppRouter {
       GoRoute(
         path: homeViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.fade(
-          child: const HomeView(),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) => serviceLocator<DoctorCubit>()..fetchDoctors(),
+              ),
+              BlocProvider(
+                create: (_) => serviceLocator<SpecialtyCubit>()..getSpecialties(),
+              ),
+              BlocProvider(
+                create: (_) => serviceLocator<HospitalCubit>()..getHospitals(),
+              ),
+              BlocProvider(create: (_) => serviceLocator<FavoriteDoctorCubit>()),
+              BlocProvider(create: (_) => serviceLocator<ToggleFavoriteCubit>()),
+              BlocProvider(
+                create: (_) => serviceLocator<ProfileCubit>()..getProfile(),
+              ),
+              BlocProvider(create: (_) => serviceLocator<DoctorDetailsCubit>()),
+            ],
+            child: const HomeView(),
+          ),
           name: homeViewRoute,
         ),
       ),
@@ -177,10 +203,10 @@ class AppRouter {
         ),
       ),
       GoRoute(
-        path: createprofileViewRout,
+        path: createprofileViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.fade(
           child: const CreateProfileView(),
-          name: createprofileViewRout,
+          name: createprofileViewRoute,
         ),
       ),
       // Forget Password Flow - fade through for sequential steps
@@ -247,10 +273,10 @@ class AppRouter {
       ),
       // Favorite Doctor - shared axis
       GoRoute(
-        path: favoritedoctorViewRoute,
+        path: favoriteDoctorViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
           child: const FavoratieDoctorView(),
-          name: favoritedoctorViewRoute,
+          name: favoriteDoctorViewRoute,
         ),
       ),
       // Add Card - slide up for form
@@ -328,10 +354,10 @@ class AppRouter {
         ),
       ),
        GoRoute(
-        path: profileeViewRoute,
+        path: doctorProfileViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
-          child: const ProfileeView(),
-          name: profileeViewRoute,
+          child: const DoctorProfileView(),
+          name: doctorProfileViewRoute,
         ),
       ),
        GoRoute(

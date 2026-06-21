@@ -8,13 +8,13 @@ import 'package:doctor_booking_system_with_ai/core/database/api/api_consumer.dar
 import 'package:doctor_booking_system_with_ai/core/database/api/end_points.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/error_model.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/exceptions.dart';
-import 'package:doctor_booking_system_with_ai/features/auth/data/datasources/auth_local_data_source.dart';
+import 'package:doctor_booking_system_with_ai/core/auth/i_token_storage.dart';
 
 class DioConsumer extends ApiConsumer {
   final Dio _dio;
-  final AuthLocalDataSource authLocalDataSource;
+  final ITokenStorage tokenStorage;
 
-  DioConsumer({required Dio dio, required this.authLocalDataSource})
+  DioConsumer({required Dio dio, required this.tokenStorage})
     : _dio = dio {
     _dio.options
       ..baseUrl = _resolveBaseUrl(EndPoints.baseUrl)
@@ -38,8 +38,7 @@ class DioConsumer extends ApiConsumer {
 
   Future<String?> _getToken() async {
     try {
-      final authData = await authLocalDataSource.getCachedAuthData();
-      return authData?.token;
+      return await tokenStorage.getToken();
     } catch (_) {
       return null;
     }

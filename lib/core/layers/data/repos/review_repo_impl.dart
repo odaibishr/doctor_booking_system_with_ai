@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:doctor_booking_system_with_ai/core/cache/queries/reviews_query.dart';
 import 'package:doctor_booking_system_with_ai/core/cache/query_config.dart';
 import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
-import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/reivew_local_data_source.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/review_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/data/datasources/review_remote_data_source.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/review.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/review_repo.dart';

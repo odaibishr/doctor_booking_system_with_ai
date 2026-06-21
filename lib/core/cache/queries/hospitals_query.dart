@@ -29,7 +29,7 @@ Query<Either<Failure, Hospital>> hospitalDetailsQuery(int hospitalId) {
   return Query<Either<Failure, Hospital>>(
     key: QueryKeys.hospitalDetails(hospitalId),
     queryFn: () =>
-        serviceLocator<HospitalRepo>().getHospitalDetailes(hospitalId),
+        serviceLocator<HospitalRepo>().getHospitalDetails(hospitalId),
     config: QueryConfig(
       refetchDuration: AppQueryConfig.defaultConfig.refetchDuration,
       cacheDuration: AppQueryConfig.defaultConfig.cacheDuration,

@@ -57,7 +57,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                   context.showSuccessToast('تم انشاء الحساب بنجاح');
                   GoRouter.of(
                     context,
-                  ).pushReplacement(AppRouter.createprofileViewRout);
+                  ).pushReplacement(AppRouter.createprofileViewRoute);
                 } else if (state is AuthError) {
                   context.showErrorToast(state.message);
                 }

@@ -1,6 +1,6 @@
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/review.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/parse_helpers.dart';
-import 'package:doctor_booking_system_with_ai/features/auth/data/models/user_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/user_model.dart';
 
 class ReviewModel extends Review {
   ReviewModel({

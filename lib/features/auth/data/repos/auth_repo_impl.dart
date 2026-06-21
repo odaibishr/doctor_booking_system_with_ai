@@ -4,8 +4,8 @@ import 'package:doctor_booking_system_with_ai/core/errors/failure.dart';
 import 'package:doctor_booking_system_with_ai/core/services/google_sign_in_service.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:doctor_booking_system_with_ai/features/auth/data/models/user_model.dart';
-import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/user_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/user.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/repos/auth_repo.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
