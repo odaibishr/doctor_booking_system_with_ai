@@ -64,11 +64,7 @@ class _BookingHistoryViewBodyState extends State<BookingHistoryViewBody> {
             delay: const Duration(milliseconds: 200),
             animationType: AnimationType.fadeSlideUp,
             child: TapBar(
-              tabItems: const [
-                'القادمة',
-                'المكتملة',
-                'الملغاة',
-              ],
+              tabItems: const ['القادمة', 'المكتملة', 'الملغاة'],
               selectedTab: _selectedTab,
               onTabChanged: _onTabChanged,
             ),
