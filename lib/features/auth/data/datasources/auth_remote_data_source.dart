@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:doctor_booking_system_with_ai/core/database/api/dio_consumer.dart';
-import '../models/user_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> signIn(String email, String password, String? fcmToken);

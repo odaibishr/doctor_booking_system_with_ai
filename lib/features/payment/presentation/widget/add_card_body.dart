@@ -95,9 +95,7 @@ class _AddCardBodyState extends State<AddCardBody>
                     SizedBox(
                       width: 150,
                       child: ExpiryDateField(
-                        onChanged: (String month, String year) {
-                          //TODO
-                        },
+                        onChanged: (String month, String year) {},
                       ),
                     ),
                   ],
@@ -115,9 +113,7 @@ class _AddCardBodyState extends State<AddCardBody>
                     SizedBox(
                       width: 145,
                       child: CvvField(
-                        onChanged: (val) {
-                          //TODO
-                        },
+                        onChanged: (val) {},
                       ),
                     ),
                   ],

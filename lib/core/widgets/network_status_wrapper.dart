@@ -77,7 +77,7 @@ class _NetworkStatusWrapperState extends State<NetworkStatusWrapper> {
         AppRouter.splashRoute,
         AppRouter.signInViewRoute,
         AppRouter.signupViewRoute,
-        AppRouter.createprofileViewRout,
+        AppRouter.createprofileViewRoute,
         AppRouter.onboardingViewRoute,
         AppRouter.emailinputViewRoute,
         AppRouter.verifyCodeViewRoute,

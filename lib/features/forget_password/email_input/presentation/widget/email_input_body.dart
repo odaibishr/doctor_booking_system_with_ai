@@ -52,7 +52,6 @@ class EmailInputBody extends StatelessWidget {
                     text: 'إرسال الرمز',
                     onTap: () {
                       if (formKey.currentState!.validate()) {
-                        //TODO:here the main Button !
                         GoRouter.of(
                           context,
                         ).push(AppRouter.verifyCodeViewRoute);

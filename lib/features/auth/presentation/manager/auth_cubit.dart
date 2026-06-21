@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:doctor_booking_system_with_ai/core/storage/hive_service.dart';
-import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
-import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/check_auth_satus_usecase.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/user.dart';
+import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/check_auth_status_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/google_sign_in_use_case.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/domain/usecases/sign_up_usecase.dart';
@@ -15,7 +15,7 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   final SignInUseCase signInUseCase;
   final SignUpUsecase signUpUsecase;
-  final CheckAuthSatusUsecase checkAuthSatusUsecase;
+  final CheckAuthStatusUsecase checkAuthStatusUsecase;
   final profile_logout.LogoutUseCase logoutUseCase;
   final GoogleSignInUseCase googleSignInUseCase;
   final PusherService pusherService;
@@ -23,7 +23,7 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit({
     required this.signInUseCase,
     required this.signUpUsecase,
-    required this.checkAuthSatusUsecase,
+    required this.checkAuthStatusUsecase,
     required this.logoutUseCase,
     required this.googleSignInUseCase,
     required this.pusherService,

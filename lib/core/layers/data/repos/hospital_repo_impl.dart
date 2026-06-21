@@ -48,7 +48,7 @@ class HospitalRepoImpl implements HospitalRepo {
   }
 
   @override
-  Future<Either<Failure, Hospital>> getHospitalDetailes(int id) async {
+  Future<Either<Failure, Hospital>> getHospitalDetails(int id) async {
     try {
       if (!await networkInfo.isConnected) {
         final cachedHospitals = await localDataSource.getCachedHospitals();

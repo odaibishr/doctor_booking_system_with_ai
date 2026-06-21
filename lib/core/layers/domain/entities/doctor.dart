@@ -1,62 +1,27 @@
-import 'package:hive_flutter/hive_flutter.dart';
-
-import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
+// lib/core/layers/domain/entities/doctor.dart
 
 import 'hospital.dart';
 import 'location.dart';
 import 'specialty.dart';
 import 'doctor_schedule.dart';
+import 'user.dart';
 
-part 'doctor.g.dart';
-
-@HiveType(typeId: 2)
 class Doctor {
-  @HiveField(0)
   int id;
-
-  @HiveField(1)
   String aboutus;
-
-  @HiveField(2)
   int specialtyId;
-
-  @HiveField(3)
   int hospitalId;
-
-  @HiveField(4)
   int isFeatured;
-
-  @HiveField(5)
   int isTopDoctor;
-
-  @HiveField(6)
   List<String> services;
-
-  @HiveField(7)
   Specialty specialty;
-
-  @HiveField(8)
   Hospital hospital;
-
-  @HiveField(9)
   int isFavorite;
-
-  @HiveField(10)
   User user;
-
-  @HiveField(11)
   double price;
-
-  @HiveField(12)
   int experience;
-
-  @HiveField(13)
   List<DoctorSchedule>? schedules;
-
-  @HiveField(14)
   int newPatientDuration;
-
-  @HiveField(15)
   int returningPatientDuration;
 
   Doctor({

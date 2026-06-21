@@ -2,10 +2,16 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/review
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospital.dart';
-import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/location.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specialty.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/user.dart';
 import 'package:doctor_booking_system_with_ai/core/storage/adapters/safe_doctor_adapter.dart';
 import 'package:doctor_booking_system_with_ai/core/storage/adapters/safe_user_adapter.dart';
+import 'package:doctor_booking_system_with_ai/core/storage/adapters/hospital_adapter.dart';
+import 'package:doctor_booking_system_with_ai/core/storage/adapters/location_adapter.dart';
+import 'package:doctor_booking_system_with_ai/core/storage/adapters/specialty_adapter.dart';
+import 'package:doctor_booking_system_with_ai/core/storage/adapters/day_adapter.dart';
+import 'package:doctor_booking_system_with_ai/core/storage/adapters/doctor_schedule_adapter.dart';
+import 'package:doctor_booking_system_with_ai/core/storage/adapters/review_adapter.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/appointment_schedule_info.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/appointment_transaction_info.dart';
@@ -15,14 +21,11 @@ import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entiti
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/earnings_data.dart';
 import 'package:doctor_booking_system_with_ai/features/doctors_app/domain/entities/patient_info.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/doctor_schedule.dart'
     as history_schedule;
 import 'package:doctor_booking_system_with_ai/features/booking_history/domain/entities/booking_transaction.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor_schedule.dart'
-    show DoctorScheduleAdapter, DoctorSchedule;
-import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/day.dart'
-    show DayAdapter;
+    show DoctorSchedule;
 
 class HiveService {
   static const String userBoxName = 'user_box';

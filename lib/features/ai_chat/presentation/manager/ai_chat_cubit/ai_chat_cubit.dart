@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:doctor_booking_system_with_ai/core/errors/exceptions.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specialty.dart';
-import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/doctor_repo.dart';
-import 'package:doctor_booking_system_with_ai/core/layers/domain/repos/specialty_repo.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_doctors_use_case.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/usecases/get_specialties_use_case.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/constant.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/data/data_sources/ai_image_service.dart';
 import 'package:doctor_booking_system_with_ai/features/ai_chat/domain/repositories/ai_chat_repository.dart';
@@ -15,8 +15,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class AiChatCubit extends Cubit<AiChatState> {
   final AiChatRepository aiChatRepository;
-  final DoctorRepo doctorRepo;
-  final SpecialtyRepo specialtyRepo;
+  final GetDoctorsUseCase getDoctorsUseCase;
+  final GetSpecialtiesUseCase getSpecialtiesUseCase;
 
   final List<Map<String, dynamic>> _messages = [];
   final Map<int, List<Doctor>> _recommendedDoctors = {};
@@ -25,14 +25,14 @@ class AiChatCubit extends Cubit<AiChatState> {
 
   AiChatCubit({
     required this.aiChatRepository,
-    required this.doctorRepo,
-    required this.specialtyRepo,
+    required this.getDoctorsUseCase,
+    required this.getSpecialtiesUseCase,
   }) : super(AiChatInitial()) {
     _loadSpecialties();
   }
 
   Future<void> _loadSpecialties() async {
-    final result = await specialtyRepo.getSpecialties();
+    final result = await getSpecialtiesUseCase();
     result.fold(
       (failure) {
         log('Failed to load specialties from API, trying cache...');

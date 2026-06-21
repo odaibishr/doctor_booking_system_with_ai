@@ -1,4 +1,3 @@
-import 'package:doctor_booking_system_with_ai/core/manager/hospital/hospital_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/theme/theme_cubit.dart';
 import 'package:doctor_booking_system_with_ai/core/manager/theme/theme_state.dart';
 import 'package:doctor_booking_system_with_ai/core/services/appointment_refresh_service.dart';
@@ -6,12 +5,6 @@ import 'package:doctor_booking_system_with_ai/core/services/fcm_service.dart';
 import 'package:doctor_booking_system_with_ai/core/styles/app_theme.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/app_router.dart';
 import 'package:doctor_booking_system_with_ai/features/auth/presentation/manager/auth_cubit.dart';
-import 'package:doctor_booking_system_with_ai/core/manager/profile/profile_cubit.dart';
-import 'package:doctor_booking_system_with_ai/features/favorite_doctor/presentation/manager/favorite_doctor_cubit/favorite_doctor_cubit.dart';
-import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor/doctor_cubit.dart';
-import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/doctor_details/doctor_details_cubit.dart';
-import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/specialty/specialty_cubit.dart';
-import 'package:doctor_booking_system_with_ai/features/home/presentation/manager/toggle_favorite/toggle_favorite_cubit.dart';
 import 'package:doctor_booking_system_with_ai/firebase_options.dart'
     show DefaultFirebaseOptions;
 import 'package:doctor_booking_system_with_ai/service_locator.dart';
@@ -73,7 +66,7 @@ void main() async {
     debugPrint("Failed to start AppointmentRefreshService: $e");
   }
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -87,21 +80,6 @@ class MyApp extends StatelessWidget {
           create: (_) => serviceLocator<NetworkCubit>()..checkConnection(),
         ),
         BlocProvider(create: (_) => serviceLocator<AuthCubit>()),
-        BlocProvider(
-          create: (_) => serviceLocator<ProfileCubit>()..getProfile(),
-        ),
-        BlocProvider(
-          create: (_) => serviceLocator<DoctorCubit>()..fetchDoctors(),
-        ),
-        BlocProvider(create: (_) => serviceLocator<DoctorDetailsCubit>()),
-        BlocProvider(
-          create: (_) => serviceLocator<SpecialtyCubit>()..getSpecialties(),
-        ),
-        BlocProvider(create: (_) => serviceLocator<ToggleFavoriteCubit>()),
-        BlocProvider(create: (_) => serviceLocator<FavoriteDoctorCubit>()),
-        BlocProvider(
-          create: (_) => serviceLocator<HospitalCubit>()..getHospitals(),
-        ),
         // Theme Cubit - manages app theme state
         BlocProvider(create: (_) => serviceLocator<ThemeCubit>()),
       ],

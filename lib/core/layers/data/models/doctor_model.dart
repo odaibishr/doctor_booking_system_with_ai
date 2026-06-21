@@ -3,7 +3,7 @@ import 'package:doctor_booking_system_with_ai/core/layers/data/models/specialty_
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/doctor_schedule.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/parse_helpers.dart';
-import 'package:doctor_booking_system_with_ai/features/auth/data/models/user_model.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/data/models/user_model.dart';
 import 'doctor_schedule_model.dart';
 
 class DoctorModel extends Doctor {

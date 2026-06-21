@@ -58,7 +58,7 @@ class _SignInBodyState extends State<SignInBody> {
                         user.gender!.isEmpty) {
                       GoRouter.of(
                         context,
-                      ).pushReplacement(AppRouter.createprofileViewRout);
+                      ).pushReplacement(AppRouter.createprofileViewRoute);
                     } else {
                       GoRouter.of(
                         context,

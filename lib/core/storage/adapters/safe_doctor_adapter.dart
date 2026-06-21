@@ -3,7 +3,7 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/hospit
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/location.dart';
 import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/specialty.dart';
 import 'package:doctor_booking_system_with_ai/core/utils/parse_helpers.dart';
-import 'package:doctor_booking_system_with_ai/features/auth/domain/entities/user.dart';
+import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/user.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SafeDoctorAdapter extends TypeAdapter<Doctor> {
