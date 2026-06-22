@@ -51,9 +51,11 @@ import 'package:doctor_booking_system_with_ai/core/layers/domain/entities/profil
 class AppRouter {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
-      
+
   // Track the current route name globally with notification support
-  static final ValueNotifier<String> currentRouteName = ValueNotifier<String>('/');
+  static final ValueNotifier<String> currentRouteName = ValueNotifier<String>(
+    '/',
+  );
 
   // ... existing routes
   static const String editProfileViewRoute = '/editProfileView';
@@ -84,16 +86,14 @@ class AppRouter {
   static const String rescheduleAppointmentViewRoute =
       '/rescheduleAppointmentView';
   static const String allHospitalsViewRoute = '/allHospitalsView';
-  static const String customNavigationBarRoute='/customNavigationBarView';
-  static const String homePageViewRoute='/homePageView';
-  static const String doctorProfileViewRoute='/doctorProfileView';
-  static const String dashBoardViewRoute='/dashBoardView';
+  static const String customNavigationBarRoute = '/customNavigationBarView';
+  static const String homePageViewRoute = '/homePageView';
+  static const String doctorProfileViewRoute = '/doctorProfileView';
+  static const String dashBoardViewRoute = '/dashBoardView';
 
   static GoRouter router = GoRouter(
     navigatorKey: navigatorKey,
-    observers: [
-      MyRouteObserver(),
-    ],
+    observers: [MyRouteObserver()],
     routes: [
       // Splash - no transition needed
       GoRoute(
@@ -103,6 +103,38 @@ class AppRouter {
       // Home View - fade transition
       GoRoute(
         path: homeViewRoute,
+        pageBuilder: (context, state) => PageTransitionBuilder.fade(
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) => serviceLocator<DoctorCubit>()..fetchDoctors(),
+              ),
+              BlocProvider(
+                create: (_) =>
+                    serviceLocator<SpecialtyCubit>()..getSpecialties(),
+              ),
+              BlocProvider(
+                create: (_) => serviceLocator<HospitalCubit>()..getHospitals(),
+              ),
+              BlocProvider(
+                create: (_) => serviceLocator<FavoriteDoctorCubit>(),
+              ),
+              BlocProvider(
+                create: (_) => serviceLocator<ToggleFavoriteCubit>(),
+              ),
+              BlocProvider(
+                create: (_) => serviceLocator<ProfileCubit>()..getProfile(),
+              ),
+              BlocProvider(create: (_) => serviceLocator<DoctorDetailsCubit>()),
+            ],
+            child: const HomeView(),
+          ),
+          name: homeViewRoute,
+        ),
+      ),
+      // App Navigation - fade transition
+      GoRoute(
+        path: appNavigationRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.fade(
           child: MultiBlocProvider(
             providers: [
@@ -122,16 +154,8 @@ class AppRouter {
               ),
               BlocProvider(create: (_) => serviceLocator<DoctorDetailsCubit>()),
             ],
-            child: const HomeView(),
+            child: AppNavigation(initialIndex: (state.extra as int?) ?? 0),
           ),
-          name: homeViewRoute,
-        ),
-      ),
-      // App Navigation - fade transition
-      GoRoute(
-        path: appNavigationRoute,
-        pageBuilder: (context, state) => PageTransitionBuilder.fade(
-          child: AppNavigation(initialIndex: (state.extra as int?) ?? 0),
           name: appNavigationRoute,
         ),
       ),
@@ -142,7 +166,10 @@ class AppRouter {
           final idStr = state.uri.queryParameters["id"];
           final specialtyId = int.tryParse(idStr ?? "");
           return PageTransitionBuilder.slideUp(
-            child: SearchView(specialtyQuery: specialtyId),
+            child: BlocProvider.value(
+              value: serviceLocator<SpecialtyCubit>(),
+              child: SearchView(specialtyQuery: specialtyId),
+            ),
             name: searchViewRoute,
           );
         },
@@ -159,7 +186,10 @@ class AppRouter {
       GoRoute(
         path: profileViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
-          child: const ProfileView(),
+          child: BlocProvider.value(
+            value: serviceLocator<ProfileCubit>(),
+            child: const ProfileView(),
+          ),
           name: profileViewRoute,
         ),
       ),
@@ -167,7 +197,13 @@ class AppRouter {
       GoRoute(
         path: detailsViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.scaleWithFade(
-          child: DetailsView(doctorId: state.extra as int),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: serviceLocator<DoctorDetailsCubit>()),
+              BlocProvider.value(value: serviceLocator<ToggleFavoriteCubit>()),
+            ],
+            child: DetailsView(doctorId: state.extra as int),
+          ),
           name: detailsViewRoute,
         ),
       ),
@@ -235,7 +271,10 @@ class AppRouter {
       GoRoute(
         path: appointmentViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.slideUp(
-          child: AppointmentView(doctor: state.extra as Doctor),
+          child: BlocProvider.value(
+            value: serviceLocator<DoctorDetailsCubit>(),
+            child: AppointmentView(doctor: state.extra as Doctor),
+          ),
           name: appointmentViewRoute,
         ),
       ),
@@ -251,7 +290,10 @@ class AppRouter {
       GoRoute(
         path: categoryViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
-          child: const CategoryView(),
+          child: BlocProvider.value(
+            value: serviceLocator<SpecialtyCubit>(),
+            child: const CategoryView(),
+          ),
           name: categoryViewRoute,
         ),
       ),
@@ -275,7 +317,10 @@ class AppRouter {
       GoRoute(
         path: favoriteDoctorViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
-          child: const FavoratieDoctorView(),
+          child: BlocProvider.value(
+            value: serviceLocator<FavoriteDoctorCubit>(),
+            child: const FavoratieDoctorView(),
+          ),
           name: favoriteDoctorViewRoute,
         ),
       ),
@@ -299,7 +344,10 @@ class AppRouter {
       GoRoute(
         path: topDoctorsViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
-          child: const TopDoctorsView(),
+          child: BlocProvider.value(
+            value: serviceLocator<DoctorCubit>(),
+            child: const TopDoctorsView(),
+          ),
           name: topDoctorsViewRoute,
         ),
       ),
@@ -307,7 +355,10 @@ class AppRouter {
       GoRoute(
         path: allHospitalsViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
-          child: const AllHospitalsView(),
+          child: BlocProvider.value(
+            value: serviceLocator<HospitalCubit>(),
+            child: const AllHospitalsView(),
+          ),
           name: allHospitalsViewRoute,
         ),
       ),
@@ -339,35 +390,34 @@ class AppRouter {
           name: editProfileViewRoute,
         ),
       ),
-     GoRoute(
+      GoRoute(
         path: customNavigationBarRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
           child: const CustomNavigation(),
           name: customNavigationBarRoute,
         ),
       ),
-       GoRoute(
+      GoRoute(
         path: homePageViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
           child: const HomePageView(),
-          name:homePageViewRoute ,
+          name: homePageViewRoute,
         ),
       ),
-       GoRoute(
+      GoRoute(
         path: doctorProfileViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
           child: const DoctorProfileView(),
           name: doctorProfileViewRoute,
         ),
       ),
-       GoRoute(
+      GoRoute(
         path: dashBoardViewRoute,
         pageBuilder: (context, state) => PageTransitionBuilder.sharedAxis(
           child: const DashboardView(),
           name: dashBoardViewRoute,
         ),
       ),
-
     ],
     initialLocation: splashRoute,
   );
@@ -387,7 +437,7 @@ class MyRouteObserver extends NavigatorObserver {
       AppRouter.currentRouteName.value = previousRoute!.settings.name!;
     }
   }
-  
+
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     if (newRoute?.settings.name != null) {
